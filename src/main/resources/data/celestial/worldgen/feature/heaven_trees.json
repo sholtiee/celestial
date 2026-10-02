@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:random_selector",
+  "default": {
+    "feature": "celestial:skywood_tree",
+    "placement": []
+  },
+  "features": [
+    {
+      "chance": 0.3,
+      "feature": {
+        "feature": "celestial:fancy_skywood_tree",
+        "placement": []
+      }
+    }
+  ]
+}

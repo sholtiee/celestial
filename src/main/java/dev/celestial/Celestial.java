@@ -3,6 +3,7 @@ package dev.celestial;
 import dev.celestial.registry.ModBlocks;
 import dev.celestial.registry.ModCreativeTab;
 import dev.celestial.registry.ModItems;
+import dev.celestial.world.HeavenDimension;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ public class Celestial implements ModInitializer {
 		ModBlocks.init();
 		ModItems.init();
 		ModCreativeTab.init();
+		HeavenDimension.init();
 		LOGGER.info("Celestial: небеса открываются");
 	}
 

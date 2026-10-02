@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:add",
+  "left": {
+    "type": "minecraft:interpolated",
+    "cell_size_xz": 4,
+    "cell_size_y": 4,
+    "input": {
+      "type": "minecraft:max",
+      "left": "celestial:heaven/tier_low",
+      "right": {
+        "type": "minecraft:max",
+        "left": "celestial:heaven/tier_mid",
+        "right": "celestial:heaven/tier_high"
+      }
+    }
+  },
+  "right": {
+    "type": "minecraft:beardifier"
+  }
+}

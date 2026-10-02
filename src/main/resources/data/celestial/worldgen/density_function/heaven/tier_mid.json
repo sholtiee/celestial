@@ -1,0 +1,48 @@
+{
+  "type": "minecraft:add",
+  "left": {
+    "type": "minecraft:add",
+    "left": {
+      "type": "minecraft:add",
+      "left": {
+        "type": "minecraft:mul",
+        "left": {
+          "type": "minecraft:noise",
+          "noise": "celestial:heaven_islands_mid",
+          "xz_scale": 1.0,
+          "y_scale": 0.0
+        },
+        "right": 1.9
+      },
+      "right": -0.62
+    },
+    "right": {
+      "type": "minecraft:mul",
+      "left": {
+        "type": "minecraft:add",
+        "left": {
+          "type": "minecraft:gradient",
+          "axis": "y",
+          "from_coordinate": 90,
+          "from_value": 1.0,
+          "to_coordinate": 124,
+          "to_value": 0.0
+        },
+        "right": {
+          "type": "minecraft:gradient",
+          "axis": "y",
+          "from_coordinate": 124,
+          "from_value": 0.0,
+          "to_coordinate": 136,
+          "to_value": 1.0
+        }
+      },
+      "right": -1.0
+    }
+  },
+  "right": {
+    "type": "minecraft:mul",
+    "left": "celestial:heaven/roughness",
+    "right": 0.22
+  }
+}

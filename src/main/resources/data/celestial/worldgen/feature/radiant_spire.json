@@ -1,0 +1,41 @@
+{
+  "type": "minecraft:block_column",
+  "allowed_placement": {
+    "type": "minecraft:matching_block_tag",
+    "tag": "minecraft:air"
+  },
+  "direction": "up",
+  "prioritize_tip": true,
+  "layers": [
+    {
+      "height": {
+        "type": "minecraft:uniform",
+        "min_inclusive": 3,
+        "max_inclusive": 9
+      },
+      "provider": {
+        "id": "celestial:skystone"
+      }
+    },
+    {
+      "height": {
+        "type": "minecraft:uniform",
+        "min_inclusive": 1,
+        "max_inclusive": 3
+      },
+      "provider": {
+        "id": "celestial:radiant_stone"
+      }
+    },
+    {
+      "height": 1,
+      "provider": {
+        "id": "celestial:sky_crystal",
+        "properties": {
+          "facing": "up",
+          "waterlogged": "false"
+        }
+      }
+    }
+  ]
+}

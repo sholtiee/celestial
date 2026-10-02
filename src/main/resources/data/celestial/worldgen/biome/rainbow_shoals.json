@@ -1,0 +1,46 @@
+{
+  "attributes": {
+    "minecraft:audio/background_music": {
+      "default": {
+        "max_delay": 9000,
+        "min_delay": 2400,
+        "sound": "minecraft:music.overworld.cherry_grove"
+      }
+    },
+    "minecraft:visual/sky_color": "#b9b0ff",
+    "minecraft:visual/fog_color": "#ffe9f6",
+    "minecraft:visual/water_fog_color": "#c8f0ff"
+  },
+  "carvers": [],
+  "downfall": 0.4,
+  "effects": {
+    "grass_color": "#ffd38a",
+    "foliage_color": "#ffd38a",
+    "water_color": "#8fe3ff"
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "celestial:ore_etherite",
+      "celestial:ore_etherite_rich",
+      "celestial:ore_starquartz",
+      "celestial:ore_radiant"
+    ],
+    [],
+    [],
+    [
+      "celestial:sky_clouds",
+      "celestial:sky_golden_clouds",
+      "celestial:trees_golden_meadows",
+      "celestial:patch_manna"
+    ],
+    []
+  ],
+  "has_precipitation": false,
+  "temperature": 0.7
+}
