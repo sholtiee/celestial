@@ -199,6 +199,26 @@ public final class ModBlocks {
 	public static final Block CELESTIAL_ALTAR = register("celestial_altar", dev.celestial.block.CelestialAltarBlock::new,
 		Properties.of().mapColor(MapColor.QUARTZ).strength(-1.0F, 3600000.0F).noLootTable().lightLevel(s -> 10).noOcclusion().sound(SoundType.STONE));
 
+	// ---------------------------------------------------------------- Бездна (волна 0.3)
+	public static final Block ABYSS_STONE = register("abyss_stone", Block::new,
+		Properties.of().mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.DEEPSLATE));
+	public static final Block ABYSS_BRICKS = register("abyss_bricks", Block::new, Properties.ofFullCopy(ABYSS_STONE).sound(SoundType.DEEPSLATE_BRICKS));
+	public static final Block GLOOM_MOSS = register("gloom_moss", Block::new,
+		Properties.of().mapColor(MapColor.COLOR_CYAN).requiresCorrectToolForDrops().strength(1.5F, 6.0F).sound(SoundType.MOSS).lightLevel(s -> 2));
+	public static final Block GLOWSHROOM = register("glowshroom",
+		p -> new net.minecraft.world.level.block.MushroomBlock(dev.celestial.world.dim.AbyssFeatures.HUGE_GLOWSHROOM, p),
+		Properties.of().mapColor(MapColor.COLOR_CYAN).noCollision().randomTicks().instabreak().sound(SoundType.GRASS).lightLevel(s -> 10)
+			.offsetType(net.minecraft.world.level.block.state.BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.POPPED));
+	public static final Block GLOWSHROOM_CAP = register("glowshroom_cap", net.minecraft.world.level.block.HugeMushroomBlock::new,
+		Properties.of().mapColor(MapColor.COLOR_CYAN).strength(0.2F).sound(SoundType.WOOD).lightLevel(s -> 13));
+	public static final Block GLOWSHROOM_STEM = register("glowshroom_stem", net.minecraft.world.level.block.HugeMushroomBlock::new,
+		Properties.of().mapColor(MapColor.WOOL).strength(0.2F).sound(SoundType.WOOD).lightLevel(s -> 4));
+	public static final Block SHADOW_CRYSTAL = register("shadow_crystal", p -> new AmethystClusterBlock(7.0F, 3.0F, p),
+		Properties.of().mapColor(MapColor.COLOR_PURPLE).forceSolidOn().noOcclusion().sound(SoundType.AMETHYST_CLUSTER)
+			.strength(1.5F).lightLevel(s -> 6).pushReaction(PushReaction.POPPED));
+	public static final Block ABYSSAL_OBSIDIAN_ORE = register("abyssal_obsidian_ore", p -> new DropExperienceBlock(UniformInt.of(4, 8), p),
+		Properties.of().mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(25.0F, 1200.0F).sound(SoundType.DEEPSLATE));
+
 	private ModBlocks() {}
 
 	private static Block flower(String name, net.minecraft.core.Holder<net.minecraft.world.effect.MobEffect> effect, int light) {

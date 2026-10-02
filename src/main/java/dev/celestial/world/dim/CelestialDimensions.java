@@ -9,7 +9,10 @@ import org.jspecify.annotations.Nullable;
 public final class CelestialDimensions {
 	public static final CelestialDimension HEAVEN = new CelestialDimension(HeavenDimension.HEAVEN, -0.4, 6.0, -24, Level.OVERWORLD, 300.0);
 
-	public static final List<CelestialDimension> ALL = List.of(HEAVEN);
+	/** Бездна: обычная гравитация, выпасть некуда (бедрок сверху и снизу). */
+	public static final CelestialDimension ABYSS = new CelestialDimension(AbyssFeatures.ABYSS, 0.0, 0.0, -64, null, 0.0);
+
+	public static final List<CelestialDimension> ALL = List.of(HEAVEN, ABYSS);
 
 	private CelestialDimensions() {}
 

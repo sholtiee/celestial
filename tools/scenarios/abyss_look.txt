@@ -1,0 +1,24 @@
+# Бездна: общий вид (с ночным зрением и без)
+/gamemode creative
+/execute in celestial:abyss run tp @s 0 120 0 0 20
+fly
+wait 160
+/effect give @s minecraft:night_vision 999 0 true
+wait 20
+togglehud
+shot abyss_nv_1
+/tp @s ~ ~ ~ 120 10
+wait 30
+shot abyss_nv_2
+/execute in celestial:abyss run tp @s 300 90 200 200 25
+wait 140
+shot abyss_nv_3
+/execute in celestial:abyss run tp @s -400 70 300 40 15
+wait 140
+shot abyss_nv_4
+/effect clear @s minecraft:night_vision
+wait 20
+shot abyss_dark
+togglehud
+pos
+quit

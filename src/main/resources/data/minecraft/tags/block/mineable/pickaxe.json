@@ -25,6 +25,11 @@
     "celestial:celestial_forge",
     "celestial:infusion_altar",
     "celestial:sky_beacon",
-    "celestial:meteorite"
+    "celestial:meteorite",
+    "celestial:abyss_stone",
+    "celestial:abyss_bricks",
+    "celestial:gloom_moss",
+    "celestial:shadow_crystal",
+    "celestial:abyssal_obsidian_ore"
   ]
 }

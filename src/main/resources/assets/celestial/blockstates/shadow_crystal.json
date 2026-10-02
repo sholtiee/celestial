@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "celestial:block/shadow_crystal"
+    },
+    "facing=down": {
+      "model": "celestial:block/shadow_crystal",
+      "x": 180
+    },
+    "facing=north": {
+      "model": "celestial:block/shadow_crystal",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "celestial:block/shadow_crystal",
+      "x": 90,
+      "y": 180
+    },
+    "facing=east": {
+      "model": "celestial:block/shadow_crystal",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west": {
+      "model": "celestial:block/shadow_crystal",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

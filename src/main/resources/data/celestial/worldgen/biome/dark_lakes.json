@@ -1,0 +1,64 @@
+{
+  "attributes": {
+    "minecraft:visual/fog_color": "#05080c",
+    "minecraft:visual/water_fog_color": "#03070c",
+    "minecraft:visual/ambient_particles": {
+      "argument": [
+        {
+          "particle": {
+            "type": "minecraft:underwater"
+          },
+          "probability": 0.006
+        }
+      ],
+      "modifier": "append"
+    },
+    "minecraft:gameplay/natural_mob_spawns": {
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "monster": [
+            {
+              "type": "celestial:shadow",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 2
+              },
+              "weight": 100
+            }
+          ]
+        }
+      },
+      "modifier": "overlay"
+    }
+  },
+  "carvers": [],
+  "downfall": 0.0,
+  "effects": {
+    "grass_color": "#2a8c86",
+    "foliage_color": "#2a8c86",
+    "water_color": "#03070c"
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "celestial:ore_abyssal_obsidian"
+    ],
+    [],
+    [],
+    [
+      "celestial:glowshroom_giants_sparse",
+      "celestial:patch_glowshroom_sparse",
+      "celestial:abyss_cave_vines"
+    ],
+    []
+  ],
+  "has_precipitation": false,
+  "temperature": 0.5
+}

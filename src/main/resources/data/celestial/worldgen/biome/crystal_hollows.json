@@ -1,0 +1,65 @@
+{
+  "attributes": {
+    "minecraft:visual/fog_color": "#0c0912",
+    "minecraft:visual/water_fog_color": "#1a0d2b",
+    "minecraft:visual/ambient_particles": {
+      "argument": [
+        {
+          "particle": {
+            "type": "minecraft:portal"
+          },
+          "probability": 0.004
+        }
+      ],
+      "modifier": "append"
+    },
+    "minecraft:gameplay/natural_mob_spawns": {
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "monster": [
+            {
+              "type": "celestial:shadow",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 2
+              },
+              "weight": 100
+            }
+          ]
+        }
+      },
+      "modifier": "overlay"
+    }
+  },
+  "carvers": [],
+  "downfall": 0.0,
+  "effects": {
+    "grass_color": "#2a8c86",
+    "foliage_color": "#2a8c86",
+    "water_color": "#1a0d2b"
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "celestial:ore_abyssal_obsidian",
+      "celestial:ore_abyssal_obsidian_rich"
+    ],
+    [],
+    [],
+    [
+      "celestial:patch_glowshroom_sparse",
+      "celestial:shadow_crystals_floor",
+      "celestial:shadow_crystals_ceiling"
+    ],
+    []
+  ],
+  "has_precipitation": false,
+  "temperature": 0.5
+}

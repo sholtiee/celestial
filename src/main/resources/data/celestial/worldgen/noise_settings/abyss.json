@@ -1,0 +1,24 @@
+{
+  "debug_functions": [],
+  "default_block": "celestial:abyss_stone",
+  "default_fluid": "minecraft:water",
+  "disable_mob_generation": false,
+  "legacy_random_source": false,
+  "material_rule": "celestial:abyss",
+  "noise": {
+    "min_y": 0,
+    "height": 256
+  },
+  "noise_router": {
+    "chunk_surface_level": 0.0,
+    "continents": 0.0,
+    "depth": 0.0,
+    "erosion": 0.0,
+    "ridges": 0.0,
+    "final_density": "celestial:abyss/final_density",
+    "temperature": "celestial:abyss/temperature",
+    "vegetation": "celestial:abyss/humidity"
+  },
+  "sea_level": 32,
+  "spawn_target": []
+}

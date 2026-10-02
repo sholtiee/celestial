@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "celestial:block/gloom_moss_top",
+    "side": "celestial:block/gloom_moss_side",
+    "bottom": "celestial:block/abyss_stone"
+  }
+}

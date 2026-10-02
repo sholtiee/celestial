@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:huge_red_mushroom",
+  "can_place_on": {
+    "type": "minecraft:matching_blocks",
+    "blocks": [
+      "celestial:gloom_moss",
+      "celestial:abyss_stone"
+    ]
+  },
+  "cap_provider": {
+    "id": "celestial:glowshroom_cap",
+    "properties": {
+      "down": "false",
+      "east": "true",
+      "north": "true",
+      "south": "true",
+      "up": "true",
+      "west": "true"
+    }
+  },
+  "stem_provider": {
+    "id": "celestial:glowshroom_stem",
+    "properties": {
+      "down": "false",
+      "east": "true",
+      "north": "true",
+      "south": "true",
+      "up": "false",
+      "west": "true"
+    }
+  },
+  "foliage_radius": 3
+}

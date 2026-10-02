@@ -1,0 +1,163 @@
+{
+  "type": "minecraft:add",
+  "left": {
+    "type": "minecraft:interpolated",
+    "cell_size_xz": 4,
+    "cell_size_y": 4,
+    "input": {
+      "type": "minecraft:max",
+      "left": {
+        "type": "minecraft:add",
+        "left": {
+          "type": "minecraft:gradient",
+          "axis": "y",
+          "from_coordinate": 18,
+          "from_value": 1.0,
+          "to_coordinate": 66,
+          "to_value": -1.0
+        },
+        "right": {
+          "type": "minecraft:mul",
+          "left": {
+            "type": "minecraft:noise",
+            "noise": "celestial:abyss_floor",
+            "xz_scale": 1.0,
+            "y_scale": 0.0
+          },
+          "right": 0.75
+        }
+      },
+      "right": {
+        "type": "minecraft:max",
+        "left": {
+          "type": "minecraft:add",
+          "left": {
+            "type": "minecraft:gradient",
+            "axis": "y",
+            "from_coordinate": 188,
+            "from_value": -1.0,
+            "to_coordinate": 240,
+            "to_value": 1.0
+          },
+          "right": {
+            "type": "minecraft:mul",
+            "left": {
+              "type": "minecraft:noise",
+              "noise": "celestial:abyss_ceiling",
+              "xz_scale": 1.0,
+              "y_scale": 0.0
+            },
+            "right": 0.6
+          }
+        },
+        "right": {
+          "type": "minecraft:max",
+          "left": {
+            "type": "minecraft:add",
+            "left": {
+              "type": "minecraft:add",
+              "left": {
+                "type": "minecraft:mul",
+                "left": {
+                  "type": "minecraft:noise",
+                  "noise": "celestial:abyss_islands",
+                  "xz_scale": 1.0,
+                  "y_scale": 0.0
+                },
+                "right": 1.9
+              },
+              "right": -0.8
+            },
+            "right": {
+              "type": "minecraft:mul",
+              "left": {
+                "type": "minecraft:add",
+                "left": {
+                  "type": "minecraft:gradient",
+                  "axis": "y",
+                  "from_coordinate": 84,
+                  "from_value": 1.0,
+                  "to_coordinate": 112,
+                  "to_value": 0.0
+                },
+                "right": {
+                  "type": "minecraft:gradient",
+                  "axis": "y",
+                  "from_coordinate": 112,
+                  "from_value": 0.0,
+                  "to_coordinate": 118,
+                  "to_value": 1.0
+                }
+              },
+              "right": -1.0
+            }
+          },
+          "right": {
+            "type": "minecraft:max",
+            "left": {
+              "type": "minecraft:add",
+              "left": {
+                "type": "minecraft:mul",
+                "left": {
+                  "type": "minecraft:max",
+                  "left": {
+                    "type": "minecraft:add",
+                    "left": {
+                      "type": "minecraft:noise",
+                      "noise": "celestial:abyss_stalactites",
+                      "xz_scale": 1.0,
+                      "y_scale": 0.0
+                    },
+                    "right": -0.22
+                  },
+                  "right": 0.0
+                },
+                "right": 6.0
+              },
+              "right": {
+                "type": "minecraft:gradient",
+                "axis": "y",
+                "from_coordinate": 86,
+                "from_value": -5.0,
+                "to_coordinate": 226,
+                "to_value": 0.0
+              }
+            },
+            "right": {
+              "type": "minecraft:add",
+              "left": {
+                "type": "minecraft:mul",
+                "left": {
+                  "type": "minecraft:max",
+                  "left": {
+                    "type": "minecraft:add",
+                    "left": {
+                      "type": "minecraft:noise",
+                      "noise": "celestial:abyss_stalagmites",
+                      "xz_scale": 1.0,
+                      "y_scale": 0.0
+                    },
+                    "right": -0.32
+                  },
+                  "right": 0.0
+                },
+                "right": 6.0
+              },
+              "right": {
+                "type": "minecraft:gradient",
+                "axis": "y",
+                "from_coordinate": 36,
+                "from_value": 0.0,
+                "to_coordinate": 136,
+                "to_value": -5.0
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "right": {
+    "type": "minecraft:beardifier"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:sequence",
+  "sequence": [
+    "minecraft:bedrock_floor",
+    "minecraft:bedrock_roof",
+    {
+      "type": "minecraft:condition",
+      "if_true": {
+        "type": "minecraft:biome",
+        "biome_is": [
+          "celestial:glowshroom_forest",
+          "celestial:dark_lakes"
+        ]
+      },
+      "then_run": {
+        "type": "minecraft:condition",
+        "if_true": "minecraft:on_floor",
+        "then_run": {
+          "type": "minecraft:block",
+          "result_state": "celestial:gloom_moss"
+        }
+      }
+    }
+  ]
+}
