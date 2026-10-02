@@ -1,0 +1,33 @@
+# Храм Лучей: поворачиваем перископ на юг (3 клика) и зеркало (1 клик) → зелёный приёмник растворяет печать
+/gamemode creative
+/time set 6000
+fly
+/execute in celestial:heaven run tp @s 1050 160 1010 0 30
+wait 120
+/execute in celestial:heaven run place template celestial:beam_temple/main 1000 120 1000
+/execute in celestial:heaven run place template celestial:sky_village/grand 1100 120 1000
+wait 40
+/execute in celestial:heaven run tp @s 1009 126 1009 0 30
+wait 60
+/item replace entity @s weapon.mainhand with celestial:tuning_fork
+userel -1 0 -1 up
+userel -1 0 -1 up
+userel -1 0 -1 up
+/execute in celestial:heaven run tp @s 1009 126 1017 0 30
+wait 10
+userel -1 0 1 up
+wait 40
+/execute in celestial:heaven if block 1016 126 1018 celestial:light_receiver[powered=true] run say ЗЕЛЁНЫЙ_ГОРИТ
+/execute in celestial:heaven unless block 1017 127 1018 celestial:sealed_door run say ПЕЧАТЬ_ОТКРЫТА
+/execute in celestial:heaven run tp @s 1013 132 1013 0 70
+togglehud
+wait 10
+shot temple_inside
+togglehud
+/execute in celestial:heaven run tp @s 1122 128 1015 180 20
+/item replace entity @s weapon.mainhand with minecraft:air
+wait 60
+userel 0 0 2 up
+wait 10
+shot village_board
+quit

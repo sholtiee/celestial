@@ -1,0 +1,25 @@
+# Постройки шага 7: большая деревня, Храм Лучей, Облачный замок, маяк, галеон
+/gamemode creative
+/time set 6000
+/gamerule advance_time false
+/gamerule spawn_monsters false
+fly
+/execute in celestial:heaven run tp @s 0 200 0
+wait 40
+goto celestial:cloud_castle 0 12 -40 0 20
+wait 220
+togglehud
+shot s2_castle
+goto celestial:airship_wreck 0 8 -26 0 25
+wait 220
+shot s2_airship
+goto celestial:sky_lighthouse 0 4 -24 0 10
+wait 200
+shot s2_lighthouse
+goto celestial:beam_temple 0 10 -30 0 25
+wait 220
+shot s2_temple
+goto celestial:sky_village 0 14 -40 0 25
+wait 220
+shot s2_village
+quit

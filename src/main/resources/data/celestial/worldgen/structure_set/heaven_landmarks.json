@@ -1,0 +1,38 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 731410,
+    "separation": 4,
+    "spacing": 11
+  },
+  "structures": [
+    {
+      "structure": "celestial:sky_village",
+      "weight": 4
+    },
+    {
+      "structure": "celestial:sky_ruins",
+      "weight": 4
+    },
+    {
+      "structure": "celestial:sky_lighthouse",
+      "weight": 3
+    },
+    {
+      "structure": "celestial:airship_wreck",
+      "weight": 3
+    },
+    {
+      "structure": "celestial:beam_temple",
+      "weight": 3
+    },
+    {
+      "structure": "celestial:cloud_castle",
+      "weight": 2
+    },
+    {
+      "structure": "celestial:trial_tower",
+      "weight": 2
+    }
+  ]
+}

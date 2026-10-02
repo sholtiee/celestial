@@ -3,7 +3,11 @@
     "type": "minecraft:random_spread",
     "salt": 731404,
     "separation": 18,
-    "spacing": 48
+    "spacing": 48,
+    "exclusion_zone": {
+      "other_set": "celestial:heaven_landmarks",
+      "chunk_count": 4
+    }
   },
   "structures": [
     {

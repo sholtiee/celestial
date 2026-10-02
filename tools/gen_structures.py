@@ -616,6 +616,20 @@ def structure_set(name, structure_name, spacing, separation, salt):
         'structures': [{'structure': c(structure_name), 'weight': 1}]})
 
 
+def landmark_sets():
+    """Все крупные постройки Рая — один набор с весами: в одной ячейке сетки ровно одна постройка, наложений нет.
+    Цитадель — отдельно и не ближе 4 чанков к достопримечательностям."""
+    write_json(os.path.join(DATA, 'worldgen/structure_set/heaven_landmarks.json'), {
+        'placement': {'type': 'minecraft:random_spread', 'salt': 731410, 'separation': 4, 'spacing': 11},
+        'structures': [{'structure': c(n), 'weight': w} for n, w in (
+            ('sky_village', 4), ('sky_ruins', 4), ('sky_lighthouse', 3), ('airship_wreck', 3), ('beam_temple', 3),
+            ('cloud_castle', 2), ('trial_tower', 2))]})
+    write_json(os.path.join(DATA, 'worldgen/structure_set/citadels.json'), {
+        'placement': {'type': 'minecraft:random_spread', 'salt': 731404, 'separation': 18, 'spacing': 48,
+                      'exclusion_zone': {'other_set': c('heaven_landmarks'), 'chunk_count': 4}},
+        'structures': [{'structure': c('citadel'), 'weight': 1}]})
+
+
 def biome_tag(name, *biomes):
     write_json(os.path.join(DATA, 'tags/worldgen/biome/has_structure', name + '.json'), {'values': [c(b) for b in biomes]})
 
@@ -693,18 +707,11 @@ def main():
     structure('sky_ruins', 'sky_ruins/main', 'sky_ruins', 66)
     structure('citadel', 'citadel/main', 'citadel', 168)
     structure('trial_tower', 'trial_tower/main', 'trial_tower', 96)
-    structure_set('sky_villages', 'sky_village', 28, 10, 731402)
-    structure_set('sky_ruins', 'sky_ruins', 22, 8, 731403)
-    structure_set('citadels', 'citadel', 48, 18, 731404)
-    structure_set('trial_towers', 'trial_tower', 36, 14, 731405)
     structure('beam_temple', 'beam_temple/main', 'beam_temple', 110)
     structure('cloud_castle', 'cloud_castle/main', 'cloud_castle', 150)
     structure('sky_lighthouse', 'sky_lighthouse/main', 'sky_lighthouse', 90)
     structure('airship_wreck', 'airship_wreck/main', 'airship_wreck', 140)
-    structure_set('beam_temples', 'beam_temple', 30, 12, 731406)
-    structure_set('cloud_castles', 'cloud_castle', 42, 16, 731407)
-    structure_set('sky_lighthouses', 'sky_lighthouse', 26, 10, 731408)
-    structure_set('airship_wrecks', 'airship_wreck', 34, 12, 731409)
+    landmark_sets()
     biome_tag('beam_temple', 'golden_meadows', 'crystal_spires', 'heaven_gardens', 'rainbow_shoals')
     biome_tag('cloud_castle', 'cloud_forest', 'storm_peak', 'star_glade', 'golden_meadows')
     biome_tag('sky_lighthouse', 'golden_meadows', 'rainbow_shoals', 'cloud_forest', 'heaven_gardens', 'star_glade')
