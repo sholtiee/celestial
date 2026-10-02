@@ -16,6 +16,7 @@ public enum Skill {
 	RADIANCE_POOL("radiance_pool", Branch.LIGHT, 1, null, 0, 0),
 	LIGHT_BOLT("light_bolt", Branch.LIGHT, 1, null, 1, 0),
 	RADIANCE_REGEN("radiance_regen", Branch.LIGHT, 2, RADIANCE_POOL, 0, 1),
+	INNER_LIGHT("inner_light", Branch.LIGHT, 3, RADIANCE_POOL, 0, 2),
 	HEALING_LIGHT("healing_light", Branch.LIGHT, 2, LIGHT_BOLT, 1, 1),
 	BEACON_RECALL("beacon_recall", Branch.LIGHT, 2, RADIANCE_POOL, 0, 2),
 	LIGHT_SHIELD("light_shield", Branch.LIGHT, 3, HEALING_LIGHT, 1, 2),

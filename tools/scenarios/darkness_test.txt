@@ -1,0 +1,32 @@
+# Тьма Бездны: страх растёт без света, виньетка; факел в руке — свет вокруг и страх спадает
+/gamemode creative
+/gamerule spawn_monsters false
+/execute in celestial:abyss run tp @s 438 40 253 180 10
+wait 60
+/kill @e[type=celestial:shadow]
+/execute in celestial:abyss run fill 466 79 276 474 79 284 celestial:abyss_bricks
+/execute in celestial:abyss run fill 466 80 276 474 84 284 minecraft:air
+/execute in celestial:abyss run tp @s 470 80 280 180 10
+wait 40
+pos
+/clear @s
+/effect clear @s
+/gamemode survival
+/effect give @s minecraft:resistance 600 4 true
+wait 400
+/celestial status
+shot dark_fear_high
+wait 200
+/celestial status
+shot dark_fear_max
+/item replace entity @s weapon.mainhand with minecraft:torch
+wait 60
+/celestial status
+shot dark_torch
+wait 200
+/celestial status
+/execute if block ~ ~1 ~ minecraft:light run say СВЕТ_У_ГОЛОВЫ
+/item replace entity @s weapon.mainhand with minecraft:air
+wait 10
+/execute if block ~ ~1 ~ minecraft:light run say СВЕТ_ОСТАЛСЯ
+quit

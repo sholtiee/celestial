@@ -30,7 +30,7 @@ public final class CelestialCommand {
 				if (src.getEntity() instanceof ServerPlayer player) {
 					PlayerData data = CelestialData.get(player);
 					src.sendSuccess(() -> Component.literal("§bБлагодать: §f" + data.grace() + " §bНавыки: §f" + data.skills()
-						+ " §bРепутация: §f" + data.reputation() + " §bСияние: §f" + (int) data.radiance()
+						+ " §bРепутация: §f" + data.reputation() + " §bСияние: §f" + (int) data.radiance() + " §bСтрах: §f" + (int) data.fear()
 						+ " §bИспытания: §f" + data.trials() + " §bКодекс: §f" + data.codex().size()), false);
 				}
 				return 1;

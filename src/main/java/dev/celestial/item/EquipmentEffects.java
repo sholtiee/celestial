@@ -28,6 +28,11 @@ public final class EquipmentEffects {
 
 	private EquipmentEffects() {}
 
+	/** Множитель роста страха в Бездне от снаряжения (комплект безднового обсидиана — вдвое меньше). */
+	public static float fearMultiplier(ServerPlayer player) {
+		return 1.0F;
+	}
+
 	public static void init() {
 		ServerTickEvents.END_SERVER_TICK.register(EquipmentEffects::tick);
 	}

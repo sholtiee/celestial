@@ -13,9 +13,10 @@ import net.minecraft.network.codec.StreamCodec;
  * (так Fabric-вложение само замечает изменение и синхронизирует его с клиентом).
  */
 public record PlayerData(int grace, List<String> skills, int reputation, List<String> codex, List<String> trials, float radiance,
-	List<String> quests) {
+	List<String> quests, float fear) {
 	public static final float MAX_RADIANCE = 100.0F;
-	public static final PlayerData EMPTY = new PlayerData(0, List.of(), 0, List.of(), List.of(), MAX_RADIANCE, List.of());
+	public static final float MAX_FEAR = 100.0F;
+	public static final PlayerData EMPTY = new PlayerData(0, List.of(), 0, List.of(), List.of(), MAX_RADIANCE, List.of(), 0.0F);
 
 	public static final Codec<PlayerData> CODEC = RecordCodecBuilder.create(i -> i.group(
 		Codec.INT.optionalFieldOf("grace", 0).forGetter(PlayerData::grace),
@@ -24,7 +25,8 @@ public record PlayerData(int grace, List<String> skills, int reputation, List<St
 		Codec.STRING.listOf().optionalFieldOf("codex", List.of()).forGetter(PlayerData::codex),
 		Codec.STRING.listOf().optionalFieldOf("trials", List.of()).forGetter(PlayerData::trials),
 		Codec.FLOAT.optionalFieldOf("radiance", MAX_RADIANCE).forGetter(PlayerData::radiance),
-		Codec.STRING.listOf().optionalFieldOf("quests", List.of()).forGetter(PlayerData::quests)
+		Codec.STRING.listOf().optionalFieldOf("quests", List.of()).forGetter(PlayerData::quests),
+		Codec.FLOAT.optionalFieldOf("fear", 0.0F).forGetter(PlayerData::fear)
 	).apply(i, PlayerData::new));
 	public static final StreamCodec<RegistryFriendlyByteBuf, PlayerData> STREAM_CODEC = ByteBufCodecs.fromCodecWithRegistries(CODEC);
 
@@ -41,31 +43,36 @@ public record PlayerData(int grace, List<String> skills, int reputation, List<St
 	}
 
 	public PlayerData withGrace(int value) {
-		return new PlayerData(Math.max(0, value), skills, reputation, codex, trials, radiance, quests);
+		return new PlayerData(Math.max(0, value), skills, reputation, codex, trials, radiance, quests, fear);
 	}
 
 	public PlayerData withSkill(String id) {
-		return hasSkill(id) ? this : new PlayerData(grace, append(skills, id), reputation, codex, trials, radiance, quests);
+		return hasSkill(id) ? this : new PlayerData(grace, append(skills, id), reputation, codex, trials, radiance, quests, fear);
 	}
 
 	public PlayerData withReputation(int value) {
-		return new PlayerData(grace, skills, value, codex, trials, radiance, quests);
+		return new PlayerData(grace, skills, value, codex, trials, radiance, quests, fear);
 	}
 
 	public PlayerData withCodex(String entry) {
-		return knows(entry) ? this : new PlayerData(grace, skills, reputation, append(codex, entry), trials, radiance, quests);
+		return knows(entry) ? this : new PlayerData(grace, skills, reputation, append(codex, entry), trials, radiance, quests, fear);
 	}
 
 	public PlayerData withTrial(String trial) {
-		return passed(trial) ? this : new PlayerData(grace, skills, reputation, codex, append(trials, trial), radiance, quests);
+		return passed(trial) ? this : new PlayerData(grace, skills, reputation, codex, append(trials, trial), radiance, quests, fear);
 	}
 
 	public PlayerData withRadiance(float value) {
-		return new PlayerData(grace, skills, reputation, codex, trials, Math.max(0, Math.min(MAX_RADIANCE, value)), quests);
+		return new PlayerData(grace, skills, reputation, codex, trials, Math.max(0, value), quests, fear);
 	}
 
 	public PlayerData withQuests(List<String> value) {
-		return new PlayerData(grace, skills, reputation, codex, trials, radiance, List.copyOf(value));
+		return new PlayerData(grace, skills, reputation, codex, trials, radiance, List.copyOf(value), fear);
+	}
+
+	/** Страх тьмы в Бездне (0–100). */
+	public PlayerData withFear(float value) {
+		return new PlayerData(grace, skills, reputation, codex, trials, radiance, quests, Math.max(0, Math.min(MAX_FEAR, value)));
 	}
 
 	private static List<String> append(List<String> list, String value) {

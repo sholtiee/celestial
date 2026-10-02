@@ -79,7 +79,36 @@ public final class GraceClient {
 			// название заклинания не должно вылезать за край экрана
 			int tx = Math.min(x, graphics.guiWidth() - mc.font.width(name) - 2);
 			graphics.text(mc.font, name, tx, y - 10, color);
+			drawFear(mc, graphics, d);
 		});
+	}
+
+	/** Страх тьмы: виньетка по краям экрана и полоска слева от хотбара (видна в Бездне или пока страх не спал). */
+	private static void drawFear(Minecraft mc, net.minecraft.client.gui.GuiGraphicsExtractor graphics, PlayerData d) {
+		boolean abyss = mc.player.level().dimension() == dev.celestial.world.dim.AbyssFeatures.ABYSS;
+		if (!abyss && d.fear() <= 0) {
+			return;
+		}
+		int w = graphics.guiWidth(), h = graphics.guiHeight();
+		float f = d.fear() / PlayerData.MAX_FEAR;
+		if (f > 0.3F) {
+			int alpha = (int) (Math.min(1.0F, (f - 0.3F) / 0.7F) * 170);
+			for (int i = 0; i < 12; i++) {  // мягкая рамка тьмы, гуще к краю
+				int a = alpha * (12 - i) / 12 << 24;
+				int t = i * Math.max(2, h / 60);
+				graphics.fill(0, t, w, t + Math.max(2, h / 60), a);
+				graphics.fill(0, h - t - Math.max(2, h / 60), w, h - t, a);
+				graphics.fill(t, 0, t + Math.max(2, w / 80), h, a);
+				graphics.fill(w - t - Math.max(2, w / 80), 0, w - t, h, a);
+			}
+		}
+		int bw = 72;
+		int x = w / 2 - 98 - bw;
+		int y = h - 12;
+		graphics.fill(x - 1, y - 1, x + bw + 1, y + 5, 0xAA000000);
+		graphics.fill(x + bw - (int) (bw * f), y, x + bw, y + 4, f >= 0.8F ? 0xFFB23A6E : 0xFF6B4FA8);
+		Component label = Component.translatable("hud.celestial.fear");
+		graphics.text(mc.font, label, x + bw - mc.font.width(label), y - 10, 0xFFB9A6E0);
 	}
 
 	private static void tick(Minecraft mc) {

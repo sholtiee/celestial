@@ -118,6 +118,18 @@ def append_tag(kind, name, values):
     write_json(base, {'replace': False, 'values': list(dict.fromkeys(existing + values))})
 
 
+def darkness_data():
+    write_json(os.path.join(DATA, 'damage_type/darkness.json'), {'exhaustion': 0.0, 'message_id': 'celestial.darkness', 'scaling': 'never'})
+    append_tag('damage_type', 'minecraft:bypasses_armor', [c('darkness')])
+    opt = lambda i: {'id': i, 'required': False}  # noqa: E731
+    write_json(os.path.join(DATA, 'tags/item/light_sources.json'), {'values': [
+        'minecraft:torch', 'minecraft:soul_torch', 'minecraft:lantern', 'minecraft:soul_lantern', 'minecraft:glowstone',
+        'minecraft:sea_lantern', 'minecraft:shroomlight', 'minecraft:jack_o_lantern', 'minecraft:glow_berries', 'minecraft:ochre_froglight',
+        'minecraft:verdant_froglight', 'minecraft:pearlescent_froglight', 'minecraft:end_rod', 'minecraft:lava_bucket',
+        opt('minecraft:copper_torch'), opt('minecraft:copper_lantern'),
+        c('glowshroom'), c('radiant_stone'), c('beam_lantern'), c('sky_crystal'), c('light_spear')]})
+
+
 def tags():
     append_tag('block', 'minecraft:mineable/pickaxe', [c(n) for n in ('abyss_stone', 'abyss_bricks', 'gloom_moss', 'shadow_crystal',
                                                                       'abyssal_obsidian_ore')])
@@ -382,6 +394,7 @@ def main():
     textures()
     block_models()
     tags()
+    darkness_data()
     dimension()
     noises()
     surface()
@@ -401,6 +414,11 @@ def main():
         'biome.celestial.crystal_hollows': ('Кристальные гроты', 'Crystal Hollows'),
         'biome.celestial.dark_lakes': ('Озёра тьмы', 'Dark Lakes'),
         'block.celestial.abyss_rift': ('Разлом Бездны', 'Abyss Rift'),
+        'hud.celestial.fear': ('Страх', 'Fear'),
+        'abyss.celestial.fear_rising': ('§5Тьма подступает… Нужен свет!', '§5The dark closes in... You need light!'),
+        'death.attack.celestial.darkness': ('%1$s поглотила тьма', '%1$s was consumed by the dark'),
+        'death.attack.celestial.darkness.player': ('%1$s поглотила тьма, пока %2$s смотрел', '%1$s was consumed by the dark while %2$s watched'),
+        'effect.celestial.starlight': ('Звёздное сияние', 'Starlight'),
         'block.celestial.abyss_rift.sealed': ('§5Разлом запечатан: свет Серафима ещё держит его закрытым', '§5The Rift is sealed: the Seraph\'s light still holds it shut'),
         'structure.celestial.abyss_rift': ('Разлом Бездны', 'Abyss Rift'),
         'structure.celestial.abyss': ('Бездна', 'The Abyss'),

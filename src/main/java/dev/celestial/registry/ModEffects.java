@@ -16,6 +16,10 @@ public final class ModEffects {
 			.addAttributeModifier(Attributes.MAX_HEALTH, Celestial.id("blessing_health"), 4.0, AttributeModifier.Operation.ADD_VALUE)
 			.addAttributeModifier(Attributes.LUCK, Celestial.id("blessing_luck"), 1.0, AttributeModifier.Operation.ADD_VALUE));
 
+	/** Звёздное сияние: страх в Бездне не растёт (флакон звёздного света, Оберег). */
+	public static final Holder<MobEffect> STARLIGHT = Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, Celestial.id("starlight"),
+		new MobEffect(MobEffectCategory.BENEFICIAL, 0xBFD8FF) {});
+
 	private ModEffects() {}
 
 	public static void init() {
