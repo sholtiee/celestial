@@ -1,0 +1,112 @@
+package dev.celestial.registry;
+
+import dev.celestial.Celestial;
+import dev.celestial.block.CloudBlock;
+import dev.celestial.block.MannaBushBlock;
+import dev.celestial.block.RainCloudBlock;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.util.random.WeightedList;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.grower.TreeGrower;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
+
+public final class ModBlocks {
+	/** Блоки, у которых есть предмет: по этому списку заполняется творческая вкладка. */
+	public static final List<Block> WITH_ITEMS = new ArrayList<>();
+
+	public static final ResourceKey<Feature> SKYWOOD_TREE = ResourceKey.create(Registries.FEATURE, Celestial.id("skywood_tree"));
+	public static final ResourceKey<Feature> FANCY_SKYWOOD_TREE = ResourceKey.create(Registries.FEATURE, Celestial.id("fancy_skywood_tree"));
+	public static final TreeGrower SKYWOOD_GROWER = new TreeGrower("celestial_skywood",
+		WeightedList.of(new net.minecraft.util.random.Weighted<>(SKYWOOD_TREE, 4), new net.minecraft.util.random.Weighted<>(FANCY_SKYWOOD_TREE, 1)),
+		WeightedList.of(), WeightedList.of(), null);
+
+	// Земля и камень
+	public static final Block HEAVEN_DIRT = register("heaven_dirt", Block::new,
+		Properties.of().mapColor(MapColor.SAND).strength(0.5F).sound(SoundType.GRAVEL));
+	public static final Block GOLDEN_GRASS = register("golden_grass", Block::new,
+		Properties.of().mapColor(MapColor.GOLD).strength(0.6F).sound(SoundType.GRASS).randomTicks());
+	public static final Block SKYSTONE = register("skystone", Block::new,
+		Properties.of().mapColor(MapColor.QUARTZ).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(1.5F, 6.0F));
+	public static final Block SKYSTONE_BRICKS = register("skystone_bricks", Block::new, Properties.ofFullCopy(SKYSTONE));
+	public static final Block SKYSTONE_BRICK_STAIRS = register("skystone_brick_stairs",
+		p -> new StairBlock(SKYSTONE_BRICKS.defaultBlockState(), p), Properties.ofFullCopy(SKYSTONE_BRICKS));
+	public static final Block SKYSTONE_BRICK_SLAB = register("skystone_brick_slab", SlabBlock::new, Properties.ofFullCopy(SKYSTONE_BRICKS));
+	public static final Block SKYSTONE_BRICK_WALL = register("skystone_brick_wall", WallBlock::new, Properties.ofFullCopy(SKYSTONE_BRICKS).forceSolidOn());
+	public static final Block RADIANT_STONE = register("radiant_stone", Block::new,
+		Properties.of().mapColor(MapColor.GOLD).requiresCorrectToolForDrops().strength(3.0F, 9.0F).lightLevel(s -> 12).sound(SoundType.AMETHYST));
+
+	// Небесное дерево
+	public static final Block SKYWOOD_LOG = register("skywood_log", RotatedPillarBlock::new,
+		Blocks.logProperties(MapColor.QUARTZ, MapColor.SNOW, SoundType.CHERRY_WOOD));
+	public static final Block SKYWOOD_WOOD = register("skywood_wood", RotatedPillarBlock::new,
+		Blocks.logProperties(MapColor.SNOW, MapColor.SNOW, SoundType.CHERRY_WOOD));
+	public static final Block SKYWOOD_PLANKS = register("skywood_planks", Block::new,
+		Properties.of().mapColor(MapColor.QUARTZ).instrument(NoteBlockInstrument.BASS).strength(2.0F, 3.0F).sound(SoundType.CHERRY_WOOD).ignitedByLava());
+	public static final Block SKYWOOD_STAIRS = register("skywood_stairs",
+		p -> new StairBlock(SKYWOOD_PLANKS.defaultBlockState(), p), Properties.ofFullCopy(SKYWOOD_PLANKS));
+	public static final Block SKYWOOD_SLAB = register("skywood_slab", SlabBlock::new, Properties.ofFullCopy(SKYWOOD_PLANKS));
+	public static final Block SKYWOOD_FENCE = register("skywood_fence", FenceBlock::new, Properties.ofFullCopy(SKYWOOD_PLANKS).forceSolidOn());
+	public static final Block SKYWOOD_FENCE_GATE = register("skywood_fence_gate",
+		p -> new FenceGateBlock(WoodType.CHERRY, p), Properties.ofFullCopy(SKYWOOD_PLANKS).forceSolidOn());
+	public static final Block SKYWOOD_LEAVES = register("skywood_leaves", p -> new TintedParticleLeavesBlock(0.02F, p),
+		Blocks.leavesProperties(SoundType.CHERRY_LEAVES).mapColor(MapColor.GOLD).lightLevel(s -> 3));
+	public static final Block SKYWOOD_SAPLING = register("skywood_sapling", p -> new SaplingBlock(SKYWOOD_GROWER, p),
+		Properties.of().mapColor(MapColor.GOLD).noCollision().randomTicks().instabreak().sound(SoundType.GRASS).pushReaction(PushReaction.POPPED));
+
+	// Облака
+	public static final Block CLOUD = register("cloud", CloudBlock::new,
+		Properties.of().mapColor(MapColor.SNOW).strength(0.2F).sound(SoundType.WOOL).noOcclusion().speedFactor(0.8F)
+			.isSuffocating(Blocks::never));
+	public static final Block GOLDEN_CLOUD = register("golden_cloud", CloudBlock::new,
+		Properties.ofFullCopy(CLOUD).mapColor(MapColor.GOLD).bounceRestitution(1.15F));
+	public static final Block RAIN_CLOUD = register("rain_cloud", RainCloudBlock::new,
+		Properties.ofFullCopy(CLOUD).mapColor(MapColor.COLOR_GRAY).noCollision());
+
+	// Руды и кристаллы
+	public static final Block ETHERITE_ORE = register("etherite_ore", p -> new DropExperienceBlock(UniformInt.of(2, 5), p),
+		Properties.ofFullCopy(SKYSTONE).strength(3.5F, 6.0F));
+	public static final Block STARQUARTZ_ORE = register("starquartz_ore", p -> new DropExperienceBlock(UniformInt.of(3, 7), p),
+		Properties.ofFullCopy(SKYSTONE).strength(3.0F, 6.0F).lightLevel(s -> 4));
+	public static final Block ETHERITE_BLOCK = register("etherite_block", Block::new,
+		Properties.of().mapColor(MapColor.DIAMOND).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.METAL));
+	public static final Block SKY_CRYSTAL = register("sky_crystal", p -> new AmethystClusterBlock(7.0F, 10.0F, p),
+		Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).forceSolidOn().noOcclusion().sound(SoundType.AMETHYST_CLUSTER)
+			.strength(1.5F).lightLevel(s -> 10).pushReaction(PushReaction.POPPED));
+
+	// Растения (у куста предмет — сама манна, регистрируется в ModItems)
+	public static final Block MANNA_BUSH = registerNoItem("manna_bush", MannaBushBlock::new,
+		Properties.of().mapColor(MapColor.PLANT).randomTicks().noCollision().sound(SoundType.SWEET_BERRY_BUSH).pushReaction(PushReaction.POPPED).lightLevel(s -> 4));
+
+	private ModBlocks() {}
+
+	private static Block registerNoItem(String name, Function<Properties, Block> factory, Properties properties) {
+		ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, Celestial.id(name));
+		return Blocks.register(key, factory, properties);
+	}
+
+	private static Block register(String name, Function<Properties, Block> factory, Properties properties) {
+		Block block = registerNoItem(name, factory, properties);
+		ModItems.register(name, p -> new BlockItem(block, p), new Item.Properties().useBlockDescriptionPrefix());
+		WITH_ITEMS.add(block);
+		return block;
+	}
+
+	public static void init() {
+		Celestial.LOGGER.debug("Блоки Celestial: {}", WITH_ITEMS.size());
+	}
+}

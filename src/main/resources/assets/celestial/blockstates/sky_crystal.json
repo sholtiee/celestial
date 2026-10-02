@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "celestial:block/sky_crystal",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "celestial:block/sky_crystal",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "celestial:block/sky_crystal",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "celestial:block/sky_crystal",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "celestial:block/sky_crystal"
+    },
+    "facing=west": {
+      "model": "celestial:block/sky_crystal",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

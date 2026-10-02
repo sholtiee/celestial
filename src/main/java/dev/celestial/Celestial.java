@@ -1,5 +1,8 @@
 package dev.celestial;
 
+import dev.celestial.registry.ModBlocks;
+import dev.celestial.registry.ModCreativeTab;
+import dev.celestial.registry.ModItems;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
@@ -11,6 +14,9 @@ public class Celestial implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		ModBlocks.init();
+		ModItems.init();
+		ModCreativeTab.init();
 		LOGGER.info("Celestial: небеса открываются");
 	}
 

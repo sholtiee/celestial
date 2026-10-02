@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "celestial:etherite"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "celestial:etherite"
+      }
+    ]
+  }
+}

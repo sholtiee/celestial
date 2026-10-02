@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "#celestial:skywood_logs"
+  ],
+  "result": {
+    "id": "celestial:skywood_planks",
+    "count": 4
+  }
+}

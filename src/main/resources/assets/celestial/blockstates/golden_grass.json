@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "celestial:block/golden_grass"
+      },
+      {
+        "model": "celestial:block/golden_grass",
+        "y": 90
+      },
+      {
+        "model": "celestial:block/golden_grass",
+        "y": 180
+      },
+      {
+        "model": "celestial:block/golden_grass",
+        "y": 270
+      }
+    ]
+  }
+}

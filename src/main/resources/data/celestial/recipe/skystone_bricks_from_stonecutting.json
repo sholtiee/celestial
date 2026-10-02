@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "celestial:skystone",
+  "result": {
+    "id": "celestial:skystone_bricks",
+    "count": 1
+  }
+}

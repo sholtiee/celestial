@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "celestial:heaven_dirt",
+    "celestial:golden_grass",
+    "celestial:cloud",
+    "celestial:golden_cloud",
+    "celestial:rain_cloud"
+  ]
+}

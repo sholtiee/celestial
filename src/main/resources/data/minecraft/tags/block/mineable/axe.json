@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "celestial:skywood_log",
+    "celestial:skywood_wood",
+    "celestial:skywood_planks",
+    "celestial:skywood_stairs",
+    "celestial:skywood_slab",
+    "celestial:skywood_fence",
+    "celestial:skywood_fence_gate",
+    "celestial:manna_bush"
+  ]
+}

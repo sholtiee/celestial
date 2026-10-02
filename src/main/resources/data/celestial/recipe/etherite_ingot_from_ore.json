@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 1.0,
+  "ingredient": "celestial:etherite_ore",
+  "result": {
+    "id": "celestial:etherite_ingot"
+  }
+}

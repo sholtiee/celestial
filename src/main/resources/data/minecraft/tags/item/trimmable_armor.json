@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "celestial:etherite_helmet",
+    "celestial:etherite_chestplate",
+    "celestial:etherite_leggings",
+    "celestial:etherite_boots"
+  ]
+}

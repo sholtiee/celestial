@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "celestial:cloud",
+    "minecraft:water_bucket"
+  ],
+  "result": {
+    "id": "celestial:rain_cloud"
+  }
+}

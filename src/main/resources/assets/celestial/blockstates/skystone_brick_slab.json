@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "celestial:block/skystone_brick_slab"
+    },
+    "type=double": {
+      "model": "celestial:block/skystone_bricks"
+    },
+    "type=top": {
+      "model": "celestial:block/skystone_brick_slab_top"
+    }
+  }
+}

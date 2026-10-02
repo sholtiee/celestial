@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "celestial:block/skywood_log",
+    "side": "celestial:block/skywood_log"
+  }
+}

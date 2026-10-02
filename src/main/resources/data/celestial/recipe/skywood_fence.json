@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "W": "celestial:skywood_planks",
+    "#": "minecraft:stick"
+  },
+  "pattern": [
+    "W#W",
+    "W#W"
+  ],
+  "result": {
+    "id": "celestial:skywood_fence",
+    "count": 3
+  },
+  "group": "wooden_fence"
+}

@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "celestial:skystone",
+    "celestial:skystone_bricks",
+    "celestial:skystone_brick_stairs",
+    "celestial:skystone_brick_slab",
+    "celestial:skystone_brick_wall",
+    "celestial:radiant_stone",
+    "celestial:etherite_ore",
+    "celestial:starquartz_ore",
+    "celestial:etherite_block",
+    "celestial:sky_crystal"
+  ]
+}

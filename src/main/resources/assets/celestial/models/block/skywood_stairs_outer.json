@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "celestial:block/skywood_planks",
+    "side": "celestial:block/skywood_planks",
+    "top": "celestial:block/skywood_planks"
+  }
+}
