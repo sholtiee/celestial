@@ -264,7 +264,7 @@ def features():
 
 
 # ------------------------------------------------------------------ биомы
-def biome(name, sky, fog, grass, features_by_step, music='minecraft:music.overworld.cherry_grove', creatures=None, monsters=None):
+def biome(name, sky, fog, grass, features_by_step, music='minecraft:music.overworld.cherry_grove', creatures=None, monsters=None, ambient=None):
     steps = [[] for _ in range(11)]
     for step, fs in features_by_step.items():
         # единый порядок фич во всех биомах, иначе игра падает с «Feature order cycle»
@@ -274,6 +274,8 @@ def biome(name, sky, fog, grass, features_by_step, music='minecraft:music.overwo
         spawns['creature'] = creatures
     if monsters:
         spawns['monster'] = monsters
+    if ambient:
+        spawns['ambient'] = ambient
     attributes = {
         'minecraft:audio/background_music': {'default': {'max_delay': 9000, 'min_delay': 2400, 'sound': music}},
         'minecraft:visual/sky_color': sky,
@@ -295,17 +297,29 @@ ORES = ['ore_etherite', 'ore_etherite_rich', 'ore_starquartz', 'ore_radiant']
 LOCAL_MODS, UNDERGROUND_ORES, VEGETAL = 2, 6, 9
 
 
+def spawn(mob, weight, lo, hi):
+    return {'type': c(mob), 'count': lo if lo == hi else {'type': 'minecraft:uniform', 'min_inclusive': lo, 'max_inclusive': hi}, 'weight': weight}
+
+
+MONSTERS = [spawn('fallen_guardian', 100, 1, 3), spawn('winged_serpent', 40, 1, 2), spawn('storm_spirit', 25, 1, 1)]
+WISPS = [spawn('light_wisp', 10, 1, 3)]
+
+
 def biomes():
     biome('golden_meadows', '#8ec9ff', '#fdf3d4', '#f0c94a', {
-        UNDERGROUND_ORES: ORES, VEGETAL: ['sky_clouds', 'sky_golden_clouds', 'trees_golden_meadows', 'patch_manna', 'crystals_rare']})
+        UNDERGROUND_ORES: ORES, VEGETAL: ['sky_clouds', 'sky_golden_clouds', 'trees_golden_meadows', 'patch_manna', 'crystals_rare']},
+        creatures=[spawn('pegasus', 8, 2, 4), spawn('cloud_whale', 3, 1, 1), spawn('angel', 1, 1, 1)], monsters=MONSTERS, ambient=WISPS)
     biome('cloud_forest', '#a9d4ff', '#ffffff', '#e8d070', {
         UNDERGROUND_ORES: ORES, VEGETAL: ['sky_clouds', 'sky_rain_clouds', 'trees_cloud_forest', 'patch_manna']},
-        music='minecraft:music.overworld.meadow')
+        music='minecraft:music.overworld.meadow',
+        creatures=[spawn('cloud_whale', 6, 1, 2), spawn('pegasus', 3, 1, 2)], monsters=MONSTERS, ambient=WISPS)
     biome('crystal_spires', '#9cc1ff', '#e6ecff', '#d8e2f0', {
         UNDERGROUND_ORES: ORES, VEGETAL: ['sky_clouds', 'radiant_spires', 'crystals_common']},
-        music='minecraft:music.overworld.grove')
+        music='minecraft:music.overworld.grove',
+        monsters=[spawn('storm_spirit', 60, 1, 2), spawn('fallen_guardian', 60, 1, 2), spawn('winged_serpent', 30, 1, 2)], ambient=WISPS)
     biome('rainbow_shoals', '#b9b0ff', '#ffe9f6', '#ffd38a', {
-        UNDERGROUND_ORES: ORES, VEGETAL: ['sky_clouds', 'sky_golden_clouds', 'patch_manna', 'trees_golden_meadows']})
+        UNDERGROUND_ORES: ORES, VEGETAL: ['sky_clouds', 'sky_golden_clouds', 'patch_manna', 'trees_golden_meadows']},
+        creatures=[spawn('pegasus', 6, 2, 3), spawn('cloud_whale', 4, 1, 1)], monsters=MONSTERS, ambient=WISPS)
 
 
 def main():

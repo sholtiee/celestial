@@ -9,7 +9,71 @@
     },
     "minecraft:visual/sky_color": "#a9d4ff",
     "minecraft:visual/fog_color": "#ffffff",
-    "minecraft:visual/water_fog_color": "#c8f0ff"
+    "minecraft:visual/water_fog_color": "#c8f0ff",
+    "minecraft:gameplay/natural_mob_spawns": {
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "creature": [
+            {
+              "type": "celestial:cloud_whale",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 2
+              },
+              "weight": 6
+            },
+            {
+              "type": "celestial:pegasus",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 2
+              },
+              "weight": 3
+            }
+          ],
+          "monster": [
+            {
+              "type": "celestial:fallen_guardian",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 3
+              },
+              "weight": 100
+            },
+            {
+              "type": "celestial:winged_serpent",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 2
+              },
+              "weight": 40
+            },
+            {
+              "type": "celestial:storm_spirit",
+              "count": 1,
+              "weight": 25
+            }
+          ],
+          "ambient": [
+            {
+              "type": "celestial:light_wisp",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 3
+              },
+              "weight": 10
+            }
+          ]
+        }
+      },
+      "modifier": "overlay"
+    }
   },
   "carvers": [],
   "downfall": 0.4,

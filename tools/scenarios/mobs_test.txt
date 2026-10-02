@@ -1,0 +1,25 @@
+# Осмотр существ Рая: ставим их в ряд без ИИ и фотографируем
+/execute in celestial:heaven run tp @s 19 140 -7 0 10
+/effect clear @s
+/time set 6000
+/gamerule advance_time false
+wait 60
+/execute in celestial:heaven run fill 7 131 -9 31 131 8 celestial:skystone_bricks
+/execute in celestial:heaven run fill 7 132 -9 31 140 8 minecraft:air
+/execute in celestial:heaven run tp @s 19 132 -7 0 8
+/kill @e[type=!minecraft:player]
+/execute in celestial:heaven run summon celestial:fallen_guardian 12 132 2 {NoAI:1b,Rotation:[180f,0f]}
+/execute in celestial:heaven run summon celestial:angel 15 132 2 {NoAI:1b,Rotation:[180f,0f]}
+/execute in celestial:heaven run summon celestial:storm_spirit 18 132 2 {NoAI:1b,Rotation:[180f,0f]}
+/execute in celestial:heaven run summon celestial:light_wisp 21 133 1 {NoAI:1b}
+/execute in celestial:heaven run summon celestial:pegasus 25 132 3 {NoAI:1b,Rotation:[150f,0f],Tame:1b}
+/execute in celestial:heaven run summon celestial:winged_serpent 19 136 2 {NoAI:1b,Rotation:[200f,0f]}
+togglehud
+wait 40
+shot mobs_row
+/kill @e[type=!minecraft:player]
+/execute in celestial:heaven run summon celestial:cloud_whale 19 136 10 {NoAI:1b,Rotation:[120f,0f]}
+/execute in celestial:heaven run tp @s 19 132 -7 0 -12
+wait 40
+shot mobs_whale
+quit

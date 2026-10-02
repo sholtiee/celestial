@@ -12,6 +12,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 import textures as T  # noqa: E402
+import mob_textures as M  # noqa: E402
 
 ROOT = os.path.join(os.path.dirname(__file__), '..')
 RES = os.path.join(ROOT, 'src/main/resources')
@@ -494,9 +495,119 @@ def gen_items():
     shaped('etherite_boots', c('etherite_boots'), ['X X', 'X X'], {'X': I}, 1, 'equipment')
 
 
+def entity_loot(name, entries):
+    """entries: список (предмет, мин, макс[, шанс_только_от_игрока])."""
+    pools = []
+    for e in entries:
+        item, lo, hi = e[:3]
+        pool = {'entries': [{'type': 'minecraft:item', 'name': item, 'modifier': [
+            {'type': 'minecraft:set_count', 'count': {'type': 'minecraft:uniform', 'min': lo, 'max': hi}},
+            {'type': 'minecraft:enchanted_count_increase', 'count': {'type': 'minecraft:uniform', 'min': 0.0, 'max': 1.0}, 'enchantment': 'minecraft:looting'}]}],
+            'rolls': 1}
+        if len(e) > 3:
+            pool['condition'] = {'type': 'minecraft:all_of', 'terms': [
+                {'type': 'minecraft:killed_by_player'}, {'type': 'minecraft:random_chance', 'chance': e[3]}]}
+        pools.append(pool)
+    write_json(os.path.join(DATA, 'loot_table/entities', name + '.json'),
+               {'type': 'minecraft:entity', 'pools': pools, 'random_sequence': c('entities/' + name)})
+
+
+def trade(name, gives, gives_count, wants, wants_count, max_uses=12):
+    write_json(os.path.join(DATA, 'villager_trade/angel', name + '.json'), {
+        'gives': {'id': gives, **({'count': gives_count} if gives_count > 1 else {})},
+        'max_uses': max_uses, 'reputation_discount': 0.0,
+        'wants': {'id': wants, **({'count': wants_count} if wants_count > 1 else {})}})
+    return c('angel/' + name)
+
+
+def gen_mobs():
+    textures = {
+        'fallen_guardian': M.fallen_guardian(), 'angel': M.angel(), 'fallen_seraph': M.fallen_seraph(),
+        'storm_spirit': M.storm_spirit(), 'winged_serpent': M.winged_serpent(), 'cloud_whale': M.cloud_whale(),
+        'light_wisp': M.light_wisp(), 'pegasus': M.pegasus(), 'pegasus_baby': M.pegasus(baby=True),
+    }
+    for k, img in textures.items():
+        save_png(img, 'entity/' + k)
+    save_png(M.seraph_wings_layer(), 'entity/equipment/wings/seraph_wings')
+    write_json(os.path.join(ASSETS, 'equipment/seraph_wings.json'), {'layers': {'wings': [{'texture': c('seraph_wings')}]}})
+
+    mobs = {
+        'fallen_guardian': ('Падший страж', 'Fallen Guardian', '#4a5263', '#5ff5ff'),
+        'storm_spirit': ('Грозовой дух', 'Storm Spirit', '#4d5770', '#bfe9ff'),
+        'winged_serpent': ('Крылатый змей', 'Winged Serpent', '#dcb252', '#7a5418'),
+        'cloud_whale': ('Облачный кит', 'Cloud Whale', '#eef3fa', '#9db4d6'),
+        'light_wisp': ('Светлячок-проводник', 'Light Wisp', '#fff6c8', '#ffb92e'),
+        'angel': ('Небесный житель', 'Angel', '#f7f4ec', '#e3b54a'),
+        'pegasus': ('Пегас', 'Pegasus', '#faf8ff', '#efc24f'),
+    }
+    for k, (ru, en, base, spots) in mobs.items():
+        tr(f'entity.{NS}.{k}', ru, en)
+        egg = k + '_spawn_egg'
+        save_png(M.spawn_egg(base, spots), 'item/' + egg)
+        model('item/' + egg, {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('item/' + egg)}})
+        item_def(egg, c('item/' + egg))
+        item_name(egg, f'Яйцо призыва: {ru.lower() if k != "angel" else ru}', f'{en} Spawn Egg')
+
+    # крылья Серафима — предмет
+    wings_icon = T.sprite([
+        '................',
+        '.11..........11.',
+        '.121........121.',
+        '.1221......1221.',
+        '.12221....12221.',
+        '..12231..13221..',
+        '..122231132221..',
+        '...1222332221...',
+        '...1222332221...',
+        '....12233221....',
+        '....1223.3221...',
+        '.....12...21....',
+        '......1....1....',
+        '................',
+        '................',
+        '................'], {'1': '#c9b27a', '2': '#ffffff', '3': '#f3d27a'})
+    save_png(wings_icon, 'item/seraph_wings')
+    model('item/seraph_wings', {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('item/seraph_wings')}})
+    item_def('seraph_wings', c('item/seraph_wings'))
+    item_name('seraph_wings', 'Крылья Серафима', 'Seraph Wings')
+
+    # добыча
+    entity_loot('fallen_guardian', [('minecraft:gold_nugget', 1, 4), (c('raw_etherite'), 0, 1), (c('starquartz'), 1, 1, 0.12)])
+    entity_loot('storm_spirit', [(c('starquartz'), 1, 2), ('minecraft:glowstone_dust', 0, 2)])
+    entity_loot('winged_serpent', [('minecraft:phantom_membrane', 0, 1), (c('cloud_fluff'), 0, 2)])
+    entity_loot('cloud_whale', [(c('cloud_fluff'), 3, 6)])
+    entity_loot('light_wisp', [('minecraft:glowstone_dust', 1, 1)])
+    entity_loot('pegasus', [('minecraft:leather', 0, 2)])
+    entity_loot('angel', [])
+
+    # торговля ангелов: валюта — звёздный кварц и эфирит
+    S, E = c('starquartz'), c('etherite_ingot')
+    common = [
+        trade('manna', c('manna_berries'), 6, S, 1),
+        trade('golden_cloud', c('golden_cloud'), 4, S, 2),
+        trade('skywood_sapling', c('skywood_sapling'), 2, S, 1),
+        trade('cloud_fluff', c('cloud_fluff'), 8, S, 1),
+        trade('radiant_stone', c('radiant_stone'), 2, E, 1),
+        trade('starquartz_for_raw', S, 2, c('raw_etherite'), 3, 16),
+    ]
+    rare = [
+        trade('saddle', 'minecraft:saddle', 1, E, 2, 3),
+        trade('golden_apple', 'minecraft:golden_apple', 1, E, 3, 4),
+        trade('experience', 'minecraft:experience_bottle', 4, S, 3),
+        trade('name_tag', 'minecraft:name_tag', 1, S, 4, 2),
+    ]
+    write_json(os.path.join(DATA, 'tags/villager_trade/angel/common.json'), {'values': common})
+    write_json(os.path.join(DATA, 'tags/villager_trade/angel/rare.json'), {'values': rare})
+    write_json(os.path.join(DATA, 'trade_set/angel/common.json'),
+               {'amount': 4, 'random_sequence': c('trade_set/angel/common'), 'trades': '#celestial:angel/common'})
+    write_json(os.path.join(DATA, 'trade_set/angel/rare.json'),
+               {'amount': 2, 'random_sequence': c('trade_set/angel/rare'), 'trades': '#celestial:angel/rare'})
+
+
 def main():
     gen_blocks()
     gen_items()
+    gen_mobs()
     write_tags()
     T.icon().save(os.path.join(ASSETS, 'icon.png'))
     for lang, entries in LANG.items():

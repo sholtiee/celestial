@@ -21,6 +21,10 @@ import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.item.equipment.EquipmentAssets;
+import net.minecraft.world.item.equipment.Equippable;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.util.Unit;
+import net.minecraft.world.entity.EquipmentSlot;
 
 public final class ModItems {
 	/** Все предметы мода в порядке регистрации (для творческой вкладки). */
@@ -60,6 +64,15 @@ public final class ModItems {
 	// Сюжетные предметы
 	public static final Item FLAME_SHARD = register("flame_shard", Item::new, new Item.Properties().rarity(Rarity.RARE).fireResistant().stacksTo(16));
 	public static final Item VOID_HEART = register("void_heart", dev.celestial.item.VoidHeartItem::new, new Item.Properties().rarity(Rarity.EPIC).stacksTo(1));
+
+	// Крылья Серафима: как элитры, но во время полёта можно взмахивать (см. SeraphWingsHandler)
+	public static final ResourceKey<EquipmentAsset> SERAPH_WINGS_ASSET = ResourceKey.create(EquipmentAssets.ROOT_ID, Celestial.id("seraph_wings"));
+	public static final Item SERAPH_WINGS = register("seraph_wings", Item::new, new Item.Properties()
+		.durability(640).rarity(Rarity.EPIC)
+		.component(DataComponents.GLIDER, Unit.INSTANCE)
+		.component(DataComponents.EQUIPPABLE, Equippable.builder(EquipmentSlot.CHEST).setEquipSound(SoundEvents.ARMOR_EQUIP_ELYTRA)
+			.setAsset(SERAPH_WINGS_ASSET).setDamageOnHurt(false).build())
+		.repairable(STARQUARTZ));
 
 	private ModItems() {}
 

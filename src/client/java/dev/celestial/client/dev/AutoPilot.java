@@ -75,6 +75,10 @@ public final class AutoPilot {
 			BlockHitResult hit = new BlockHitResult(Vec3.atCenterOf(pos).relative(face, 0.5), face, pos, false);
 			mc.gameMode.useItemOn(mc.player, InteractionHand.MAIN_HAND, hit);
 			waitTicks = 5;
+		} else if (step.equals("clearchat")) {
+			mc.gui.hud.getChat().clearMessages(false);
+		} else if (step.equals("togglehud")) {
+			mc.gui.hud.toggle();
 		} else if (step.equals("pos")) {
 			Celestial.LOGGER.info("Автопилот: позиция {} {} {} {} блок-под-ногами={}", mc.player.level().dimension().identifier(),
 				(int) Math.floor(mc.player.getX()), (int) Math.floor(mc.player.getY()), (int) Math.floor(mc.player.getZ()),

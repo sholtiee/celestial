@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "celestial:item/cloud_whale_spawn_egg"
+  }
+}

@@ -2,6 +2,7 @@ package dev.celestial;
 
 import dev.celestial.registry.ModBlocks;
 import dev.celestial.registry.ModCreativeTab;
+import dev.celestial.registry.ModEntities;
 import dev.celestial.registry.ModItems;
 import dev.celestial.world.HeavenDimension;
 import net.fabricmc.api.ModInitializer;
@@ -17,6 +18,7 @@ public class Celestial implements ModInitializer {
 	public void onInitialize() {
 		ModBlocks.init();
 		ModItems.init();
+		ModEntities.init();
 		ModCreativeTab.init();
 		HeavenDimension.init();
 		LOGGER.info("Celestial: небеса открываются");
