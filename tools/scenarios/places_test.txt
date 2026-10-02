@@ -1,0 +1,79 @@
+# Места Угасания: обсерватория, Звездочёт + телескоп, Пылающее святилище (испытание), Разлом Пустоты
+/gamemode creative
+/execute in minecraft:overworld run tp @s 93 90 -293
+wait 60
+/time set 6000
+/gamerule advance_time false
+/gamerule spawn_monsters false
+/place structure celestial:observatory 120 70 -293
+wait 40
+/tp @s 100 95 -270 -150 25
+wait 40
+togglehud
+shot places_observatory
+togglehud
+/execute positioned 120 70 -293 run tp @s ~ ~ ~ 0 0
+pos
+/execute as @s at @s run tp @s ~ ~2 ~
+wait 20
+shot places_observatory_in
+# Звездочёт
+/summon minecraft:villager 98 90 -293 {NoAI:1b,VillagerData:{profession:"celestial:stargazer",level:2,type:"minecraft:plains"}}
+/execute in minecraft:overworld run tp @s 95 90 -293 -90 10
+fly
+wait 30
+shot places_stargazer
+/data get entity @e[type=minecraft:villager,limit=1,sort=nearest] Offers.Recipes[0].sell.id
+/data get entity @e[type=minecraft:villager,limit=1,sort=nearest] Offers.Recipes
+# телескоп ночью
+/time set 18000
+/setblock 95 89 -290 celestial:telescope
+/tp @s 95 90 -292 0 40
+wait 10
+use 95 89 -290 up
+wait 20
+shot places_telescope
+clearchat
+# Ад: Пылающее святилище
+/execute in minecraft:the_nether run tp @s 11 45 11
+wait 60
+/execute in minecraft:the_nether run place structure celestial:flame_sanctuary 0 33 0
+wait 40
+/execute in minecraft:the_nether run tp @s 11 42 5 facing 11 33 11
+/effect give @s minecraft:night_vision 99 0 true
+wait 40
+togglehud
+shot places_sanctuary
+togglehud
+/gamemode survival
+/effect give @s minecraft:resistance 600 4 true
+/effect give @s minecraft:fire_resistance 600 0 true
+/execute in minecraft:the_nether run tp @s 11 35 14 180 30
+wait 20
+pos
+usenear celestial:trial_crystal
+wait 40
+shot places_trial_fire
+/kill @e[type=minecraft:blaze]
+/kill @e[type=minecraft:wither_skeleton]
+wait 60
+/kill @e[type=minecraft:magma_cube]
+/kill @e[type=minecraft:blaze]
+wait 60
+/kill @e[type=minecraft:wither_skeleton]
+/kill @e[type=minecraft:blaze]
+wait 80
+/execute if entity @e[type=minecraft:item,nbt={Item:{id:"celestial:flame_shard"}}] run say ОСКОЛОК_ПЛАМЕНИ_ВЫПАЛ
+shot places_trial_done
+/gamemode creative
+# Энд: Разлом Пустоты
+/execute in minecraft:the_end run tp @s 1000 100 0
+wait 80
+/execute in minecraft:the_end run place structure celestial:void_rift 1000 60 0
+wait 40
+/execute in minecraft:the_end run tp @s 1000 80 -12 facing 1000 60 8
+wait 40
+togglehud
+shot places_rift
+togglehud
+quit

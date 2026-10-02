@@ -174,6 +174,32 @@ public final class AutoPilot {
 			};
 			key.setDown(true);
 			held.put(key, Integer.parseInt(a[1]));
+		} else if (step.startsWith("interact ")) {
+			// interact <id сущности> — правый клик по ближайшей такой сущности в радиусе 6
+			var id = net.minecraft.resources.Identifier.parse(step.substring(9).strip());
+			mc.player.level().getEntities(mc.player, mc.player.getBoundingBox().inflate(6),
+					e -> net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(e.getType()).equals(id)).stream()
+				.min(java.util.Comparator.comparingDouble(e -> e.distanceToSqr(mc.player)))
+				.ifPresent(e -> mc.gameMode.interact(mc.player, e, new net.minecraft.world.phys.EntityHitResult(e, e.position().add(0, e.getBbHeight() / 2, 0)),
+					InteractionHand.MAIN_HAND));
+			waitTicks = 5;
+		} else if (step.startsWith("usenear ")) {
+			// usenear <id блока> — правый клик по ближайшему такому блоку в радиусе 8 (верхняя грань)
+			var id = net.minecraft.resources.Identifier.parse(step.substring(8).strip());
+			BlockPos best = null;
+			for (BlockPos p : BlockPos.betweenClosed(mc.player.blockPosition().offset(-8, -4, -8), mc.player.blockPosition().offset(8, 4, 8))) {
+				if (net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(mc.player.level().getBlockState(p).getBlock()).equals(id)
+					&& (best == null || p.distSqr(mc.player.blockPosition()) < best.distSqr(mc.player.blockPosition()))) {
+					best = p.immutable();
+				}
+			}
+			if (best == null) {
+				Celestial.LOGGER.warn("Автопилот: блок {} рядом не найден", id);
+			} else {
+				Celestial.LOGGER.info("Автопилот: usenear {} в {}", id, best);
+				mc.gameMode.useItemOn(mc.player, InteractionHand.MAIN_HAND, new BlockHitResult(Vec3.atCenterOf(best).relative(Direction.UP, 0.5), Direction.UP, best, false));
+			}
+			waitTicks = 5;
 		} else if (step.startsWith("codex ")) {
 			// codex saga|grace|bestiary|places|guide — открыть вкладку Кодекса
 			mc.gui.setScreen(dev.celestial.client.grace.CodexScreen.onTab(step.substring(6).strip()));

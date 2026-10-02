@@ -10,3 +10,4 @@ python3 gen_structures.py
 python3 gen_story.py
 python3 gen_grace.py
 python3 gen_fading.py
+python3 gen_places.py

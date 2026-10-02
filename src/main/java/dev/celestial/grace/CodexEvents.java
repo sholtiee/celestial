@@ -12,7 +12,7 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 
 /** Кодекс заполняется сам: бестиарий — при победе над существом мода, места — при посещении построек. */
 public final class CodexEvents {
-	private static final TagKey<Structure> PLACES = TagKey.create(Registries.STRUCTURE, dev.celestial.Celestial.id("wisp_guides_to"));
+	private static final TagKey<Structure> PLACES = TagKey.create(Registries.STRUCTURE, dev.celestial.Celestial.id("codex_places"));
 
 	private CodexEvents() {}
 

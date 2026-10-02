@@ -1,0 +1,16 @@
+{
+  "gives": {
+    "id": "celestial:rune_of_stars"
+  },
+  "max_uses": 3,
+  "reputation_discount": 0.05,
+  "wants": {
+    "id": "minecraft:emerald",
+    "count": 20
+  },
+  "xp": 15,
+  "additional_wants": {
+    "id": "celestial:star_fragment",
+    "count": 2
+  }
+}

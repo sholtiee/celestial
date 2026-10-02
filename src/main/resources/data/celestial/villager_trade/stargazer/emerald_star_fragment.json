@@ -1,0 +1,12 @@
+{
+  "gives": {
+    "id": "celestial:star_fragment"
+  },
+  "max_uses": 4,
+  "reputation_discount": 0.05,
+  "wants": {
+    "id": "minecraft:emerald",
+    "count": 10
+  },
+  "xp": 10
+}

@@ -22,7 +22,7 @@ public class CodexScreen extends Screen {
 	private static final String[] MOBS = {"fallen_guardian", "storm_spirit", "winged_serpent", "cloud_whale", "light_wisp", "angel", "pegasus",
 		"cherub", "golden_ram", "sky_ray", "cloud_jelly", "mimic", "storm_elemental", "fallen_seraph", "shadow"};
 	private static final String[] PLACES = {"sky_village", "sky_ruins", "trial_tower", "beam_temple", "cloud_castle", "sky_lighthouse",
-		"airship_wreck", "citadel", "meteor_crater"};
+		"airship_wreck", "citadel", "meteor_crater", "observatory", "flame_sanctuary", "void_rift"};
 	private static final int W = 340, H = 210;
 	private static Tab tab = Tab.SAGA;
 	private final List<Component> lines = new ArrayList<>();

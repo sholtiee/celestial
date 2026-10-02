@@ -1,0 +1,19 @@
+# Звездочёт: торговля (уровень 2 — карта к обсерватории)
+/gamemode survival
+/execute in minecraft:overworld run tp @s 93 90 -293 -90 15
+fly
+wait 60
+/time set 6000
+/kill @e[type=minecraft:villager]
+/summon minecraft:villager 95 90 -293 {NoAI:1b,VillagerData:{profession:"celestial:stargazer",level:2,type:"minecraft:plains"}}
+wait 20
+camera front
+wait 10
+shot stargazer_look
+camera first
+interact minecraft:villager
+wait 20
+shot stargazer_trades
+closescreen
+/data get entity @e[type=minecraft:villager,limit=1] Offers.Recipes
+quit

@@ -30,6 +30,15 @@ final class TrialDefinitions {
 		put(map, new TrialDefinition("cloud_castle", Type.WAVES, 0, List.of(
 			List.of(new Spawn(() -> ModEntities.STORM_SPIRIT, 2), new Spawn(() -> ModEntities.WINGED_SERPENT, 2)),
 			List.of(new Spawn(() -> ModEntities.STORM_ELEMENTAL, 1), new Spawn(() -> ModEntities.STORM_SPIRIT, 2))), 3));
+		// Ванильные измерения (Угасание): Пылающее святилище (Ад) и Разлом Пустоты (Энд)
+		put(map, new TrialDefinition("flame_sanctuary", Type.WAVES, 0, List.of(
+			List.of(new Spawn(() -> net.minecraft.world.entity.EntityTypes.BLAZE, 2), new Spawn(() -> net.minecraft.world.entity.EntityTypes.WITHER_SKELETON, 2)),
+			List.of(new Spawn(() -> net.minecraft.world.entity.EntityTypes.MAGMA_CUBE, 3), new Spawn(() -> net.minecraft.world.entity.EntityTypes.BLAZE, 2)),
+			List.of(new Spawn(() -> net.minecraft.world.entity.EntityTypes.WITHER_SKELETON, 3), new Spawn(() -> net.minecraft.world.entity.EntityTypes.BLAZE, 3))), 3));
+		put(map, new TrialDefinition("void_rift", Type.WAVES, 0, List.of(
+			List.of(new Spawn(() -> net.minecraft.world.entity.EntityTypes.ENDERMAN, 3)),
+			List.of(new Spawn(() -> ModEntities.SHADOW, 3), new Spawn(() -> net.minecraft.world.entity.EntityTypes.ENDERMITE, 4)),
+			List.of(new Spawn(() -> ModEntities.SHADOW, 2), new Spawn(() -> net.minecraft.world.entity.EntityTypes.ENDERMAN, 3))), 3));
 		return map;
 	}
 

@@ -1,0 +1,41 @@
+{
+  "gives": {
+    "id": "minecraft:filled_map"
+  },
+  "max_uses": 4,
+  "reputation_discount": 0.05,
+  "wants": {
+    "id": "minecraft:emerald",
+    "count": 10
+  },
+  "xp": 10,
+  "additional_wants": {
+    "id": "minecraft:compass"
+  },
+  "given_item_modifier": [
+    {
+      "type": "minecraft:exploration_map",
+      "decoration": "minecraft:target_x",
+      "destination": "#celestial:observatories",
+      "search_radius": 100
+    },
+    {
+      "type": "minecraft:set_name",
+      "name": {
+        "translate": "filled_map.celestial.observatory"
+      },
+      "target": "item_name"
+    },
+    {
+      "type": "minecraft:filtered",
+      "item_filter": {
+        "predicates": {
+          "minecraft:map_id": {}
+        }
+      },
+      "on_fail": {
+        "type": "minecraft:discard"
+      }
+    }
+  ]
+}

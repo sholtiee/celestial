@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": "minecraft:spyglass",
+    "C": "minecraft:copper_ingot",
+    "F": "celestial:star_fragment",
+    "S": "minecraft:stick"
+  },
+  "pattern": [
+    " G ",
+    "CFC",
+    "S S"
+  ],
+  "result": {
+    "id": "celestial:telescope"
+  }
+}

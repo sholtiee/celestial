@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "celestial:block/telescope"
+    },
+    "facing=east": {
+      "model": "celestial:block/telescope",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "celestial:block/telescope",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "celestial:block/telescope",
+      "y": 270
+    }
+  }
+}
