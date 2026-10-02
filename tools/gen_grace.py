@@ -80,10 +80,14 @@ def main():
         'codex.celestial.saga.fading': ('Угасание мира: %s из 5', 'World Fading: %s of 5'),
         'codex.celestial.saga.stats': ('Благодать %s · Репутация %s · Испытаний %s · Записей %s',
                                        'Grace %s · Reputation %s · Trials %s · Entries %s'),
-        'codex.celestial.saga.text.0': ('Свет мира гаснет. Говорят, над облаками есть Рай, но путь туда закрыт. Найди светлый камень и Сердце Пустоты.',
-                                        'The world\'s light is fading. They say Heaven lies above the clouds, but the way is shut. Find glowstone and a Void Heart.'),
-        'codex.celestial.saga.text.1': ('Рай пал вместе с Серафимом. Собери три Осколка Света, верни их на алтарь и одолей Падшего в Цитадели.',
-                                        'Heaven fell with its Seraph. Gather three Light Shards, return them to the altar and defeat the Fallen in the Citadel.'),
+        'codex.celestial.saga.text.0': ('Акт I «Угасающий свет». Свет мира гаснет. Собери три осколка: Пламя (Пылающее святилище в Аду), '
+                                        'Пустоту (дракон Энда или Разлом Пустоты) и Свет (Падший Серафим в Цитадели Рая) — и верни их на алтарь Цитадели.',
+                                        'Act I "The Fading Light". The world\'s light is fading. Gather three shards: Flame (the Blazing Sanctuary in the Nether), '
+                                        'Void (the Ender Dragon or a Void Rift) and Light (the Fallen Seraph in Heaven\'s Citadel), then return them to the Citadel altar.'),
+        'codex.celestial.saga.text.1': ('Акт I пройден. Угасание отступило, но на груди Серафима был знак Безликого — лицо без лица. '
+                                        'Что-то ждёт под облаками Рая. Сага продолжится в Бездне.',
+                                        'Act I complete. The Fading has receded, but the Seraph bore the mark of the Faceless: a face without a face. '
+                                        'Something waits beneath Heaven\'s clouds. The saga continues in the Abyss.'),
         'grace.celestial.second_wind': ('Второе дыхание спасло тебя от смерти!', 'Second Wind saved you from death!'),
         'grace.celestial.locked': ('Сначала изучи предыдущий навык', 'Learn the previous skill first'),
         'grace.celestial.not_enough': ('Нужно %s Благодати', 'Requires %s Grace'),
