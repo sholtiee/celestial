@@ -18,8 +18,14 @@ import net.minecraft.world.phys.Vec3;
  * поэтому взмах обрабатывается здесь же, без пакетов.
  */
 public final class SeraphWingsController {
-	public static final int MAX_FLAPS = 5;
-	private static int flaps = MAX_FLAPS;
+	public static final int BASE_FLAPS = 5;
+
+	/** Выносливость крыльев растёт с навыками Благодати. */
+	public static int maxFlaps() {
+		var d = dev.celestial.client.grace.GraceClient.data();
+		return BASE_FLAPS + (d.hasSkill("stamina_1") ? 2 : 0) + (d.hasSkill("stamina_2") ? 3 : 0);
+	}
+	private static int flaps = BASE_FLAPS;
 	private static boolean jumpWasDown;
 	private static int regenTicks;
 	private static int showTicks;
@@ -35,7 +41,7 @@ public final class SeraphWingsController {
 			}
 			int x = graphics.guiWidth() / 2 + 10;
 			int y = graphics.guiHeight() - 49;
-			for (int i = 0; i < MAX_FLAPS; i++) {
+			for (int i = 0; i < maxFlaps(); i++) {
 				int color = i < flaps ? 0xFFFFE9A8 : 0x66FFFFFF;
 				graphics.fill(x + i * 9, y, x + i * 9 + 7, y + 3, color);
 			}
@@ -55,7 +61,7 @@ public final class SeraphWingsController {
 			return;
 		}
 		if (player.onGround() || player.isInWater()) {
-			if (flaps < MAX_FLAPS && ++regenTicks >= 10) {
+			if (flaps < maxFlaps() && ++regenTicks >= 10) {
 				flaps++;
 				regenTicks = 0;
 			}
@@ -65,7 +71,7 @@ public final class SeraphWingsController {
 			if (jumpDown && !jumpWasDown && flaps > 0) {
 				flap(player);
 			}
-		} else if (showTicks > 0 && flaps == MAX_FLAPS) {
+		} else if (showTicks > 0 && flaps == maxFlaps()) {
 			showTicks--;
 		}
 		jumpWasDown = jumpDown;

@@ -17,6 +17,7 @@ public class CelestialClient implements ClientModInitializer {
 			java.util.List.of(net.minecraft.client.color.block.BlockTintSources.doubleTallGrass()), dev.celestial.registry.ModBlocks.TALL_GOLDEN_GRASS);
 		CelestialRenderers.init();
 		SeraphWingsController.init();
+		dev.celestial.client.grace.GraceClient.init();
 		AutoPilot.init();
 	}
 }

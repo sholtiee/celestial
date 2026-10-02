@@ -57,6 +57,9 @@ public final class CelestialCommand {
 					ctx.getSource().sendSuccess(() -> Component.literal("Благодать: " + data.grace()), true);
 					return data.grace();
 				})))
+			.then(Commands.literal("learn")
+				.then(Commands.argument("skill", StringArgumentType.word()).executes(ctx ->
+					dev.celestial.grace.Grace.learn(ctx.getSource().getPlayerOrException(), StringArgumentType.getString(ctx, "skill")) ? 1 : 0)))
 			.then(Commands.literal("beacon")
 				.then(Commands.argument("pos", net.minecraft.commands.arguments.coordinates.BlockPosArgument.blockPos())
 					.then(Commands.argument("dimension", net.minecraft.commands.arguments.IdentifierArgument.id()).executes(ctx -> {
@@ -74,7 +77,7 @@ public final class CelestialCommand {
 					.executes(ctx -> dev.celestial.quest.Quests.turnIn(ctx.getSource().getPlayerOrException(),
 						net.minecraft.commands.arguments.coordinates.BlockPosArgument.getBlockPos(ctx, "board"))))))
 			.then(Commands.literal("codex").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
-				.then(Commands.argument("entry", StringArgumentType.word()).executes(ctx -> {
+				.then(Commands.argument("entry", StringArgumentType.greedyString()).executes(ctx -> {
 					String entry = StringArgumentType.getString(ctx, "entry");
 					CelestialData.update(ctx.getSource().getPlayerOrException(), d -> d.withCodex(entry));
 					ctx.getSource().sendSuccess(() -> Component.literal("Кодекс: + " + entry), true);

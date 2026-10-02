@@ -1,0 +1,88 @@
+# Благодать: навыки, заклинания, двойной прыжок/рывок, экран Кодекса
+/gamemode survival
+/time set 6000
+/gamerule advance_time false
+/gamerule spawn_monsters false
+/effect give @s minecraft:resistance 600 4 true
+/execute in celestial:heaven run tp @s 0 160 -40 0 20
+fly
+wait 80
+/celestial grace 40
+/celestial codex mob:pegasus
+/celestial codex mob:angel
+/celestial codex place:sky_village
+/celestial learn stamina_1
+/celestial learn double_jump
+/celestial learn dash
+/celestial learn light_bolt
+/celestial learn radiance_pool
+/celestial learn vigor
+/celestial learn heavenly_strike
+/celestial learn flash
+/celestial learn starfall
+wait 10
+clearchat
+press codex
+wait 20
+shot grace_codex_saga
+closescreen
+/celestial codex mob:angel
+/celestial codex mob:pegasus
+/celestial codex place:sky_village
+wait 5
+codex grace
+wait 10
+shot grace_codex_tree
+codex bestiary
+wait 10
+shot grace_codex_bestiary
+codex guide
+wait 10
+shot grace_codex_guide
+closescreen
+
+/celestial status
+wait 20
+shot grace_status
+clearchat
+# HUD + заклинания
+/summon minecraft:zombie ~4 ~ ~ {NoAI:1b}
+/summon minecraft:zombie ~-4 ~ ~ {NoAI:1b}
+wait 20
+press cast
+wait 20
+shot grace_scouts
+press cycle
+wait 5
+/tp @s ~ ~ ~ 90 10
+wait 5
+press cast
+wait 10
+shot grace_lightbolt
+press cycle
+wait 5
+press cast
+wait 10
+shot grace_flash
+# двойной прыжок
+/kill @e[type=minecraft:zombie]
+/execute in celestial:heaven run tp @s 0 200 -40
+/setblock ~ ~-1 ~ minecraft:stone
+/gamemode creative
+/gamemode survival
+wait 30
+pos
+hold jump 3
+wait 8
+hold jump 3
+wait 4
+pos
+wait 4
+pos
+wait 40
+press dash
+wait 4
+pos
+wait 20
+/celestial status
+quit

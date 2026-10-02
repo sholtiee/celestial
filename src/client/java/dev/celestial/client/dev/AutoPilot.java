@@ -144,7 +144,7 @@ public final class AutoPilot {
 			waitTicks = 5;
 		} else if (step.equals("pos")) {
 			Celestial.LOGGER.info("Автопилот: позиция {} {} {} {} блок-под-ногами={}", mc.player.level().dimension().identifier(),
-				(int) Math.floor(mc.player.getX()), (int) Math.floor(mc.player.getY()), (int) Math.floor(mc.player.getZ()),
+				(int) Math.floor(mc.player.getX()), String.format(java.util.Locale.ROOT, "%.2f", mc.player.getY()), (int) Math.floor(mc.player.getZ()),
 				mc.player.level().getBlockState(mc.player.blockPosition()).getBlock());
 		} else if (step.equals("useitem")) {
 			mc.gameMode.useItem(mc.player, InteractionHand.MAIN_HAND);
@@ -174,6 +174,20 @@ public final class AutoPilot {
 			};
 			key.setDown(true);
 			held.put(key, Integer.parseInt(a[1]));
+		} else if (step.startsWith("codex ")) {
+			// codex saga|grace|bestiary|places|guide — открыть вкладку Кодекса
+			mc.gui.setScreen(dev.celestial.client.grace.CodexScreen.onTab(step.substring(6).strip()));
+			waitTicks = 5;
+		} else if (step.startsWith("press ")) {
+			// press cast|cycle|dash|codex — одиночное нажатие клавиши мода
+			net.minecraft.client.KeyMapping key = switch (step.substring(6).strip()) {
+				case "cast" -> dev.celestial.client.grace.GraceClient.CAST;
+				case "cycle" -> dev.celestial.client.grace.GraceClient.CYCLE;
+				case "dash" -> dev.celestial.client.grace.GraceClient.DASH;
+				default -> dev.celestial.client.grace.GraceClient.CODEX;
+			};
+			net.minecraft.client.KeyMapping.click(key.getDefaultKey());
+			waitTicks = 3;
 		} else if (step.equals("quit")) {
 			mc.stop();
 		}

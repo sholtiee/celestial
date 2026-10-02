@@ -8,3 +8,4 @@ python3 gen_mechanics.py
 python3 gen_world.py
 python3 gen_structures.py
 python3 gen_story.py
+python3 gen_grace.py
