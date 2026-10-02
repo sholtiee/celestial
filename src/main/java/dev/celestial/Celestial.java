@@ -16,6 +16,10 @@ public class Celestial implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		dev.celestial.registry.ModGameRules.init();
+		dev.celestial.data.CelestialData.init();
+		dev.celestial.network.CelestialNetwork.init();
+		dev.celestial.command.CelestialCommand.init();
 		dev.celestial.registry.ModFeatures.init();
 		ModBlocks.init();
 		ModItems.init();
