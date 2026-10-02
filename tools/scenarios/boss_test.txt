@@ -1,0 +1,27 @@
+# Бой с Падшим Серафимом: пробуждение печати и три фазы
+/time set 6000
+/gamerule spawn_monsters false
+goto celestial:citadel 0 -20 -8 0 5
+wait 120
+/gamemode survival
+/effect give @s minecraft:resistance 600 4 true
+/effect give @s minecraft:saturation 600 4 true
+/execute at @s run fill ~-3 ~-1 ~2 ~3 ~-1 ~12 celestial:skystone_bricks
+/execute at @s run setblock ~ ~ ~8 celestial:seraph_seal
+wait 60
+togglehud
+shot boss_awaken
+togglehud
+wait 80
+shot boss_phase1
+/damage @e[type=celestial:fallen_seraph,limit=1] 150 minecraft:player_attack by @s
+wait 120
+shot boss_phase2
+/damage @e[type=celestial:fallen_seraph,limit=1] 140 minecraft:player_attack by @s
+wait 200
+shot boss_phase3
+/damage @e[type=celestial:fallen_seraph,limit=1] 200 minecraft:player_attack by @s
+wait 60
+shot boss_dead
+pos
+quit

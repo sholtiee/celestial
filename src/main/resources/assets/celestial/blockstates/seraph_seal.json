@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "awakened=false": {
       "model": "celestial:block/seraph_seal"
+    },
+    "awakened=true": {
+      "model": "celestial:block/seraph_seal_awakened"
     }
   }
 }

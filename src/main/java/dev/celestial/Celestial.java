@@ -19,6 +19,7 @@ public class Celestial implements ModInitializer {
 		ModBlocks.init();
 		ModItems.init();
 		ModEntities.init();
+		dev.celestial.registry.ModBlockEntities.init();
 		ModCreativeTab.init();
 		HeavenDimension.init();
 		dev.celestial.item.EquipmentEffects.init();

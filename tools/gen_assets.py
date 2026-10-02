@@ -539,6 +539,7 @@ def gen_mobs():
         'light_wisp': ('Светлячок-проводник', 'Light Wisp', '#fff6c8', '#ffb92e'),
         'angel': ('Небесный житель', 'Angel', '#f7f4ec', '#e3b54a'),
         'pegasus': ('Пегас', 'Pegasus', '#faf8ff', '#efc24f'),
+        'fallen_seraph': ('Падший Серафим', 'Fallen Seraph', '#2a2230', '#d4a531'),
     }
     for k, (ru, en, base, spots) in mobs.items():
         tr(f'entity.{NS}.{k}', ru, en)
@@ -579,6 +580,18 @@ def gen_mobs():
     entity_loot('light_wisp', [('minecraft:glowstone_dust', 1, 1)])
     entity_loot('pegasus', [('minecraft:leather', 0, 2)])
     entity_loot('angel', [])
+    write_json(os.path.join(DATA, 'loot_table/entities/fallen_seraph.json'), {'type': 'minecraft:entity', 'pools': [
+        {'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': c('light_shard')}]},
+        {'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': c('seraph_wings')}]},
+        {'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': c('halo')}]},
+        {'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': c('seraph_feather'), 'modifier': [
+            {'type': 'minecraft:set_count', 'count': {'type': 'minecraft:uniform', 'min': 4, 'max': 8}}]}]},
+        {'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': c('etherite_ingot'), 'modifier': [
+            {'type': 'minecraft:set_count', 'count': {'type': 'minecraft:uniform', 'min': 4, 'max': 8}}]}]}],
+        'random_sequence': c('entities/fallen_seraph')})
+    tr('boss.celestial.fallen_seraph.awaken', '§6Печать трескается. Падший Серафим пробуждается!', '§6The seal cracks. The Fallen Seraph awakens!')
+    tr('boss.celestial.fallen_seraph.phase2', '§eСерафим взмывает ввысь: «Свет обрушится на тебя!»', '§eThe Seraph takes flight: "Light shall rain upon you!"')
+    tr('boss.celestial.fallen_seraph.phase3', '§cСерафим в ярости: «Стражи, ко мне!»', '§cThe Seraph rages: "Guardians, to me!"')
 
     # торговля ангелов: валюта — звёздный кварц и эфирит
     S, E = c('starquartz'), c('etherite_ingot')
@@ -693,6 +706,23 @@ def gen_equipment():
             '..1.............',
             '.1..............',
             '................']),
+        'light_shard': ({'1': '#c9a23a', '2': '#fff3c6', '3': '#ffffff', '4': '#ffe08a'}, [
+            '................',
+            '.......1........',
+            '......121.......',
+            '......121.......',
+            '.....12321......',
+            '.....12321......',
+            '....1243421.....',
+            '....1233321.....',
+            '...124333421....',
+            '....1233321.....',
+            '....1243421.....',
+            '.....12321......',
+            '.....12321......',
+            '......121.......',
+            '.......1........',
+            '................']),
         'music_disc_heavenly_choir': ({'1': '#3a3446', '2': '#4d465c', '3': '#f3d27a', '4': '#ffffff'}, [
             '................',
             '.....111111.....',
@@ -721,6 +751,7 @@ def gen_equipment():
         'halo': ('Нимб', 'Halo'), 'cloud_parachute': ('Облачный парашют', 'Cloud Parachute'),
         'starbow': ('Звёздный лук', 'Starbow'), 'light_spear': ('Копьё Света', 'Spear of Light'),
         'seraph_feather': ('Перо серафима', 'Seraph Feather'),
+        'light_shard': ('Осколок Света', 'Light Shard'),
         'music_disc_heavenly_choir': ('Музыкальная пластинка', 'Music Disc'),
     }
     for k, (ru, en) in names.items():
@@ -773,7 +804,16 @@ def gen_keys_and_story_blocks():
     for x, y in [(7, 2), (8, 2), (7, 13), (8, 13), (2, 7), (2, 8), (13, 7), (13, 8)] + [(i, i) for i in range(4, 12)] + [(i, 15 - i) for i in range(4, 12)]:
         seal.putpixel((x, y), (*T.hexrgb('#8a1c1c'), 255))
     save_png(seal, 'block/seraph_seal')
+    dim = seal.copy()
+    for y in range(16):
+        for x in range(16):
+            r_, g_, b_, a_ = dim.getpixel((x, y))
+            dim.putpixel((x, y), (int(r_ * 0.45), int(g_ * 0.45), int(b_ * 0.5), a_))
+    save_png(dim, 'block/seraph_seal_awakened')
     simple_cube('seraph_seal')
+    model('block/seraph_seal_awakened', {'parent': 'minecraft:block/cube_all', 'textures': {'all': c('block/seraph_seal_awakened')}})
+    blockstate('seraph_seal', {'variants': {'awakened=false': {'model': c('block/seraph_seal')},
+                                            'awakened=true': {'model': c('block/seraph_seal_awakened')}}})
     block_name('seraph_seal', 'Печать Серафима', 'Seraph Seal')
     # алтарь: постамент (нижняя часть шире), сверху чаша
     save_png(T.bricks('altar_side', T.SKYSTONE[2:], '#c9a23a'), 'block/celestial_altar_side')

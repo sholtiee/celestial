@@ -22,6 +22,8 @@ import net.minecraft.world.phys.HitResult;
 /** Копьё Света: летит прямо, бьёт светом и подсвечивает цель, затем возвращается в руки хозяину. */
 public class LightSpear extends ThrowableItemProjectile {
 	private static final float DAMAGE = 10.0F;
+	/** Копья, которые обрушивает босс: не возвращаются и исчезают при попадании. */
+	private boolean hostile;
 
 	public LightSpear(EntityType<? extends LightSpear> type, Level level) {
 		super(type, level);
@@ -29,6 +31,16 @@ public class LightSpear extends ThrowableItemProjectile {
 
 	public LightSpear(Level level, LivingEntity owner, ItemStack stack) {
 		super(ModEntities.LIGHT_SPEAR, owner, level, stack);
+	}
+
+	public static LightSpear hostile(Level level, LivingEntity caster, double x, double y, double z) {
+		LightSpear spear = new LightSpear(ModEntities.LIGHT_SPEAR, level);
+		spear.setOwner(caster);
+		spear.setPos(x, y, z);
+		spear.setItem(new ItemStack(ModItems.LIGHT_SPEAR));
+		spear.hostile = true;
+		spear.setDeltaMovement(0, -1.1, 0);
+		return spear;
 	}
 
 	@Override
@@ -55,8 +67,8 @@ public class LightSpear extends ThrowableItemProjectile {
 	protected void onHitEntity(EntityHitResult hit) {
 		super.onHitEntity(hit);
 		Entity target = hit.getEntity();
-		if (level() instanceof ServerLevel level && target != getOwner()) {
-			target.hurtServer(level, damageSources().thrown(this, getOwner()), DAMAGE);
+		if (level() instanceof ServerLevel level && target != getOwner() && !(hostile && target instanceof FallenGuardian)) {
+			target.hurtServer(level, damageSources().thrown(this, getOwner()), hostile ? 7.0F : DAMAGE);
 			if (target instanceof LivingEntity living) {
 				living.addEffect(new MobEffectInstance(MobEffects.GLOWING, 100), this);
 			}
@@ -76,6 +88,13 @@ public class LightSpear extends ThrowableItemProjectile {
 	/** Возвращаем копьё: в инвентарь хозяина или под ноги, если места нет. */
 	private void returnToOwner() {
 		if (isRemoved()) {
+			return;
+		}
+		if (hostile) {
+			if (level() instanceof ServerLevel level) {
+				level.sendParticles(ParticleTypes.END_ROD, getX(), getY(), getZ(), 12, 0.4, 0.2, 0.4, 0.08);
+			}
+			discard();
 			return;
 		}
 		ItemStack stack = getItem().copy();

@@ -4,6 +4,7 @@ import dev.celestial.Celestial;
 import dev.celestial.entity.Angel;
 import dev.celestial.entity.CloudWhale;
 import dev.celestial.entity.FallenGuardian;
+import dev.celestial.entity.FallenSeraph;
 import dev.celestial.entity.LightWisp;
 import dev.celestial.entity.LightSpear;
 import dev.celestial.entity.Pegasus;
@@ -41,6 +42,9 @@ public final class ModEntities {
 	public static final EntityType<Pegasus> PEGASUS = register("pegasus",
 		EntityType.Builder.of(Pegasus::new, MobCategory.CREATURE).sized(1.3964844F, 1.6F).eyeHeight(1.52F).passengerAttachments(1.44375F).clientTrackingRange(10));
 
+	public static final EntityType<FallenSeraph> FALLEN_SERAPH = register("fallen_seraph",
+		EntityType.Builder.of(FallenSeraph::new, MobCategory.MONSTER).fireImmune().sized(0.9F, 2.9F).eyeHeight(2.6F).clientTrackingRange(16));
+
 	// Снаряды (без яиц призыва)
 	public static final EntityType<StarArrow> STAR_ARROW = registerNoEgg("star_arrow",
 		EntityType.Builder.<StarArrow>of(StarArrow::new, MobCategory.MISC).noLootTable().sized(0.5F, 0.5F).eyeHeight(0.13F).clientTrackingRange(4).updateInterval(20));
@@ -69,6 +73,7 @@ public final class ModEntities {
 		FabricDefaultAttributeRegistry.register(LIGHT_WISP, LightWisp.createAttributes());
 		FabricDefaultAttributeRegistry.register(ANGEL, Angel.createAttributes());
 		FabricDefaultAttributeRegistry.register(PEGASUS, Pegasus.createAttributes());
+		FabricDefaultAttributeRegistry.register(FALLEN_SERAPH, FallenSeraph.createAttributes());
 
 		SpawnPlacements.register(FALLEN_GUARDIAN, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
 		SpawnPlacements.register(STORM_SPIRIT, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);

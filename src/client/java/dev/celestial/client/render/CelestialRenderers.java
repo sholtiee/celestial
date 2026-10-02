@@ -43,6 +43,7 @@ public final class CelestialRenderers {
 		EntityRendererRegistry.register(ModEntities.FALLEN_GUARDIAN, ctx -> new Humanoid<>(ctx, tex("fallen_guardian"), 1.0F));
 		EntityRendererRegistry.register(ModEntities.ANGEL, ctx -> new Humanoid<>(ctx, tex("angel"), 0.95F));
 		EntityRendererRegistry.register(ModEntities.STORM_SPIRIT, StormSpiritRenderer::new);
+		EntityRendererRegistry.register(ModEntities.FALLEN_SERAPH, ctx -> new Humanoid<>(ctx, tex("fallen_seraph"), 1.5F));
 		EntityRendererRegistry.register(ModEntities.WINGED_SERPENT, ctx -> new PhantomRenderer(ctx) {
 			@Override
 			public Identifier getTextureLocation(PhantomRenderState state) {

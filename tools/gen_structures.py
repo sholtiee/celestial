@@ -274,7 +274,7 @@ def citadel():
         t.fill(x, top + 1, z, x, top + 8, z, BRICKS)
         t.set(x, top + 9, z, 'minecraft:lantern', hanging=False, waterlogged=False)
     # центр: печать Серафима (заменяется на настоящий блок на этапе босса) и алтарь
-    t.set(cx, top + 1, cz, C('seraph_seal'))
+    t.set(cx, top + 1, cz, C('seraph_seal'), nbt={'id': C('seraph_seal')}, awakened=False)
     t.fill(cx - 1, top + 1, cz + 10, cx + 1, top + 1, cz + 12, RADIANT)
     t.set(cx, top + 2, cz + 11, C('celestial_altar'))
     # сокровищница за аркой
