@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "celestial:item/golden_tuft",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -997046
+      }
+    ]
+  }
+}

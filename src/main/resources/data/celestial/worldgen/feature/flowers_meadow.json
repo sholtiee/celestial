@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:simple_block",
+  "to_place": {
+    "type": "minecraft:weighted",
+    "entries": [
+      {
+        "data": {
+          "id": "celestial:sky_lily"
+        },
+        "weight": 3
+      },
+      {
+        "data": {
+          "id": "celestial:sunbell"
+        },
+        "weight": 3
+      },
+      {
+        "data": {
+          "id": "celestial:dawn_poppy"
+        },
+        "weight": 2
+      },
+      {
+        "data": {
+          "id": "celestial:aether_rose"
+        },
+        "weight": 1
+      }
+    ]
+  }
+}

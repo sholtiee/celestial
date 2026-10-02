@@ -89,6 +89,39 @@ public final class ModBlocks {
 		Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).forceSolidOn().noOcclusion().sound(SoundType.AMETHYST_CLUSTER)
 			.strength(1.5F).lightLevel(s -> 10).pushReaction(PushReaction.POPPED));
 
+	// Флора Рая 0.2
+	public static final Block SKY_LILY = flower("sky_lily", net.minecraft.world.effect.MobEffects.REGENERATION, 0);
+	public static final Block SUNBELL = flower("sunbell", net.minecraft.world.effect.MobEffects.SPEED, 7);
+	public static final Block CLOUDBLOOM = flower("cloudbloom", net.minecraft.world.effect.MobEffects.SLOW_FALLING, 0);
+	public static final Block STARFLOWER = flower("starflower", net.minecraft.world.effect.MobEffects.NIGHT_VISION, 10);
+	public static final Block AETHER_ROSE = flower("aether_rose", net.minecraft.world.effect.MobEffects.STRENGTH, 0);
+	public static final Block DAWN_POPPY = flower("dawn_poppy", net.minecraft.world.effect.MobEffects.JUMP_BOOST, 0);
+	public static final Block GOLDEN_TUFT = register("golden_tuft", TallGrassBlock::new,
+		Properties.of().mapColor(MapColor.GOLD).replaceable().noCollision().instabreak().sound(SoundType.GRASS)
+			.offsetType(net.minecraft.world.level.block.state.BlockBehaviour.OffsetType.XZ).ignitedByLava().pushReaction(PushReaction.POPPED));
+	public static final Block TALL_GOLDEN_GRASS = register("tall_golden_grass", DoublePlantBlock::new,
+		Properties.ofFullCopy(GOLDEN_TUFT));
+	public static final Block CLOUD_MOSS = register("cloud_moss", CarpetBlock::new,
+		Properties.of().mapColor(MapColor.SNOW).strength(0.1F).sound(SoundType.MOSS_CARPET).pushReaction(PushReaction.POPPED));
+	public static final Block LUMIVINE = register("lumivine", dev.celestial.block.LumivineBlock::new,
+		Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).noCollision().instabreak().sound(SoundType.CAVE_VINES)
+			.lightLevel(s -> 9).pushReaction(PushReaction.POPPED));
+	public static final Block SKY_CRYSTAL_BLOCK = register("sky_crystal_block", Block::new,
+		Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).strength(1.5F).sound(SoundType.AMETHYST).requiresCorrectToolForDrops().lightLevel(s -> 6));
+	// Новые деревья: облачная ива и звёздная сосна (ствол — небесное дерево)
+	public static final ResourceKey<Feature> CLOUD_WILLOW_TREE = ResourceKey.create(Registries.FEATURE, Celestial.id("cloud_willow"));
+	public static final ResourceKey<Feature> STARPINE_TREE = ResourceKey.create(Registries.FEATURE, Celestial.id("starpine"));
+	public static final Block CLOUD_WILLOW_LEAVES = register("cloud_willow_leaves", p -> new TintedParticleLeavesBlock(0.03F, p),
+		Blocks.leavesProperties(SoundType.AZALEA_LEAVES).mapColor(MapColor.SNOW));
+	public static final Block STARPINE_LEAVES = register("starpine_leaves", p -> new TintedParticleLeavesBlock(0.01F, p),
+		Blocks.leavesProperties(SoundType.GRASS).mapColor(MapColor.COLOR_BLUE).lightLevel(s -> 5));
+	public static final Block CLOUD_WILLOW_SAPLING = register("cloud_willow_sapling",
+		p -> new SaplingBlock(new TreeGrower("celestial_cloud_willow", WeightedList.of(CLOUD_WILLOW_TREE),
+			WeightedList.of(), WeightedList.of(), null), p), Properties.ofFullCopy(SKYWOOD_SAPLING));
+	public static final Block STARPINE_SAPLING = register("starpine_sapling",
+		p -> new SaplingBlock(new TreeGrower("celestial_starpine", WeightedList.of(STARPINE_TREE),
+			WeightedList.of(), WeightedList.of(), null), p), Properties.ofFullCopy(SKYWOOD_SAPLING));
+
 	// Растения (у куста предмет — сама манна, регистрируется в ModItems)
 	public static final Block MANNA_BUSH = registerNoItem("manna_bush", MannaBushBlock::new,
 		Properties.of().mapColor(MapColor.PLANT).randomTicks().noCollision().sound(SoundType.SWEET_BERRY_BUSH).pushReaction(PushReaction.POPPED).lightLevel(s -> 4));
@@ -104,6 +137,12 @@ public final class ModBlocks {
 		Properties.of().mapColor(MapColor.QUARTZ).strength(-1.0F, 3600000.0F).noLootTable().lightLevel(s -> 10).noOcclusion().sound(SoundType.STONE));
 
 	private ModBlocks() {}
+
+	private static Block flower(String name, net.minecraft.core.Holder<net.minecraft.world.effect.MobEffect> effect, int light) {
+		return register(name, p -> new FlowerBlock(effect, 5.0F, p), Properties.of().mapColor(MapColor.PLANT).noCollision().instabreak()
+			.sound(SoundType.GRASS).offsetType(net.minecraft.world.level.block.state.BlockBehaviour.OffsetType.XZ)
+			.pushReaction(PushReaction.POPPED).lightLevel(s -> light));
+	}
 
 	private static Block registerNoItem(String name, Function<Properties, Block> factory, Properties properties) {
 		ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, Celestial.id(name));

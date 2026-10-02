@@ -6,6 +6,12 @@
       "chance": 5
     },
     {
+      "type": "minecraft:offset",
+      "x": 8,
+      "y": 0,
+      "z": 8
+    },
+    {
       "type": "minecraft:height_range",
       "height": {
         "type": "minecraft:uniform",

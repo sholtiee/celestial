@@ -2,41 +2,68 @@
   "feature": "celestial:manna_bush",
   "placement": [
     {
-      "type": "minecraft:rarity_filter",
-      "chance": 6
+      "type": "minecraft:count",
+      "count": 1
     },
     {
       "type": "minecraft:in_square"
     },
     {
-      "type": "minecraft:heightmap",
-      "heightmap": "WORLD_SURFACE_WG"
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:uniform",
+        "min_inclusive": {
+          "absolute": 40
+        },
+        "max_inclusive": {
+          "absolute": 225
+        }
+      }
+    },
+    {
+      "type": "minecraft:environment_scan",
+      "direction_of_search": "down",
+      "max_steps": 32,
+      "allowed_search_condition": {
+        "type": "minecraft:matching_block_tag",
+        "tag": "minecraft:air"
+      },
+      "target_condition": {
+        "type": "minecraft:has_sturdy_face",
+        "direction": "up"
+      }
+    },
+    {
+      "type": "minecraft:offset",
+      "x": 0,
+      "y": 1,
+      "z": 0
     },
     {
       "type": "minecraft:biome"
     },
     {
       "type": "minecraft:count",
-      "count": 24
+      "count": 15
     },
     {
       "type": "minecraft:offset",
       "x": {
         "type": "minecraft:trapezoid",
-        "min": -6,
-        "max": 6,
+        "min": -5,
+        "max": 5,
         "plateau": 0
       },
       "y": {
         "type": "minecraft:trapezoid",
-        "min": -2,
-        "max": 2,
+        "min": -1,
+        "max": 1,
         "plateau": 0
       },
       "z": {
         "type": "minecraft:trapezoid",
-        "min": -6,
-        "max": 6,
+        "min": -5,
+        "max": 5,
         "plateau": 0
       }
     },

@@ -1,0 +1,42 @@
+{
+  "type": "minecraft:geode",
+  "blocks": {
+    "alternate_inner_layer_provider": {
+      "id": "celestial:radiant_stone"
+    },
+    "cannot_replace": "#minecraft:features_cannot_replace",
+    "filling_provider": {
+      "id": "minecraft:air"
+    },
+    "inner_layer_provider": {
+      "id": "celestial:sky_crystal_block"
+    },
+    "inner_placements": [
+      {
+        "id": "celestial:sky_crystal",
+        "properties": {
+          "facing": "up",
+          "waterlogged": "false"
+        }
+      }
+    ],
+    "invalid_blocks": "#minecraft:geode_invalid_blocks",
+    "middle_layer_provider": {
+      "id": "minecraft:calcite"
+    },
+    "outer_layer_provider": {
+      "id": "celestial:skystone_bricks"
+    }
+  },
+  "crack": {
+    "generate_crack_chance": 0.6
+  },
+  "invalid_blocks_threshold": 1,
+  "layers": {},
+  "outer_wall_distance": {
+    "type": "minecraft:uniform",
+    "min_inclusive": 3,
+    "max_inclusive": 5
+  },
+  "use_alternate_layer0_chance": 0.06
+}

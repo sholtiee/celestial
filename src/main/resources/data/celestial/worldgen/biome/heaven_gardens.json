@@ -1,0 +1,116 @@
+{
+  "attributes": {
+    "minecraft:audio/background_music": {
+      "default": {
+        "max_delay": 9000,
+        "min_delay": 2400,
+        "sound": "minecraft:music.overworld.flower_forest"
+      }
+    },
+    "minecraft:visual/sky_color": "#97d0ff",
+    "minecraft:visual/fog_color": "#f6ffe8",
+    "minecraft:visual/water_fog_color": "#c8f0ff",
+    "minecraft:visual/ambient_particles": {
+      "argument": [
+        {
+          "particle": {
+            "type": "minecraft:cherry_leaves"
+          },
+          "probability": 0.002
+        }
+      ],
+      "modifier": "append"
+    },
+    "minecraft:gameplay/natural_mob_spawns": {
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "creature": [
+            {
+              "type": "celestial:pegasus",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 2,
+                "max_inclusive": 3
+              },
+              "weight": 5
+            },
+            {
+              "type": "celestial:angel",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 2
+              },
+              "weight": 3
+            }
+          ],
+          "monster": [
+            {
+              "type": "celestial:fallen_guardian",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 2
+              },
+              "weight": 40
+            }
+          ],
+          "ambient": [
+            {
+              "type": "celestial:light_wisp",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 3
+              },
+              "weight": 10
+            }
+          ]
+        }
+      },
+      "modifier": "overlay"
+    }
+  },
+  "carvers": [],
+  "downfall": 0.4,
+  "effects": {
+    "grass_color": "#c9e06a",
+    "foliage_color": "#c9e06a",
+    "water_color": "#8fe3ff"
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "celestial:sky_geodes",
+      "celestial:ore_etherite",
+      "celestial:ore_etherite_rich",
+      "celestial:ore_starquartz",
+      "celestial:ore_radiant"
+    ],
+    [],
+    [
+      "celestial:heaven_waterfalls"
+    ],
+    [
+      "celestial:sky_clouds",
+      "celestial:trees_golden_meadows",
+      "celestial:trees_cloud_willow",
+      "celestial:patch_manna",
+      "celestial:patch_flowers_garden",
+      "celestial:patch_tall_golden_grass",
+      "celestial:patch_golden_grass",
+      "celestial:patch_cloud_moss",
+      "celestial:lumivines",
+      "celestial:island_roots"
+    ],
+    []
+  ],
+  "has_precipitation": false,
+  "temperature": 0.7
+}

@@ -1,6 +1,12 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "celestial:block/golden_grass"
+    "model": "celestial:block/golden_grass",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -997046
+      }
+    ]
   }
 }

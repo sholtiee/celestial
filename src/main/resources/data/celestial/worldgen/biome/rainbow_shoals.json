@@ -10,6 +10,17 @@
     "minecraft:visual/sky_color": "#b9b0ff",
     "minecraft:visual/fog_color": "#ffe9f6",
     "minecraft:visual/water_fog_color": "#c8f0ff",
+    "minecraft:visual/ambient_particles": {
+      "argument": [
+        {
+          "particle": {
+            "type": "minecraft:end_rod"
+          },
+          "probability": 0.001
+        }
+      ],
+      "modifier": "append"
+    },
     "minecraft:gameplay/natural_mob_spawns": {
       "argument": {
         "spawn_costs": {},
@@ -86,19 +97,26 @@
     [],
     [],
     [
+      "celestial:sky_geodes",
       "celestial:ore_etherite",
       "celestial:ore_etherite_rich",
       "celestial:ore_starquartz",
       "celestial:ore_radiant"
     ],
     [],
-    [],
+    [
+      "celestial:heaven_waterfalls"
+    ],
     [
       "celestial:sky_clouds",
       "celestial:sky_golden_clouds",
       "celestial:rainbow_arcs",
       "celestial:trees_golden_meadows",
-      "celestial:patch_manna"
+      "celestial:patch_manna",
+      "celestial:patch_flowers_meadow",
+      "celestial:patch_golden_grass",
+      "celestial:lumivines",
+      "celestial:island_roots"
     ],
     []
   ],

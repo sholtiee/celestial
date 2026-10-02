@@ -22,7 +22,7 @@
           "biome": "celestial:golden_meadows",
           "parameters": {
             "temperature": 0.3,
-            "humidity": 0.2,
+            "humidity": 0.15,
             "continentalness": 0.0,
             "erosion": 0.0,
             "weirdness": 0.0,
@@ -33,8 +33,20 @@
         {
           "biome": "celestial:cloud_forest",
           "parameters": {
-            "temperature": -0.1,
+            "temperature": -0.2,
             "humidity": 0.55,
+            "continentalness": 0.0,
+            "erosion": 0.0,
+            "weirdness": 0.0,
+            "depth": 0.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "biome": "celestial:heaven_gardens",
+          "parameters": {
+            "temperature": 0.35,
+            "humidity": 0.6,
             "continentalness": 0.0,
             "erosion": 0.0,
             "weirdness": 0.0,
@@ -55,10 +67,34 @@
           }
         },
         {
+          "biome": "celestial:storm_peak",
+          "parameters": {
+            "temperature": 0.8,
+            "humidity": 0.1,
+            "continentalness": 0.0,
+            "erosion": 0.0,
+            "weirdness": 0.0,
+            "depth": 0.0,
+            "offset": 0.0
+          }
+        },
+        {
           "biome": "celestial:rainbow_shoals",
           "parameters": {
             "temperature": -0.65,
             "humidity": -0.35,
+            "continentalness": 0.0,
+            "erosion": 0.0,
+            "weirdness": 0.0,
+            "depth": 0.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "biome": "celestial:star_glade",
+          "parameters": {
+            "temperature": -0.7,
+            "humidity": 0.25,
             "continentalness": 0.0,
             "erosion": 0.0,
             "weirdness": 0.0,

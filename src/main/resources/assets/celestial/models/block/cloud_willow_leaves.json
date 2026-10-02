@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "celestial:block/cloud_willow_leaves"
+  }
+}

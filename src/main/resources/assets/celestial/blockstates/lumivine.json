@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "tip=false": {
+      "model": "celestial:block/lumivine"
+    },
+    "tip=true": {
+      "model": "celestial:block/lumivine_tip"
+    }
+  }
+}

@@ -357,9 +357,9 @@ def main():
     structure_set('sky_villages', 'sky_village', 28, 10, 731402)
     structure_set('sky_ruins', 'sky_ruins', 22, 8, 731403)
     structure_set('citadels', 'citadel', 48, 18, 731404)
-    biome_tag('sky_village', 'golden_meadows', 'rainbow_shoals')
-    biome_tag('sky_ruins', 'golden_meadows', 'cloud_forest', 'crystal_spires', 'rainbow_shoals')
-    biome_tag('citadel', 'crystal_spires', 'golden_meadows', 'cloud_forest', 'rainbow_shoals')
+    biome_tag('sky_village', 'golden_meadows', 'rainbow_shoals', 'heaven_gardens')
+    biome_tag('sky_ruins', 'golden_meadows', 'cloud_forest', 'crystal_spires', 'rainbow_shoals', 'storm_peak', 'star_glade')
+    biome_tag('citadel', 'crystal_spires', 'golden_meadows', 'cloud_forest', 'rainbow_shoals', 'storm_peak', 'star_glade', 'heaven_gardens')
     write_json(os.path.join(DATA, 'tags/worldgen/structure/wisp_guides_to.json'),
                {'values': [c('sky_village'), c('sky_ruins'), c('citadel')]})
     write_json(os.path.join(DATA, 'tags/worldgen/structure/citadels.json'), {'values': [c('citadel')]})

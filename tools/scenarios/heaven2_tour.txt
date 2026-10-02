@@ -1,0 +1,19 @@
+# Рай 0.2: новые биомы и флора
+/time set 6000
+/gamerule advance_time false
+/gamerule spawn_monsters false
+fly
+/execute in celestial:heaven run tp @s 128 175 280 0 30
+wait 220
+togglehud
+shot h2_gardens
+/execute in celestial:heaven run tp @s -128 175 120 0 30
+wait 220
+shot h2_starglade
+/execute in celestial:heaven run tp @s 0 110 0 0 -35
+wait 160
+shot h2_under_islands
+/execute in celestial:heaven run tp @s 320 180 0 0 25
+wait 220
+shot h2_storm
+quit

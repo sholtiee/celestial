@@ -10,6 +10,7 @@
     "celestial:etherite_ore",
     "celestial:starquartz_ore",
     "celestial:etherite_block",
-    "celestial:sky_crystal"
+    "celestial:sky_crystal",
+    "celestial:sky_crystal_block"
   ]
 }

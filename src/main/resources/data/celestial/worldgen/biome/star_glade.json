@@ -1,0 +1,100 @@
+{
+  "attributes": {
+    "minecraft:audio/background_music": {
+      "default": {
+        "max_delay": 9000,
+        "min_delay": 2400,
+        "sound": "minecraft:music.overworld.grove"
+      }
+    },
+    "minecraft:visual/sky_color": "#5c62b8",
+    "minecraft:visual/fog_color": "#c7c9ff",
+    "minecraft:visual/water_fog_color": "#c8f0ff",
+    "minecraft:visual/ambient_particles": {
+      "argument": [
+        {
+          "particle": {
+            "type": "minecraft:end_rod"
+          },
+          "probability": 0.003
+        }
+      ],
+      "modifier": "append"
+    },
+    "minecraft:gameplay/natural_mob_spawns": {
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "creature": [
+            {
+              "type": "celestial:cloud_whale",
+              "count": 1,
+              "weight": 2
+            }
+          ],
+          "monster": [
+            {
+              "type": "celestial:winged_serpent",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 2
+              },
+              "weight": 30
+            }
+          ],
+          "ambient": [
+            {
+              "type": "celestial:light_wisp",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 2,
+                "max_inclusive": 4
+              },
+              "weight": 30
+            }
+          ]
+        }
+      },
+      "modifier": "overlay"
+    }
+  },
+  "carvers": [],
+  "downfall": 0.4,
+  "effects": {
+    "grass_color": "#a9b9ff",
+    "foliage_color": "#a9b9ff",
+    "water_color": "#8fe3ff"
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "celestial:sky_geodes",
+      "celestial:ore_etherite",
+      "celestial:ore_etherite_rich",
+      "celestial:ore_starquartz",
+      "celestial:ore_radiant"
+    ],
+    [],
+    [
+      "celestial:heaven_waterfalls"
+    ],
+    [
+      "celestial:sky_clouds",
+      "celestial:trees_starpine",
+      "celestial:patch_flowers_star",
+      "celestial:patch_golden_grass",
+      "celestial:crystals_rare",
+      "celestial:lumivines",
+      "celestial:island_roots"
+    ],
+    []
+  ],
+  "has_precipitation": false,
+  "temperature": 0.7
+}

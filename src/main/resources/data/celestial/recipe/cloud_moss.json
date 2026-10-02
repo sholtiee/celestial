@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": "celestial:cloud"
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "id": "celestial:cloud_moss",
+    "count": 3
+  }
+}

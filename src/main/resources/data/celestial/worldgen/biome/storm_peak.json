@@ -1,0 +1,99 @@
+{
+  "attributes": {
+    "minecraft:audio/background_music": {
+      "default": {
+        "max_delay": 9000,
+        "min_delay": 2400,
+        "sound": "minecraft:music.overworld.jagged_peaks"
+      }
+    },
+    "minecraft:visual/sky_color": "#6f7f99",
+    "minecraft:visual/fog_color": "#9aa3b5",
+    "minecraft:visual/water_fog_color": "#c8f0ff",
+    "minecraft:visual/ambient_particles": {
+      "argument": [
+        {
+          "particle": {
+            "type": "minecraft:electric_spark"
+          },
+          "probability": 0.006
+        }
+      ],
+      "modifier": "append"
+    },
+    "minecraft:gameplay/natural_mob_spawns": {
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "monster": [
+            {
+              "type": "celestial:storm_spirit",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 3
+              },
+              "weight": 100
+            },
+            {
+              "type": "celestial:winged_serpent",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 2
+              },
+              "weight": 40
+            }
+          ],
+          "ambient": [
+            {
+              "type": "celestial:light_wisp",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 3
+              },
+              "weight": 10
+            }
+          ]
+        }
+      },
+      "modifier": "overlay"
+    }
+  },
+  "carvers": [],
+  "downfall": 0.4,
+  "effects": {
+    "grass_color": "#9aa3b5",
+    "foliage_color": "#9aa3b5",
+    "water_color": "#8fe3ff"
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "celestial:sky_geodes",
+      "celestial:ore_etherite",
+      "celestial:ore_etherite_rich",
+      "celestial:ore_starquartz",
+      "celestial:ore_radiant"
+    ],
+    [],
+    [],
+    [
+      "celestial:sky_clouds",
+      "celestial:sky_rain_clouds",
+      "celestial:radiant_spires",
+      "celestial:patch_golden_grass",
+      "celestial:lumivines",
+      "celestial:island_roots"
+    ],
+    []
+  ],
+  "has_precipitation": false,
+  "temperature": 0.7
+}

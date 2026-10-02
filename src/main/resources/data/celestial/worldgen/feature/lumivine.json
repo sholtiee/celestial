@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:block_column",
+  "allowed_placement": {
+    "type": "minecraft:matching_block_tag",
+    "tag": "minecraft:air"
+  },
+  "direction": "down",
+  "prioritize_tip": true,
+  "layers": [
+    {
+      "height": {
+        "type": "minecraft:uniform",
+        "min_inclusive": 1,
+        "max_inclusive": 7
+      },
+      "provider": {
+        "id": "celestial:lumivine",
+        "properties": {
+          "tip": "false"
+        }
+      }
+    },
+    {
+      "height": 1,
+      "provider": {
+        "id": "celestial:lumivine",
+        "properties": {
+          "tip": "true"
+        }
+      }
+    }
+  ]
+}

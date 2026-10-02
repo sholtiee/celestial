@@ -10,6 +10,17 @@
     "minecraft:visual/sky_color": "#9cc1ff",
     "minecraft:visual/fog_color": "#e6ecff",
     "minecraft:visual/water_fog_color": "#c8f0ff",
+    "minecraft:visual/ambient_particles": {
+      "argument": [
+        {
+          "particle": {
+            "type": "minecraft:glow"
+          },
+          "probability": 0.002
+        }
+      ],
+      "modifier": "append"
+    },
     "minecraft:gameplay/natural_mob_spawns": {
       "argument": {
         "spawn_costs": {},
@@ -74,6 +85,7 @@
     [],
     [],
     [
+      "celestial:sky_geodes",
       "celestial:ore_etherite",
       "celestial:ore_etherite_rich",
       "celestial:ore_starquartz",
@@ -84,7 +96,9 @@
     [
       "celestial:sky_clouds",
       "celestial:radiant_spires",
-      "celestial:crystals_common"
+      "celestial:crystals_common",
+      "celestial:lumivines",
+      "celestial:island_roots"
     ],
     []
   ],

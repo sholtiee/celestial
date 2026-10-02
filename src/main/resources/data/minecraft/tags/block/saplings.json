@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "celestial:skywood_sapling"
+    "celestial:skywood_sapling",
+    "celestial:cloud_willow_sapling",
+    "celestial:starpine_sapling"
   ]
 }

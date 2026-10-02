@@ -51,10 +51,13 @@ def dimension():
             'settings': c('heaven'),
             'biome_source': {'type': 'minecraft:multi_noise', 'biomes': [
                 biome_point('golden_meadows', 0.0, -0.1),
-                biome_point('golden_meadows', 0.3, 0.2),
-                biome_point('cloud_forest', -0.1, 0.55),
+                biome_point('golden_meadows', 0.3, 0.15),
+                biome_point('cloud_forest', -0.2, 0.55),
+                biome_point('heaven_gardens', 0.35, 0.6),
                 biome_point('crystal_spires', 0.75, -0.6),
+                biome_point('storm_peak', 0.8, 0.1),
                 biome_point('rainbow_shoals', -0.65, -0.35),
+                biome_point('star_glade', -0.7, 0.25),
             ]},
         },
     })
@@ -141,6 +144,33 @@ def surface():
 
 
 # ------------------------------------------------------------------ фичи
+# Карта высот на парящих островах видит только верхний остров, поэтому растительность ставим так:
+# случайная высота в полосе островов → ищем вниз первый воздух над твёрдой поверхностью.
+ON_ANY_ISLAND = [
+    {'type': 'minecraft:height_range', 'height': {'type': 'minecraft:uniform', 'min_inclusive': {'absolute': 40}, 'max_inclusive': {'absolute': 225}}},
+    {'type': 'minecraft:environment_scan', 'direction_of_search': 'down', 'max_steps': 32,
+     'allowed_search_condition': {'type': 'minecraft:matching_block_tag', 'tag': 'minecraft:air'},
+     'target_condition': {'type': 'minecraft:has_sturdy_face', 'direction': 'up'}},
+    {'type': 'minecraft:offset', 'x': 0, 'y': 1, 'z': 0},
+]
+
+
+def on_islands(count, extra=None, spread=0):
+    """Размещение на поверхности любого яруса; spread>0 — ещё и разброс пятном вокруг точки."""
+    out = [{'type': 'minecraft:count', 'count': count}, {'type': 'minecraft:in_square'}] + ON_ANY_ISLAND + [{'type': 'minecraft:biome'}]
+    if spread:
+        out += [{'type': 'minecraft:count', 'count': spread * 3},
+                {'type': 'minecraft:offset', 'x': {'type': 'minecraft:trapezoid', 'min': -spread, 'max': spread, 'plateau': 0},
+                 'y': {'type': 'minecraft:trapezoid', 'min': -1, 'max': 1, 'plateau': 0},
+                 'z': {'type': 'minecraft:trapezoid', 'min': -spread, 'max': spread, 'plateau': 0}}]
+    out.append({'type': 'minecraft:block_predicate_filter', 'predicate': {'type': 'minecraft:all_of', 'predicates': [
+        {'type': 'minecraft:matching_block_tag', 'tag': 'minecraft:air'}] + (extra or [])}})
+    return out
+
+
+ON_GRASS = [{'type': 'minecraft:matching_blocks', 'blocks': c('golden_grass'), 'offset': [0, -1, 0]}]
+
+
 def feature(name, obj):
     write_json(os.path.join(WG, 'feature', name + '.json'), obj)
 
@@ -189,16 +219,15 @@ def features():
                              'default': {'feature': c('skywood_tree'), 'placement': []},
                              'features': [{'chance': 0.3, 'feature': {'feature': c('fancy_skywood_tree'), 'placement': []}}]})
 
-    def tree_placement(count):
-        return [{'type': 'minecraft:count', 'count': count}, {'type': 'minecraft:in_square'},
-                {'type': 'minecraft:heightmap', 'heightmap': 'MOTION_BLOCKING_NO_LEAVES'},
-                {'type': 'minecraft:block_predicate_filter', 'predicate': {'type': 'minecraft:would_survive', 'state': state(c('skywood_sapling'))}},
+    def tree_placement(count, sapling='skywood_sapling'):
+        return [{'type': 'minecraft:count', 'count': count}, {'type': 'minecraft:in_square'}] + ON_ANY_ISLAND + [
+                {'type': 'minecraft:block_predicate_filter', 'predicate': {'type': 'minecraft:would_survive', 'state': state(c(sapling))}},
                 {'type': 'minecraft:biome'}]
 
     placed('trees_golden_meadows', c('heaven_trees'), tree_placement(
-        {'type': 'minecraft:weighted_list', 'distribution': [{'data': 0, 'weight': 3}, {'data': 1, 'weight': 2}, {'data': 2, 'weight': 1}]}))
+        {'type': 'minecraft:weighted_list', 'distribution': [{'data': 2, 'weight': 3}, {'data': 4, 'weight': 2}, {'data': 6, 'weight': 1}]}))
     placed('trees_cloud_forest', c('heaven_trees'), tree_placement(
-        {'type': 'minecraft:weighted_list', 'distribution': [{'data': 4, 'weight': 2}, {'data': 6, 'weight': 1}]}))
+        {'type': 'minecraft:weighted_list', 'distribution': [{'data': 10, 'weight': 2}, {'data': 14, 'weight': 1}]}))
 
     def ore(name, block, size, count, lo, hi, discard=0.0):
         feature(name, {'type': 'minecraft:ore', 'discard_chance_on_air_exposure': discard, 'size': size,
@@ -227,32 +256,22 @@ def features():
     sky_clouds('sky_rain_clouds', c('rain_cloud'), 40, 2, 120, 210)
 
     feature('manna_bush', {'type': 'minecraft:simple_block', 'to_place': state(c('manna_bush'), age=3)})
-    placed('patch_manna', c('manna_bush'), [
-        {'type': 'minecraft:rarity_filter', 'chance': 6}, {'type': 'minecraft:in_square'},
-        {'type': 'minecraft:heightmap', 'heightmap': 'WORLD_SURFACE_WG'}, {'type': 'minecraft:biome'},
-        {'type': 'minecraft:count', 'count': 24},
-        {'type': 'minecraft:offset', 'x': {'type': 'minecraft:trapezoid', 'min': -6, 'max': 6, 'plateau': 0},
-         'y': {'type': 'minecraft:trapezoid', 'min': -2, 'max': 2, 'plateau': 0},
-         'z': {'type': 'minecraft:trapezoid', 'min': -6, 'max': 6, 'plateau': 0}},
-        {'type': 'minecraft:block_predicate_filter', 'predicate': {'type': 'minecraft:all_of', 'predicates': [
-            {'type': 'minecraft:matching_block_tag', 'tag': 'minecraft:air'},
-            {'type': 'minecraft:matching_blocks', 'blocks': c('golden_grass'), 'offset': [0, -1, 0]}]}}])
+    placed('patch_manna', c('manna_bush'), on_islands(1, ON_GRASS, spread=5))
 
     feature('sky_crystal', {'type': 'minecraft:simple_block', 'to_place': state(c('sky_crystal'), facing='up', waterlogged=False)})
 
     def crystals(name, count):
-        placed(name, c('sky_crystal'), [
-            {'type': 'minecraft:count', 'count': count}, {'type': 'minecraft:in_square'},
-            {'type': 'minecraft:heightmap', 'heightmap': 'WORLD_SURFACE_WG'}, {'type': 'minecraft:biome'},
-            {'type': 'minecraft:block_predicate_filter', 'predicate': {'type': 'minecraft:all_of', 'predicates': [
-                {'type': 'minecraft:matching_block_tag', 'tag': 'minecraft:air'},
-                {'type': 'minecraft:matching_blocks', 'blocks': [c('skystone'), c('golden_grass')], 'offset': [0, -1, 0]}]}}])
+        placed(name, c('sky_crystal'), on_islands(count, [
+            {'type': 'minecraft:matching_blocks', 'blocks': [c('skystone'), c('golden_grass')], 'offset': [0, -1, 0]}]))
 
     feature('rainbow_arc', {'type': c('rainbow_arc')})
     placed('rainbow_arcs', c('rainbow_arc'), [
         {'type': 'minecraft:rarity_filter', 'chance': 5},
+        {'type': 'minecraft:offset', 'x': 8, 'y': 0, 'z': 8},
         {'type': 'minecraft:height_range', 'height': {'type': 'minecraft:uniform', 'min_inclusive': {'absolute': 90}, 'max_inclusive': {'absolute': 190}}},
         {'type': 'minecraft:biome'}])
+
+    flora_features()
 
     crystals('crystals_common', 12)
     crystals('crystals_rare', 1)
@@ -269,8 +288,99 @@ def features():
         {'type': 'minecraft:block_predicate_filter', 'predicate': {'type': 'minecraft:matching_blocks', 'blocks': c('skystone'), 'offset': [0, -1, 0]}}])
 
 
+def flora_features():
+    def weighted_flowers(name, flowers):
+        feature(name, {'type': 'minecraft:simple_block', 'to_place': {'type': 'minecraft:weighted', 'entries': [
+            {'data': {'id': c(f)}, 'weight': w} for f, w in flowers]}})
+
+    weighted_flowers('flowers_meadow', [('sky_lily', 3), ('sunbell', 3), ('dawn_poppy', 2), ('aether_rose', 1)])
+    weighted_flowers('flowers_garden', [('sky_lily', 3), ('cloudbloom', 3), ('aether_rose', 2), ('sunbell', 2), ('dawn_poppy', 2)])
+    weighted_flowers('flowers_star', [('starflower', 6), ('cloudbloom', 1)])
+    placed('patch_flowers_meadow', c('flowers_meadow'), on_islands(2, ON_GRASS, spread=4))
+    placed('patch_flowers_garden', c('flowers_garden'), on_islands(6, ON_GRASS, spread=5))
+    placed('patch_flowers_star', c('flowers_star'), on_islands(4, ON_GRASS, spread=5))
+
+    feature('golden_grass_patch', {'type': 'minecraft:simple_block', 'to_place': {'type': 'minecraft:weighted', 'entries': [
+        {'data': {'id': c('golden_tuft')}, 'weight': 5}]}})
+    feature('tall_golden_grass', {'type': 'minecraft:simple_block', 'to_place': {'id': c('tall_golden_grass'), 'properties': {'half': 'lower'}}})
+    placed('patch_golden_grass', c('golden_grass_patch'), on_islands(4, ON_GRASS, spread=6))
+    placed('patch_tall_golden_grass', c('tall_golden_grass'), on_islands(1, ON_GRASS + [
+        {'type': 'minecraft:matching_block_tag', 'tag': 'minecraft:air', 'offset': [0, 1, 0]}], spread=4))
+    feature('cloud_moss', {'type': 'minecraft:simple_block', 'to_place': {'id': c('cloud_moss')}})
+    placed('patch_cloud_moss', c('cloud_moss'), on_islands(2, ON_GRASS, spread=4))
+
+    # светолиана свисает с нижней стороны островов
+    feature('lumivine', {'type': 'minecraft:block_column', 'allowed_placement': {'type': 'minecraft:matching_block_tag', 'tag': 'minecraft:air'},
+                         'direction': 'down', 'prioritize_tip': True, 'layers': [
+                             {'height': {'type': 'minecraft:uniform', 'min_inclusive': 1, 'max_inclusive': 7}, 'provider': state(c('lumivine'), tip=False)},
+                             {'height': 1, 'provider': state(c('lumivine'), tip=True)}]})
+    feature('hanging_roots', {'type': 'minecraft:block_column', 'allowed_placement': {'type': 'minecraft:matching_block_tag', 'tag': 'minecraft:air'},
+                              'direction': 'down', 'prioritize_tip': False, 'layers': [
+                                  {'height': {'type': 'minecraft:uniform', 'min_inclusive': 1, 'max_inclusive': 2}, 'provider': state('minecraft:hanging_roots', waterlogged=False)}]})
+
+    def under_islands(name, feat, count):
+        placed(name, c(feat), [{'type': 'minecraft:count', 'count': count}, {'type': 'minecraft:in_square'},
+                               {'type': 'minecraft:height_range', 'height': {'type': 'minecraft:uniform',
+                                                                             'min_inclusive': {'absolute': 20}, 'max_inclusive': {'absolute': 210}}},
+                               {'type': 'minecraft:environment_scan', 'direction_of_search': 'up', 'max_steps': 24,
+                                'allowed_search_condition': {'type': 'minecraft:matching_block_tag', 'tag': 'minecraft:air'},
+                                'target_condition': {'type': 'minecraft:has_sturdy_face', 'direction': 'down'}},
+                               {'type': 'minecraft:offset', 'x': 0, 'y': -1, 'z': 0}, {'type': 'minecraft:biome'}])
+
+    under_islands('lumivines', 'lumivine', 24)
+    under_islands('island_roots', 'hanging_roots', 30)
+
+    # водопады: источник в боку острова, вода срывается в бездну
+    feature('heaven_spring', {'type': 'minecraft:spring_feature', 'state': {'id': 'minecraft:water', 'properties': {'falling': 'true'}},
+                              'valid_blocks': [c('skystone'), c('heaven_dirt')], 'requires_block_below': False, 'rock_count': 3, 'hole_count': 1})
+    placed('heaven_waterfalls', c('heaven_spring'), [{'type': 'minecraft:count', 'count': 6}, {'type': 'minecraft:in_square'},
+                                                    {'type': 'minecraft:height_range', 'height': {'type': 'minecraft:uniform',
+                                                                                                  'min_inclusive': {'absolute': 50},
+                                                                                                  'max_inclusive': {'absolute': 210}}},
+                                                    {'type': 'minecraft:biome'}])
+
+    # кристальные жеоды внутри островов
+    feature('sky_geode', {'type': 'minecraft:geode', 'blocks': {
+        'alternate_inner_layer_provider': {'id': c('radiant_stone')}, 'cannot_replace': '#minecraft:features_cannot_replace',
+        'filling_provider': {'id': 'minecraft:air'}, 'inner_layer_provider': {'id': c('sky_crystal_block')},
+        'inner_placements': [state(c('sky_crystal'), facing='up', waterlogged=False)], 'invalid_blocks': '#minecraft:geode_invalid_blocks',
+        'middle_layer_provider': {'id': 'minecraft:calcite'}, 'outer_layer_provider': {'id': c('skystone_bricks')}},
+        'crack': {'generate_crack_chance': 0.6}, 'invalid_blocks_threshold': 1, 'layers': {},
+        'outer_wall_distance': {'type': 'minecraft:uniform', 'min_inclusive': 3, 'max_inclusive': 5}, 'use_alternate_layer0_chance': 0.06})
+    placed('sky_geodes', c('sky_geode'), [{'type': 'minecraft:rarity_filter', 'chance': 10}, {'type': 'minecraft:in_square'},
+                                          {'type': 'minecraft:height_range', 'height': {'type': 'minecraft:uniform',
+                                                                                        'min_inclusive': {'absolute': 60}, 'max_inclusive': {'absolute': 200}}},
+                                          {'type': 'minecraft:biome'}])
+
+    # новые деревья
+    leaves_state = lambda b: state(c(b), distance=7, persistent=False, waterlogged=False)  # noqa: E731
+    feature('cloud_willow', {
+        'type': 'minecraft:tree', 'below_trunk_provider': HEAVEN_SOIL, 'decorators': [], 'ignore_vines': True,
+        'foliage_placer': {'type': 'minecraft:cherry_foliage_placer', 'corner_hole_chance': 0.2, 'hanging_leaves_chance': 0.75,
+                           'hanging_leaves_extension_chance': 0.7, 'height': 5, 'offset': 0, 'radius': 4,
+                           'wide_bottom_layer_hole_chance': 0.1},
+        'foliage_provider': leaves_state('cloud_willow_leaves'), 'minimum_size': {'type': 'minecraft:two_layers_feature_size', 'upper_size': 2},
+        'trunk_placer': {'type': 'minecraft:straight_trunk_placer', 'base_height': 5, 'height_rand_a': 2, 'height_rand_b': 0},
+        'trunk_provider': LOG})
+    feature('starpine', {
+        'type': 'minecraft:tree', 'below_trunk_provider': HEAVEN_SOIL, 'decorators': [], 'ignore_vines': True,
+        'foliage_placer': {'type': 'minecraft:spruce_foliage_placer', 'offset': {'type': 'minecraft:uniform', 'min_inclusive': 0, 'max_inclusive': 2},
+                           'radius': {'type': 'minecraft:uniform', 'min_inclusive': 2, 'max_inclusive': 3},
+                           'trunk_height': {'type': 'minecraft:uniform', 'min_inclusive': 1, 'max_inclusive': 2}},
+        'foliage_provider': leaves_state('starpine_leaves'), 'minimum_size': {'type': 'minecraft:two_layers_feature_size', 'limit': 2, 'upper_size': 2},
+        'trunk_placer': {'type': 'minecraft:straight_trunk_placer', 'base_height': 7, 'height_rand_a': 3, 'height_rand_b': 1},
+        'trunk_provider': LOG})
+    placed('trees_cloud_willow', c('cloud_willow'), [{'type': 'minecraft:count', 'count': 7}, {'type': 'minecraft:in_square'}] + ON_ANY_ISLAND + [
+        {'type': 'minecraft:block_predicate_filter', 'predicate': {'type': 'minecraft:would_survive', 'state': state(c('cloud_willow_sapling'))}},
+        {'type': 'minecraft:biome'}])
+    placed('trees_starpine', c('starpine'), [{'type': 'minecraft:count', 'count': 9}, {'type': 'minecraft:in_square'}] + ON_ANY_ISLAND + [
+        {'type': 'minecraft:block_predicate_filter', 'predicate': {'type': 'minecraft:would_survive', 'state': state(c('starpine_sapling'))}},
+        {'type': 'minecraft:biome'}])
+
+
 # ------------------------------------------------------------------ биомы
-def biome(name, sky, fog, grass, features_by_step, music='minecraft:music.overworld.cherry_grove', creatures=None, monsters=None, ambient=None):
+def biome(name, sky, fog, grass, features_by_step, music='minecraft:music.overworld.cherry_grove', creatures=None, monsters=None, ambient=None,
+          particle=None, particle_chance=0.0):
     steps = [[] for _ in range(11)]
     for step, fs in features_by_step.items():
         # единый порядок фич во всех биомах, иначе игра падает с «Feature order cycle»
@@ -288,6 +398,9 @@ def biome(name, sky, fog, grass, features_by_step, music='minecraft:music.overwo
         'minecraft:visual/fog_color': fog,
         'minecraft:visual/water_fog_color': '#c8f0ff',
     }
+    if particle:
+        attributes['minecraft:visual/ambient_particles'] = {'argument': [{'particle': {'type': particle}, 'probability': particle_chance}],
+                                                           'modifier': 'append'}
     if spawns:
         attributes['minecraft:gameplay/natural_mob_spawns'] = {'argument': {'spawn_costs': {}, 'spawns_by_category': spawns}, 'modifier': 'overlay'}
     write_json(os.path.join(WG, 'biome', name + '.json'), {
@@ -296,11 +409,16 @@ def biome(name, sky, fog, grass, features_by_step, music='minecraft:music.overwo
         'features': steps, 'has_precipitation': False, 'temperature': 0.7})
 
 
-FEATURE_ORDER = ['ore_etherite', 'ore_etherite_rich', 'ore_starquartz', 'ore_radiant',
+FEATURE_ORDER = ['sky_geodes', 'ore_etherite', 'ore_etherite_rich', 'ore_starquartz', 'ore_radiant', 'heaven_waterfalls',
                  'sky_clouds', 'sky_golden_clouds', 'sky_rain_clouds', 'radiant_spires', 'rainbow_arcs',
-                 'trees_golden_meadows', 'trees_cloud_forest', 'patch_manna', 'crystals_common', 'crystals_rare']
-ORES = ['ore_etherite', 'ore_etherite_rich', 'ore_starquartz', 'ore_radiant']
-LOCAL_MODS, UNDERGROUND_ORES, VEGETAL = 2, 6, 9
+                 'trees_golden_meadows', 'trees_cloud_forest', 'trees_cloud_willow', 'trees_starpine',
+                 'patch_manna', 'patch_flowers_meadow', 'patch_flowers_garden', 'patch_flowers_star',
+                 'patch_tall_golden_grass', 'patch_golden_grass', 'patch_cloud_moss', 'crystals_common', 'crystals_rare',
+                 'lumivines', 'island_roots']
+ORES = ['sky_geodes', 'ore_etherite', 'ore_etherite_rich', 'ore_starquartz', 'ore_radiant']
+UNDER = ['lumivines', 'island_roots']
+GROUND = ['heaven_waterfalls']
+LOCAL_MODS, UNDERGROUND_ORES, FLUID_SPRINGS, VEGETAL = 2, 6, 8, 9
 
 
 def spawn(mob, weight, lo, hi):
@@ -312,20 +430,50 @@ WISPS = [spawn('light_wisp', 10, 1, 3)]
 
 
 def biomes():
+    common = [*UNDER]
     biome('golden_meadows', '#8ec9ff', '#fdf3d4', '#f0c94a', {
-        UNDERGROUND_ORES: ORES, VEGETAL: ['sky_clouds', 'sky_golden_clouds', 'trees_golden_meadows', 'patch_manna', 'crystals_rare']},
-        creatures=[spawn('pegasus', 8, 2, 4), spawn('cloud_whale', 3, 1, 1), spawn('angel', 1, 1, 1)], monsters=MONSTERS, ambient=WISPS)
+        UNDERGROUND_ORES: ORES, FLUID_SPRINGS: GROUND,
+        VEGETAL: ['sky_clouds', 'sky_golden_clouds', 'trees_golden_meadows', 'patch_manna', 'patch_flowers_meadow',
+                  'patch_golden_grass', 'patch_tall_golden_grass', 'crystals_rare', *common]},
+        creatures=[spawn('pegasus', 8, 2, 4), spawn('cloud_whale', 3, 1, 1), spawn('angel', 1, 1, 1)], monsters=MONSTERS, ambient=WISPS,
+        particle='minecraft:end_rod', particle_chance=0.0008)
     biome('cloud_forest', '#a9d4ff', '#ffffff', '#e8d070', {
-        UNDERGROUND_ORES: ORES, VEGETAL: ['sky_clouds', 'sky_rain_clouds', 'trees_cloud_forest', 'patch_manna']},
+        UNDERGROUND_ORES: ORES, FLUID_SPRINGS: GROUND,
+        VEGETAL: ['sky_clouds', 'sky_rain_clouds', 'trees_cloud_forest', 'trees_cloud_willow', 'patch_manna', 'patch_golden_grass',
+                  'patch_cloud_moss', *common]},
         music='minecraft:music.overworld.meadow',
-        creatures=[spawn('cloud_whale', 6, 1, 2), spawn('pegasus', 3, 1, 2)], monsters=MONSTERS, ambient=WISPS)
+        creatures=[spawn('cloud_whale', 6, 1, 2), spawn('pegasus', 3, 1, 2)], monsters=MONSTERS, ambient=WISPS,
+        particle='minecraft:white_ash', particle_chance=0.004)
     biome('crystal_spires', '#9cc1ff', '#e6ecff', '#d8e2f0', {
-        UNDERGROUND_ORES: ORES, VEGETAL: ['sky_clouds', 'radiant_spires', 'crystals_common']},
+        UNDERGROUND_ORES: ORES, VEGETAL: ['sky_clouds', 'radiant_spires', 'crystals_common', *common]},
         music='minecraft:music.overworld.grove',
-        monsters=[spawn('storm_spirit', 60, 1, 2), spawn('fallen_guardian', 60, 1, 2), spawn('winged_serpent', 30, 1, 2)], ambient=WISPS)
+        monsters=[spawn('storm_spirit', 60, 1, 2), spawn('fallen_guardian', 60, 1, 2), spawn('winged_serpent', 30, 1, 2)], ambient=WISPS,
+        particle='minecraft:glow', particle_chance=0.002)
     biome('rainbow_shoals', '#b9b0ff', '#ffe9f6', '#ffd38a', {
-        UNDERGROUND_ORES: ORES, VEGETAL: ['sky_clouds', 'sky_golden_clouds', 'patch_manna', 'trees_golden_meadows', 'rainbow_arcs']},
-        creatures=[spawn('pegasus', 6, 2, 3), spawn('cloud_whale', 4, 1, 1)], monsters=MONSTERS, ambient=WISPS)
+        UNDERGROUND_ORES: ORES, FLUID_SPRINGS: GROUND,
+        VEGETAL: ['sky_clouds', 'sky_golden_clouds', 'patch_manna', 'trees_golden_meadows', 'patch_flowers_meadow', 'rainbow_arcs',
+                  'patch_golden_grass', *common]},
+        creatures=[spawn('pegasus', 6, 2, 3), spawn('cloud_whale', 4, 1, 1)], monsters=MONSTERS, ambient=WISPS,
+        particle='minecraft:end_rod', particle_chance=0.001)
+    # новые биомы 0.2
+    biome('heaven_gardens', '#97d0ff', '#f6ffe8', '#c9e06a', {
+        UNDERGROUND_ORES: ORES, FLUID_SPRINGS: GROUND,
+        VEGETAL: ['sky_clouds', 'trees_cloud_willow', 'trees_golden_meadows', 'patch_manna', 'patch_flowers_garden',
+                  'patch_golden_grass', 'patch_tall_golden_grass', 'patch_cloud_moss', *common]},
+        music='minecraft:music.overworld.flower_forest',
+        creatures=[spawn('pegasus', 5, 2, 3), spawn('angel', 3, 1, 2)], monsters=[spawn('fallen_guardian', 40, 1, 2)], ambient=WISPS,
+        particle='minecraft:cherry_leaves', particle_chance=0.002)
+    biome('storm_peak', '#6f7f99', '#9aa3b5', '#9aa3b5', {
+        UNDERGROUND_ORES: ORES, VEGETAL: ['sky_rain_clouds', 'sky_clouds', 'radiant_spires', 'patch_golden_grass', *common]},
+        music='minecraft:music.overworld.jagged_peaks',
+        monsters=[spawn('storm_spirit', 100, 1, 3), spawn('winged_serpent', 40, 1, 2)], ambient=WISPS,
+        particle='minecraft:electric_spark', particle_chance=0.006)
+    biome('star_glade', '#5c62b8', '#c7c9ff', '#a9b9ff', {
+        UNDERGROUND_ORES: ORES, FLUID_SPRINGS: GROUND,
+        VEGETAL: ['sky_clouds', 'trees_starpine', 'patch_flowers_star', 'patch_golden_grass', 'crystals_rare', *common]},
+        music='minecraft:music.overworld.grove',
+        creatures=[spawn('cloud_whale', 2, 1, 1)], monsters=[spawn('winged_serpent', 30, 1, 2)], ambient=[spawn('light_wisp', 30, 2, 4)],
+        particle='minecraft:end_rod', particle_chance=0.003)
 
 
 def main():
