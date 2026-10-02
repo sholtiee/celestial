@@ -73,7 +73,10 @@ class Template:
             'DataVersion': Int(DATA_VERSION)})
         path = os.path.join(DATA, 'structure', name + '.nbt')
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        root.save(path, gzipped=True)
+        # gzip без времени создания — файл меняется только при реальных изменениях постройки
+        import gzip
+        with open(path, 'wb') as raw, gzip.GzipFile(fileobj=raw, mode='wb', mtime=0) as f:
+            root.write(f)
         return len(blocks)
 
 
