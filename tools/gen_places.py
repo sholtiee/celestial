@@ -3,7 +3,6 @@
 Звёздная обсерватория (Верхний мир, загадка плиток-звёзд), Пылающее святилище (Ад, испытание огнём → Осколок Пламени),
 Разлом Пустоты (Энд, испытание с Тенями). Телескоп и профессия Звездочёта: модель, рецепт, сделки, текстуры.
 """
-import colorsys
 import math
 import os
 import random
@@ -227,25 +226,27 @@ def stargazer_trades():
 
 
 def stargazer_textures():
-    """Мантия Звездочёта: перекрашенная одежда картографа (тёмно-синяя) с золотыми звёздами."""
+    """Мантия Звездочёта: от ванильной развёртки берём только форму (альфа-канал), рисунок свой —
+    тёмно-синяя ткань с шумом, золотая кайма по краям и редкие звёзды."""
     r = random.Random(77)
+    navy = [T.hexrgb(h) for h in ('#1b2350', '#222c62', '#2a3674', '#1f2858')]
+    gold, star = T.hexrgb('#c9a23a'), T.hexrgb('#ffe7a0')
     for kind in ('villager', 'zombie_villager'):
         src = os.path.join(VANILLA, 'entity', kind, 'profession', 'cartographer.png')
         if not os.path.exists(src):
             print('  нет', src, '— пропускаю текстуру', kind)
             continue
-        img = Image.open(src).convert('RGBA')
-        px = img.load()
-        for y in range(img.height):
-            for x in range(img.width):
-                cr, cg, cb, a = px[x, y]
-                if a == 0:
+        mask = Image.open(src).convert('RGBA')
+        img = Image.new('RGBA', mask.size, (0, 0, 0, 0))
+        mp, px = mask.load(), img.load()
+        for y in range(mask.height):
+            for x in range(mask.width):
+                if mp[x, y][3] == 0:
                     continue
-                h, l, s = colorsys.rgb_to_hls(cr / 255, cg / 255, cb / 255)
-                nr, ng, nb = colorsys.hls_to_rgb(0.68, l * 0.7, min(1, s * 0.8 + 0.25))
-                if r.random() < 0.035 and y > 20:
-                    nr, ng, nb = 1.0, 0.85, 0.4
-                px[x, y] = (int(nr * 255), int(ng * 255), int(nb * 255), a)
+                edge = any(0 <= x + dx < mask.width and 0 <= y + dy < mask.height and mp[x + dx, y + dy][3] == 0
+                           for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))
+                c_ = gold if edge and y > 16 else star if r.random() < 0.03 else r.choice(navy)
+                px[x, y] = (*c_, 255)
         save_png(img, f'entity/{kind}/profession/stargazer')
 
 

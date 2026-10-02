@@ -1,6 +1,7 @@
 """Переделка Серафима (волна 0.2, шаг 10): тёмные крылья, золотые кристаллы света, реплики боя, субтитры звуков."""
 import colorsys
 import os
+import random
 
 from PIL import Image
 
@@ -28,6 +29,25 @@ def recolor(img, hue, light_mul, sat_add, keep_bright=0.0):
     return img
 
 
+def crystal_texture(mask):
+    """Кристалл света: от ванильной развёртки — только форма, рисунок свой: золотое стекло с гранями и бликами."""
+    rng = random.Random(91)
+    img = Image.new('RGBA', mask.size, (0, 0, 0, 0))
+    mp, px = mask.load(), img.load()
+    golds = [(201, 162, 58), (239, 209, 120), (255, 243, 198), (176, 128, 40)]
+    for y in range(mask.height):
+        for x in range(mask.width):
+            a = mp[x, y][3]
+            if a == 0:
+                continue
+            facet = ((x // 4) + (y // 4)) % 3
+            c = golds[facet] if rng.random() > 0.08 else golds[2]
+            if x % 4 == 0 or y % 4 == 0:
+                c = golds[3]
+            px[x, y] = (*c, a)
+    return img
+
+
 def main():
     wings = Image.open(os.path.join(ASSETS, 'textures/entity/equipment/wings/seraph_wings.png'))
     dark = recolor(wings, 0.75, 0.3, 0.3)  # почти чёрные перья с фиолетовым отливом
@@ -39,7 +59,7 @@ def main():
     save_png(dark, 'entity/fallen_seraph_wings')
     src = os.path.join(VANILLA, 'entity', 'end_crystal', 'end_crystal.png')
     if os.path.exists(src):
-        save_png(recolor(Image.open(src), 0.13, 1.05, 0.35, keep_bright=0.1), 'entity/seraph_crystal')
+        save_png(crystal_texture(Image.open(src).convert('RGBA')), 'entity/seraph_crystal')
     else:
         print('  нет', src, '— текстура кристалла не обновлена')
     lang_patch({

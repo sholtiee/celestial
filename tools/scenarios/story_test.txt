@@ -42,5 +42,6 @@ wait 60
 useitem
 wait 20
 shot story_journal_end
+/celestial status
 pos
 quit
