@@ -8,7 +8,11 @@ export JAVA_HOME=${JAVA_HOME:-/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Cont
 LOG=${LOG:-build/devserver.log}
 mkdir -p build
 ./gradlew runServer --no-configuration-cache -q --args=nogui > "$LOG" 2>&1 < /dev/null &
-until grep -qE "RCON running|BUILD FAILED|Exception in|Crash" "$LOG" 2>/dev/null; do sleep 1; done
+until grep -qE "RCON running|BUILD FAILED|Exception in|Crash|Failed to load registries" "$LOG" 2>/dev/null; do sleep 1; done
+if grep -qE "Failed to load registries|Crash" "$LOG"; then
+	echo "!!! сервер не запустился:"; grep -E "Failed to parse|Caused by" "$LOG" | head -20
+	pkill -f KnotServer; exit 1
+fi
 for cmd in "$@"; do
 	case "$cmd" in
 		sleep:*) sleep "${cmd#sleep:}" ;;

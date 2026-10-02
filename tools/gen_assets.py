@@ -572,8 +572,8 @@ def gen_mobs():
     item_name('seraph_wings', 'Крылья Серафима', 'Seraph Wings')
 
     # добыча
-    entity_loot('fallen_guardian', [('minecraft:gold_nugget', 1, 4), (c('raw_etherite'), 0, 1), (c('starquartz'), 1, 1, 0.12), (c('seraph_feather'), 1, 1, 0.08)])
-    entity_loot('storm_spirit', [(c('starquartz'), 1, 2), ('minecraft:glowstone_dust', 0, 2)])
+    entity_loot('fallen_guardian', [('minecraft:gold_nugget', 1, 4), (c('raw_etherite'), 0, 1), (c('starquartz'), 1, 1, 0.12), (c('seraph_feather'), 1, 1, 0.08), (c('bronze_key'), 1, 1, 0.1)])
+    entity_loot('storm_spirit', [(c('starquartz'), 1, 2), ('minecraft:glowstone_dust', 0, 2), (c('silver_key'), 1, 1, 0.08)])
     entity_loot('winged_serpent', [('minecraft:phantom_membrane', 0, 1), (c('cloud_fluff'), 0, 2), (c('seraph_feather'), 1, 1, 0.15)])
     entity_loot('cloud_whale', [(c('cloud_fluff'), 3, 6)])
     entity_loot('light_wisp', [('minecraft:glowstone_dust', 1, 1)])
@@ -742,7 +742,58 @@ def gen_equipment():
     shaped('light_spear', c('light_spear'), ['  Q', ' E ', 'E  '], {'Q': Q, 'E': S}, 1, 'equipment')
 
 
+def gen_keys_and_story_blocks():
+    key_rows = [
+        '................',
+        '................',
+        '..111...........',
+        '.12221..........',
+        '.12.21..........',
+        '.12221111111111.',
+        '..11122222222221',
+        '.....11111121121',
+        '..........1.1.1.',
+        '................',
+        '................',
+        '................',
+        '................',
+        '................',
+        '................',
+        '................']
+    for name, ru, en, light, dark in (('bronze_key', 'Бронзовый ключ', 'Bronze Key', '#e0a15e', '#8a5a2b'),
+                                      ('silver_key', 'Серебряный ключ', 'Silver Key', '#eef2f7', '#8e99a8'),
+                                      ('golden_key', 'Золотой ключ', 'Golden Key', '#ffe08a', '#b9862a')):
+        save_png(T.sprite(key_rows, {'1': dark, '2': light}), 'item/' + name)
+        model('item/' + name, {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('item/' + name)}})
+        item_def(name, c('item/' + name))
+        item_name(name, ru, en)
+
+    # печать Серафима: светлый камень с выжженным знаком
+    seal = T.radiant_stone()
+    for x, y in [(7, 2), (8, 2), (7, 13), (8, 13), (2, 7), (2, 8), (13, 7), (13, 8)] + [(i, i) for i in range(4, 12)] + [(i, 15 - i) for i in range(4, 12)]:
+        seal.putpixel((x, y), (*T.hexrgb('#8a1c1c'), 255))
+    save_png(seal, 'block/seraph_seal')
+    simple_cube('seraph_seal')
+    block_name('seraph_seal', 'Печать Серафима', 'Seraph Seal')
+    # алтарь: постамент (нижняя часть шире), сверху чаша
+    save_png(T.bricks('altar_side', T.SKYSTONE[2:], '#c9a23a'), 'block/celestial_altar_side')
+    save_png(T.radiant_stone(), 'block/celestial_altar_top')
+    blockstate('celestial_altar', {'variants': {'': {'model': c('block/celestial_altar')}}})
+    model('block/celestial_altar', {'parent': 'minecraft:block/block', 'textures': {
+        'particle': c('block/celestial_altar_side'), 'side': c('block/celestial_altar_side'), 'top': c('block/celestial_altar_top')},
+        'elements': [
+            {'from': [1, 0, 1], 'to': [15, 4, 15], 'faces': {d: {'texture': '#side'} for d in ('north', 'south', 'east', 'west', 'down')} | {'up': {'texture': '#top'}}},
+            {'from': [4, 4, 4], 'to': [12, 11, 12], 'faces': {d: {'texture': '#side'} for d in ('north', 'south', 'east', 'west')}},
+            {'from': [2, 11, 2], 'to': [14, 14, 14], 'faces': {d: {'texture': '#side'} for d in ('north', 'south', 'east', 'west', 'down')} | {'up': {'texture': '#top'}}}]})
+    item_def('celestial_altar', c('block/celestial_altar'))
+    block_name('celestial_altar', 'Небесный алтарь', 'Celestial Altar')
+    tr('tag.item.celestial.etherite_tool_materials', 'Материалы эфиритовых инструментов', 'Etherite Tool Materials')
+    tr('tag.item.celestial.repairs_etherite_armor', 'Чинит эфиритовую броню', 'Repairs Etherite Armor')
+    tr('tag.item.celestial.skywood_logs', 'Брёвна небесного дерева', 'Skywood Logs')
+
+
 def main():
+    gen_keys_and_story_blocks()
     gen_blocks()
     gen_items()
     gen_mobs()

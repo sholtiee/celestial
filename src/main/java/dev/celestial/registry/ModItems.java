@@ -89,6 +89,11 @@ public final class ModItems {
 	public static final Item LIGHT_SPEAR = register("light_spear", dev.celestial.item.LightSpearItem::new,
 		new Item.Properties().durability(300).rarity(Rarity.RARE).enchantable(1).repairable(STARQUARTZ));
 
+	// Ключи от хранилищ в руинах (сундуки заперты на предмет-ключ в руке)
+	public static final Item BRONZE_KEY = register("bronze_key", Item::new, new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON));
+	public static final Item SILVER_KEY = register("silver_key", Item::new, new Item.Properties().stacksTo(16).rarity(Rarity.RARE));
+	public static final Item GOLDEN_KEY = register("golden_key", Item::new, new Item.Properties().stacksTo(16).rarity(Rarity.EPIC));
+
 	private ModItems() {}
 
 	public static Item register(String name, Function<Item.Properties, Item> factory, Item.Properties properties) {

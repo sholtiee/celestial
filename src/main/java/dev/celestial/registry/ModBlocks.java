@@ -97,6 +97,12 @@ public final class ModBlocks {
 	public static final Block HEAVEN_PORTAL = registerNoItem("heaven_portal", HeavenPortalBlock::new,
 		Properties.of().noCollision().strength(-1.0F).sound(SoundType.GLASS).lightLevel(s -> 13).pushReaction(PushReaction.IMMOVEABLE).noLootTable());
 
+	// Сюжетные блоки Цитадели
+	public static final Block SERAPH_SEAL = register("seraph_seal", dev.celestial.block.SeraphSealBlock::new,
+		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().lightLevel(s -> 15).sound(SoundType.AMETHYST));
+	public static final Block CELESTIAL_ALTAR = register("celestial_altar", dev.celestial.block.CelestialAltarBlock::new,
+		Properties.of().mapColor(MapColor.QUARTZ).strength(-1.0F, 3600000.0F).noLootTable().lightLevel(s -> 10).noOcclusion().sound(SoundType.STONE));
+
 	private ModBlocks() {}
 
 	private static Block registerNoItem(String name, Function<Properties, Block> factory, Properties properties) {

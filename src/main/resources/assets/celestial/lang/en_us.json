@@ -1,4 +1,5 @@
 {
+  "block.celestial.celestial_altar": "Celestial Altar",
   "block.celestial.cloud": "Cloud",
   "block.celestial.etherite_block": "Block of Etherite",
   "block.celestial.etherite_ore": "Etherite Ore",
@@ -9,6 +10,7 @@
   "block.celestial.manna_bush": "Manna Bush",
   "block.celestial.radiant_stone": "Radiant Stone",
   "block.celestial.rain_cloud": "Rain Cloud",
+  "block.celestial.seraph_seal": "Seraph Seal",
   "block.celestial.sky_crystal": "Sky Crystal",
   "block.celestial.skystone": "Skystone",
   "block.celestial.skystone_brick_slab": "Skystone Brick Slab",
@@ -35,6 +37,7 @@
   "entity.celestial.storm_spirit": "Storm Spirit",
   "entity.celestial.winged_serpent": "Winged Serpent",
   "item.celestial.angel_spawn_egg": "Angel Spawn Egg",
+  "item.celestial.bronze_key": "Bronze Key",
   "item.celestial.cloud_fluff": "Cloud Fluff",
   "item.celestial.cloud_parachute": "Cloud Parachute",
   "item.celestial.cloud_whale_spawn_egg": "Cloud Whale Spawn Egg",
@@ -50,6 +53,7 @@
   "item.celestial.etherite_sword": "Etherite Sword",
   "item.celestial.fallen_guardian_spawn_egg": "Fallen Guardian Spawn Egg",
   "item.celestial.flame_shard": "Flame Shard",
+  "item.celestial.golden_key": "Golden Key",
   "item.celestial.halo": "Halo",
   "item.celestial.light_spear": "Spear of Light",
   "item.celestial.light_wisp_spawn_egg": "Light Wisp Spawn Egg",
@@ -59,11 +63,15 @@
   "item.celestial.raw_etherite": "Raw Etherite",
   "item.celestial.seraph_feather": "Seraph Feather",
   "item.celestial.seraph_wings": "Seraph Wings",
+  "item.celestial.silver_key": "Silver Key",
   "item.celestial.starbow": "Starbow",
   "item.celestial.starquartz": "Starquartz",
   "item.celestial.storm_spirit_spawn_egg": "Storm Spirit Spawn Egg",
   "item.celestial.void_heart": "Void Heart",
   "item.celestial.winged_serpent_spawn_egg": "Winged Serpent Spawn Egg",
   "itemGroup.celestial": "Celestial: Heaven",
-  "jukebox_song.celestial.heavenly_choir": "Celestial - Heavenly Choir"
+  "jukebox_song.celestial.heavenly_choir": "Celestial - Heavenly Choir",
+  "tag.item.celestial.etherite_tool_materials": "Etherite Tool Materials",
+  "tag.item.celestial.repairs_etherite_armor": "Repairs Etherite Armor",
+  "tag.item.celestial.skywood_logs": "Skywood Logs"
 }

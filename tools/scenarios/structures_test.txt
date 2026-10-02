@@ -1,0 +1,19 @@
+# Структуры Рая: деревня, руины, цитадель — вид сверху-сбоку
+/time set 6000
+/gamerule advance_time false
+/gamerule spawn_monsters false
+fly
+goto celestial:sky_village 0 12 -30 0 25
+wait 200
+togglehud
+shot structure_village
+goto celestial:sky_ruins 0 10 -26 0 25
+wait 200
+shot structure_ruins
+goto celestial:citadel 0 14 -40 0 22
+wait 240
+shot structure_citadel
+goto celestial:citadel 0 3 -3 0 10
+wait 60
+shot structure_citadel_arena
+quit

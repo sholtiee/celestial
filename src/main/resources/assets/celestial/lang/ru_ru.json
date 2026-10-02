@@ -1,4 +1,5 @@
 {
+  "block.celestial.celestial_altar": "Небесный алтарь",
   "block.celestial.cloud": "Облако",
   "block.celestial.etherite_block": "Эфиритовый блок",
   "block.celestial.etherite_ore": "Эфиритовая руда",
@@ -9,6 +10,7 @@
   "block.celestial.manna_bush": "Манна-куст",
   "block.celestial.radiant_stone": "Светлый камень",
   "block.celestial.rain_cloud": "Дождевое облако",
+  "block.celestial.seraph_seal": "Печать Серафима",
   "block.celestial.sky_crystal": "Небесный кристалл",
   "block.celestial.skystone": "Небесный камень",
   "block.celestial.skystone_brick_slab": "Плита из небесного кирпича",
@@ -35,6 +37,7 @@
   "entity.celestial.storm_spirit": "Грозовой дух",
   "entity.celestial.winged_serpent": "Крылатый змей",
   "item.celestial.angel_spawn_egg": "Яйцо призыва: Небесный житель",
+  "item.celestial.bronze_key": "Бронзовый ключ",
   "item.celestial.cloud_fluff": "Облачная вата",
   "item.celestial.cloud_parachute": "Облачный парашют",
   "item.celestial.cloud_whale_spawn_egg": "Яйцо призыва: облачный кит",
@@ -50,6 +53,7 @@
   "item.celestial.etherite_sword": "Эфиритовый меч",
   "item.celestial.fallen_guardian_spawn_egg": "Яйцо призыва: падший страж",
   "item.celestial.flame_shard": "Осколок Пламени",
+  "item.celestial.golden_key": "Золотой ключ",
   "item.celestial.halo": "Нимб",
   "item.celestial.light_spear": "Копьё Света",
   "item.celestial.light_wisp_spawn_egg": "Яйцо призыва: светлячок-проводник",
@@ -59,11 +63,15 @@
   "item.celestial.raw_etherite": "Необработанный эфирит",
   "item.celestial.seraph_feather": "Перо серафима",
   "item.celestial.seraph_wings": "Крылья Серафима",
+  "item.celestial.silver_key": "Серебряный ключ",
   "item.celestial.starbow": "Звёздный лук",
   "item.celestial.starquartz": "Звёздный кварц",
   "item.celestial.storm_spirit_spawn_egg": "Яйцо призыва: грозовой дух",
   "item.celestial.void_heart": "Сердце Пустоты",
   "item.celestial.winged_serpent_spawn_egg": "Яйцо призыва: крылатый змей",
   "itemGroup.celestial": "Celestial: Рай",
-  "jukebox_song.celestial.heavenly_choir": "Celestial — Небесный хор"
+  "jukebox_song.celestial.heavenly_choir": "Celestial — Небесный хор",
+  "tag.item.celestial.etherite_tool_materials": "Материалы эфиритовых инструментов",
+  "tag.item.celestial.repairs_etherite_armor": "Чинит эфиритовую броню",
+  "tag.item.celestial.skywood_logs": "Брёвна небесного дерева"
 }

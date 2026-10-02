@@ -47,6 +47,32 @@ public final class AutoPilot {
 		ClientTickEvents.END_CLIENT_TICK.register(AutoPilot::tick);
 	}
 
+	private static void gotoStructure(Minecraft mc, String id, double dx, double dy, double dz, float yaw, float pitch) {
+		var server = mc.getSingleplayerServer();
+		if (server == null) {
+			return;
+		}
+		server.execute(() -> {
+			var level = server.getLevel(dev.celestial.world.HeavenDimension.HEAVEN);
+			var registry = level.registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.STRUCTURE);
+			var holder = registry.getOrThrow(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.STRUCTURE,
+				net.minecraft.resources.Identifier.parse(id)));
+			var player = server.getPlayerList().getPlayers().getFirst();
+			var found = level.getChunkSource().getGenerator().findNearestMapStructure(level,
+				net.minecraft.core.HolderSet.direct(holder), player.blockPosition(), 100, false);
+			if (found == null) {
+				Celestial.LOGGER.warn("Автопилот: структура {} не найдена", id);
+				return;
+			}
+			BlockPos at = found.getFirst();
+			var start = level.getChunk(at).getStartForStructure(holder.value());
+			var box = start != null && start.isValid() ? start.getBoundingBox() : new net.minecraft.world.level.levelgen.structure.BoundingBox(at);
+			var center = box.getCenter();
+			Celestial.LOGGER.info("Автопилот: {} в {} (коробка {})", id, center, box);
+			player.teleportTo(level, center.getX() + dx, box.maxY() + dy, center.getZ() + dz, java.util.Set.of(), yaw, pitch, false);
+		});
+	}
+
 	private static void tick(Minecraft mc) {
 		if (mc.player == null || mc.getConnection() == null || steps.isEmpty()) {
 			return;
@@ -86,6 +112,20 @@ public final class AutoPilot {
 				case "front" -> net.minecraft.client.CameraType.THIRD_PERSON_FRONT;
 				default -> net.minecraft.client.CameraType.FIRST_PERSON;
 			});
+		} else if (step.equals("fly")) {
+			var server = mc.getSingleplayerServer();
+			if (server != null) {
+				server.execute(() -> server.getPlayerList().getPlayers().forEach(p -> {
+					p.getAbilities().flying = true;
+					p.onUpdateAbilities();
+				}));
+			}
+		} else if (step.startsWith("goto ")) {
+			// goto <id структуры> dx dy dz yaw pitch — относительно центра/верха найденной структуры
+			String[] a = step.substring(5).strip().split("\\s+");
+			gotoStructure(mc, a[0], Double.parseDouble(a[1]), Double.parseDouble(a[2]), Double.parseDouble(a[3]),
+				Float.parseFloat(a[4]), Float.parseFloat(a[5]));
+			waitTicks = 5;
 		} else if (step.equals("pos")) {
 			Celestial.LOGGER.info("Автопилот: позиция {} {} {} {} блок-под-ногами={}", mc.player.level().dimension().identifier(),
 				(int) Math.floor(mc.player.getX()), (int) Math.floor(mc.player.getY()), (int) Math.floor(mc.player.getZ()),
