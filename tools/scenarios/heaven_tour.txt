@@ -1,0 +1,16 @@
+# Осмотр Рая: телепорт, день, скриншоты в разные стороны
+/gamerule doDaylightCycle false
+/time set 6000
+/execute in celestial:heaven run tp @s -32 215 300 0 25
+wait 140
+shot heaven_north
+/tp @s ~ ~ ~ 90 20
+wait 60
+shot heaven_west
+/tp @s ~ ~ ~ 180 35
+wait 60
+shot heaven_south
+/execute in celestial:heaven run tp @s 100 200 240 -135 30
+wait 140
+shot heaven_cloud_forest
+quit

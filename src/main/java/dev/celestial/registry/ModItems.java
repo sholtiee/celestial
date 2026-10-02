@@ -59,7 +59,7 @@ public final class ModItems {
 
 	// Сюжетные предметы
 	public static final Item FLAME_SHARD = register("flame_shard", Item::new, new Item.Properties().rarity(Rarity.RARE).fireResistant().stacksTo(16));
-	public static final Item VOID_HEART = register("void_heart", Item::new, new Item.Properties().rarity(Rarity.EPIC).stacksTo(16));
+	public static final Item VOID_HEART = register("void_heart", dev.celestial.item.VoidHeartItem::new, new Item.Properties().rarity(Rarity.EPIC).stacksTo(1));
 
 	private ModItems() {}
 

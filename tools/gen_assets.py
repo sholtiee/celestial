@@ -296,8 +296,20 @@ def gen_blocks():
         bs['variants']['type=double'] = {'model': c('block/' + full)}
         write_json(path, bs)
 
+    # --- портал в Рай
+    save_png(T.heaven_portal(), 'block/heaven_portal')
+    with open(os.path.join(ASSETS, 'textures/block/heaven_portal.png.mcmeta'), 'w') as f:
+        json.dump({'animation': {'frametime': 2, 'interpolate': True}}, f)
+    blockstate('heaven_portal', {'variants': {'axis=x': {'model': c('block/heaven_portal_ns')}, 'axis=z': {'model': c('block/heaven_portal_ew')}}})
+    for suffix in ('ns', 'ew'):
+        with open(os.path.join(VANILLA, f'models/block/nether_portal_{suffix}.json')) as f:
+            m = json.load(f)
+        m['textures'] = {'particle': c('block/heaven_portal'), 'portal': c('block/heaven_portal')}
+        model(f'block/heaven_portal_{suffix}', m)
+
     # --- названия
     names = {
+        'heaven_portal': ('Портал в Рай', 'Heaven Portal'),
         'heaven_dirt': ('Небесная земля', 'Heaven Dirt'),
         'golden_grass': ('Золотая трава', 'Golden Grass'),
         'skystone': ('Небесный камень', 'Skystone'),

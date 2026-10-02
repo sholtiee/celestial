@@ -4,6 +4,7 @@ import dev.celestial.Celestial;
 import dev.celestial.block.CloudBlock;
 import dev.celestial.block.MannaBushBlock;
 import dev.celestial.block.RainCloudBlock;
+import dev.celestial.world.HeavenPortalBlock;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -91,6 +92,10 @@ public final class ModBlocks {
 	// Растения (у куста предмет — сама манна, регистрируется в ModItems)
 	public static final Block MANNA_BUSH = registerNoItem("manna_bush", MannaBushBlock::new,
 		Properties.of().mapColor(MapColor.PLANT).randomTicks().noCollision().sound(SoundType.SWEET_BERRY_BUSH).pushReaction(PushReaction.POPPED).lightLevel(s -> 4));
+
+	// Портал в Рай (без предмета: появляется при активации рамки Сердцем Пустоты)
+	public static final Block HEAVEN_PORTAL = registerNoItem("heaven_portal", HeavenPortalBlock::new,
+		Properties.of().noCollision().strength(-1.0F).sound(SoundType.GLASS).lightLevel(s -> 13).pushReaction(PushReaction.IMMOVEABLE).noLootTable());
 
 	private ModBlocks() {}
 

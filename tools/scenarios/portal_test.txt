@@ -1,0 +1,25 @@
+# Портал в Рай: строим рамку в Верхнем мире, зажигаем Сердцем Пустоты, проходим туда и обратно
+/execute in minecraft:overworld run tp @s 11.5 150 12.5 180 10
+/time set 6000
+wait 60
+/fill 8 149 6 15 149 14 minecraft:stone
+/fill 10 150 8 13 154 8 celestial:radiant_stone
+/fill 11 151 8 12 153 8 minecraft:air
+/tp @s 11.5 150 12.5 180 10
+/item replace entity @s weapon.mainhand with celestial:void_heart
+wait 40
+use 11 150 8 up
+wait 20
+shot portal_lit
+/tp @s 11.5 151 8.5 180 0
+wait 200
+pos
+shot portal_heaven_arrival
+/tp @s ~ ~ ~3 0 10
+wait 30
+shot portal_heaven_view
+/tp @s ~ ~ ~-3 0 0
+wait 200
+pos
+shot portal_back_overworld
+quit

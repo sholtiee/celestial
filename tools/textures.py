@@ -606,3 +606,20 @@ def icon():
     img.paste(gs, (32, 48))
     img.paste(cl.crop((0, 0, 64, 24)), (32, 64))
     return img
+
+
+def heaven_portal(frames=16):
+    """Анимированная золотисто-белая завеса (кадры друг под другом)."""
+    img = Image.new('RGBA', (16, 16 * frames))
+    for f in range(frames):
+        t = f / frames * 2 * math.pi
+        for y in range(16):
+            for x in range(16):
+                dx, dy = x - 7.5, y - 7.5
+                ang = math.atan2(dy, dx)
+                d = math.sqrt(dx * dx + dy * dy)
+                v = 0.5 + 0.5 * math.sin(ang * 3 + d * 0.9 - t)
+                v = v * 0.7 + 0.3 * (0.5 + 0.5 * math.sin(y * 0.8 + t * 2))
+                c = mix(hexrgb('#ffd56b'), hexrgb('#ffffff'), v)
+                img.putpixel((x, y + 16 * f), (*c, int(150 + 80 * v)))
+    return img
