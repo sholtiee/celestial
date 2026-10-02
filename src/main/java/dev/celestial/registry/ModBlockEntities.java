@@ -11,6 +11,13 @@ public final class ModBlockEntities {
 	public static final BlockEntityType<SeraphSealBlockEntity> SERAPH_SEAL = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE,
 		Celestial.id("seraph_seal"), new BlockEntityType<>(SeraphSealBlockEntity::new, Set.of(ModBlocks.SERAPH_SEAL)));
 
+	public static final BlockEntityType<dev.celestial.block.light.BeamSourceBlockEntity> BEAM_SOURCE = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("beam_source"),
+		new BlockEntityType<>(dev.celestial.block.light.BeamSourceBlockEntity::new, Set.of(ModBlocks.SUN_LENS, ModBlocks.BEAM_LANTERN)));
+	public static final BlockEntityType<dev.celestial.block.puzzle.BellAltarBlockEntity> BELL_ALTAR = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("bell_altar"),
+		new BlockEntityType<>(dev.celestial.block.puzzle.BellAltarBlockEntity::new, Set.of(ModBlocks.BELL_ALTAR)));
+
 	private ModBlockEntities() {}
 
 	public static void init() {

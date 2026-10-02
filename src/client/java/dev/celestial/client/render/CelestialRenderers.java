@@ -40,6 +40,8 @@ public final class CelestialRenderers {
 
 	public static void init() {
 		ModModelLayers.init();
+		net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry.register(
+			dev.celestial.registry.ModBlockEntities.BEAM_SOURCE, ctx -> new BeamRenderer());
 		EntityRendererRegistry.register(ModEntities.FALLEN_GUARDIAN, ctx -> new Humanoid<>(ctx, tex("fallen_guardian"), 1.0F));
 		EntityRendererRegistry.register(ModEntities.ANGEL, ctx -> new Humanoid<>(ctx, tex("angel"), 0.95F));
 		EntityRendererRegistry.register(ModEntities.STORM_SPIRIT, StormSpiritRenderer::new);

@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "color=white,powered=false": {
+      "model": "celestial:block/light_receiver_white"
+    },
+    "color=white,powered=true": {
+      "model": "celestial:block/light_receiver_white_on"
+    },
+    "color=red,powered=false": {
+      "model": "celestial:block/light_receiver_red"
+    },
+    "color=red,powered=true": {
+      "model": "celestial:block/light_receiver_red_on"
+    },
+    "color=green,powered=false": {
+      "model": "celestial:block/light_receiver_green"
+    },
+    "color=green,powered=true": {
+      "model": "celestial:block/light_receiver_green_on"
+    },
+    "color=blue,powered=false": {
+      "model": "celestial:block/light_receiver_blue"
+    },
+    "color=blue,powered=true": {
+      "model": "celestial:block/light_receiver_blue_on"
+    }
+  }
+}

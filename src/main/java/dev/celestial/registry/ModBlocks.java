@@ -130,6 +130,42 @@ public final class ModBlocks {
 	public static final Block HEAVEN_PORTAL = registerNoItem("heaven_portal", p -> new CelestialPortalBlock(() -> dev.celestial.world.portal.PortalTypes.HEAVEN, p),
 		Properties.of().noCollision().strength(-1.0F).sound(SoundType.GLASS).lightLevel(s -> 13).pushReaction(PushReaction.IMMOVEABLE).noLootTable());
 
+	// Светотехника
+	public static final Block SUN_LENS = register("sun_lens", p -> new dev.celestial.block.light.BeamSourceBlock(
+		dev.celestial.block.light.BeamSourceBlock.Kind.SUN_LENS, p), Properties.of().mapColor(MapColor.GOLD).strength(2.0F).sound(SoundType.AMETHYST)
+			.lightLevel(s -> s.getValue(dev.celestial.block.light.BeamSourceBlock.ACTIVE) ? 12 : 3).noOcclusion());
+	public static final Block BEAM_LANTERN = register("beam_lantern", p -> new dev.celestial.block.light.BeamSourceBlock(
+		dev.celestial.block.light.BeamSourceBlock.Kind.LANTERN, p), Properties.ofFullCopy(SUN_LENS));
+	public static final Block BEAM_MIRROR = register("beam_mirror", dev.celestial.block.light.BeamMirrorBlock::new,
+		Properties.of().mapColor(MapColor.QUARTZ).strength(1.5F).sound(SoundType.GLASS).noOcclusion());
+	public static final Block BEAM_PRISM = register("beam_prism", dev.celestial.block.light.BeamPrismBlock::new,
+		Properties.of().mapColor(MapColor.DIAMOND).strength(1.5F).sound(SoundType.AMETHYST).noOcclusion().lightLevel(s -> 5));
+	public static final Block RED_FILTER = register("red_filter", p -> new dev.celestial.block.light.BeamFilterBlock(dev.celestial.light.LightColor.RED, p),
+		Properties.of().mapColor(MapColor.COLOR_RED).strength(0.5F).sound(SoundType.GLASS).noOcclusion());
+	public static final Block GREEN_FILTER = register("green_filter", p -> new dev.celestial.block.light.BeamFilterBlock(dev.celestial.light.LightColor.GREEN, p),
+		Properties.of().mapColor(MapColor.COLOR_GREEN).strength(0.5F).sound(SoundType.GLASS).noOcclusion());
+	public static final Block BLUE_FILTER = register("blue_filter", p -> new dev.celestial.block.light.BeamFilterBlock(dev.celestial.light.LightColor.BLUE, p),
+		Properties.of().mapColor(MapColor.COLOR_BLUE).strength(0.5F).sound(SoundType.GLASS).noOcclusion());
+	public static final Block PERISCOPE = register("periscope", dev.celestial.block.light.PeriscopeBlock::new,
+		Properties.of().mapColor(MapColor.QUARTZ).strength(1.5F).sound(SoundType.GLASS).noOcclusion());
+	public static final Block LIGHT_RECEIVER = register("light_receiver", dev.celestial.block.light.LightReceiverBlock::new,
+		Properties.of().mapColor(MapColor.GOLD).strength(2.0F).sound(SoundType.METAL)
+			.lightLevel(s -> s.getValue(dev.celestial.block.light.LightReceiverBlock.POWERED) ? 10 : 0));
+
+	// Загадки
+	public static final Block SEALED_DOOR = register("sealed_door", dev.celestial.block.puzzle.SealedDoorBlock::new,
+		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST).lightLevel(s -> 6));
+	public static final Block SKY_BELL = register("sky_bell", dev.celestial.block.puzzle.SkyBellBlock::new,
+		Properties.of().mapColor(MapColor.GOLD).strength(2.0F).sound(SoundType.ANVIL).noOcclusion());
+	public static final Block BELL_ALTAR = register("bell_altar", dev.celestial.block.puzzle.BellAltarBlock::new,
+		Properties.of().mapColor(MapColor.QUARTZ).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.STONE));
+	public static final Block RUNE_PEDESTAL = register("rune_pedestal", dev.celestial.block.puzzle.RunePedestalBlock::new,
+		Properties.of().mapColor(MapColor.QUARTZ).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.STONE)
+			.lightLevel(s -> s.getValue(dev.celestial.block.puzzle.RunePedestalBlock.SOLVED) ? 12 : 4));
+	public static final Block STAR_TILE = register("star_tile", dev.celestial.block.puzzle.StarTileBlock::new,
+		Properties.of().mapColor(MapColor.COLOR_BLUE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST)
+			.lightLevel(s -> s.getValue(dev.celestial.block.puzzle.StarTileBlock.LIT) ? 10 : 2));
+
 	// Сюжетные блоки Цитадели
 	public static final Block SERAPH_SEAL = register("seraph_seal", dev.celestial.block.SeraphSealBlock::new,
 		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().lightLevel(s -> 15).sound(SoundType.AMETHYST));

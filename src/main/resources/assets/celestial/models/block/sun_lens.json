@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "front": "celestial:block/sun_lens_front",
+    "side": "celestial:block/sun_lens_side",
+    "top": "celestial:block/sun_lens_side",
+    "bottom": "celestial:block/sun_lens_side"
+  }
+}

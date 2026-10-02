@@ -1,0 +1,23 @@
+# Светотехника: линза → зеркало → призма → приёмники; зелёный приёмник открывает печать-дверь
+/gamemode creative
+/time set 6000
+/gamerule advance_time false
+fly
+/execute in celestial:heaven run fill -2 179 -12 26 190 12 minecraft:air
+/execute in celestial:heaven run fill -2 179 -12 26 179 12 celestial:skystone_bricks
+/execute in celestial:heaven run tp @s 12 186 -10 0 35
+/execute in celestial:heaven run setblock 0 180 0 celestial:sun_lens[facing=east]
+/execute in celestial:heaven run setblock 8 180 0 celestial:beam_mirror[flipped=true]
+/execute in celestial:heaven run setblock 8 180 6 celestial:beam_prism
+/execute in celestial:heaven run setblock 8 180 4 minecraft:air
+/execute in celestial:heaven run setblock 14 180 6 celestial:light_receiver[color=red]
+/execute in celestial:heaven run setblock 8 180 11 celestial:light_receiver[color=green]
+/execute in celestial:heaven run setblock 2 180 6 celestial:light_receiver[color=blue]
+/execute in celestial:heaven run fill 7 180 12 9 182 12 celestial:sealed_door
+wait 60
+/execute in celestial:heaven if block 8 180 11 celestial:light_receiver[powered=true] run say ПРИЁМНИК_ЗЕЛЁНЫЙ_ГОРИТ
+/execute in celestial:heaven if block 8 181 12 minecraft:air run say ДВЕРЬ_ОТКРЫТА
+togglehud
+wait 20
+shot beam_circuit
+quit

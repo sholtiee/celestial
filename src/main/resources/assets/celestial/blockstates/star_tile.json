@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "lit=false,solved=false": {
+      "model": "celestial:block/star_tile"
+    },
+    "lit=false,solved=true": {
+      "model": "celestial:block/star_tile_solved"
+    },
+    "lit=true,solved=false": {
+      "model": "celestial:block/star_tile_lit"
+    },
+    "lit=true,solved=true": {
+      "model": "celestial:block/star_tile_lit_solved"
+    }
+  }
+}

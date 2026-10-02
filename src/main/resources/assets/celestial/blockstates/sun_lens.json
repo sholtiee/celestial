@@ -1,0 +1,50 @@
+{
+  "variants": {
+    "facing=north,active=false": {
+      "model": "celestial:block/sun_lens"
+    },
+    "facing=north,active=true": {
+      "model": "celestial:block/sun_lens_on"
+    },
+    "facing=south,active=false": {
+      "model": "celestial:block/sun_lens",
+      "y": 180
+    },
+    "facing=south,active=true": {
+      "model": "celestial:block/sun_lens_on",
+      "y": 180
+    },
+    "facing=east,active=false": {
+      "model": "celestial:block/sun_lens",
+      "y": 90
+    },
+    "facing=east,active=true": {
+      "model": "celestial:block/sun_lens_on",
+      "y": 90
+    },
+    "facing=west,active=false": {
+      "model": "celestial:block/sun_lens",
+      "y": 270
+    },
+    "facing=west,active=true": {
+      "model": "celestial:block/sun_lens_on",
+      "y": 270
+    },
+    "facing=up,active=false": {
+      "model": "celestial:block/sun_lens",
+      "x": 270
+    },
+    "facing=up,active=true": {
+      "model": "celestial:block/sun_lens_on",
+      "x": 270
+    },
+    "facing=down,active=false": {
+      "model": "celestial:block/sun_lens",
+      "x": 90
+    },
+    "facing=down,active=true": {
+      "model": "celestial:block/sun_lens_on",
+      "x": 90
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "celestial:block/light_receiver_blue_on"
+  }
+}

@@ -83,6 +83,8 @@ public final class ModItems {
 			.setAsset(SERAPH_WINGS_ASSET).setDamageOnHurt(false).build())
 		.repairable(STARQUARTZ), "seraph_wings", 2));
 
+	public static final Item TUNING_FORK = register("tuning_fork", dev.celestial.item.TuningForkItem::new,
+		lore(new Item.Properties().stacksTo(1), "tuning_fork", 1));
 	public static final Item SERAPH_FEATHER = register("seraph_feather", Item::new, new Item.Properties().rarity(Rarity.UNCOMMON));
 	public static final ResourceKey<net.minecraft.world.item.JukeboxSong> HEAVENLY_CHOIR_SONG =
 		ResourceKey.create(Registries.JUKEBOX_SONG, Celestial.id("heavenly_choir"));

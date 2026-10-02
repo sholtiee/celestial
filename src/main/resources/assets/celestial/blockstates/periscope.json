@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,up=true": {
+      "model": "celestial:block/periscope_up"
+    },
+    "facing=north,up=false": {
+      "model": "celestial:block/periscope_down"
+    },
+    "facing=south,up=true": {
+      "model": "celestial:block/periscope_up",
+      "y": 180
+    },
+    "facing=south,up=false": {
+      "model": "celestial:block/periscope_down",
+      "y": 180
+    },
+    "facing=east,up=true": {
+      "model": "celestial:block/periscope_up",
+      "y": 90
+    },
+    "facing=east,up=false": {
+      "model": "celestial:block/periscope_down",
+      "y": 90
+    },
+    "facing=west,up=true": {
+      "model": "celestial:block/periscope_up",
+      "y": 270
+    },
+    "facing=west,up=false": {
+      "model": "celestial:block/periscope_down",
+      "y": 270
+    }
+  }
+}

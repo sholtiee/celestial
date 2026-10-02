@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "flipped=false": {
+      "model": "celestial:block/beam_mirror"
+    },
+    "flipped=true": {
+      "model": "celestial:block/beam_mirror",
+      "y": 90
+    }
+  }
+}

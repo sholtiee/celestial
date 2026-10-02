@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "celestial:sun_lens",
+    "minecraft:redstone_torch"
+  ],
+  "result": {
+    "id": "celestial:beam_lantern"
+  }
+}

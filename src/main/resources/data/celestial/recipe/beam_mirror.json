@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "L": "minecraft:glass",
+    "I": "minecraft:iron_ingot"
+  },
+  "pattern": [
+    "LI",
+    "IL"
+  ],
+  "result": {
+    "id": "celestial:beam_mirror",
+    "count": 2
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "G": "minecraft:gold_ingot",
+    "Q": "celestial:starquartz",
+    "L": "minecraft:glass"
+  },
+  "pattern": [
+    "GQG",
+    "QLQ",
+    "GQG"
+  ],
+  "result": {
+    "id": "celestial:sun_lens"
+  }
+}

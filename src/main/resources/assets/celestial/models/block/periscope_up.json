@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "front": "celestial:block/periscope_front",
+    "side": "celestial:block/periscope_side",
+    "top": "celestial:block/periscope_top",
+    "bottom": "celestial:block/periscope_side"
+  }
+}

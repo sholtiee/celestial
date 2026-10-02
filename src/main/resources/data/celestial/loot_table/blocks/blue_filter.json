@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "celestial:blue_filter"
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "celestial:blocks/blue_filter"
+}

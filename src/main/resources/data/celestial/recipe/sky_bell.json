@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "G": "minecraft:gold_ingot",
+    "Q": "celestial:starquartz"
+  },
+  "pattern": [
+    " G ",
+    "GQG",
+    "G G"
+  ],
+  "result": {
+    "id": "celestial:sky_bell"
+  }
+}

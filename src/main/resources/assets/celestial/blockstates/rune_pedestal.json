@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "riddle=0,solved=false": {
+      "model": "celestial:block/rune_pedestal"
+    },
+    "riddle=0,solved=true": {
+      "model": "celestial:block/rune_pedestal_solved"
+    },
+    "riddle=1,solved=false": {
+      "model": "celestial:block/rune_pedestal"
+    },
+    "riddle=1,solved=true": {
+      "model": "celestial:block/rune_pedestal_solved"
+    },
+    "riddle=2,solved=false": {
+      "model": "celestial:block/rune_pedestal"
+    },
+    "riddle=2,solved=true": {
+      "model": "celestial:block/rune_pedestal_solved"
+    },
+    "riddle=3,solved=false": {
+      "model": "celestial:block/rune_pedestal"
+    },
+    "riddle=3,solved=true": {
+      "model": "celestial:block/rune_pedestal_solved"
+    },
+    "riddle=4,solved=false": {
+      "model": "celestial:block/rune_pedestal"
+    },
+    "riddle=4,solved=true": {
+      "model": "celestial:block/rune_pedestal_solved"
+    },
+    "riddle=5,solved=false": {
+      "model": "celestial:block/rune_pedestal"
+    },
+    "riddle=5,solved=true": {
+      "model": "celestial:block/rune_pedestal_solved"
+    },
+    "riddle=6,solved=false": {
+      "model": "celestial:block/rune_pedestal"
+    },
+    "riddle=6,solved=true": {
+      "model": "celestial:block/rune_pedestal_solved"
+    },
+    "riddle=7,solved=false": {
+      "model": "celestial:block/rune_pedestal"
+    },
+    "riddle=7,solved=true": {
+      "model": "celestial:block/rune_pedestal_solved"
+    }
+  }
+}

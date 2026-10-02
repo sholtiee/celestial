@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "celestial:block/light_receiver_white"
+  }
+}

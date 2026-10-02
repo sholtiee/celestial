@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "note=0": {
+      "model": "celestial:block/sky_bell_0"
+    },
+    "note=1": {
+      "model": "celestial:block/sky_bell_1"
+    },
+    "note=2": {
+      "model": "celestial:block/sky_bell_2"
+    },
+    "note=3": {
+      "model": "celestial:block/sky_bell_3"
+    },
+    "note=4": {
+      "model": "celestial:block/sky_bell_4"
+    }
+  }
+}

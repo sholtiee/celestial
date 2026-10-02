@@ -1,0 +1,110 @@
+{
+  "textures": {
+    "mirror": "celestial:block/beam_mirror",
+    "base": "celestial:block/beam_mirror_base",
+    "particle": "celestial:block/beam_mirror"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        2,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#base"
+        },
+        "south": {
+          "texture": "#base"
+        },
+        "east": {
+          "texture": "#base"
+        },
+        "west": {
+          "texture": "#base"
+        },
+        "up": {
+          "texture": "#base"
+        },
+        "down": {
+          "texture": "#base"
+        }
+      }
+    },
+    {
+      "from": [
+        7.5,
+        2,
+        0
+      ],
+      "to": [
+        8.5,
+        16,
+        16
+      ],
+      "rotation": {
+        "origin": [
+          8,
+          8,
+          8
+        ],
+        "axis": "y",
+        "angle": 45,
+        "rescale": true
+      },
+      "faces": {
+        "east": {
+          "texture": "#mirror",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#mirror",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "north": {
+          "texture": "#mirror",
+          "uv": [
+            7,
+            0,
+            9,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#mirror",
+          "uv": [
+            7,
+            0,
+            9,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#mirror",
+          "uv": [
+            7,
+            0,
+            9,
+            16
+          ]
+        }
+      }
+    }
+  ]
+}

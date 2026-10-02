@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "solved=false": {
+      "model": "celestial:block/bell_altar"
+    },
+    "solved=true": {
+      "model": "celestial:block/bell_altar_solved"
+    }
+  }
+}

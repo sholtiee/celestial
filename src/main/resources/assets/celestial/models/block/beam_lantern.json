@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "front": "celestial:block/beam_lantern_front",
+    "side": "celestial:block/beam_lantern_side",
+    "top": "celestial:block/beam_lantern_side",
+    "bottom": "celestial:block/beam_lantern_side"
+  }
+}

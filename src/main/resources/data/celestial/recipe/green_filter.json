@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "minecraft:glass",
+    "minecraft:lime_dye",
+    "celestial:starquartz"
+  ],
+  "result": {
+    "id": "celestial:green_filter",
+    "count": 2
+  }
+}

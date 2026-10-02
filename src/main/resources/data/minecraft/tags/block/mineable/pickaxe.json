@@ -11,6 +11,16 @@
     "celestial:starquartz_ore",
     "celestial:etherite_block",
     "celestial:sky_crystal",
-    "celestial:sky_crystal_block"
+    "celestial:sky_crystal_block",
+    "celestial:sun_lens",
+    "celestial:beam_lantern",
+    "celestial:beam_mirror",
+    "celestial:beam_prism",
+    "celestial:periscope",
+    "celestial:light_receiver",
+    "celestial:sky_bell",
+    "celestial:red_filter",
+    "celestial:green_filter",
+    "celestial:blue_filter"
   ]
 }
