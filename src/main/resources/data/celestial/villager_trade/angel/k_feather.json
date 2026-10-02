@@ -1,0 +1,11 @@
+{
+  "gives": {
+    "id": "celestial:seraph_feather"
+  },
+  "max_uses": 6,
+  "reputation_discount": 0.0,
+  "wants": {
+    "id": "celestial:starquartz",
+    "count": 4
+  }
+}

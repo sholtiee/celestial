@@ -1,0 +1,12 @@
+{
+  "gives": {
+    "id": "celestial:cloud_parachute",
+    "count": 2
+  },
+  "max_uses": 12,
+  "reputation_discount": 0.0,
+  "wants": {
+    "id": "celestial:starquartz",
+    "count": 2
+  }
+}

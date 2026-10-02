@@ -1,0 +1,11 @@
+{
+  "gives": {
+    "id": "celestial:celestial_forge"
+  },
+  "max_uses": 1,
+  "reputation_discount": 0.0,
+  "wants": {
+    "id": "celestial:etherite_ingot",
+    "count": 6
+  }
+}

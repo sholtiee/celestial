@@ -334,3 +334,16 @@ def mimic():
     paint_box(img, 0, 19, 14, 10, 14, lambda f, x, y, fw, fh: hexrgb('#5a1a2a') if f == 'top' else chest_wood(f, x, y, fw, fh))
     paint_box(img, 0, 44, 12, 2, 1, lambda f, x, y, fw, fh: hexrgb('#f6f2e8') if x % 2 == 0 else hexrgb('#5a1a2a'))
     return img
+
+
+ANGEL_ROBES = {  # профессия: (одеяние, отделка, рукава)
+    'keeper': ('#f7f4ec', '#e3b54a', '#ffffff'),
+    'smith': ('#7a5a3a', '#e3b54a', '#5a3f28'),
+    'astronomer': ('#2a3a7a', '#bfe9ff', '#1e2a5a'),
+    'gardener': ('#cfe6a8', '#7d8f3a', '#e8f2d0'),
+}
+
+
+def angel_profession(name):
+    robe, trim, sleeve = ANGEL_ROBES[name]
+    return humanoid('angel_' + name, skin='#f3d6bd', hair='#f4d27a', robe=robe, trim=trim, eyes='#3a8fd8', limbs=sleeve)

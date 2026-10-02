@@ -30,6 +30,7 @@ public class Celestial implements ModInitializer {
 		dev.celestial.world.dim.DimensionPhysics.init();
 		dev.celestial.item.EquipmentEffects.init();
 		dev.celestial.story.StoryEvents.init();
+		dev.celestial.quest.Quests.init();
 		LOGGER.info("Celestial: небеса открываются");
 	}
 

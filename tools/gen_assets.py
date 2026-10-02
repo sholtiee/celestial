@@ -527,6 +527,8 @@ def gen_mobs():
         'storm_spirit': M.storm_spirit(), 'winged_serpent': M.winged_serpent(), 'cloud_whale': M.cloud_whale(),
         'light_wisp': M.light_wisp(), 'pegasus': M.pegasus(), 'pegasus_baby': M.pegasus(baby=True),
         'pegasus_golden': M.pegasus(coat='golden'), 'pegasus_storm': M.pegasus(coat='storm'),
+        'angel_keeper': M.angel_profession('keeper'), 'angel_smith': M.angel_profession('smith'),
+        'angel_astronomer': M.angel_profession('astronomer'), 'angel_gardener': M.angel_profession('gardener'),
         'cherub': M.cherub(), 'golden_ram': M.golden_ram(), 'sky_ray': M.sky_ray(), 'cloud_jelly': M.cloud_jelly(), 'mimic': M.mimic(),
     }
     for k, img in textures.items():
@@ -650,6 +652,20 @@ def gen_mobs():
         trade('experience', 'minecraft:experience_bottle', 4, S, 3),
         trade('name_tag', 'minecraft:name_tag', 1, S, 4, 2),
     ]
+    prof = {
+        'keeper': [trade('k_parachute', c('cloud_parachute'), 2, S, 2), trade('k_bronze_key', c('bronze_key'), 1, E, 1, 3),
+                   trade('k_feather', c('seraph_feather'), 1, S, 4, 6)],
+        'smith': [trade('s_rune_wind', c('rune_of_wind'), 1, E, 2, 3), trade('s_rune_light', c('rune_of_light'), 1, E, 2, 3),
+                  trade('s_fork', c('tuning_fork'), 1, S, 3, 2), trade('s_forge', c('celestial_forge'), 1, E, 6, 1)],
+        'astronomer': [trade('a_rune_stars', c('rune_of_stars'), 1, E, 2, 3), trade('a_lens', c('sun_lens'), 1, S, 4, 3),
+                       trade('a_beacon', c('sky_beacon'), 1, E, 3, 2), trade('a_prism', c('beam_prism'), 1, E, 3, 2)],
+        'gardener': [trade('g_willow', c('cloud_willow_sapling'), 2, S, 1), trade('g_starpine', c('starpine_sapling'), 2, S, 1),
+                     trade('g_flowers', c('sunbell'), 4, S, 1), trade('g_jelly', c('sky_jelly'), 2, S, 2)],
+    }
+    for name, trades in prof.items():
+        write_json(os.path.join(DATA, f'tags/villager_trade/angel/{name}.json'), {'values': trades})
+        write_json(os.path.join(DATA, f'trade_set/angel/{name}.json'),
+                   {'amount': 3, 'random_sequence': c(f'trade_set/angel/{name}'), 'trades': f'#celestial:angel/{name}'})
     write_json(os.path.join(DATA, 'tags/villager_trade/angel/common.json'), {'values': common})
     write_json(os.path.join(DATA, 'tags/villager_trade/angel/rare.json'), {'values': rare})
     write_json(os.path.join(DATA, 'trade_set/angel/common.json'),

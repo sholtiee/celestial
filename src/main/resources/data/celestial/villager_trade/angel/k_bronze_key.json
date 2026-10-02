@@ -1,0 +1,10 @@
+{
+  "gives": {
+    "id": "celestial:bronze_key"
+  },
+  "max_uses": 3,
+  "reputation_discount": 0.0,
+  "wants": {
+    "id": "celestial:etherite_ingot"
+  }
+}

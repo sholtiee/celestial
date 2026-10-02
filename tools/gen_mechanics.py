@@ -231,6 +231,19 @@ def trials(names):
     })
 
 
+def quest_board():
+    img = T.planks()
+    paper = T.hexrgb('#f4ead3'); ink = T.hexrgb('#5b3a1e'); gold = T.hexrgb('#c9a23a')
+    for (x0, y0) in ((2, 2), (9, 3), (3, 9), (9, 10)):
+        for y in range(y0, y0 + 5):
+            for x in range(x0, x0 + 5):
+                img.putpixel((x, y), (*paper, 255))
+        for x in range(x0 + 1, x0 + 4):
+            img.putpixel((x, y0 + 1), (*ink, 255)); img.putpixel((x, y0 + 3), (*ink, 255))
+        img.putpixel((x0 + 2, y0), (*gold, 255))
+    return img
+
+
 def crystal_like(name):
     img = T.noisy(name, [T.hexrgb(h) for h in ('#2a4190', '#3a55b0', '#4d6bd0', '#93c5fd')], cell=4, grain=0.4)
     return img
@@ -443,6 +456,18 @@ def main():
 
     machines(names)
     trials(names)
+    save_png(quest_board(), 'block/quest_board')
+    model('block/quest_board', {'textures': {'front': c('block/quest_board'), 'wood': c('block/skywood_planks'), 'particle': c('block/quest_board')},
+                                'elements': [
+                                    {'from': [1, 0, 7], 'to': [3, 16, 9], 'faces': {d: {'texture': '#wood'} for d in ('north', 'south', 'east', 'west', 'up', 'down')}},
+                                    {'from': [13, 0, 7], 'to': [15, 16, 9], 'faces': {d: {'texture': '#wood'} for d in ('north', 'south', 'east', 'west', 'up', 'down')}},
+                                    {'from': [0, 4, 7.5], 'to': [16, 15, 8.5], 'faces': {'north': {'texture': '#front'}, 'south': {'texture': '#front'},
+                                                                                         'east': {'texture': '#wood'}, 'west': {'texture': '#wood'},
+                                                                                         'up': {'texture': '#wood'}, 'down': {'texture': '#wood'}}}]})
+    blockstate('quest_board', {'variants': {f'facing={f}': {'model': c('block/quest_board'), **FACING_ROT[f]} for f in ('north', 'south', 'east', 'west')}})
+    item_def('quest_board', c('block/quest_board'))
+    self_drop('quest_board')
+    shaped('quest_board', c('quest_board'), ['PPP', 'PBP', 'F F'], {'P': c('skywood_planks'), 'B': 'minecraft:paper', 'F': c('skywood_fence')}, 1, 'misc')
 
     # теги дописываем к существующим файлам
     for (kind, name), values in TAGS.items():

@@ -1,0 +1,11 @@
+{
+  "gives": {
+    "id": "celestial:tuning_fork"
+  },
+  "max_uses": 2,
+  "reputation_discount": 0.0,
+  "wants": {
+    "id": "celestial:starquartz",
+    "count": 3
+  }
+}

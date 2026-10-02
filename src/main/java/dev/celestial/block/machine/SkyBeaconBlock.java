@@ -49,6 +49,11 @@ public class SkyBeaconBlock extends Block {
 	@Override
 	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
 		if (level instanceof ServerLevel server) {
+			String dim = level.dimension().identifier().toString();
+			if (CelestialData.beacons(server.getServer()).beacons().stream().noneMatch(b -> b.pos().equals(pos) && b.dimension().equals(dim))) {
+				// маяк из сгенерированной постройки зажигается при первом касании
+				CelestialData.updateBeacons(server.getServer(), n -> n.with(new BeaconNetwork.Beacon(dim, pos, "Маяк " + pos.getX() + " " + pos.getZ())));
+			}
 			List<BeaconNetwork.Beacon> all = CelestialData.beacons(server.getServer()).beacons();
 			player.sendSystemMessage(Component.translatable("machine.celestial.beacon.header").withStyle(ChatFormatting.GOLD));
 			for (int i = 0; i < all.size(); i++) {

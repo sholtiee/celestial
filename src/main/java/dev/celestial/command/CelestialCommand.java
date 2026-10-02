@@ -65,6 +65,14 @@ public final class CelestialCommand {
 						var dimId = net.minecraft.commands.arguments.IdentifierArgument.getId(ctx, "dimension");
 						return dev.celestial.block.machine.BeaconTravel.travel(player, target, dimId);
 					}))))
+			.then(Commands.literal("quest")
+				.then(Commands.literal("take").then(Commands.argument("board", net.minecraft.commands.arguments.coordinates.BlockPosArgument.blockPos())
+					.then(Commands.argument("index", IntegerArgumentType.integer(0, 9)).executes(ctx -> dev.celestial.quest.Quests.take(
+						ctx.getSource().getPlayerOrException(),
+						net.minecraft.commands.arguments.coordinates.BlockPosArgument.getBlockPos(ctx, "board"), IntegerArgumentType.getInteger(ctx, "index"))))))
+				.then(Commands.literal("turnin").then(Commands.argument("board", net.minecraft.commands.arguments.coordinates.BlockPosArgument.blockPos())
+					.executes(ctx -> dev.celestial.quest.Quests.turnIn(ctx.getSource().getPlayerOrException(),
+						net.minecraft.commands.arguments.coordinates.BlockPosArgument.getBlockPos(ctx, "board"))))))
 			.then(Commands.literal("codex").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
 				.then(Commands.argument("entry", StringArgumentType.word()).executes(ctx -> {
 					String entry = StringArgumentType.getString(ctx, "entry");

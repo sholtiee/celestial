@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": "celestial:skywood_planks",
+    "B": "minecraft:paper",
+    "F": "celestial:skywood_fence"
+  },
+  "pattern": [
+    "PPP",
+    "PBP",
+    "F F"
+  ],
+  "result": {
+    "id": "celestial:quest_board"
+  }
+}

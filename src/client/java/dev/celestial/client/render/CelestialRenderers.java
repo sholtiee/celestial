@@ -43,7 +43,7 @@ public final class CelestialRenderers {
 		net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry.register(
 			dev.celestial.registry.ModBlockEntities.BEAM_SOURCE, ctx -> new BeamRenderer());
 		EntityRendererRegistry.register(ModEntities.FALLEN_GUARDIAN, ctx -> new Humanoid<>(ctx, tex("fallen_guardian"), 1.0F));
-		EntityRendererRegistry.register(ModEntities.ANGEL, ctx -> new Humanoid<>(ctx, tex("angel"), 0.95F));
+		EntityRendererRegistry.register(ModEntities.ANGEL, AngelRenderer::new);
 		EntityRendererRegistry.register(ModEntities.STORM_SPIRIT, StormSpiritRenderer::new);
 		EntityRendererRegistry.register(ModEntities.FALLEN_SERAPH, ctx -> new Humanoid<>(ctx, tex("fallen_seraph"), 1.5F));
 		EntityRendererRegistry.register(ModEntities.WINGED_SERPENT, ctx -> new PhantomRenderer(ctx) {
@@ -106,6 +106,37 @@ public final class CelestialRenderers {
 		@Override
 		protected void scale(HumanoidRenderState state, PoseStack poseStack) {
 			poseStack.scale(scale, scale, scale);
+		}
+	}
+
+	public static class AngelState extends HumanoidRenderState {
+		public int profession;
+	}
+
+	static class AngelRenderer extends HumanoidMobRenderer<dev.celestial.entity.Angel, AngelState, HumanoidModel<AngelState>> {
+		AngelRenderer(EntityRendererProvider.Context ctx) {
+			super(ctx, new HumanoidModel<>(ctx.bakeLayer(ModModelLayers.HUMANOID)), 0.5F);
+		}
+
+		@Override
+		public Identifier getTextureLocation(AngelState state) {
+			return tex("angel_" + dev.celestial.entity.Angel.PROFESSIONS[Math.floorMod(state.profession, 4)]);
+		}
+
+		@Override
+		public AngelState createRenderState() {
+			return new AngelState();
+		}
+
+		@Override
+		public void extractRenderState(dev.celestial.entity.Angel entity, AngelState state, float partialTicks) {
+			super.extractRenderState(entity, state, partialTicks);
+			state.profession = entity.getProfession();
+		}
+
+		@Override
+		protected void scale(AngelState state, PoseStack poseStack) {
+			poseStack.scale(0.95F, 0.95F, 0.95F);
 		}
 	}
 

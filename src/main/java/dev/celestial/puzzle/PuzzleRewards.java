@@ -16,6 +16,12 @@ public final class PuzzleRewards {
 	public static void solved(ServerLevel level, BlockPos pos, Player player, String kind) {
 		level.playSound(null, pos, SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, SoundSource.BLOCKS, 1.0F, 1.2F);
 		level.sendParticles(ParticleTypes.END_ROD, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5, 40, 0.5, 0.6, 0.5, 0.15);
+		// решённая загадка открывает печать-двери поблизости
+		for (BlockPos p : BlockPos.betweenClosed(pos.offset(-12, -6, -12), pos.offset(12, 10, 12))) {
+			if (level.getBlockState(p).is(dev.celestial.registry.ModBlocks.SEALED_DOOR)) {
+				dev.celestial.block.puzzle.SealedDoorBlock.dissolve(level, p.immutable());
+			}
+		}
 		if (player != null) {
 			player.sendOverlayMessage(Component.translatable("puzzle.celestial.solved"));
 			CelestialData.update(player, d -> d.withGrace(d.grace() + 1).withCodex("puzzle_" + kind));

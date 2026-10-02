@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "celestial:block/quest_board"
+    },
+    "facing=south": {
+      "model": "celestial:block/quest_board",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "celestial:block/quest_board",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "celestial:block/quest_board",
+      "y": 270
+    }
+  }
+}

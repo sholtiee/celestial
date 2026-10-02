@@ -1,0 +1,11 @@
+{
+  "gives": {
+    "id": "celestial:beam_prism"
+  },
+  "max_uses": 2,
+  "reputation_discount": 0.0,
+  "wants": {
+    "id": "celestial:etherite_ingot",
+    "count": 3
+  }
+}

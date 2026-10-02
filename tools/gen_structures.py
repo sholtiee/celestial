@@ -185,13 +185,14 @@ def sky_village():
     t.set(23, top + 1, 5, 'minecraft:crafting_table')
     t.set(5, top + 1, 28, 'minecraft:white_bed', facing='east', part='foot', occupied=False)
     t.set(6, top + 1, 28, 'minecraft:white_bed', facing='east', part='head', occupied=False)
+    t.set(16, top + 1, 12, C('quest_board'), facing='south')
     # фонари на столбах вдоль дорог
     for x, z in ((12, 12), (20, 12), (12, 20), (20, 20)):
         t.fill(x, top + 1, z, x, top + 2, z, FENCE, north=False, south=False, east=False, west=False, waterlogged=False)
         t.set(x, top + 3, z, 'minecraft:lantern', hanging=False, waterlogged=False)
     # жители и пегасы
-    for x, y, z in inside[:3]:
-        t.entity(x, y, z, {'id': C('angel'), 'PersistenceRequired': True})
+    for i, (x, y, z) in enumerate(inside[:3]):
+        t.entity(x, y, z, {'id': C('angel'), 'PersistenceRequired': True, 'Profession': i})
     t.entity(16, top + 1, 9, {'id': C('pegasus'), 'PersistenceRequired': True})
     t.entity(9, top + 1, 16, {'id': C('pegasus'), 'PersistenceRequired': True})
     return t.save('sky_village/center')
@@ -288,6 +289,220 @@ def citadel():
     return t.save('citadel/main')
 
 
+# ================================================================ большая деревня
+def grand_village():
+    rng = random.Random(77)
+    t = Template(45, 22, 45)
+    top = 7
+    island_base(t, 22, 22, 22, top, 9, rng)
+    for i in range(3, 42):
+        for w in (21, 22, 23):
+            t.set(i, top, w, BRICKS); t.set(w, top, i, BRICKS)
+    # площадь с доской поручений и фонтаном
+    t.fill(17, top, 17, 27, top, 27, BRICKS)
+    t.walls(19, top + 1, 19, 25, top + 1, 25, RADIANT)
+    t.fill(20, top + 1, 20, 24, top + 1, 24, 'minecraft:water', level=0)
+    t.fill(22, top + 1, 22, 22, top + 4, 22, RADIANT)
+    t.set(22, top + 5, 22, C('sky_crystal'), facing='up', waterlogged=False)
+    t.set(22, top + 1, 17, C('quest_board'), facing='north')
+    t.set(17, top + 1, 22, C('sky_beacon'))
+    # храм на севере
+    t.fill(16, top, 3, 28, top, 13, BRICKS)
+    t.walls(16, top + 1, 3, 28, top + 8, 13, BRICKS)
+    t.fill(17, top + 1, 4, 27, top + 7, 12, 'minecraft:air')
+    t.fill(21, top + 1, 13, 23, top + 4, 13, 'minecraft:air')
+    for x in (16, 28):
+        for z in range(3, 14, 3):
+            t.fill(x, top + 1, z, x, top + 8, z, RADIANT)
+    for layer in range(5):
+        t.fill(16 + layer, top + 9 + layer, 3, 28 - layer, top + 9 + layer, 13, BRICKS)
+    t.set(22, top + 1, 5, C('celestial_altar'))
+    for i, x in enumerate((18, 20, 24, 26, 22)):
+        t.set(x, top + 1, 7 if i < 4 else 9, C('sky_bell'), note=i)
+    t.set(22, top + 1, 9, C('sky_bell'), note=4)
+    t.set(22, top + 7, 8, 'minecraft:lantern', hanging=True, waterlogged=False)
+    # рынок на востоке: прилавки под навесами
+    for k, z in enumerate((17, 21, 25)):
+        x0 = 31
+        t.fill(x0, top + 1, z, x0 + 3, top + 1, z, C('skywood_slab'), type='top', waterlogged=False)
+        for x in (x0, x0 + 3):
+            t.fill(x, top + 1, z + 1, x, top + 3, z + 1, FENCE, north=False, south=False, east=False, west=False, waterlogged=False)
+        t.fill(x0, top + 4, z, x0 + 3, top + 4, z + 2, ['minecraft:yellow_wool', 'minecraft:white_wool', 'minecraft:light_blue_wool'][k])
+        chest(t, x0 + 1, top + 2, z, 'celestial:chests/sky_village', facing='west')
+    # сад на юге
+    for x in range(16, 29):
+        for z in range(31, 41):
+            if (x + z) % 3 == 0:
+                t.set(x, top + 1, z, C(rng.choice(['sky_lily', 'sunbell', 'cloudbloom', 'aether_rose', 'dawn_poppy'])))
+            elif (x * z) % 7 == 0:
+                t.set(x, top + 1, z, C('manna_bush'), age=3)
+    t.set(22, top + 1, 36, C('cloud_willow_sapling'), stage=0)
+    # шесть домов
+    inside = [house(t, x, z, top, 8, 7, rng, d) for x, z, d in ((3, 3, 's'), (3, 16, 'e'), (3, 29, 'e'), (33, 3, 's'), (33, 33, 'n'), (3, 37, 'n'))]
+    for i, (x, y, z) in enumerate(inside):
+        t.entity(x, y, z, {'id': C('angel'), 'PersistenceRequired': True, 'Profession': i % 4})
+    t.entity(22, top + 1, 15, {'id': C('angel'), 'PersistenceRequired': True, 'Profession': 2})
+    t.entity(30, top + 1, 30, {'id': C('pegasus'), 'PersistenceRequired': True, 'Variant': 1})
+    t.entity(14, top + 1, 30, {'id': C('pegasus'), 'PersistenceRequired': True})
+    t.entity(25, top + 1, 38, {'id': C('golden_ram'), 'PersistenceRequired': True, 'Color': 4})
+    for x, z in ((15, 15), (29, 15), (15, 29), (29, 29)):
+        t.fill(x, top + 1, z, x, top + 2, z, FENCE, north=False, south=False, east=False, west=False, waterlogged=False)
+        t.set(x, top + 3, z, 'minecraft:lantern', hanging=False, waterlogged=False)
+    return t.save('sky_village/grand')
+
+
+# ================================================================ Храм Лучей
+def beam_temple():
+    """Луч с крыши (линза → перископ) надо довести до ЗЕЛЁНОГО приёмника у печати: повернуть перископ и зеркало Камертоном."""
+    rng = random.Random(41)
+    t = Template(27, 16, 27)
+    top = 5
+    island_base(t, 13, 13, 13, top, 7, rng)
+    t.fill(2, top, 2, 24, top, 24, BRICKS)
+    t.walls(2, top + 1, 2, 24, top + 7, 24, BRICKS)
+    t.fill(2, top + 8, 2, 24, top + 8, 24, BRICKS)
+    for x in range(2, 25, 4):
+        for z in (2, 24):
+            t.fill(x, top + 1, z, x, top + 7, z, RADIANT)
+    t.fill(12, top + 1, 2, 14, top + 4, 2, 'minecraft:air')  # вход
+    for x, z in ((6, 6), (20, 6), (6, 20), (20, 20)):
+        t.set(x, top + 7, z, 'minecraft:lantern', hanging=True, waterlogged=False)
+    # луч: линза на крыше светит вниз в перископ (стоит не туда — надо повернуть на юг)
+    t.set(8, top + 9, 8, C('sun_lens'), nbt={'id': C('beam_source')}, facing='down', active=False)
+    t.set(8, top + 8, 8, 'minecraft:glass')
+    t.set(8, top + 1, 8, C('periscope'), facing='west', up=False)
+    t.set(8, top + 1, 14, C('beam_prism'))
+    t.set(8, top + 1, 18, C('beam_mirror'), flipped=False)  # стоит неверно: зелёный уйдёт на запад
+    t.set(14, top + 1, 14, C('light_receiver'), color='red', powered=False)
+    t.set(2 + 1, top + 1, 14, C('light_receiver'), color='blue', powered=False)
+    t.set(16, top + 1, 18, C('light_receiver'), color='green', powered=False)
+    t.fill(17, top + 1, 17, 17, top + 3, 19, C('sealed_door'))
+    # сокровищница за печатью
+    t.fill(18, top + 1, 16, 23, top + 4, 21, 'minecraft:air')
+    chest(t, 22, top + 1, 18, 'celestial:chests/beam_temple', facing='west')
+    chest(t, 4, top + 1, 4, 'celestial:chests/trial_tools', facing='south')
+    t.set(13, top + 1, 6, C('rune_pedestal'), riddle=3, solved=False)
+    return t.save('beam_temple/main')
+
+
+# ================================================================ Облачный замок
+def cloud_castle():
+    rng = random.Random(53)
+    t = Template(35, 34, 35)
+    top = 6
+    island_base(t, 17, 17, 17, top, 9, rng)
+    floors = [top, top + 9, top + 18]
+    for f, y0 in enumerate(floors):
+        inset = f * 3
+        a, b = 3 + inset, 31 - inset
+        t.fill(a, y0, a, b, y0, b, BRICKS if f == 0 else C('cloud'))
+        t.walls(a, y0 + 1, a, b, y0 + 8, b, C('cloud') if f else BRICKS)
+        for x, z in ((a, a), (b, a), (a, b), (b, b)):
+            t.fill(x - 1, y0, z - 1, x + 1, y0 + 10, z + 1, BRICKS)
+            t.set(x, y0 + 11, z, C('sky_crystal'), facing='up', waterlogged=False)
+        for x in range(a + 2, b - 1, 4):
+            t.set(x, y0 + 4, a, 'minecraft:white_stained_glass'); t.set(x, y0 + 4, b, 'minecraft:white_stained_glass')
+        t.set(17, y0 + 7, 17, 'minecraft:lantern', hanging=True, waterlogged=False)
+    t.fill(16, top + 1, 3, 18, top + 4, 3, 'minecraft:air')
+    # 1 этаж: мимики и сундуки, плитки-звёзды открывают лестницу
+    for x, z in ((6, 8), (28, 8), (6, 26)):
+        chest(t, x, top + 1, z, 'celestial:chests/ruins_bronze', facing='east')
+    for x, z in ((28, 26), (17, 28)):
+        t.entity(x, top + 1, z, {'id': C('mimic'), 'PersistenceRequired': True, 'Rotation': [0.0, 0.0]})
+    for x in range(15, 20):
+        for z in range(15, 20):
+            if abs(x - 17) <= 1 and abs(z - 17) <= 1:
+                t.set(x, top, z, C('star_tile'), lit=(x + z) % 2 == 0, solved=False)
+    t.fill(25, top + 1, 14, 27, top + 9, 14, 'minecraft:air')
+    for k in range(9):
+        t.set(26, top + 1 + k, 15 + k % 3, C('skystone_brick_stairs'), facing='south', half='bottom', shape='straight', waterlogged=False)
+    t.fill(25, top + 9, 14, 27, top + 9, 18, C('sealed_door'))
+    # 2 этаж: стражи и рунный пьедестал
+    y1 = floors[1]
+    t.set(17, y1 + 1, 17, C('rune_pedestal'), riddle=rng.randrange(8), solved=False)
+    t.set(12, y1 + 1, 12, 'minecraft:spawner', nbt={'id': 'minecraft:mob_spawner', 'SpawnData': {'entity': {'id': C('fallen_guardian')}},
+                                                    'MinSpawnDelay': 400, 'MaxSpawnDelay': 900, 'SpawnCount': 2, 'MaxNearbyEntities': 4,
+                                                    'RequiredPlayerRange': 14})
+    t.fill(16, y1 + 9, 22, 18, y1 + 9, 24, C('sealed_door'))
+    t.set(17, y1 + 1, 19, C('sealed_door'))
+    for k in range(9):
+        t.set(17, y1 + 1 + k, 20 + k % 3, C('skystone_brick_stairs'), facing='south', half='bottom', shape='straight', waterlogged=False) if k > 0 else None
+    # 3 этаж: кристалл испытания с Грозовым элементалем и сокровищница
+    y2 = floors[2]
+    t.set(17, y2 + 1, 17, C('trial_crystal'), nbt={'id': C('trial_crystal'), 'Trial': 'cloud_castle'}, state='idle')
+    chest(t, 17, y2 + 1, 22, 'celestial:chests/cloud_castle', facing='north')
+    chest(t, 15, y2 + 1, 22, 'celestial:chests/cloud_castle', facing='north')
+    return t.save('cloud_castle/main')
+
+
+# ================================================================ Небесный маяк
+def sky_lighthouse():
+    rng = random.Random(61)
+    t = Template(15, 42, 15)
+    top = 4
+    island_base(t, 7, 7, 7, top, 6, rng)
+    for y in range(top + 1, top + 32):
+        for x in range(4, 11):
+            for z in range(4, 11):
+                d = math.hypot(x - 7, z - 7)
+                if 2.2 < d <= 3.3:
+                    stripe = ((y - top) // 4) % 2 == 0
+                    t.set(x, y, z, 'minecraft:white_concrete' if stripe else C('skystone_bricks'))
+    for y in range(top + 1, top + 31):
+        t.set(7, y, 5, 'minecraft:ladder', facing='south', waterlogged=False)
+    t.fill(6, top + 1, 4, 8, top + 3, 4, 'minecraft:air')
+    t.set(7, top + 1, 5, 'minecraft:air'); t.set(7, top + 2, 5, 'minecraft:air')
+    t.fill(3, top + 32, 3, 11, top + 32, 11, BRICKS)
+    for x, z in ((3, 3), (11, 3), (3, 11), (11, 11)):
+        t.fill(x, top + 33, z, x, top + 36, z, RADIANT)
+    t.fill(3, top + 37, 3, 11, top + 37, 11, C('golden_cloud'))
+    t.set(7, top + 33, 7, C('sky_beacon'))
+    t.set(7, top + 36, 7, C('sun_lens'), nbt={'id': C('beam_source')}, facing='up', active=False)
+    chest(t, 9, top + 33, 9, 'celestial:chests/sky_village', facing='west')
+    return t.save('sky_lighthouse/main')
+
+
+# ================================================================ Обломки воздушного галеона
+def airship_wreck():
+    rng = random.Random(97)
+    t = Template(37, 22, 15)
+    keel = 6
+    for x in range(2, 35):
+        half = int(5 * math.sin(math.pi * (x - 2) / 32)) + 1
+        depth = int(4 * math.sin(math.pi * (x - 2) / 32)) + 1
+        for z in range(7 - half, 8 + half):
+            for y in range(keel - depth, keel + 1):
+                edge = abs(z - 7) == half or y == keel - depth
+                if edge and rng.random() > 0.08:  # пробоины
+                    t.set(x, y, z, C('skywood_planks') if y > keel - depth else LOG, **({'axis': 'x'} if y == keel - depth else {}))
+            if abs(z - 7) < half and rng.random() > 0.05:
+                t.set(x, keel + 1, z, C('skywood_slab'), type='bottom', waterlogged=False)
+        if abs(x - 18) > 8:
+            for z in (7 - half, 7 + half):
+                t.set(x, keel + 2, z, FENCE, north=False, south=False, east=True, west=True, waterlogged=False)
+    # мачты и паруса (один порван)
+    for mx, h in ((12, 12), (24, 10)):
+        t.fill(mx, keel + 2, 7, mx, keel + 2 + h, 7, LOG, axis='y')
+        for y in range(keel + 5, keel + 2 + h):
+            for z in range(3, 12):
+                if not (mx == 24 and rng.random() < 0.45):
+                    t.set(mx + 1, y, z, 'minecraft:white_wool')
+    # пушки и груз
+    for x in (8, 16, 28):
+        t.set(x, keel + 2, 3, 'minecraft:dispenser', facing='north', triggered=False)
+        t.set(x, keel + 2, 11, 'minecraft:dispenser', facing='south', triggered=False)
+    chest(t, 18, keel, 7, 'celestial:chests/airship_wreck', facing='east')
+    chest(t, 30, keel + 2, 7, 'celestial:chests/airship_wreck', facing='west')
+    t.set(4, keel + 2, 7, 'minecraft:barrel', facing='up', open=False)
+    # облака держат обломки
+    for _ in range(40):
+        x, z = rng.randrange(4, 33), rng.randrange(2, 13)
+        t.set(x, rng.randrange(0, 3), z, C(rng.choice(['cloud', 'cloud', 'golden_cloud'])))
+    t.entity(14, keel + 2, 7, {'id': C('fallen_guardian'), 'PersistenceRequired': True})
+    t.entity(26, keel + 2, 8, {'id': C('fallen_guardian'), 'PersistenceRequired': True})
+    return t.save('airship_wreck/main')
+
+
 # ================================================================ Башня Испытаний Рая
 FLOOR_H = 7
 TOWER = 21
@@ -378,11 +593,14 @@ def decorate_floor(t, n, y0, rng):
 
 
 # ================================================================ JSON: пулы, структуры, наборы
-def pool(name, location):
-    write_json(os.path.join(DATA, 'worldgen/template_pool', name + '.json'), {
-        'fallback': 'minecraft:empty',
-        'elements': [{'weight': 1, 'element': {'element_type': 'minecraft:single_pool_element', 'location': c(location),
-                                               'processors': 'minecraft:empty', 'projection': 'rigid'}}]})
+def pool(name, location, *more):
+    """more — дополнительные варианты (местоположение, вес)."""
+    elements = [{'weight': 2 if more else 1, 'element': {'element_type': 'minecraft:single_pool_element', 'location': c(location),
+                                                         'processors': 'minecraft:empty', 'projection': 'rigid'}}]
+    for loc, w in more:
+        elements.append({'weight': w, 'element': {'element_type': 'minecraft:single_pool_element', 'location': c(loc),
+                                                  'processors': 'minecraft:empty', 'projection': 'rigid'}})
+    write_json(os.path.join(DATA, 'worldgen/template_pool', name + '.json'), {'fallback': 'minecraft:empty', 'elements': elements})
 
 
 def structure(name, pool_name, biomes_tag, y, adaptation='beard_box'):
@@ -434,6 +652,16 @@ def loot():
                                         (C('cloud_parachute'), 2, 1, 2), (C('rune_of_wind'), 1, 1, 1), (C('rune_of_light'), 1, 1, 1),
                                         (C('rune_of_sky'), 1, 1, 1), (C('rune_of_stars'), 1, 1, 1)])])
     chest_table('trial_tools', [p(1, [(C('tuning_fork'), 1, 1, 1)])])
+    chest_table('beam_temple', [
+        p(1, [(C('beam_prism'), 1, 1, 1)]),
+        p((3, 5), [(C('sun_lens'), 3, 1, 1), (C('beam_mirror'), 4, 2, 4), (C('rune_of_light'), 3, 1, 2), (C('etherite_ingot'), 3, 1, 3),
+                   (C('starquartz'), 4, 3, 8), (C('light_receiver'), 2, 1, 1)])])
+    chest_table('cloud_castle', [
+        p((4, 6), [(C('etherite_ingot'), 6, 2, 5), (C('seraph_feather'), 4, 2, 4), (C('rune_of_sky'), 3, 1, 2), (C('rune_of_wind'), 3, 1, 2),
+                   (C('cloud_lift'), 3, 2, 4), (C('golden_key'), 2, 1, 1), (C('halo'), 1, 1, 1), ('minecraft:diamond', 3, 2, 4)])])
+    chest_table('airship_wreck', [
+        p((4, 7), [(C('starquartz'), 6, 3, 8), (C('cloud_parachute'), 5, 1, 3), (C('golden_fleece'), 3, 1, 3), ('minecraft:gunpowder', 4, 2, 6),
+                   ('minecraft:map', 2, 1, 1), (C('silver_key'), 2, 1, 1), (C('music_disc_heavenly_choir'), 1, 1, 1), (C('sky_beacon'), 1, 1, 1)])])
     chest_table('trial_tower_top', [
         p(1, [(C('seraph_wings'), 1, 1, 1)]),
         p((3, 5), [(C('etherite_ingot'), 6, 3, 6), (C('rune_of_light'), 3, 1, 2), (C('rune_of_wind'), 3, 1, 2), (C('starbow'), 1, 1, 1),
@@ -449,8 +677,15 @@ def main():
         'руины': sky_ruins(),
         'цитадель': citadel(),
         'башня': trial_tower(),
+        'большая деревня': grand_village(),
+        'храм лучей': beam_temple(),
+        'облачный замок': cloud_castle(),
+        'маяк': sky_lighthouse(),
+        'галеон': airship_wreck(),
     }
-    pool('sky_village/center', 'sky_village/center')
+    pool('sky_village/center', 'sky_village/center', ('sky_village/grand', 1))
+    for n in ('beam_temple', 'cloud_castle', 'sky_lighthouse', 'airship_wreck'):
+        pool(f'{n}/main', f'{n}/main')
     pool('sky_ruins/main', 'sky_ruins/main')
     pool('citadel/main', 'citadel/main')
     pool('trial_tower/main', 'trial_tower/main')
@@ -462,12 +697,25 @@ def main():
     structure_set('sky_ruins', 'sky_ruins', 22, 8, 731403)
     structure_set('citadels', 'citadel', 48, 18, 731404)
     structure_set('trial_towers', 'trial_tower', 36, 14, 731405)
+    structure('beam_temple', 'beam_temple/main', 'beam_temple', 110)
+    structure('cloud_castle', 'cloud_castle/main', 'cloud_castle', 150)
+    structure('sky_lighthouse', 'sky_lighthouse/main', 'sky_lighthouse', 90)
+    structure('airship_wreck', 'airship_wreck/main', 'airship_wreck', 140)
+    structure_set('beam_temples', 'beam_temple', 30, 12, 731406)
+    structure_set('cloud_castles', 'cloud_castle', 42, 16, 731407)
+    structure_set('sky_lighthouses', 'sky_lighthouse', 26, 10, 731408)
+    structure_set('airship_wrecks', 'airship_wreck', 34, 12, 731409)
+    biome_tag('beam_temple', 'golden_meadows', 'crystal_spires', 'heaven_gardens', 'rainbow_shoals')
+    biome_tag('cloud_castle', 'cloud_forest', 'storm_peak', 'star_glade', 'golden_meadows')
+    biome_tag('sky_lighthouse', 'golden_meadows', 'rainbow_shoals', 'cloud_forest', 'heaven_gardens', 'star_glade')
+    biome_tag('airship_wreck', 'cloud_forest', 'rainbow_shoals', 'storm_peak', 'golden_meadows')
     biome_tag('sky_village', 'golden_meadows', 'rainbow_shoals', 'heaven_gardens')
     biome_tag('sky_ruins', 'golden_meadows', 'cloud_forest', 'crystal_spires', 'rainbow_shoals', 'storm_peak', 'star_glade')
     biome_tag('citadel', 'crystal_spires', 'golden_meadows', 'cloud_forest', 'rainbow_shoals', 'storm_peak', 'star_glade', 'heaven_gardens')
     biome_tag('trial_tower', 'golden_meadows', 'storm_peak', 'crystal_spires', 'star_glade')
     write_json(os.path.join(DATA, 'tags/worldgen/structure/wisp_guides_to.json'),
-               {'values': [c('sky_village'), c('sky_ruins'), c('citadel'), c('trial_tower')]})
+               {'values': [c('sky_village'), c('sky_ruins'), c('citadel'), c('trial_tower'), c('beam_temple'), c('cloud_castle'),
+                           c('sky_lighthouse'), c('airship_wreck')]})
     write_json(os.path.join(DATA, 'tags/worldgen/structure/citadels.json'), {'values': [c('citadel')]})
     loot()
     print('ok: блоков в шаблонах', counts)

@@ -163,6 +163,9 @@ public final class ModBlocks {
 	public static final Block SKY_BEACON = register("sky_beacon", dev.celestial.block.machine.SkyBeaconBlock::new,
 		Properties.of().mapColor(MapColor.GOLD).strength(3.0F, 1200.0F).requiresCorrectToolForDrops().sound(SoundType.AMETHYST).lightLevel(s -> 15));
 
+	public static final Block QUEST_BOARD = register("quest_board", dev.celestial.quest.QuestBoardBlock::new,
+		Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.CHERRY_WOOD).noOcclusion());
+
 	// Испытания
 	public static final Block TRIAL_CONTROLLER = register("trial_crystal", dev.celestial.trial.TrialControllerBlock::new,
 		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST).noOcclusion()
