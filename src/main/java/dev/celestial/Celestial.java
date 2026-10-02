@@ -21,6 +21,7 @@ public class Celestial implements ModInitializer {
 		ModEntities.init();
 		ModCreativeTab.init();
 		HeavenDimension.init();
+		dev.celestial.item.EquipmentEffects.init();
 		LOGGER.info("Celestial: небеса открываются");
 	}
 

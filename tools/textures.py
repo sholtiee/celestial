@@ -623,3 +623,60 @@ def heaven_portal(frames=16):
                 c = mix(hexrgb('#ffd56b'), hexrgb('#ffffff'), v)
                 img.putpixel((x, y + 16 * f), (*c, int(150 + 80 * v)))
     return img
+
+
+def starbow(stage=None):
+    """Лук: дуга по диагонали, тетива оттягивается к левому нижнему углу на этапах 0..2."""
+    img = Image.new('RGBA', (16, 16), (0, 0, 0, 0))
+    gold, light, string = hexrgb('#d9a62e'), hexrgb('#fff3c6'), hexrgb('#bfe9ff')
+    # дуга: точки параболы от (3,1) до (14,12), выгнутая к правому нижнему углу
+    pts = []
+    for i in range(23):
+        t = i / 22
+        x = 3 + 11 * t
+        y = 1 + 11 * t
+        bulge = 3.2 * math.sin(math.pi * t)
+        pts.append((round(x + bulge * 0.7), round(y - bulge * 0.7)))
+    for i, (x, y) in enumerate(pts):
+        if 0 <= x < 16 and 0 <= y < 16:
+            img.putpixel((x, y), (*(light if i in (10, 11, 12) else gold), 255))
+    pull = 0 if stage is None else stage + 1
+    a, b = pts[0], pts[-1]
+    mid = ((a[0] + b[0]) / 2 - pull * 1.4, (a[1] + b[1]) / 2 + pull * 1.4)
+    for seg in ((a, mid), (mid, b)):
+        for k in range(12):
+            t = k / 11
+            x = round(seg[0][0] + (seg[1][0] - seg[0][0]) * t)
+            y = round(seg[0][1] + (seg[1][1] - seg[0][1]) * t)
+            if 0 <= x < 16 and 0 <= y < 16 and img.getpixel((x, y))[3] == 0:
+                img.putpixel((x, y), (*string, 255))
+    if stage is not None:  # звёздная стрела на тетиве
+        cx, cy = round(mid[0]), round(mid[1])
+        for d in range(0, 7):
+            x, y = cx + d, cy - d
+            if 0 <= x < 16 and 0 <= y < 16:
+                img.putpixel((x, y), (*(hexrgb('#ffffff') if d >= 5 else hexrgb('#f3d27a')), 255))
+    return img
+
+
+def halo_texture():
+    img = Image.new('RGBA', (16, 16))
+    for y in range(16):
+        for x in range(16):
+            v = 0.5 + 0.5 * math.sin((x + y) * 0.8)
+            img.putpixel((x, y), (*mix(hexrgb('#f3c64a'), hexrgb('#fff6cf'), v), 255))
+    return img
+
+
+def star_arrow_entity():
+    """Текстура стрелы 32×32 в развёртке ArrowModel: держим по форме ванильной, но свои цвета."""
+    import os
+    mask = Image.open(os.path.join(os.path.dirname(__file__), '..', '.mcsrc/assets/assets/minecraft/textures/entity/projectiles/arrow.png')).convert('RGBA')
+    out = Image.new('RGBA', mask.size, (0, 0, 0, 0))
+    for y in range(mask.size[1]):
+        for x in range(mask.size[0]):
+            a = mask.getpixel((x, y))[3]
+            if a:
+                c = hexrgb('#fff3c6') if x < 5 else hexrgb('#bfe9ff') if x > 11 else hexrgb('#e9c35a')
+                out.putpixel((x, y), (*c, a))
+    return out

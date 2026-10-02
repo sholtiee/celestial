@@ -12,7 +12,10 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.animal.equine.BabyHorseModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.AbstractHorseRenderer;
+import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.BlazeRenderer;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.client.renderer.entity.state.ArrowRenderState;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -49,6 +52,8 @@ public final class CelestialRenderers {
 		EntityRendererRegistry.register(ModEntities.CLOUD_WHALE, CloudWhaleRenderer::new);
 		EntityRendererRegistry.register(ModEntities.LIGHT_WISP, LightWispRenderer::new);
 		EntityRendererRegistry.register(ModEntities.PEGASUS, PegasusRenderer::new);
+		EntityRendererRegistry.register(ModEntities.STAR_ARROW, StarArrowRenderer::new);
+		EntityRendererRegistry.register(ModEntities.LIGHT_SPEAR, ctx -> new ThrownItemRenderer<>(ctx, 1.6F, true));
 	}
 
 	/** Человекоподобные мобы Рая на общей модели 64×64. Крылья рисует ванильный WingsLayer по предмету в слоте груди. */
@@ -128,6 +133,22 @@ public final class CelestialRenderers {
 		@Override
 		protected int getBlockLightLevel(LightWisp entity, BlockPos pos) {
 			return 15;
+		}
+	}
+
+	static class StarArrowRenderer extends ArrowRenderer<dev.celestial.entity.StarArrow, ArrowRenderState> {
+		StarArrowRenderer(EntityRendererProvider.Context ctx) {
+			super(ctx);
+		}
+
+		@Override
+		protected Identifier getTextureLocation(ArrowRenderState state) {
+			return Celestial.id("textures/entity/projectiles/star_arrow.png");
+		}
+
+		@Override
+		public ArrowRenderState createRenderState() {
+			return new ArrowRenderState();
 		}
 	}
 

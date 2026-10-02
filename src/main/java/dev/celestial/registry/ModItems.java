@@ -74,6 +74,21 @@ public final class ModItems {
 			.setAsset(SERAPH_WINGS_ASSET).setDamageOnHurt(false).build())
 		.repairable(STARQUARTZ));
 
+	public static final Item SERAPH_FEATHER = register("seraph_feather", Item::new, new Item.Properties().rarity(Rarity.UNCOMMON));
+	public static final ResourceKey<net.minecraft.world.item.JukeboxSong> HEAVENLY_CHOIR_SONG =
+		ResourceKey.create(Registries.JUKEBOX_SONG, Celestial.id("heavenly_choir"));
+	public static final Item MUSIC_DISC_HEAVENLY_CHOIR = register("music_disc_heavenly_choir", Item::new,
+		new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(HEAVENLY_CHOIR_SONG));
+	// Нимб: носится на голове, даёт регенерацию и ночное зрение (EquipmentEffects)
+	public static final Item HALO = register("halo", Item::new, new Item.Properties().stacksTo(1).rarity(Rarity.EPIC)
+		.component(DataComponents.EQUIPPABLE, Equippable.builder(EquipmentSlot.HEAD).setEquipSound(SoundEvents.ARMOR_EQUIP_GOLD).build()));
+	// Облачный парашют: раскрывается сам при опасном падении (EquipmentEffects)
+	public static final Item CLOUD_PARACHUTE = register("cloud_parachute", Item::new, new Item.Properties().stacksTo(16));
+	public static final Item STARBOW = register("starbow", dev.celestial.item.StarbowItem::new,
+		new Item.Properties().durability(520).rarity(Rarity.RARE).enchantable(1).repairable(STARQUARTZ));
+	public static final Item LIGHT_SPEAR = register("light_spear", dev.celestial.item.LightSpearItem::new,
+		new Item.Properties().durability(300).rarity(Rarity.RARE).enchantable(1).repairable(STARQUARTZ));
+
 	private ModItems() {}
 
 	public static Item register(String name, Function<Item.Properties, Item> factory, Item.Properties properties) {

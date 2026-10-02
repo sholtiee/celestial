@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "Q": "celestial:starquartz",
+    "E": "celestial:etherite_ingot"
+  },
+  "pattern": [
+    "  Q",
+    " E ",
+    "E  "
+  ],
+  "result": {
+    "id": "celestial:light_spear"
+  }
+}

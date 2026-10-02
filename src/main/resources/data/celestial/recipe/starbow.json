@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "Q": "celestial:starquartz",
+    "S": "minecraft:string",
+    "F": "celestial:seraph_feather"
+  },
+  "pattern": [
+    " QS",
+    "F S",
+    " QS"
+  ],
+  "result": {
+    "id": "celestial:starbow"
+  }
+}

@@ -5,7 +5,9 @@ import dev.celestial.entity.Angel;
 import dev.celestial.entity.CloudWhale;
 import dev.celestial.entity.FallenGuardian;
 import dev.celestial.entity.LightWisp;
+import dev.celestial.entity.LightSpear;
 import dev.celestial.entity.Pegasus;
+import dev.celestial.entity.StarArrow;
 import dev.celestial.entity.StormSpirit;
 import dev.celestial.entity.WingedSerpent;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -39,7 +41,18 @@ public final class ModEntities {
 	public static final EntityType<Pegasus> PEGASUS = register("pegasus",
 		EntityType.Builder.of(Pegasus::new, MobCategory.CREATURE).sized(1.3964844F, 1.6F).eyeHeight(1.52F).passengerAttachments(1.44375F).clientTrackingRange(10));
 
+	// Снаряды (без яиц призыва)
+	public static final EntityType<StarArrow> STAR_ARROW = registerNoEgg("star_arrow",
+		EntityType.Builder.<StarArrow>of(StarArrow::new, MobCategory.MISC).noLootTable().sized(0.5F, 0.5F).eyeHeight(0.13F).clientTrackingRange(4).updateInterval(20));
+	public static final EntityType<LightSpear> LIGHT_SPEAR = registerNoEgg("light_spear",
+		EntityType.Builder.<LightSpear>of(LightSpear::new, MobCategory.MISC).noLootTable().sized(0.4F, 0.4F).clientTrackingRange(4).updateInterval(10));
+
 	private ModEntities() {}
+
+	private static <T extends Entity> EntityType<T> registerNoEgg(String name, EntityType.Builder<T> builder) {
+		ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, Celestial.id(name));
+		return Registry.register(BuiltInRegistries.ENTITY_TYPE, key, builder.build(key));
+	}
 
 	private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
 		ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, Celestial.id(name));

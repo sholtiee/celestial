@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": "celestial:cloud_fluff",
+    "S": "minecraft:string",
+    "L": "minecraft:leather"
+  },
+  "pattern": [
+    "CCC",
+    "S S",
+    " L "
+  ],
+  "result": {
+    "id": "celestial:cloud_parachute",
+    "count": 2
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "celestial:item/starbow",
+  "textures": {
+    "layer0": "celestial:item/starbow_pulling_2"
+  }
+}

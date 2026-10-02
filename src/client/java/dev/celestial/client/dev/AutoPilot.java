@@ -79,6 +79,13 @@ public final class AutoPilot {
 			mc.gui.hud.getChat().clearMessages(false);
 		} else if (step.equals("togglehud")) {
 			mc.gui.hud.toggle();
+		} else if (step.startsWith("camera ")) {
+			// camera first|back|front
+			mc.options.setCameraType(switch (step.substring(7).strip()) {
+				case "back" -> net.minecraft.client.CameraType.THIRD_PERSON_BACK;
+				case "front" -> net.minecraft.client.CameraType.THIRD_PERSON_FRONT;
+				default -> net.minecraft.client.CameraType.FIRST_PERSON;
+			});
 		} else if (step.equals("pos")) {
 			Celestial.LOGGER.info("Автопилот: позиция {} {} {} {} блок-под-ногами={}", mc.player.level().dimension().identifier(),
 				(int) Math.floor(mc.player.getX()), (int) Math.floor(mc.player.getY()), (int) Math.floor(mc.player.getZ()),

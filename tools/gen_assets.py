@@ -572,9 +572,9 @@ def gen_mobs():
     item_name('seraph_wings', 'Крылья Серафима', 'Seraph Wings')
 
     # добыча
-    entity_loot('fallen_guardian', [('minecraft:gold_nugget', 1, 4), (c('raw_etherite'), 0, 1), (c('starquartz'), 1, 1, 0.12)])
+    entity_loot('fallen_guardian', [('minecraft:gold_nugget', 1, 4), (c('raw_etherite'), 0, 1), (c('starquartz'), 1, 1, 0.12), (c('seraph_feather'), 1, 1, 0.08)])
     entity_loot('storm_spirit', [(c('starquartz'), 1, 2), ('minecraft:glowstone_dust', 0, 2)])
-    entity_loot('winged_serpent', [('minecraft:phantom_membrane', 0, 1), (c('cloud_fluff'), 0, 2)])
+    entity_loot('winged_serpent', [('minecraft:phantom_membrane', 0, 1), (c('cloud_fluff'), 0, 2), (c('seraph_feather'), 1, 1, 0.15)])
     entity_loot('cloud_whale', [(c('cloud_fluff'), 3, 6)])
     entity_loot('light_wisp', [('minecraft:glowstone_dust', 1, 1)])
     entity_loot('pegasus', [('minecraft:leather', 0, 2)])
@@ -604,10 +604,149 @@ def gen_mobs():
                {'amount': 2, 'random_sequence': c('trade_set/angel/rare'), 'trades': '#celestial:angel/rare'})
 
 
+def gen_equipment():
+    # звёздный лук: обычная модель + три стадии натяжения
+    save_png(T.starbow(), 'item/starbow')
+    with open(os.path.join(VANILLA, 'models/item/bow.json')) as f:
+        bow = json.load(f)
+    bow['textures'] = {'layer0': c('item/starbow')}
+    bow['parent'] = 'minecraft:item/generated'
+    model('item/starbow', bow)
+    for st in range(3):
+        save_png(T.starbow(st), f'item/starbow_pulling_{st}')
+        model(f'item/starbow_pulling_{st}', {'parent': c('item/starbow'), 'textures': {'layer0': c(f'item/starbow_pulling_{st}')}})
+    write_json(os.path.join(ASSETS, 'items/starbow.json'), {'model': {
+        'type': 'minecraft:condition', 'property': 'minecraft:using_item',
+        'on_false': {'type': 'minecraft:model', 'model': c('item/starbow')},
+        'on_true': {'type': 'minecraft:range_dispatch', 'property': 'minecraft:use_duration', 'scale': 0.05,
+                    'fallback': {'type': 'minecraft:model', 'model': c('item/starbow_pulling_0')},
+                    'entries': [{'threshold': 0.65, 'model': {'type': 'minecraft:model', 'model': c('item/starbow_pulling_1')}},
+                                {'threshold': 0.9, 'model': {'type': 'minecraft:model', 'model': c('item/starbow_pulling_2')}}]}}})
+    save_png(T.star_arrow_entity(), 'entity/projectiles/star_arrow')
+
+    # нимб: объёмное кольцо, на голове висит над макушкой (display.head)
+    save_png(T.halo_texture(), 'item/halo_ring')
+    ring = []
+    for frm, to in (([3, 7, 3], [13, 8, 4]), ([3, 7, 12], [13, 8, 13]), ([3, 7, 4], [4, 8, 12]), ([12, 7, 4], [13, 8, 12])):
+        ring.append({'from': frm, 'to': to, 'faces': {d: {'texture': '#ring', 'uv': [0, 0, 16, 1]} for d in
+                                                     ('north', 'south', 'east', 'west', 'up', 'down')}})
+    model('item/halo', {'textures': {'ring': c('item/halo_ring'), 'particle': c('item/halo_ring')}, 'elements': ring,
+                        'gui_light': 'front',
+                        'display': {
+                            'head': {'translation': [0, 14.5, 0], 'scale': [1.1, 1.1, 1.1]},
+                            'gui': {'rotation': [30, 45, 0], 'scale': [1.0, 1.0, 1.0]},
+                            'ground': {'translation': [0, 3, 0], 'scale': [0.5, 0.5, 0.5]},
+                            'fixed': {'rotation': [90, 0, 0]},
+                            'thirdperson_righthand': {'rotation': [75, 45, 0], 'translation': [0, 2.5, 0], 'scale': [0.5, 0.5, 0.5]},
+                            'firstperson_righthand': {'rotation': [0, 45, 0], 'scale': [0.5, 0.5, 0.5]}}})
+    item_def('halo', c('item/halo'))
+
+    sprites = {
+        'cloud_parachute': ({'1': '#c9d6e6', '2': '#ffffff', '3': '#e8b833', '4': '#8a6238'}, [
+            '................',
+            '.....111111.....',
+            '...1122222211...',
+            '..122222222221..',
+            '.12222222222221.',
+            '.13.3..33..3.31.',
+            '..4..4....4..4..',
+            '...4..4..4..4...',
+            '....4..44..4....',
+            '.....4.44.4.....',
+            '......4444......',
+            '.......33.......',
+            '......3333......',
+            '......3333......',
+            '.......33.......',
+            '................']),
+        'light_spear': ({'1': '#c08f1c', '2': '#f3d27a', '3': '#ffffff', '4': '#bfe9ff'}, [
+            '.............33.',
+            '............3443',
+            '...........34431',
+            '..........3443..',
+            '.........2441...',
+            '........221.....',
+            '.......221......',
+            '......221.......',
+            '.....221........',
+            '....221.........',
+            '...221..........',
+            '..221...........',
+            '.221............',
+            '.21.............',
+            '1...............',
+            '................']),
+        'seraph_feather': ({'1': '#c9b27a', '2': '#ffffff', '3': '#f3d27a'}, [
+            '................',
+            '...........22...',
+            '..........2222..',
+            '.........22222..',
+            '........222232..',
+            '.......2222322..',
+            '......2222322...',
+            '.....2222322....',
+            '....2222322.....',
+            '....222322......',
+            '...222322.......',
+            '...22322........',
+            '...2132.........',
+            '..1.............',
+            '.1..............',
+            '................']),
+        'music_disc_heavenly_choir': ({'1': '#3a3446', '2': '#4d465c', '3': '#f3d27a', '4': '#ffffff'}, [
+            '................',
+            '.....111111.....',
+            '...1122222211...',
+            '..122211112221..',
+            '..121133331121..',
+            '.12213333331221.',
+            '.12133344333121.',
+            '.12133444433121.',
+            '.12133444433121.',
+            '.12133344333121.',
+            '.12213333331221.',
+            '..121133331121..',
+            '..122211112221..',
+            '...1122222211...',
+            '.....111111.....',
+            '................']),
+    }
+    for k, (colors, rows) in sprites.items():
+        save_png(T.sprite(rows, colors), 'item/' + k)
+        model('item/' + k, {'parent': 'minecraft:item/handheld' if k == 'light_spear' else 'minecraft:item/generated',
+                            'textures': {'layer0': c('item/' + k)}})
+        item_def(k, c('item/' + k))
+
+    names = {
+        'halo': ('Нимб', 'Halo'), 'cloud_parachute': ('Облачный парашют', 'Cloud Parachute'),
+        'starbow': ('Звёздный лук', 'Starbow'), 'light_spear': ('Копьё Света', 'Spear of Light'),
+        'seraph_feather': ('Перо серафима', 'Seraph Feather'),
+        'music_disc_heavenly_choir': ('Музыкальная пластинка', 'Music Disc'),
+    }
+    for k, (ru, en) in names.items():
+        item_name(k, ru, en)
+    tr('jukebox_song.celestial.heavenly_choir', 'Celestial — Небесный хор', 'Celestial - Heavenly Choir')
+    tr('entity.celestial.star_arrow', 'Звёздная стрела', 'Star Arrow')
+    tr('entity.celestial.light_spear', 'Копьё Света', 'Spear of Light')
+    write_json(os.path.join(DATA, 'jukebox_song/heavenly_choir.json'), {
+        'comparator_output': 13, 'description': {'translate': 'jukebox_song.celestial.heavenly_choir'},
+        'length_in_seconds': 287.0, 'sound_event': 'minecraft:music.overworld.cherry_grove'})
+    tag('item', 'minecraft:bow_enchantable', c('starbow'))
+    tag('item', 'minecraft:durability_enchantable', c('starbow'), c('light_spear'), c('seraph_wings'))
+    tag('item', 'minecraft:trident_enchantable', c('light_spear'))
+
+    S, Q, F = c('etherite_ingot'), c('starquartz'), c('seraph_feather')
+    shaped('cloud_parachute', c('cloud_parachute'), ['CCC', 'S S', ' L '],
+           {'C': c('cloud_fluff'), 'S': 'minecraft:string', 'L': 'minecraft:leather'}, 2, 'equipment')
+    shaped('starbow', c('starbow'), [' QS', 'F S', ' QS'], {'Q': Q, 'S': 'minecraft:string', 'F': F}, 1, 'equipment')
+    shaped('light_spear', c('light_spear'), ['  Q', ' E ', 'E  '], {'Q': Q, 'E': S}, 1, 'equipment')
+
+
 def main():
     gen_blocks()
     gen_items()
     gen_mobs()
+    gen_equipment()
     write_tags()
     T.icon().save(os.path.join(ASSETS, 'icon.png'))
     for lang, entries in LANG.items():

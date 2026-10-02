@@ -8,6 +8,7 @@ public class CelestialClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		CelestialRenderers.init();
+		SeraphWingsController.init();
 		AutoPilot.init();
 	}
 }

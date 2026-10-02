@@ -1,0 +1,21 @@
+# Экипировка: нимб и крылья на игроке, вид спереди
+/execute in celestial:heaven run tp @s 19 132 -7 180 0
+/kill @e[type=!minecraft:player]
+/item replace entity @s armor.head with celestial:halo
+/item replace entity @s armor.chest with celestial:seraph_wings
+/item replace entity @s weapon.mainhand with celestial:starbow
+/item replace entity @s weapon.offhand with celestial:light_spear
+/give @s celestial:cloud_parachute 4
+wait 40
+camera front
+togglehud
+wait 20
+shot equip_front
+camera back
+wait 10
+shot equip_back
+camera first
+togglehud
+wait 5
+shot equip_hud
+quit
