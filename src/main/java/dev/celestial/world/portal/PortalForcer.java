@@ -1,6 +1,5 @@
-package dev.celestial.world;
+package dev.celestial.world.portal;
 
-import dev.celestial.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -10,19 +9,18 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 /** Находит парный портал в целевом мире или строит новый на безопасном месте. */
-public final class HeavenPortalForcer {
+public final class PortalForcer {
 	private static final int SEARCH_RADIUS = 24;
-	private static final int FALLBACK_HEAVEN_Y = 124;
 
-	private HeavenPortalForcer() {}
+	private PortalForcer() {}
 
 	/** Возвращает позицию нижней клетки портала, куда ставить сущность. */
-	public static BlockPos findOrCreate(ServerLevel level, BlockPos near, Direction.Axis axis) {
-		BlockPos found = findExisting(level, near);
-		return found != null ? found : create(level, near, axis);
+	public static BlockPos findOrCreate(PortalType type, ServerLevel level, BlockPos near, Direction.Axis axis) {
+		BlockPos found = findExisting(type, level, near);
+		return found != null ? found : create(type, level, near, axis);
 	}
 
-	private static BlockPos findExisting(ServerLevel level, BlockPos near) {
+	private static BlockPos findExisting(PortalType type, ServerLevel level, BlockPos near) {
 		BlockPos best = null;
 		double bestDist = Double.MAX_VALUE;
 		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
@@ -32,7 +30,7 @@ public final class HeavenPortalForcer {
 				int top = surfaceHeight(level, Heightmap.Types.WORLD_SURFACE, x, z);
 				for (int y = level.getMinY(); y < top; y++) {
 					pos.set(x, y, z);
-					if (level.getBlockState(pos).is(ModBlocks.HEAVEN_PORTAL) && !level.getBlockState(pos.below()).is(ModBlocks.HEAVEN_PORTAL)) {
+					if (level.getBlockState(pos).is(type.portal().get()) && !level.getBlockState(pos.below()).is(type.portal().get())) {
 						double d = pos.distSqr(near);
 						if (d < bestDist) {
 							bestDist = d;
@@ -45,9 +43,9 @@ public final class HeavenPortalForcer {
 		return best;
 	}
 
-	private static BlockPos create(ServerLevel level, BlockPos near, Direction.Axis axis) {
-		BlockPos base = HeavenDimension.isHeaven(level) ? heavenSpot(level, near) : surfaceSpot(level, near);
-		build(level, base, axis);
+	private static BlockPos create(PortalType type, ServerLevel level, BlockPos near, Direction.Axis axis) {
+		BlockPos base = level.dimension() == type.target() ? targetSpot(type, level, near) : surfaceSpot(level, near);
+		build(type, level, base, axis);
 		return base;
 	}
 
@@ -57,8 +55,8 @@ public final class HeavenPortalForcer {
 		return new BlockPos(near.getX(), Math.max(y, level.getMinY() + 2), near.getZ());
 	}
 
-	/** В Раю — ближайший остров по спирали, иначе — облачная площадка в небе. */
-	private static BlockPos heavenSpot(ServerLevel level, BlockPos near) {
+	/** В измерении мода — ближайшая подходящая поверхность по спирали, иначе — площадка на запасной высоте. */
+	private static BlockPos targetSpot(PortalType type, ServerLevel level, BlockPos near) {
 		for (int r = 0; r <= 48; r += 4) {
 			for (int dx = -r; dx <= r; dx += 4) {
 				for (int dz = -r; dz <= r; dz += 4) {
@@ -68,13 +66,13 @@ public final class HeavenPortalForcer {
 					int x = near.getX() + dx, z = near.getZ() + dz;
 					int y = surfaceHeight(level, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
 					BlockState ground = level.getBlockState(new BlockPos(x, y - 1, z));
-					if (y > level.getMinY() + 30 && (ground.is(ModBlocks.GOLDEN_GRASS) || ground.is(ModBlocks.SKYSTONE))) {
+					if (y > level.getMinY() + 30 && type.groundInTarget().test(ground)) {
 						return new BlockPos(x, y, z);
 					}
 				}
 			}
 		}
-		return new BlockPos(near.getX(), FALLBACK_HEAVEN_Y, near.getZ());
+		return new BlockPos(near.getX(), type.fallbackY(), near.getZ());
 	}
 
 	/** Высота поверхности с принудительной загрузкой чанка (Level.getHeight для незагруженного чанка вернёт дно мира). */
@@ -83,11 +81,11 @@ public final class HeavenPortalForcer {
 	}
 
 	/** Рамка 4×5 из светлого камня, портал 2×3 внутри и площадка под ногами. */
-	private static void build(ServerLevel level, BlockPos base, Direction.Axis axis) {
+	private static void build(PortalType type, ServerLevel level, BlockPos base, Direction.Axis axis) {
 		Direction right = axis == Direction.Axis.X ? Direction.EAST : Direction.SOUTH;
 		Direction side = right.getClockWise();
-		BlockState frame = ModBlocks.RADIANT_STONE.defaultBlockState();
-		BlockState floor = HeavenDimension.isHeaven(level) ? ModBlocks.SKYSTONE_BRICKS.defaultBlockState() : frame;
+		BlockState frame = type.frame().get().defaultBlockState();
+		BlockState floor = level.dimension() == type.target() ? type.platform().get() : frame;
 		int flags = Block.UPDATE_ALL;
 		// площадка 4×3 и расчистка места
 		for (int x = -1; x <= 2; x++) {
@@ -110,6 +108,6 @@ public final class HeavenPortalForcer {
 				level.setBlock(p, edge ? frame : Blocks.AIR.defaultBlockState(), flags);
 			}
 		}
-		new HeavenPortalShape(base, axis, 2, 3).fill(level);
+		new PortalShape(type, base, axis, 2, 3).fill(level);
 	}
 }

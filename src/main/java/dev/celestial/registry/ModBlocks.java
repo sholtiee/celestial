@@ -4,7 +4,7 @@ import dev.celestial.Celestial;
 import dev.celestial.block.CloudBlock;
 import dev.celestial.block.MannaBushBlock;
 import dev.celestial.block.RainCloudBlock;
-import dev.celestial.world.HeavenPortalBlock;
+import dev.celestial.world.portal.CelestialPortalBlock;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -94,7 +94,7 @@ public final class ModBlocks {
 		Properties.of().mapColor(MapColor.PLANT).randomTicks().noCollision().sound(SoundType.SWEET_BERRY_BUSH).pushReaction(PushReaction.POPPED).lightLevel(s -> 4));
 
 	// Портал в Рай (без предмета: появляется при активации рамки Сердцем Пустоты)
-	public static final Block HEAVEN_PORTAL = registerNoItem("heaven_portal", HeavenPortalBlock::new,
+	public static final Block HEAVEN_PORTAL = registerNoItem("heaven_portal", p -> new CelestialPortalBlock(() -> dev.celestial.world.portal.PortalTypes.HEAVEN, p),
 		Properties.of().noCollision().strength(-1.0F).sound(SoundType.GLASS).lightLevel(s -> 13).pushReaction(PushReaction.IMMOVEABLE).noLootTable());
 
 	// Сюжетные блоки Цитадели

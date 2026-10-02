@@ -1,6 +1,5 @@
-package dev.celestial.world;
+package dev.celestial.world.portal;
 
-import dev.celestial.registry.ModBlocks;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,13 +26,16 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
 
-/** Портал в Рай: работает только между Верхним миром и Раем. */
-public class HeavenPortalBlock extends Block implements Portal {
+/** Завеса портала мода: ведёт между домашним миром и измерением своего PortalType. */
+public class CelestialPortalBlock extends Block implements Portal {
 	public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.HORIZONTAL_AXIS;
 	private static final Map<Direction.Axis, VoxelShape> SHAPES = Shapes.rotateHorizontalAxis(Block.column(4.0, 16.0, 0.0, 16.0));
 
-	public HeavenPortalBlock(Properties properties) {
+	private final java.util.function.Supplier<PortalType> type;
+
+	public CelestialPortalBlock(java.util.function.Supplier<PortalType> type, Properties properties) {
 		super(properties);
+		this.type = type;
 		registerDefaultState(stateDefinition.any().setValue(AXIS, Direction.Axis.X));
 	}
 
@@ -52,7 +54,7 @@ public class HeavenPortalBlock extends Block implements Portal {
 		BlockPos neighbourPos, BlockState neighbourState, RandomSource random) {
 		Direction.Axis axis = state.getValue(AXIS);
 		boolean inPlane = direction.getAxis() == axis || direction.getAxis() == Direction.Axis.Y;
-		if (inPlane && !neighbourState.is(this) && !HeavenPortalShape.isFrame(neighbourState)) {
+		if (inPlane && !neighbourState.is(this) && !type.get().isFrame(neighbourState)) {
 			return Blocks.AIR.defaultBlockState();
 		}
 		return super.updateShape(state, level, ticks, pos, direction, neighbourPos, neighbourState, random);
@@ -75,14 +77,13 @@ public class HeavenPortalBlock extends Block implements Portal {
 
 	@Override
 	public @Nullable TeleportTransition getPortalDestination(ServerLevel currentLevel, Entity entity, BlockPos portalEntryPos) {
-		ServerLevel target = HeavenDimension.isHeaven(currentLevel)
-			? currentLevel.getServer().overworld()
-			: currentLevel.dimension() == Level.OVERWORLD ? currentLevel.getServer().getLevel(HeavenDimension.HEAVEN) : null;
+		var destination = type.get().destinationFrom(currentLevel.dimension());
+		ServerLevel target = destination == null ? null : currentLevel.getServer().getLevel(destination);
 		if (target == null) {
 			return null;
 		}
 		Direction.Axis axis = currentLevel.getBlockState(portalEntryPos).getOptionalValue(AXIS).orElse(Direction.Axis.X);
-		BlockPos exit = HeavenPortalForcer.findOrCreate(target, portalEntryPos, axis);
+		BlockPos exit = PortalForcer.findOrCreate(type.get(), target, portalEntryPos, axis);
 		return new TeleportTransition(target, net.minecraft.world.phys.Vec3.atBottomCenterOf(exit), net.minecraft.world.phys.Vec3.ZERO, entity.getYRot(), entity.getXRot(),
 			TeleportTransition.PLAY_PORTAL_SOUND.then(e -> e.placePortalTicket(exit)));
 	}
@@ -100,7 +101,4 @@ public class HeavenPortalBlock extends Block implements Portal {
 		}
 	}
 
-	public static BlockState state(Direction.Axis axis) {
-		return ModBlocks.HEAVEN_PORTAL.defaultBlockState().setValue(AXIS, axis);
-	}
 }
