@@ -15,7 +15,7 @@ Fabric-мод **Celestial** для Minecraft **26.3** (Fabric Loader 0.19.5, Fab
 **0.1:** Рай (3 яруса островов, 4 биома), портал из светлого камня + Сердце Пустоты, 7 мобов, босс Падший Серафим (Цитадель),
 экипировка (эфирит, крылья, нимб, парашют, звёздный лук, Копьё Света), сюжет Акта I (дневник, алтарь, финал).
 
-**Волна 0.2 «Рай преображённый», шаги 1–7 из 11 сделаны:**
+**Волна 0.2 «Рай преображённый», шаги 1–8 из 11 сделаны:**
 1. Каркас: `data/PlayerData` (Благодать, навыки, репутация, кодекс, испытания, Сияние, поручения; Fabric attachment, синхронизируется),
    `data/WorldState` (Угасание 0–5, акт, флаги; на Верхнем мире), `data/BeaconNetwork`, правила игры `celestial:fading|meteors|fading_days`,
    пакет `network/WorldStatePayload` → `client/ClientState`, команда `/celestial status|fading|act|grace|codex|beacon|quest`.
@@ -36,9 +36,13 @@ Fabric-мод **Celestial** для Minecraft **26.3** (Fabric Loader 0.19.5, Fab
    скидка за репутацию), постройки: большая деревня, Храм Лучей, Облачный замок, Небесный маяк, Обломки галеона.
    Проверено в игре: постройки, загадка Храма Лучей (перископ ×3 + зеркало ×1 Камертоном), доска поручений.
    Все достопримечательности Рая — один набор `heaven_landmarks` с весами (без наложений), Цитадель — отдельно с зоной исключения.
+8. Благодать `grace/`: `Skill` (17 навыков, 3 ветки), `Spell` (7 заклинаний), `Grace` (изучение, Сияние, пассивки атрибутами,
+   второе дыхание), `Spells` (логика заклинаний на сервере), `CodexEvents` (записи бестиария/мест). Клиент `client/grace/`:
+   `GraceClient` (клавиши V заклинание, B смена, G рывок, K Кодекс; HUD Сияния; двойной прыжок и рывок считаются на клиенте),
+   `CodexScreen` (вкладки Сага/Благодать/Бестиарий/Места/Справочник). Крылья Серафима: взмахов 5 (+2/+3 от навыков).
+   Переводы в `tools/gen_grace.py`. Команда `/celestial learn <навык>`. Проверено сценарием `grace_test.txt`.
 
-## Что дальше (волна 0.2, шаги 8–11)
-- **8:** Благодать (экран-дерево: Крылья/Свет/Твердь, умения на клавиши), магия Сияния (HUD-мана, 8 заклинаний), Кодекс Небес (свой экран вместо книги).
+## Что дальше (волна 0.2, шаги 9–11)
 - **9:** Угасание v1: удлинение ночей, бонусы монстрам, метеориты (сущность + кратер со звёздным кварцем), Тени в Верхнем мире,
   Звездочёт (жители, телескоп), сюжетные места: Звёздная обсерватория, Пылающее святилище (Ад), Разломы Пустоты (Энд). Переделка Акта I.
 - **10:** переделка Серафима (модель с 4 крыльями, кристаллы-лекари на арене), свой звук `tools/gen_sounds.py` (numpy + ffmpeg).
@@ -64,7 +68,8 @@ GitHub Actions уже собирает `.jar` (`.github/workflows/build.yml` и�
 - `tools/fresh_save.sh`: копирует run/world в сейв `test` (творческий режим, читы).
 - `tools/autopilot.sh tools/scenarios/X.txt`: клиент без звука проходит сценарий, скриншоты в `run/screenshots`.
   Шаги: `/команда`, `wait N`, `shot имя`, `use X Y Z грань`, `userel dx dy dz грань`, `useitem`, `hold jump|forward|… N`,
-  `fly`, `goto <structure> dx dy dz yaw pitch`, `camera front|back|first`, `togglehud`, `clearchat`, `closescreen`, `pos`, `quit`.
+  `fly`, `goto <structure> dx dy dz yaw pitch`, `camera front|back|first`, `togglehud`, `clearchat`, `closescreen`, `pos`,
+  `press cast|cycle|dash|codex` (клавиши мода), `codex <вкладка>`, `quit`.
   Подводные камни: в выживании игрок дотягивается на 4,5 блока; после смерти автопилот сам возрождает; `/gamerule advance_time` (не doDaylightCycle).
 - `tools/contact.py out.png a.png b.png ...`: склейка скриншотов.
 
@@ -72,4 +77,5 @@ GitHub Actions уже собирает `.jar` (`.github/workflows/build.yml` и�
 Окрашивание: `BlockColorRegistry.register(List.of(BlockTintSources.grass()), block)`. Лут: `condition` / `modifier`, а не conditions/functions.
 Порядок фич должен быть одинаковым во всех биомах (`FEATURE_ORDER` в gen_world). `environment_scan.max_steps` ≤ 32. Feature — record + MapCodec,
 регистрируется в `BuiltInRegistries.FEATURE_TYPE`. Позиционирование: `pose.rotateDegrees(Axis.XP, deg)`. Время: `getOverworldClockTime()`.
-Скорость игрока с сервера: `entity.needsSync = true`. Сущности блоков в шаблонах: в NBT нужен `id` (например `celestial:beam_source`).
+Скорость игрока с сервера: `entity.needsSync = true`. Скрыт ли HUD: `mc.gui.hud.isHidden()`.
+Аргумент команды с `:` — `StringArgumentType.greedyString()` (word() не пускает двоеточие). Сущности блоков в шаблонах: в NBT нужен `id` (например `celestial:beam_source`).
