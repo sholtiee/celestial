@@ -1,0 +1,25 @@
+{
+	"schemaVersion": 1,
+	"id": "celestial",
+	"version": "${version}",
+	"name": "Celestial",
+	"description": "Измерение Рая, его существа и босс, новая экипировка и сюжет «Угасающий свет», проходящий через Ад, Энд и Рай.",
+	"authors": ["w"],
+	"license": "All-Rights-Reserved",
+	"icon": "assets/celestial/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": ["dev.celestial.Celestial"],
+		"client": ["dev.celestial.client.CelestialClient"]
+	},
+	"mixins": [
+		"celestial.mixins.json",
+		{ "config": "celestial.client.mixins.json", "environment": "client" }
+	],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}
