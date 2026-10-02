@@ -34,6 +34,13 @@ import net.minecraft.world.entity.Mob;
 public final class CelestialRenderers {
 	private CelestialRenderers() {}
 
+	/** Разлом — подкласс сущности портала Энда, поэтому подходит ванильный «звёздный» рендер. */
+	@SuppressWarnings("unchecked")
+	private static net.minecraft.world.level.block.entity.BlockEntityType<net.minecraft.world.level.block.entity.TheEndPortalBlockEntity> riftType() {
+		return (net.minecraft.world.level.block.entity.BlockEntityType<net.minecraft.world.level.block.entity.TheEndPortalBlockEntity>)
+			(net.minecraft.world.level.block.entity.BlockEntityType<?>) dev.celestial.registry.ModBlockEntities.ABYSS_RIFT;
+	}
+
 	private static Identifier tex(String name) {
 		return Celestial.id("textures/entity/" + name + ".png");
 	}
@@ -42,6 +49,8 @@ public final class CelestialRenderers {
 		ModModelLayers.init();
 		net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry.register(
 			dev.celestial.registry.ModBlockEntities.BEAM_SOURCE, ctx -> new BeamRenderer());
+		net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry.register(
+			riftType(), ctx -> new net.minecraft.client.renderer.blockentity.TheEndPortalRenderer());
 		EntityRendererRegistry.register(ModEntities.FALLEN_GUARDIAN, ctx -> new Humanoid<>(ctx, tex("fallen_guardian"), 1.0F));
 		EntityRendererRegistry.register(ModEntities.ANGEL, AngelRenderer::new);
 		EntityRendererRegistry.register(ModEntities.STORM_SPIRIT, StormSpiritRenderer::new);

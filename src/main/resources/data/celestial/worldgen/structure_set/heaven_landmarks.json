@@ -33,6 +33,10 @@
     {
       "structure": "celestial:trial_tower",
       "weight": 2
+    },
+    {
+      "structure": "celestial:abyss_rift",
+      "weight": 3
     }
   ]
 }

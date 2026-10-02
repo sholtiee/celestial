@@ -12,6 +12,7 @@ from PIL import Image
 import textures as T
 from gen_assets import DATA, blockstate, c, item_def, loot, model, save_png, self_drop, silk_or, simple_cube, write_json
 from gen_story import lang_patch
+from gen_structures import Template, biome_tag, island_base, pool, structure
 
 WG = os.path.join(DATA, 'worldgen')
 MIN_Y, HEIGHT, SEA = 0, 256, 32
@@ -343,7 +344,41 @@ def biomes():
           ['glowshroom_giants_sparse', 'patch_glowshroom_sparse', 'abyss_cave_vines'], shadows, 'minecraft:underwater', 0.006)
 
 
+# ---------------------------------------------------------------- Разлом на дне Рая
+def heaven_rift():
+    """Треснувший остров нижнего яруса Рая: площадка из кирпичей, в центре — чёрный Разлом 3×3,
+    от него по острову расходятся трещины камня Бездны и торчат теневые кристаллы."""
+    import random
+    rng = random.Random(303)
+    t = Template(21, 20, 21)
+    top = 12
+    island_base(t, 10, 10, 9, top, 12, rng)
+    for x in range(7, 14):
+        for z in range(7, 14):
+            t.set(x, top, z, c('skystone_bricks'))
+    for x in range(9, 12):
+        for z in range(9, 12):
+            t.set(x, top, z, c('abyss_rift'), nbt={'id': c('abyss_rift')})
+    for dx, dz in ((1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (-1, -1), (1, -1), (-1, 1)):  # трещины
+        x, z = 10 + dx * 4, 10 + dz * 4
+        for _ in range(6):
+            if not (7 <= x <= 13 and 7 <= z <= 13) and t.get(x, top, z):
+                t.set(x, top, z, c('abyss_stone'))
+                if rng.random() < 0.35:
+                    t.set(x, top + 1, z, c('shadow_crystal'), facing='up', waterlogged=False)
+            x += dx + rng.choice((-1, 0, 0, 1)) * (dz != 0)
+            z += dz + rng.choice((-1, 0, 0, 1)) * (dx != 0)
+    for x, z in ((7, 7), (13, 7), (7, 13)):  # обломки колонн
+        for y in range(top + 1, top + 2 + rng.randint(0, 3)):
+            t.set(x, y, z, c('skystone_bricks'))
+    return t.save('abyss_rift/main')
+
+
 def main():
+    heaven_rift()
+    pool('abyss_rift/main', 'abyss_rift/main')
+    structure('abyss_rift', 'abyss_rift/main', 'abyss_rift', 60)
+    biome_tag('abyss_rift', 'golden_meadows', 'cloud_forest', 'crystal_spires', 'rainbow_shoals', 'storm_peak', 'star_glade', 'heaven_gardens')
     textures()
     block_models()
     tags()
@@ -365,6 +400,16 @@ def main():
         'biome.celestial.dark_wastes': ('Пустоши тьмы', 'Dark Wastes'),
         'biome.celestial.crystal_hollows': ('Кристальные гроты', 'Crystal Hollows'),
         'biome.celestial.dark_lakes': ('Озёра тьмы', 'Dark Lakes'),
+        'block.celestial.abyss_rift': ('Разлом Бездны', 'Abyss Rift'),
+        'block.celestial.abyss_rift.sealed': ('§5Разлом запечатан: свет Серафима ещё держит его закрытым', '§5The Rift is sealed: the Seraph\'s light still holds it shut'),
+        'structure.celestial.abyss_rift': ('Разлом Бездны', 'Abyss Rift'),
+        'structure.celestial.abyss': ('Бездна', 'The Abyss'),
+        'codex.celestial.place.abyss_rift': ('треснувший остров на дне Рая. Чёрная воронка ведёт вниз, в Бездну.',
+                                             'a cracked island at the bottom of Heaven. Its black funnel leads down into the Abyss.'),
+        'codex.celestial.place.abyss': ('мир под облаками, где почти нет света. Без огня в руке растёт страх.',
+                                        'the world beneath the clouds, almost without light. Without a flame in hand, fear grows.'),
+        'story.celestial.abyss_enter': ('§5Ты падаешь сквозь тьму… Здесь свет — редкость. Держи огонь в руке, иначе тьма заберёт рассудок.',
+                                        '§5You fall through darkness... Light is rare here. Keep a flame in hand or the dark will take your mind.'),
     })
     print('ok: Бездна сгенерирована')
 

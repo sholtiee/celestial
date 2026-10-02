@@ -45,7 +45,7 @@ public final class CelestialCommand {
 			.then(Commands.literal("act").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
 				.then(Commands.argument("act", IntegerArgumentType.integer(0, 5)).executes(ctx -> {
 					int act = IntegerArgumentType.getInteger(ctx, "act");
-					CelestialData.updateWorld(ctx.getSource().getServer(), w -> w.withAct(act));
+					CelestialData.updateWorld(ctx.getSource().getServer(), w -> new dev.celestial.data.WorldState(w.fading(), act, w.flags(), w.lastFadingDay()));
 					ctx.getSource().sendSuccess(() -> Component.literal("Акт: " + act), true);
 					return act;
 				})))

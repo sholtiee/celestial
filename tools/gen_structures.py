@@ -626,7 +626,7 @@ def landmark_sets():
         'placement': {'type': 'minecraft:random_spread', 'salt': 731410, 'separation': 4, 'spacing': 11},
         'structures': [{'structure': c(n), 'weight': w} for n, w in (
             ('sky_village', 4), ('sky_ruins', 4), ('sky_lighthouse', 3), ('airship_wreck', 3), ('beam_temple', 3),
-            ('cloud_castle', 2), ('trial_tower', 2))]})
+            ('cloud_castle', 2), ('trial_tower', 2), ('abyss_rift', 3))]})
     write_json(os.path.join(DATA, 'worldgen/structure_set/citadels.json'), {
         'placement': {'type': 'minecraft:random_spread', 'salt': 731404, 'separation': 18, 'spacing': 48,
                       'exclusion_zone': {'other_set': c('heaven_landmarks'), 'chunk_count': 4}},
@@ -725,7 +725,7 @@ def main():
     biome_tag('trial_tower', 'golden_meadows', 'storm_peak', 'crystal_spires', 'star_glade')
     write_json(os.path.join(DATA, 'tags/worldgen/structure/wisp_guides_to.json'),
                {'values': [c('sky_village'), c('sky_ruins'), c('citadel'), c('trial_tower'), c('beam_temple'), c('cloud_castle'),
-                           c('sky_lighthouse'), c('airship_wreck')]})
+                           c('sky_lighthouse'), c('airship_wreck'), c('abyss_rift')]})
     write_json(os.path.join(DATA, 'tags/worldgen/structure/citadels.json'), {'values': [c('citadel')]})
     loot()
     print('ok: блоков в шаблонах', counts)

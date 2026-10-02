@@ -306,7 +306,7 @@ def main():
     write_json(os.path.join(DATA, 'tags/worldgen/structure/observatories.json'), {'values': [c('observatory')]})
     write_json(os.path.join(DATA, 'tags/worldgen/structure/codex_places.json'), {'values': [
         c(n) for n in ('sky_village', 'sky_ruins', 'citadel', 'trial_tower', 'beam_temple', 'cloud_castle', 'sky_lighthouse',
-                       'airship_wreck', 'observatory', 'flame_sanctuary', 'void_rift')]})
+                       'airship_wreck', 'observatory', 'flame_sanctuary', 'void_rift', 'abyss_rift')]})
     write_json(os.path.join(DATA.replace('celestial', 'minecraft'), 'tags/point_of_interest_type/acquirable_job_site.json'),
                {'replace': False, 'values': [c('stargazer')]})
     loot()

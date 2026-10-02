@@ -1,0 +1,32 @@
+# Разлом Бездны: постройка в Раю, печать до Акта I, спуск в Бездну и возврат
+/gamemode creative
+/execute in celestial:heaven run tp @s 0 160 -40
+fly
+wait 80
+/time set 6000
+goto celestial:abyss_rift 0 8 -14 0 35
+wait 80
+togglehud
+shot rift_heaven
+togglehud
+/celestial act 0
+/gamemode survival
+/effect give @s minecraft:resistance 600 4 true
+goto celestial:abyss_rift 0 1 0 0 0
+wait 30
+pos
+/celestial act 1
+wait 40
+goto celestial:abyss_rift 0 1 0 0 0
+wait 80
+pos
+wait 20
+shot rift_abyss_arrival
+/tp @s ~ ~ ~ 180 40
+wait 10
+shot rift_abyss_platform
+/tp @s ~ ~ ~-3
+wait 80
+pos
+shot rift_back
+quit
