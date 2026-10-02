@@ -15,7 +15,7 @@ Fabric-мод **Celestial** для Minecraft **26.3** (Fabric Loader 0.19.5, Fab
 **0.1:** Рай (3 яруса островов, 4 биома), портал из светлого камня + Сердце Пустоты, 7 мобов, босс Падший Серафим (Цитадель),
 экипировка (эфирит, крылья, нимб, парашют, звёздный лук, Копьё Света), сюжет Акта I (дневник, алтарь, финал).
 
-**Волна 0.2 «Рай преображённый», шаги 1–8 из 11 сделаны:**
+**Волна 0.2 «Рай преображённый», шаги 1–9 из 11 сделаны:**
 1. Каркас: `data/PlayerData` (Благодать, навыки, репутация, кодекс, испытания, Сияние, поручения; Fabric attachment, синхронизируется),
    `data/WorldState` (Угасание 0–5, акт, флаги; на Верхнем мире), `data/BeaconNetwork`, правила игры `celestial:fading|meteors|fading_days`,
    пакет `network/WorldStatePayload` → `client/ClientState`, команда `/celestial status|fading|act|grace|codex|beacon|quest`.
@@ -41,10 +41,17 @@ Fabric-мод **Celestial** для Minecraft **26.3** (Fabric Loader 0.19.5, Fab
    `GraceClient` (клавиши V заклинание, B смена, G рывок, K Кодекс; HUD Сияния; двойной прыжок и рывок считаются на клиенте),
    `CodexScreen` (вкладки Сага/Благодать/Бестиарий/Места/Справочник). Крылья Серафима: взмахов 5 (+2/+3 от навыков).
    Переводы в `tools/gen_grace.py`. Команда `/celestial learn <навык>`. Проверено сценарием `grace_test.txt`.
+9. Угасание `fading/`: `Fading` (стадия растёт раз в `fading_days` дней до предела 5 − акт; ночью ставка часов Верхнего мира
+   1/(1+0.2·стадия) через `ServerClockManager.setRate`; монстры +10% здоровья/урона за стадию постоянными модификаторами;
+   с 3-й стадии ночью рядом с игроком появляются `Shadow`), `Meteors`/`Meteor` (ночью падают, кратер + `meteorite` +
+   звёздный кварц; скорость постоянная, иначе вязнет в воде), `TelescopeBlock` (ночью: стадия + направление к обсерватории),
+   `Stargazer` (профессия жителя, POI через `PoiHelper`, сделки `data/celestial/trade_set/stargazer`).
+   Места (`tools/gen_places.py`): Звёздная обсерватория (Верхний мир, плитки-звёзды), Пылающее святилище (Ад, испытание
+   `flame_sanctuary` → Осколок Пламени), Разлом Пустоты (Энд, испытание `void_rift` с Тенями). Тег `codex_places` для Кодекса.
+   Акт I переписан (знак Безликого, частичное возвращение света), алтарь ставит акт 1 и снижает Угасание на 2.
+   Проверено сценариями `fading_test.txt`, `places_test.txt`, `stargazer_test.txt`.
 
-## Что дальше (волна 0.2, шаги 9–11)
-- **9:** Угасание v1: удлинение ночей, бонусы монстрам, метеориты (сущность + кратер со звёздным кварцем), Тени в Верхнем мире,
-  Звездочёт (жители, телескоп), сюжетные места: Звёздная обсерватория, Пылающее святилище (Ад), Разломы Пустоты (Энд). Переделка Акта I.
+## Что дальше (волна 0.2, шаги 10–11)
 - **10:** переделка Серафима (модель с 4 крыльями, кристаллы-лекари на арене), свой звук `tools/gen_sounds.py` (numpy + ffmpeg).
 - **11:** полировка, README, `.jar`.
 Затем волны 0.3 Бездна → 0.4 Ледяные Чертоги → 0.5 Хроноград → 0.6 Астрал (финал, две концовки) → 1.0.
@@ -69,7 +76,7 @@ GitHub Actions уже собирает `.jar` (`.github/workflows/build.yml` и�
 - `tools/autopilot.sh tools/scenarios/X.txt`: клиент без звука проходит сценарий, скриншоты в `run/screenshots`.
   Шаги: `/команда`, `wait N`, `shot имя`, `use X Y Z грань`, `userel dx dy dz грань`, `useitem`, `hold jump|forward|… N`,
   `fly`, `goto <structure> dx dy dz yaw pitch`, `camera front|back|first`, `togglehud`, `clearchat`, `closescreen`, `pos`,
-  `press cast|cycle|dash|codex` (клавиши мода), `codex <вкладка>`, `quit`.
+  `press cast|cycle|dash|codex` (клавиши мода), `codex <вкладка>`, `usenear <id блока>`, `interact <id сущности>`, `quit`.
   Подводные камни: в выживании игрок дотягивается на 4,5 блока; после смерти автопилот сам возрождает; `/gamerule advance_time` (не doDaylightCycle).
 - `tools/contact.py out.png a.png b.png ...`: склейка скриншотов.
 
@@ -78,4 +85,6 @@ GitHub Actions уже собирает `.jar` (`.github/workflows/build.yml` и�
 Порядок фич должен быть одинаковым во всех биомах (`FEATURE_ORDER` в gen_world). `environment_scan.max_steps` ≤ 32. Feature — record + MapCodec,
 регистрируется в `BuiltInRegistries.FEATURE_TYPE`. Позиционирование: `pose.rotateDegrees(Axis.XP, deg)`. Время: `getOverworldClockTime()`.
 Скорость игрока с сервера: `entity.needsSync = true`. Скрыт ли HUD: `mc.gui.hud.isHidden()`.
-Аргумент команды с `:` — `StringArgumentType.greedyString()` (word() не пускает двоеточие). Сущности блоков в шаблонах: в NBT нужен `id` (например `celestial:beam_source`).
+Аргумент команды с `:` — `StringArgumentType.greedyString()` (word() не пускает двоеточие).
+Время: `/time of minecraft:overworld query time` (daytime больше нет). Сделки жителя создаются лениво — проверять через `interact`.
+`/place structure` для jigsaw: шаблон кладётся от угла чанка; искать блоки шагом `usenear`. Сущности блоков в шаблонах: в NBT нужен `id` (например `celestial:beam_source`).
