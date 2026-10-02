@@ -1,0 +1,23 @@
+# Пегас: седло, посадка, полёт с прыжком
+/gamemode survival
+/effect give @s minecraft:resistance 600 4 true
+/time set 6000
+/execute in celestial:heaven run tp @s 0 200 0 0 0
+/execute in celestial:heaven run fill -3 199 -3 3 199 3 celestial:skystone_bricks
+/kill @e[type=!minecraft:player]
+/execute in celestial:heaven run summon minecraft:horse 0 200 2 {Tame:1b}
+wait 20
+/item replace entity @e[type=minecraft:horse,limit=1] saddle with minecraft:saddle
+/data get entity @e[type=minecraft:horse,limit=1] Tame
+wait 20
+/ride @s mount @e[type=minecraft:horse,limit=1,sort=nearest]
+wait 20
+pos
+hold forward 200
+hold jump 120
+wait 120
+pos
+shot flight_pegasus
+wait 60
+pos
+quit

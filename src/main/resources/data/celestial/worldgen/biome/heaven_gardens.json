@@ -43,6 +43,24 @@
                 "max_inclusive": 2
               },
               "weight": 3
+            },
+            {
+              "type": "celestial:cherub",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 2
+              },
+              "weight": 4
+            },
+            {
+              "type": "celestial:golden_ram",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 2,
+                "max_inclusive": 3
+              },
+              "weight": 4
             }
           ],
           "monster": [
@@ -65,6 +83,15 @@
                 "max_inclusive": 3
               },
               "weight": 10
+            },
+            {
+              "type": "celestial:cloud_jelly",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 2
+              },
+              "weight": 4
             }
           ]
         }

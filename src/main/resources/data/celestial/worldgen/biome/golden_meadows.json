@@ -44,6 +44,15 @@
               "type": "celestial:angel",
               "count": 1,
               "weight": 1
+            },
+            {
+              "type": "celestial:golden_ram",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 2,
+                "max_inclusive": 4
+              },
+              "weight": 6
             }
           ],
           "monster": [

@@ -1,0 +1,28 @@
+# Существа 0.2 в ряд
+/execute in celestial:heaven run tp @s 19 140 -7 0 10
+/effect clear @s
+/time set 6000
+/gamerule advance_time false
+/gamerule spawn_monsters false
+fly
+wait 60
+/execute in celestial:heaven run fill 5 131 -9 33 131 14 celestial:golden_grass
+/execute in celestial:heaven run fill 5 132 -9 33 145 14 minecraft:air
+/execute in celestial:heaven run tp @s 19 133 -8 0 8
+/kill @e[type=!minecraft:player]
+/execute in celestial:heaven run summon celestial:cherub 9 134 1 {NoAI:1b}
+/execute in celestial:heaven run summon celestial:golden_ram 12 132 2 {NoAI:1b,Rotation:[200f,0f],Color:4}
+/execute in celestial:heaven run summon celestial:mimic 16 132 2 {NoAI:1b,Rotation:[180f,0f]}
+/execute in celestial:heaven run summon celestial:mimic 19 132 2 {NoAI:1b,Rotation:[180f,0f],Awake:1b}
+/execute in celestial:heaven run summon celestial:pegasus 23 132 3 {NoAI:1b,Rotation:[150f,0f],Variant:1}
+/execute in celestial:heaven run summon celestial:pegasus 27 132 3 {NoAI:1b,Rotation:[150f,0f],Variant:2}
+/execute in celestial:heaven run summon celestial:cloud_jelly 14 136 6 {NoAI:1b}
+wait 40
+togglehud
+shot mobs2_row
+/kill @e[type=!minecraft:player]
+/execute in celestial:heaven run summon celestial:sky_ray 19 137 6 {NoAI:1b,Rotation:[160f,0f]}
+/execute in celestial:heaven run summon celestial:storm_elemental 27 132 10 {NoAI:1b,Rotation:[200f,0f]}
+wait 40
+shot mobs2_ray
+quit

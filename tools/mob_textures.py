@@ -137,29 +137,38 @@ def from_mask(rel, palette, name, stripes=None):
     return out
 
 
-def pegasus(baby=False):
+PEGASUS_COATS = {
+    '': (['#e6e2f0', '#f1eef8', '#faf8ff', '#ffffff'], ['#d9a62e', '#efc24f', '#ffe08a'], '#f6e7b0'),
+    'golden': (['#d9a62e', '#e8b84a', '#f3cf6a', '#fde48f'], ['#fff6cf', '#ffffff', '#fff3c6'], '#ffffff'),
+    'storm': (['#4d5770', '#5f6b88', '#7684a4', '#8e9bb8'], ['#bfe9ff', '#e8fbff', '#9fd8ff'], '#bfe9ff'),
+}
+
+
+def pegasus(baby=False, coat=''):
     rel = 'entity/horse/horse_white_baby.png' if baby else 'entity/horse/horse_white.png'
-    base = from_mask(rel, ['#e6e2f0', '#f1eef8', '#faf8ff', '#ffffff'], 'pegasus' + str(baby))
+    body, mane, edge = PEGASUS_COATS[coat]
+    base = from_mask(rel, body, 'pegasus' + str(baby) + coat)
     if baby:
         return base
     img = Image.new('RGBA', (128, 64), (0, 0, 0, 0))
     img.paste(base, (0, 0))
-    gold = [hexrgb(c) for c in ('#d9a62e', '#efc24f', '#ffe08a')]
-    r = rng_for('pegasus_mane')
+    gold = [hexrgb(c) for c in mane]
+    r = rng_for('pegasus_mane' + coat)
     # грива (UV 56,36 — коробка 2×16×2) и хвост — золотые
     for y in range(36, 56):
         for x in range(56, 64):
             if img.getpixel((x, y))[3]:
                 img.putpixel((x, y), (*r.choice(gold), 255))
     # крылья: перья, белые с золотой кромкой (две коробки 16×1×12 в (64,0) и (64,16))
+    edge_c = edge
     for v0 in (0, 16):
         def wing(face, x, y, fw, fh):
             if face in ('top', 'bottom'):
                 edge = y >= fh - 2
                 feather = (x % 3 == 0)
-                c = hexrgb('#f6e7b0') if edge else hexrgb('#ffffff') if not feather else hexrgb('#e8e4f2')
+                c = hexrgb(edge_c) if edge else hexrgb(body[3]) if not feather else hexrgb(body[2])
                 return noise_color(r, c, 0.04)
-            return hexrgb('#e9d9a6')
+            return hexrgb(mane[0])
         paint_box(img, 64, v0, 16, 1, 12, wing)
     return img
 
@@ -251,4 +260,77 @@ def spawn_egg(base, spots):
                 img.putpixel((x, y), (*b, 255))
             elif ch == '3':
                 img.putpixel((x, y), (*s, 255))
+    return img
+
+
+# ---------------------------------------------------------------- существа 0.2
+def cherub():
+    return from_mask('entity/allay/allay.png', ['#fff1d6', '#ffe6b8', '#ffd78f', '#fff8e8'], 'cherub')
+
+
+def golden_ram():
+    img = from_mask('entity/sheep/sheep.png', ['#e8d6b0', '#f0e2c2', '#f7ecd5', '#fff6e6'], 'golden_ram')
+    # золотые рога-завитки на голове (лицевая сторона головы овцы — 8×6 начиная с (8,8))
+    for x, y in ((8, 8), (9, 8), (14, 8), (15, 8), (8, 9), (15, 9)):
+        img.putpixel((x, y), (*hexrgb('#d9a62e'), 255))
+    return img
+
+
+def sky_ray():
+    img = Image.new('RGBA', (128, 64), (0, 0, 0, 0))
+    r = rng_for('sky_ray')
+    top = [hexrgb(c) for c in ('#5a8fd6', '#6aa0e2', '#7ab2ee', '#8cc2f6')]
+    belly = [hexrgb(c) for c in ('#e8f2ff', '#f4f9ff')]
+
+    def skin(face, x, y, fw, fh):
+        if face == 'bottom':
+            return r.choice(belly)
+        if face == 'top' and (x * 7 + y * 3) % 23 == 0:
+            return hexrgb('#ffe08a')  # звёздные пятна
+        return r.choice(top)
+
+    paint_box(img, 0, 0, 16, 4, 22, skin)
+    paint_box(img, 0, 26, 20, 2, 16, skin)
+    paint_box(img, 0, 44, 20, 2, 16, skin)
+    paint_box(img, 76, 0, 2, 2, 22, skin)
+    # глаза на передней грани тела
+    for x in (3, 12):
+        img.putpixel((22 + x, 22 + 1), (*hexrgb('#1b2b4a'), 255))
+    return img
+
+
+def cloud_jelly():
+    img = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
+    r = rng_for('cloud_jelly')
+
+    def dome(face, x, y, fw, fh):
+        base = hexrgb('#f4f8ff') if face in ('top', 'bottom') or y < fh // 2 else hexrgb('#cfe0ff')
+        a = 150 if face != 'bottom' else 110
+        if r.random() < 0.06:
+            return (*hexrgb('#ffe9a8'), 210)
+        return (*noise_color(r, base, 0.04), a)
+
+    paint_box(img, 0, 0, 16, 8, 16, dome)
+    paint_box(img, 0, 24, 12, 3, 12, dome)
+    paint_box(img, 48, 24, 2, 11, 2, lambda f, x, y, fw, fh: (*hexrgb('#bfd8ff'), 170))
+    return img
+
+
+def mimic():
+    img = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
+    r = rng_for('mimic')
+    wood = [hexrgb(c) for c in ('#cbbd9b', '#d8c9a8', '#e3d6b8')]
+    gold = hexrgb('#d9a62e')
+
+    def chest_wood(face, x, y, fw, fh):
+        if x in (0, fw - 1) or y in (0, fh - 1):
+            return gold
+        return r.choice(wood)
+
+    def inside(face, x, y, fw, fh):
+        return hexrgb('#5a1a2a') if face == 'bottom' else chest_wood(face, x, y, fw, fh)
+
+    paint_box(img, 0, 0, 14, 5, 14, inside)
+    paint_box(img, 0, 19, 14, 10, 14, lambda f, x, y, fw, fh: hexrgb('#5a1a2a') if f == 'top' else chest_wood(f, x, y, fw, fh))
+    paint_box(img, 0, 44, 12, 2, 1, lambda f, x, y, fw, fh: hexrgb('#f6f2e8') if x % 2 == 0 else hexrgb('#5a1a2a'))
     return img

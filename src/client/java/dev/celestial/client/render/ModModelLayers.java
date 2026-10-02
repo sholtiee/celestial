@@ -12,6 +12,9 @@ public final class ModModelLayers {
 	public static final ModelLayerLocation PEGASUS = layer("pegasus");
 	public static final ModelLayerLocation CLOUD_WHALE = layer("cloud_whale");
 	public static final ModelLayerLocation LIGHT_WISP = layer("light_wisp");
+	public static final ModelLayerLocation SKY_RAY = layer("sky_ray");
+	public static final ModelLayerLocation CLOUD_JELLY = layer("cloud_jelly");
+	public static final ModelLayerLocation MIMIC = layer("mimic");
 
 	private ModModelLayers() {}
 
@@ -24,5 +27,8 @@ public final class ModModelLayers {
 		ModelLayerRegistry.registerModelLayer(PEGASUS, PegasusModel::createBodyLayer);
 		ModelLayerRegistry.registerModelLayer(CLOUD_WHALE, CloudWhaleModel::createBodyLayer);
 		ModelLayerRegistry.registerModelLayer(LIGHT_WISP, LightWispModel::createBodyLayer);
+		ModelLayerRegistry.registerModelLayer(SKY_RAY, SkyRayModel::createBodyLayer);
+		ModelLayerRegistry.registerModelLayer(CLOUD_JELLY, CloudJellyModel::createBodyLayer);
+		ModelLayerRegistry.registerModelLayer(MIMIC, MimicModel::createBodyLayer);
 	}
 }

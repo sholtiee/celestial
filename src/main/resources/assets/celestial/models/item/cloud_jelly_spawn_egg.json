@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "celestial:item/cloud_jelly_spawn_egg"
+  }
+}

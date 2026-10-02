@@ -54,6 +54,29 @@ public final class CelestialRenderers {
 		EntityRendererRegistry.register(ModEntities.LIGHT_WISP, LightWispRenderer::new);
 		EntityRendererRegistry.register(ModEntities.PEGASUS, PegasusRenderer::new);
 		EntityRendererRegistry.register(ModEntities.STAR_ARROW, StarArrowRenderer::new);
+		EntityRendererRegistry.register(ModEntities.CHERUB, ctx -> new net.minecraft.client.renderer.entity.AllayRenderer(ctx) {
+			@Override
+			public Identifier getTextureLocation(net.minecraft.client.renderer.entity.state.AllayRenderState state) {
+				return tex("cherub");
+			}
+		});
+		EntityRendererRegistry.register(ModEntities.GOLDEN_RAM, ctx -> new net.minecraft.client.renderer.entity.SheepRenderer(ctx) {
+			@Override
+			public Identifier getTextureLocation(net.minecraft.client.renderer.entity.state.SheepRenderState state) {
+				return tex("golden_ram");
+			}
+		});
+		EntityRendererRegistry.register(ModEntities.STORM_ELEMENTAL, ctx -> new StormSpiritRenderer(ctx) {
+			@Override
+			protected void scale(LivingEntityRenderState state, PoseStack poseStack) {
+				poseStack.scale(2.5F, 2.5F, 2.5F);
+			}
+		});
+		EntityRendererRegistry.register(ModEntities.SKY_RAY, ctx -> new SimpleRenderer<>(ctx, new SkyRayModel(ctx.bakeLayer(ModModelLayers.SKY_RAY)),
+			tex("sky_ray"), 1.8F, 1.6F, false));
+		EntityRendererRegistry.register(ModEntities.CLOUD_JELLY, ctx -> new SimpleRenderer<>(ctx, new CloudJellyModel(ctx.bakeLayer(ModModelLayers.CLOUD_JELLY)),
+			tex("cloud_jelly"), 0.6F, 1.4F, true));
+		EntityRendererRegistry.register(ModEntities.MIMIC, MimicRenderer::new);
 		EntityRendererRegistry.register(ModEntities.LIGHT_SPEAR, ctx -> new ThrownItemRenderer<>(ctx, 1.6F, true));
 	}
 
@@ -85,6 +108,7 @@ public final class CelestialRenderers {
 	}
 
 	static class StormSpiritRenderer extends BlazeRenderer {
+		// (масштаб переопределяется у Грозового элементаля)
 		StormSpiritRenderer(EntityRendererProvider.Context ctx) {
 			super(ctx);
 		}
@@ -137,6 +161,63 @@ public final class CelestialRenderers {
 		}
 	}
 
+	/** Рендер «модель + текстура + масштаб» для простых существ. */
+	static class SimpleRenderer<T extends net.minecraft.world.entity.Mob> extends MobRenderer<T, LivingEntityRenderState, net.minecraft.client.model.EntityModel<LivingEntityRenderState>> {
+		private final Identifier texture;
+		private final float scale;
+		private final boolean glow;
+
+		SimpleRenderer(EntityRendererProvider.Context ctx, net.minecraft.client.model.EntityModel<LivingEntityRenderState> model, Identifier texture,
+			float shadow, float scale, boolean glow) {
+			super(ctx, model, shadow);
+			this.texture = texture;
+			this.scale = scale;
+			this.glow = glow;
+		}
+
+		@Override
+		public Identifier getTextureLocation(LivingEntityRenderState state) {
+			return texture;
+		}
+
+		@Override
+		public LivingEntityRenderState createRenderState() {
+			return new LivingEntityRenderState();
+		}
+
+		@Override
+		protected void scale(LivingEntityRenderState state, PoseStack poseStack) {
+			poseStack.scale(scale, scale, scale);
+		}
+
+		@Override
+		protected int getBlockLightLevel(T entity, BlockPos pos) {
+			return glow ? Math.max(12, super.getBlockLightLevel(entity, pos)) : super.getBlockLightLevel(entity, pos);
+		}
+	}
+
+	static class MimicRenderer extends MobRenderer<dev.celestial.entity.Mimic, MimicModel.State, MimicModel> {
+		MimicRenderer(EntityRendererProvider.Context ctx) {
+			super(ctx, new MimicModel(ctx.bakeLayer(ModModelLayers.MIMIC)), 0.5F);
+		}
+
+		@Override
+		public Identifier getTextureLocation(MimicModel.State state) {
+			return tex("mimic");
+		}
+
+		@Override
+		public MimicModel.State createRenderState() {
+			return new MimicModel.State();
+		}
+
+		@Override
+		public void extractRenderState(dev.celestial.entity.Mimic entity, MimicModel.State state, float partialTicks) {
+			super.extractRenderState(entity, state, partialTicks);
+			state.awake = entity.isAwake();
+		}
+	}
+
 	static class StarArrowRenderer extends ArrowRenderer<dev.celestial.entity.StarArrow, ArrowRenderState> {
 		StarArrowRenderer(EntityRendererProvider.Context ctx) {
 			super(ctx);
@@ -153,21 +234,35 @@ public final class CelestialRenderers {
 		}
 	}
 
-	static class PegasusRenderer extends AbstractHorseRenderer<Pegasus, EquineRenderState, net.minecraft.client.model.EntityModel<EquineRenderState>> {
+	public static class PegasusRenderState extends EquineRenderState {
+		public int variant;
+	}
+
+	static class PegasusRenderer extends AbstractHorseRenderer<Pegasus, PegasusRenderState, net.minecraft.client.model.EntityModel<EquineRenderState>> {
+		private static final Identifier[] TEXTURES = {tex("pegasus"), tex("pegasus_golden"), tex("pegasus_storm")};
+
 		PegasusRenderer(EntityRendererProvider.Context ctx) {
 			super(ctx, new PegasusModel(ctx.bakeLayer(ModModelLayers.PEGASUS)), new BabyHorseModel(ctx.bakeLayer(ModelLayers.HORSE_BABY)));
+			this.addLayer(new SimpleEquipmentLayer<>(this, ctx.getEquipmentRenderer(), EquipmentClientInfo.LayerType.HORSE_BODY,
+				state -> state.bodyArmorItem, new net.minecraft.client.model.animal.equine.HorseModel(ctx.bakeLayer(ModelLayers.HORSE_ARMOR)), null, 2));
 			this.addLayer(new SimpleEquipmentLayer<>(this, ctx.getEquipmentRenderer(), EquipmentClientInfo.LayerType.HORSE_SADDLE,
 				state -> state.saddle, new EquineSaddleModel(ctx.bakeLayer(ModelLayers.HORSE_SADDLE)), null, 2));
 		}
 
 		@Override
-		public Identifier getTextureLocation(EquineRenderState state) {
-			return state.isBaby ? tex("pegasus_baby") : tex("pegasus");
+		public Identifier getTextureLocation(PegasusRenderState state) {
+			return state.isBaby ? tex("pegasus_baby") : TEXTURES[Math.floorMod(state.variant, TEXTURES.length)];
 		}
 
 		@Override
-		public EquineRenderState createRenderState() {
-			return new EquineRenderState();
+		public PegasusRenderState createRenderState() {
+			return new PegasusRenderState();
+		}
+
+		@Override
+		public void extractRenderState(Pegasus entity, PegasusRenderState state, float partialTicks) {
+			super.extractRenderState(entity, state, partialTicks);
+			state.variant = entity.getVariant();
 		}
 	}
 }

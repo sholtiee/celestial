@@ -229,6 +229,8 @@ def sky_ruins():
         t.set(vx, top + 2, 14, 'minecraft:air')
         chest(t, vx, top + 1, 17, f'celestial:chests/ruins_{tier}', facing='north', lock=key)
         t.set(vx, top + 4, 16, 'minecraft:lantern', hanging=True, waterlogged=False)
+    # мимик притворяется сундуком у западной стены
+    t.entity(4, top + 1, 8, {'id': C('mimic'), 'PersistenceRequired': True, 'Rotation': [90.0, 0.0]})
     # рассадник стражей в центре двора
     t.set(13, top + 1, 9, 'minecraft:spawner', nbt={
         'id': 'minecraft:mob_spawner', 'SpawnData': {'entity': {'id': C('fallen_guardian')}},

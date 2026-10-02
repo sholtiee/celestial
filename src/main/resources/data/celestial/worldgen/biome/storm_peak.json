@@ -43,6 +43,11 @@
                 "max_inclusive": 2
               },
               "weight": 40
+            },
+            {
+              "type": "celestial:storm_elemental",
+              "count": 1,
+              "weight": 4
             }
           ],
           "ambient": [

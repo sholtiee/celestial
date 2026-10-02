@@ -1,0 +1,40 @@
+# Полёт: пегас под седлом (держим прыжок) и крылья Серафима (взмахи)
+/gamemode survival
+/effect give @s minecraft:resistance 600 4 true
+/time set 6000
+/execute in celestial:heaven run tp @s 0 200 0
+/execute in celestial:heaven run fill -3 199 -3 3 199 3 celestial:skystone_bricks
+/kill @e[type=!minecraft:player]
+/execute in celestial:heaven run summon celestial:pegasus 0 200 2 {Tame:1b,equipment:{saddle:{id:"minecraft:saddle",count:1}}}
+wait 40
+/ride @s mount @e[type=celestial:pegasus,limit=1,sort=nearest]
+wait 20
+pos
+hold forward 160
+hold jump 100
+wait 100
+pos
+shot flight_pegasus
+wait 60
+pos
+/ride @s dismount
+/kill @e[type=celestial:pegasus]
+/item replace entity @s armor.chest with celestial:seraph_wings
+/execute in celestial:heaven run tp @s 0 230 0 0 0
+wait 20
+hold jump 2
+wait 6
+hold jump 2
+wait 10
+pos
+hold jump 2
+wait 6
+hold jump 2
+wait 6
+hold jump 2
+wait 6
+hold jump 2
+wait 10
+pos
+shot flight_wings
+quit

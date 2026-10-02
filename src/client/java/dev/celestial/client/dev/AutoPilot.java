@@ -23,6 +23,7 @@ import net.minecraft.world.phys.Vec3;
 public final class AutoPilot {
 	private static final Deque<String> steps = new ArrayDeque<>();
 	private static int waitTicks;
+	private static final java.util.Map<net.minecraft.client.KeyMapping, Integer> held = new java.util.HashMap<>();
 
 	private AutoPilot() {}
 
@@ -79,6 +80,12 @@ public final class AutoPilot {
 		if (mc.player == null || mc.getConnection() == null || steps.isEmpty()) {
 			return;
 		}
+		// удерживаемые клавиши (hold): держим нажатыми нужное число тиков
+		held.replaceAll((key, ticks) -> {
+			key.setDown(ticks > 1);
+			return ticks - 1;
+		});
+		held.values().removeIf(t -> t <= 0);
 		if (mc.player.isDeadOrDying()) {
 			// игрок умер в прошлом прогоне — возрождаем, иначе клиент «застрянет» на экране смерти
 			mc.player.respawn();
@@ -151,6 +158,22 @@ public final class AutoPilot {
 			waitTicks = 5;
 		} else if (step.equals("closescreen")) {
 			mc.gui.setScreen(null);
+		} else if (step.startsWith("hold ")) {
+			// hold jump|forward|sneak|back|left|right|attack|use N — держать клавишу N тиков (не ждёт)
+			String[] a = step.substring(5).strip().split("\\s+");
+			var o = mc.options;
+			net.minecraft.client.KeyMapping key = switch (a[0]) {
+				case "jump" -> o.keyJump;
+				case "forward" -> o.keyUp;
+				case "back" -> o.keyDown;
+				case "left" -> o.keyLeft;
+				case "right" -> o.keyRight;
+				case "sneak" -> o.keyShift;
+				case "attack" -> o.keyAttack;
+				default -> o.keyUse;
+			};
+			key.setDown(true);
+			held.put(key, Integer.parseInt(a[1]));
 		} else if (step.equals("quit")) {
 			mc.stop();
 		}

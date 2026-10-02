@@ -435,15 +435,15 @@ def biomes():
         UNDERGROUND_ORES: ORES, FLUID_SPRINGS: GROUND,
         VEGETAL: ['sky_clouds', 'sky_golden_clouds', 'trees_golden_meadows', 'patch_manna', 'patch_flowers_meadow',
                   'patch_golden_grass', 'patch_tall_golden_grass', 'crystals_rare', *common]},
-        creatures=[spawn('pegasus', 8, 2, 4), spawn('cloud_whale', 3, 1, 1), spawn('angel', 1, 1, 1)], monsters=MONSTERS, ambient=WISPS,
-        particle='minecraft:end_rod', particle_chance=0.0008)
+        creatures=[spawn('pegasus', 8, 2, 4), spawn('cloud_whale', 3, 1, 1), spawn('angel', 1, 1, 1), spawn('golden_ram', 6, 2, 4)],
+        monsters=MONSTERS, ambient=WISPS, particle='minecraft:end_rod', particle_chance=0.0008)
     biome('cloud_forest', '#a9d4ff', '#ffffff', '#e8d070', {
         UNDERGROUND_ORES: ORES, FLUID_SPRINGS: GROUND,
         VEGETAL: ['sky_clouds', 'sky_rain_clouds', 'trees_cloud_forest', 'trees_cloud_willow', 'patch_manna', 'patch_golden_grass',
                   'patch_cloud_moss', *common]},
         music='minecraft:music.overworld.meadow',
-        creatures=[spawn('cloud_whale', 6, 1, 2), spawn('pegasus', 3, 1, 2)], monsters=MONSTERS, ambient=WISPS,
-        particle='minecraft:white_ash', particle_chance=0.004)
+        creatures=[spawn('cloud_whale', 6, 1, 2), spawn('pegasus', 3, 1, 2), spawn('sky_ray', 3, 1, 1)], monsters=MONSTERS,
+        ambient=WISPS + [spawn('cloud_jelly', 8, 1, 3)], particle='minecraft:white_ash', particle_chance=0.004)
     biome('crystal_spires', '#9cc1ff', '#e6ecff', '#d8e2f0', {
         UNDERGROUND_ORES: ORES, VEGETAL: ['sky_clouds', 'radiant_spires', 'crystals_common', *common]},
         music='minecraft:music.overworld.grove',
@@ -453,20 +453,21 @@ def biomes():
         UNDERGROUND_ORES: ORES, FLUID_SPRINGS: GROUND,
         VEGETAL: ['sky_clouds', 'sky_golden_clouds', 'patch_manna', 'trees_golden_meadows', 'patch_flowers_meadow', 'rainbow_arcs',
                   'patch_golden_grass', *common]},
-        creatures=[spawn('pegasus', 6, 2, 3), spawn('cloud_whale', 4, 1, 1)], monsters=MONSTERS, ambient=WISPS,
-        particle='minecraft:end_rod', particle_chance=0.001)
+        creatures=[spawn('pegasus', 6, 2, 3), spawn('cloud_whale', 4, 1, 1), spawn('sky_ray', 4, 1, 2)], monsters=MONSTERS,
+        ambient=WISPS + [spawn('cloud_jelly', 6, 1, 2)], particle='minecraft:end_rod', particle_chance=0.001)
     # новые биомы 0.2
     biome('heaven_gardens', '#97d0ff', '#f6ffe8', '#c9e06a', {
         UNDERGROUND_ORES: ORES, FLUID_SPRINGS: GROUND,
         VEGETAL: ['sky_clouds', 'trees_cloud_willow', 'trees_golden_meadows', 'patch_manna', 'patch_flowers_garden',
                   'patch_golden_grass', 'patch_tall_golden_grass', 'patch_cloud_moss', *common]},
         music='minecraft:music.overworld.flower_forest',
-        creatures=[spawn('pegasus', 5, 2, 3), spawn('angel', 3, 1, 2)], monsters=[spawn('fallen_guardian', 40, 1, 2)], ambient=WISPS,
+        creatures=[spawn('pegasus', 5, 2, 3), spawn('angel', 3, 1, 2), spawn('cherub', 4, 1, 2), spawn('golden_ram', 4, 2, 3)],
+        monsters=[spawn('fallen_guardian', 40, 1, 2)], ambient=WISPS + [spawn('cloud_jelly', 4, 1, 2)],
         particle='minecraft:cherry_leaves', particle_chance=0.002)
     biome('storm_peak', '#6f7f99', '#9aa3b5', '#9aa3b5', {
         UNDERGROUND_ORES: ORES, VEGETAL: ['sky_rain_clouds', 'sky_clouds', 'radiant_spires', 'patch_golden_grass', *common]},
         music='minecraft:music.overworld.jagged_peaks',
-        monsters=[spawn('storm_spirit', 100, 1, 3), spawn('winged_serpent', 40, 1, 2)], ambient=WISPS,
+        monsters=[spawn('storm_spirit', 100, 1, 3), spawn('winged_serpent', 40, 1, 2), spawn('storm_elemental', 4, 1, 1)], ambient=WISPS,
         particle='minecraft:electric_spark', particle_chance=0.006)
     biome('star_glade', '#5c62b8', '#c7c9ff', '#a9b9ff', {
         UNDERGROUND_ORES: ORES, FLUID_SPRINGS: GROUND,

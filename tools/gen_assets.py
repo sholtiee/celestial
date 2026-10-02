@@ -526,6 +526,8 @@ def gen_mobs():
         'fallen_guardian': M.fallen_guardian(), 'angel': M.angel(), 'fallen_seraph': M.fallen_seraph(),
         'storm_spirit': M.storm_spirit(), 'winged_serpent': M.winged_serpent(), 'cloud_whale': M.cloud_whale(),
         'light_wisp': M.light_wisp(), 'pegasus': M.pegasus(), 'pegasus_baby': M.pegasus(baby=True),
+        'pegasus_golden': M.pegasus(coat='golden'), 'pegasus_storm': M.pegasus(coat='storm'),
+        'cherub': M.cherub(), 'golden_ram': M.golden_ram(), 'sky_ray': M.sky_ray(), 'cloud_jelly': M.cloud_jelly(), 'mimic': M.mimic(),
     }
     for k, img in textures.items():
         save_png(img, 'entity/' + k)
@@ -541,6 +543,12 @@ def gen_mobs():
         'angel': ('Небесный житель', 'Angel', '#f7f4ec', '#e3b54a'),
         'pegasus': ('Пегас', 'Pegasus', '#faf8ff', '#efc24f'),
         'fallen_seraph': ('Падший Серафим', 'Fallen Seraph', '#2a2230', '#d4a531'),
+        'cherub': ('Херувим', 'Cherub', '#fff1d6', '#ffd78f'),
+        'golden_ram': ('Златорунный баран', 'Golden Ram', '#f0e2c2', '#d9a62e'),
+        'sky_ray': ('Небесный скат', 'Sky Ray', '#6aa0e2', '#ffe08a'),
+        'cloud_jelly': ('Облачная медуза', 'Cloud Jelly', '#f4f8ff', '#bfd8ff'),
+        'mimic': ('Мимик', 'Mimic', '#d8c9a8', '#5a1a2a'),
+        'storm_elemental': ('Грозовой элементаль', 'Storm Elemental', '#3c4458', '#ffffff'),
     }
     for k, (ru, en, base, spots) in mobs.items():
         tr(f'entity.{NS}.{k}', ru, en)
@@ -581,6 +589,33 @@ def gen_mobs():
     entity_loot('light_wisp', [('minecraft:glowstone_dust', 1, 1)])
     entity_loot('pegasus', [('minecraft:leather', 0, 2)])
     entity_loot('angel', [])
+    entity_loot('cherub', [])
+    entity_loot('golden_ram', [('minecraft:mutton', 1, 2)])
+    entity_loot('sky_ray', [(c('cloud_fluff'), 1, 3), ('minecraft:leather', 0, 2)])
+    entity_loot('cloud_jelly', [(c('sky_jelly'), 0, 2)])
+    entity_loot('mimic', [(c('starquartz'), 2, 5), (c('etherite_ingot'), 0, 2), (c('bronze_key'), 1, 1, 0.5), ('minecraft:gold_ingot', 1, 3)])
+    entity_loot('storm_elemental', [(c('starquartz'), 4, 8), (c('silver_key'), 1, 1), (c('seraph_feather'), 1, 3)])
+    write_json(os.path.join(DATA, 'loot_table/shearing/golden_ram.json'), {'type': 'minecraft:shearing', 'pools': [
+        {'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': c('golden_fleece'),
+                                  'modifier': [{'type': 'minecraft:set_count', 'count': {'type': 'minecraft:uniform', 'min': 1, 'max': 2}}]}]}],
+        'random_sequence': c('shearing/golden_ram')})
+    tag('entity_type', 'minecraft:can_equip_harness', c('sky_ray'))
+    tag('item', 'minecraft:happy_ghast_food', c('manna_berries'))
+    tag('item', 'minecraft:happy_ghast_tempt_items', c('manna_berries'))
+    for k, (colors, rows) in {
+        'sky_jelly': ({'1': '#9db4d6', '2': '#dbe7fb', '3': '#ffffff', '4': '#ffe9a8'}, [
+            '................', '................', '.....111111.....', '....12222221....', '...1223332221...', '...1233443321...',
+            '...1233333321...', '...1222222221...', '....11111111....', '.....1.1.1.1....', '....1.1.1.1.....', '.....1.1.1.1....',
+            '................', '................', '................', '................']),
+        'golden_fleece': ({'1': '#b9862a', '2': '#efc24f', '3': '#ffe08a'}, [
+            '................', '................', '...1111111111...', '..122332233221..', '.12333223332221.', '.12322333222321.',
+            '.12233322333221.', '..1223332233221.', '..12223322332211', '...122332222321.', '...12222333221..', '....1122222211..',
+            '......111111....', '................', '................', '................'])}.items():
+        save_png(T.sprite(rows, colors), 'item/' + k)
+        model('item/' + k, {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('item/' + k)}})
+        item_def(k, c('item/' + k))
+    item_name('sky_jelly', 'Небесное желе', 'Sky Jelly')
+    item_name('golden_fleece', 'Золотое руно', 'Golden Fleece')
     write_json(os.path.join(DATA, 'loot_table/entities/fallen_seraph.json'), {'type': 'minecraft:entity', 'pools': [
         {'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': c('light_shard')}]},
         {'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': c('seraph_wings')}]},
@@ -594,6 +629,10 @@ def gen_mobs():
     tr('boss.celestial.fallen_seraph.phase2', '§eСерафим взмывает ввысь: «Свет обрушится на тебя!»', '§eThe Seraph takes flight: "Light shall rain upon you!"')
     tr('boss.celestial.fallen_seraph.phase3', '§cСерафим в ярости: «Стражи, ко мне!»', '§cThe Seraph rages: "Guardians, to me!"')
 
+    # пегас — «лошадь» для ванильных механик: седло, конская броня, следование за игроком
+    for t in ('can_equip_saddle', 'can_wear_horse_armor', 'can_float_while_ridden', 'dismounts_underwater', 'followable_friendly_mobs'):
+        tag('entity_type', 'minecraft:' + t, c('pegasus'))
+
     # торговля ангелов: валюта — звёздный кварц и эфирит
     S, E = c('starquartz'), c('etherite_ingot')
     common = [
@@ -606,6 +645,7 @@ def gen_mobs():
     ]
     rare = [
         trade('saddle', 'minecraft:saddle', 1, E, 2, 3),
+        trade('fleece_for_quartz', S, 3, c('golden_fleece'), 2, 12),
         trade('golden_apple', 'minecraft:golden_apple', 1, E, 3, 4),
         trade('experience', 'minecraft:experience_bottle', 4, S, 3),
         trade('name_tag', 'minecraft:name_tag', 1, S, 4, 2),

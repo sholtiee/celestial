@@ -45,6 +45,12 @@ public final class ModItems {
 	public static final Item ETHERITE_INGOT = register("etherite_ingot", Item::new, new Item.Properties());
 	public static final Item STARQUARTZ = register("starquartz", Item::new, new Item.Properties());
 	public static final Item CLOUD_FLUFF = register("cloud_fluff", Item::new, new Item.Properties());
+	public static final Item SKY_JELLY = register("sky_jelly", Item::new, new Item.Properties().food(
+		new FoodProperties.Builder().nutrition(3).saturationModifier(0.4F).alwaysEdible().build(),
+		net.minecraft.world.item.component.Consumables.defaultFood().onConsume(new net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect(java.util.List.of(
+			new net.minecraft.world.effect.MobEffectInstance(net.minecraft.world.effect.MobEffects.JUMP_BOOST, 600, 1),
+			new net.minecraft.world.effect.MobEffectInstance(net.minecraft.world.effect.MobEffects.SLOW_FALLING, 300, 0)))).build()));
+	public static final Item GOLDEN_FLEECE = register("golden_fleece", Item::new, new Item.Properties().rarity(Rarity.UNCOMMON));
 	public static final Item MANNA_BERRIES = register("manna_berries", p -> new BlockItem(ModBlocks.MANNA_BUSH, p),
 		new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build()));
 

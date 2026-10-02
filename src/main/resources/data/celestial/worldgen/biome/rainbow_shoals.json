@@ -39,6 +39,15 @@
               "type": "celestial:cloud_whale",
               "count": 1,
               "weight": 4
+            },
+            {
+              "type": "celestial:sky_ray",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 2
+              },
+              "weight": 4
             }
           ],
           "monster": [
@@ -75,6 +84,15 @@
                 "max_inclusive": 3
               },
               "weight": 10
+            },
+            {
+              "type": "celestial:cloud_jelly",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 2
+              },
+              "weight": 6
             }
           ]
         }

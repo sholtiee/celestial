@@ -23,6 +23,10 @@ import org.jspecify.annotations.Nullable;
 /** Пегас: приручается манной, под седлом летает — удерживай прыжок, чтобы набрать высоту. */
 public class Pegasus extends AbstractHorse {
 	private static final double LIFT = 0.09, MAX_CLIMB = 0.42, GLIDE_FALL = -0.12;
+	/** Порода: 0 — белый, 1 — золотой (Небесные сады), 2 — грозовой (Грозовой пик). */
+	private static final net.minecraft.network.syncher.EntityDataAccessor<Integer> VARIANT =
+		net.minecraft.network.syncher.SynchedEntityData.defineId(Pegasus.class, net.minecraft.network.syncher.EntityDataSerializers.INT);
+	public static final int WHITE = 0, GOLDEN = 1, STORM = 2;
 
 	public Pegasus(EntityType<? extends Pegasus> type, Level level) {
 		super(type, level);
@@ -34,6 +38,46 @@ public class Pegasus extends AbstractHorse {
 			.add(Attributes.MOVEMENT_SPEED, 0.3)
 			.add(Attributes.JUMP_STRENGTH, 0.9)
 			.add(Attributes.SAFE_FALL_DISTANCE, 64.0);
+	}
+
+	@Override
+	protected void defineSynchedData(net.minecraft.network.syncher.SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(VARIANT, WHITE);
+	}
+
+	public int getVariant() {
+		return entityData.get(VARIANT);
+	}
+
+	public void setVariant(int variant) {
+		entityData.set(VARIANT, Math.floorMod(variant, 3));
+	}
+
+	@Override
+	protected void addAdditionalSaveData(net.minecraft.world.level.storage.ValueOutput output) {
+		super.addAdditionalSaveData(output);
+		output.putInt("Variant", getVariant());
+	}
+
+	@Override
+	protected void readAdditionalSaveData(net.minecraft.world.level.storage.ValueInput input) {
+		super.readAdditionalSaveData(input);
+		setVariant(input.getIntOr("Variant", WHITE));
+	}
+
+	@Override
+	public net.minecraft.world.entity.@Nullable SpawnGroupData finalizeSpawn(net.minecraft.world.level.ServerLevelAccessor level,
+		net.minecraft.world.DifficultyInstance difficulty, EntitySpawnReason reason, net.minecraft.world.entity.@Nullable SpawnGroupData data) {
+		var biome = level.getBiome(blockPosition());
+		if (biome.is(dev.celestial.Celestial.id("heaven_gardens"))) {
+			setVariant(random.nextInt(3) == 0 ? WHITE : GOLDEN);
+		} else if (biome.is(dev.celestial.Celestial.id("storm_peak"))) {
+			setVariant(STORM);
+		} else {
+			setVariant(random.nextInt(10) == 0 ? GOLDEN : WHITE);
+		}
+		return super.finalizeSpawn(level, difficulty, reason, data);
 	}
 
 	@Override
@@ -99,7 +143,15 @@ public class Pegasus extends AbstractHorse {
 
 	@Override
 	public @Nullable AgeableMob getBreedOffspring(ServerLevel level, AgeableMob partner) {
-		return partner instanceof Pegasus ? ModEntities.PEGASUS.create(level, EntitySpawnReason.BREEDING) : null;
+		if (!(partner instanceof Pegasus other)) {
+			return null;
+		}
+		Pegasus foal = ModEntities.PEGASUS.create(level, EntitySpawnReason.BREEDING);
+		if (foal != null) {
+			// жеребёнок берёт породу одного из родителей, изредка — случайную
+			foal.setVariant(random.nextInt(8) == 0 ? random.nextInt(3) : random.nextBoolean() ? getVariant() : other.getVariant());
+		}
+		return foal;
 	}
 
 	@Override
