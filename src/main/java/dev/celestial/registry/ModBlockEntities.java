@@ -22,6 +22,10 @@ public final class ModBlockEntities {
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("cloud_lift"),
 		new BlockEntityType<>(dev.celestial.block.machine.CloudLiftBlockEntity::new, Set.of(ModBlocks.CLOUD_LIFT)));
 
+	public static final BlockEntityType<dev.celestial.trial.TrialControllerBlockEntity> TRIAL_CONTROLLER = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("trial_crystal"),
+		new BlockEntityType<>(dev.celestial.trial.TrialControllerBlockEntity::new, Set.of(ModBlocks.TRIAL_CONTROLLER)));
+
 	private ModBlockEntities() {}
 
 	public static void init() {

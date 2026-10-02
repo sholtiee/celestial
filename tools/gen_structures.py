@@ -288,6 +288,95 @@ def citadel():
     return t.save('citadel/main')
 
 
+# ================================================================ Башня Испытаний Рая
+FLOOR_H = 7
+TOWER = 21
+
+
+def trial_tower():
+    """7 этажей испытаний. Лестница в углу каждого этажа закрыта печатью — она растворяется после победы."""
+    rng = random.Random(31)
+    floors = 7
+    t = Template(TOWER, FLOOR_H * floors + 8, TOWER)
+    c0 = TOWER // 2
+    island_base(t, c0, c0, 12, 4, 8, rng)
+    base = 5
+    for f in range(floors):
+        y0 = base + f * FLOOR_H
+        # пол, стены с окнами, колонны по углам
+        t.fill(1, y0, 1, TOWER - 2, y0, TOWER - 2, BRICKS)
+        t.walls(1, y0 + 1, 1, TOWER - 2, y0 + FLOOR_H - 1, TOWER - 2, BRICKS)
+        for x, z in ((1, 1), (TOWER - 2, 1), (1, TOWER - 2), (TOWER - 2, TOWER - 2)):
+            t.fill(x, y0 + 1, z, x, y0 + FLOOR_H - 1, z, RADIANT)
+        for i in range(4, TOWER - 4, 4):
+            for wall in ((i, 1), (i, TOWER - 2), (1, i), (TOWER - 2, i)):
+                t.fill(wall[0], y0 + 3, wall[1], wall[0], y0 + 4, wall[1], 'minecraft:white_stained_glass')
+        # свет
+        for x, z in ((5, 5), (TOWER - 6, 5), (5, TOWER - 6), (TOWER - 6, TOWER - 6)):
+            t.set(x, y0 + FLOOR_H - 1, z, 'minecraft:lantern', hanging=True, waterlogged=False)
+        # лестница в северо-восточном углу на следующий этаж, проём закрыт печатью
+        sx = TOWER - 4
+        for k in range(FLOOR_H):
+            t.set(sx, y0 + 1 + k, 3 + k % 3, 'minecraft:air')
+        for k in range(FLOOR_H - 1):
+            t.set(sx, y0 + 1 + k, 3 + (k % 3) if k < 3 else 5 - (k % 3), C('skystone_brick_stairs'), facing='south', half='bottom', shape='straight', waterlogged=False)
+        if f < floors - 1:
+            t.fill(sx - 1, y0 + FLOOR_H, 2, sx + 1, y0 + FLOOR_H, 6, C('sealed_door'))
+        trial = f'heaven_{f + 1}'
+        t.set(c0, y0 + 1, c0, C('trial_crystal'), nbt={'id': C('trial_crystal'), 'Trial': trial}, state='idle')
+        decorate_floor(t, f + 1, y0, rng)
+    # вход на первом этаже и крыша с сундуком наград
+    t.fill(c0 - 1, base + 1, 1, c0 + 1, base + 3, 1, 'minecraft:air')
+    roof = base + floors * FLOOR_H
+    t.fill(1, roof, 1, TOWER - 2, roof, TOWER - 2, BRICKS)
+    for i in range(1, TOWER - 1, 2):
+        for a, b in ((i, 1), (i, TOWER - 2), (1, i), (TOWER - 2, i)):
+            t.set(a, roof + 1, b, BRICKS)
+    chest(t, c0, roof + 1, c0, 'celestial:chests/trial_tower_top', facing='south')
+    t.set(c0, roof + 2, c0 + 2, C('sky_crystal'), facing='up', waterlogged=False)
+    return t.save('trial_tower/main')
+
+
+def decorate_floor(t, n, y0, rng):
+    c0 = TOWER // 2
+    if n in (1, 6, 7):
+        for x, z in ((6, 6), (TOWER - 7, 6), (6, TOWER - 7), (TOWER - 7, TOWER - 7)):
+            t.fill(x, y0 + 1, z, x, y0 + 3, z, WALL, up=True, north='none', south='none', east='none', west='none', waterlogged=False)
+    if n in (2, 5):
+        # пропасть с исчезающими облаками до финишного кристалла у западной стены
+        t.fill(3, y0, 3, TOWER - 4, y0, TOWER - 4, 'minecraft:air')
+        t.fill(3, y0 - 1, 3, TOWER - 4, y0 - 1, TOWER - 4, 'minecraft:air') if n == 5 else None
+        t.fill(c0 - 1, y0, c0 - 1, c0 + 1, y0, c0 + 1, BRICKS)  # островок с кристаллом
+        x, z = c0 + 2, c0
+        path = []
+        for step in range(14 if n == 2 else 22):
+            path.append((x, z))
+            if step % 3 == 2:
+                z += rng.choice([-2, 2])
+            else:
+                x -= 1 if step % 2 == 0 else 0
+                z += 0
+            x = max(3, min(TOWER - 4, x - 1))
+            z = max(3, min(TOWER - 4, z))
+        for i, (x, z) in enumerate(path):
+            yy = y0 + (i // 4 if n == 5 else 0)
+            t.set(x, yy, z, C('vanishing_cloud'), vanished=False)
+        gx, gz = path[-1]
+        t.set(gx - 1 if gx > 3 else gx, y0 + (len(path) // 4 if n == 5 else 0), gz, C('trial_goal'))
+    if n == 3:
+        # лучи: линза светит на восток, луч надо развернуть зеркалами (Камертон лежит в сундуке) на приёмник у южной стены
+        t.set(2, y0 + 1, c0 - 3, C('sun_lens'), nbt={'id': C('beam_source')}, facing='east', active=False)
+        t.set(c0 + 3, y0 + 1, c0 - 3, C('beam_mirror'), flipped=False)
+        t.set(c0 + 3, y0 + 1, c0 + 4, C('beam_mirror'), flipped=False)
+        t.set(c0 - 4, y0 + 1, c0 + 4, C('beam_mirror'), flipped=True)
+        t.set(c0 - 4, y0 + 1, TOWER - 3, C('light_receiver'), color='white', powered=False)
+        chest(t, 3, y0 + 1, TOWER - 4, 'celestial:chests/trial_tools', facing='east')
+    if n == 4:
+        t.set(c0, y0 + 1, c0 + 4, C('bell_altar'), nbt={'id': C('bell_altar')}, solved=False)
+        for i, (x, z) in enumerate(((c0 - 6, c0 - 6), (c0 + 6, c0 - 6), (c0 - 6, c0 + 6), (c0 + 6, c0 + 6), (c0, c0 - 7))):
+            t.set(x, y0 + 1, z, C('sky_bell'), note=i)
+
+
 # ================================================================ JSON: пулы, структуры, наборы
 def pool(name, location):
     write_json(os.path.join(DATA, 'worldgen/template_pool', name + '.json'), {
@@ -339,6 +428,16 @@ def loot():
     chest_table('ruins_gold', [
         p((3, 6), [(C('etherite_ingot'), 8, 2, 5), (C('seraph_feather'), 6, 2, 4), (C('starbow'), 2, 1, 1),
                    (C('light_spear'), 2, 1, 1), ('minecraft:enchanted_golden_apple', 1, 1, 1), (C('music_disc_heavenly_choir'), 2, 1, 1)])])
+    for n in range(1, 8):
+        chest_table(f'trial_heaven_{n}', [
+            p((1 + n // 3, 2 + n // 2), [(C('starquartz'), 8, 1, 2 + n), (C('etherite_ingot'), 4, 1, 1 + n // 3), (C('seraph_feather'), 3, 1, 2),
+                                        (C('cloud_parachute'), 2, 1, 2), (C('rune_of_wind'), 1, 1, 1), (C('rune_of_light'), 1, 1, 1),
+                                        (C('rune_of_sky'), 1, 1, 1), (C('rune_of_stars'), 1, 1, 1)])])
+    chest_table('trial_tools', [p(1, [(C('tuning_fork'), 1, 1, 1)])])
+    chest_table('trial_tower_top', [
+        p(1, [(C('seraph_wings'), 1, 1, 1)]),
+        p((3, 5), [(C('etherite_ingot'), 6, 3, 6), (C('rune_of_light'), 3, 1, 2), (C('rune_of_wind'), 3, 1, 2), (C('starbow'), 1, 1, 1),
+                   (C('light_spear'), 1, 1, 1), (C('golden_key'), 2, 1, 1)])])
     chest_table('citadel_treasure', [
         p((4, 7), [(C('etherite_ingot'), 8, 3, 6), (C('starquartz'), 8, 4, 10), ('minecraft:diamond', 6, 2, 5),
                    (C('seraph_feather'), 5, 2, 5), ('minecraft:golden_apple', 4, 1, 3), (C('music_disc_heavenly_choir'), 1, 1, 1)])])
@@ -349,21 +448,26 @@ def main():
         'деревня': sky_village(),
         'руины': sky_ruins(),
         'цитадель': citadel(),
+        'башня': trial_tower(),
     }
     pool('sky_village/center', 'sky_village/center')
     pool('sky_ruins/main', 'sky_ruins/main')
     pool('citadel/main', 'citadel/main')
+    pool('trial_tower/main', 'trial_tower/main')
     structure('sky_village', 'sky_village/center', 'sky_village', 118)
     structure('sky_ruins', 'sky_ruins/main', 'sky_ruins', 66)
     structure('citadel', 'citadel/main', 'citadel', 168)
+    structure('trial_tower', 'trial_tower/main', 'trial_tower', 96)
     structure_set('sky_villages', 'sky_village', 28, 10, 731402)
     structure_set('sky_ruins', 'sky_ruins', 22, 8, 731403)
     structure_set('citadels', 'citadel', 48, 18, 731404)
+    structure_set('trial_towers', 'trial_tower', 36, 14, 731405)
     biome_tag('sky_village', 'golden_meadows', 'rainbow_shoals', 'heaven_gardens')
     biome_tag('sky_ruins', 'golden_meadows', 'cloud_forest', 'crystal_spires', 'rainbow_shoals', 'storm_peak', 'star_glade')
     biome_tag('citadel', 'crystal_spires', 'golden_meadows', 'cloud_forest', 'rainbow_shoals', 'storm_peak', 'star_glade', 'heaven_gardens')
+    biome_tag('trial_tower', 'golden_meadows', 'storm_peak', 'crystal_spires', 'star_glade')
     write_json(os.path.join(DATA, 'tags/worldgen/structure/wisp_guides_to.json'),
-               {'values': [c('sky_village'), c('sky_ruins'), c('citadel')]})
+               {'values': [c('sky_village'), c('sky_ruins'), c('citadel'), c('trial_tower')]})
     write_json(os.path.join(DATA, 'tags/worldgen/structure/citadels.json'), {'values': [c('citadel')]})
     loot()
     print('ok: блоков в шаблонах', counts)

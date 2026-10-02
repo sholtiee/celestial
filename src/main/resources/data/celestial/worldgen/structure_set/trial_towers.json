@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 731405,
+    "separation": 14,
+    "spacing": 36
+  },
+  "structures": [
+    {
+      "structure": "celestial:trial_tower",
+      "weight": 1
+    }
+  ]
+}

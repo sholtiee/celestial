@@ -1,0 +1,38 @@
+# Башня Испытаний: ставим шаблон, смотрим снаружи, проходим 1-й этаж (волны)
+/gamemode creative
+/time set 6000
+/gamerule advance_time false
+/gamerule spawn_monsters false
+fly
+/execute in celestial:heaven run tp @s 0 160 -40 0 20
+wait 40
+/execute in celestial:heaven run place template celestial:trial_tower/main 0 100 0
+wait 60
+/execute in celestial:heaven run tp @s 10 140 -25 0 25
+wait 80
+togglehud
+shot tower_outside
+togglehud
+/execute in celestial:heaven run tp @s 10 106 7 0 10
+/gamemode survival
+/clear @s
+/effect give @s minecraft:resistance 600 4 true
+wait 20
+userel 0 0 3 up
+wait 60
+/kill @e[type=celestial:fallen_guardian]
+/kill @e[type=celestial:storm_spirit]
+wait 60
+/kill @e[type=celestial:fallen_guardian]
+/kill @e[type=celestial:storm_spirit]
+wait 80
+/execute in celestial:heaven if block 16 112 4 celestial:sealed_door run say ПЕЧАТЬ_ЕЩЁ_НА_МЕСТЕ
+/celestial status
+/gamemode creative
+/execute in celestial:heaven run tp @s 10 120 3 0 45
+wait 30
+shot tower_floor3
+/execute in celestial:heaven run tp @s 10 113 3 0 45
+wait 20
+shot tower_floor2
+quit

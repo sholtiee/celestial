@@ -188,6 +188,49 @@ def machines(names):
     })
 
 
+def trials(names):
+    # кристалл испытания: тускло-голубой (ждёт), яркий (идёт), золотой (пройдено)
+    for st, inner, glow in (('idle', '#3a55b0', '#93c5fd'), ('running', '#bfe9ff', '#ffffff'), ('done', '#f3c64a', '#fff6cf')):
+        save_png(frame_texture('trial_crystal_' + st, inner, rim='#c9a23a', glow=glow), f'block/trial_crystal_{st}')
+        model(f'block/trial_crystal_{st}', {'textures': {'t': c(f'block/trial_crystal_{st}'), 'b': c('block/skystone_bricks'),
+                                                          'particle': c(f'block/trial_crystal_{st}')}, 'elements': [
+            {'from': [1, 0, 1], 'to': [15, 3, 15], 'faces': {d: {'texture': '#b'} for d in ('north', 'south', 'east', 'west', 'up', 'down')}},
+            {'from': [4, 3, 4], 'to': [12, 15, 12], 'faces': {d: {'texture': '#t'} for d in ('north', 'south', 'east', 'west', 'up')}}]})
+    blockstate('trial_crystal', {'variants': {f'state={st}': {'model': c(f'block/trial_crystal_{st}')} for st in ('idle', 'running', 'done')}})
+    item_def('trial_crystal', c('block/trial_crystal_idle'))
+    save_png(frame_texture('trial_goal', '#93c5fd', rim='#ffffff', glow='#ffffff'), 'block/trial_goal')
+    blockstate('trial_goal', {'variants': {'': {'model': c('block/trial_goal')}}})
+    model('block/trial_goal', {'parent': 'minecraft:block/cube_all', 'textures': {'all': c('block/trial_goal')}})
+    item_def('trial_goal', c('block/trial_goal'))
+    save_png(T.cloud('vanishing_cloud', [T.hexrgb(h) for h in ('#f0e6ff', '#f6efff', '#fbf7ff', '#ffffff')], 200), 'block/vanishing_cloud')
+    model('block/vanishing_cloud', {'parent': 'minecraft:block/cube_all', 'textures': {'all': c('block/vanishing_cloud')}})
+    model('block/vanishing_cloud_gone', {'textures': {'particle': c('block/vanishing_cloud')}, 'elements': []})
+    blockstate('vanishing_cloud', {'variants': {'vanished=false': {'model': c('block/vanishing_cloud')},
+                                                'vanished=true': {'model': c('block/vanishing_cloud_gone')}}})
+    item_def('vanishing_cloud', c('block/vanishing_cloud'))
+    trial_names = ['Врата испытаний', 'Тающие облака', 'Путь луча', 'Песнь колоколов', 'Лестница в небо', 'Без доспехов', 'Гнев бури']
+    trial_names_en = ['Gate of Trials', 'Melting Clouds', 'Path of the Beam', 'Song of Bells', 'Stairway to the Sky', 'Unarmored', 'Wrath of the Storm']
+    for i, (ru, en) in enumerate(zip(trial_names, trial_names_en), 1):
+        names[f'trial.celestial.name.heaven_{i}'] = (f'Испытание {i}: {ru}', f'Trial {i}: {en}')
+    names.update({
+        'block.celestial.trial_crystal': ('Кристалл испытания', 'Trial Crystal'),
+        'block.celestial.trial_goal': ('Финишный кристалл', 'Finish Crystal'),
+        'block.celestial.vanishing_cloud': ('Исчезающее облако', 'Vanishing Cloud'),
+        'trial.celestial.start.waves': ('§6Испытание началось: одолей все волны!', '§6The trial begins: defeat every wave!'),
+        'trial.celestial.start.bare_waves': ('§6Испытание началось: сражайся без доспехов!', '§6The trial begins: fight without armor!'),
+        'trial.celestial.start.parkour': ('§6Испытание началось: доберись до Финишного кристалла, пока не вышло время!',
+                                          '§6The trial begins: reach the Finish Crystal before time runs out!'),
+        'trial.celestial.start.puzzle': ('§6Испытание началось: разгадай загадку этажа!', '§6The trial begins: solve the floor puzzle!'),
+        'trial.celestial.success': ('§a✦ %s пройдено! Благодать +%s', '§a✦ %s complete! Grace +%s'),
+        'trial.celestial.done_already': ('Это испытание уже пройдено', 'This trial is already complete'),
+        'trial.celestial.busy': ('Испытание уже идёт', 'The trial is already running'),
+        'trial.celestial.remove_armor': ('§cСними доспехи, чтобы начать это испытание', '§cRemove your armor to begin this trial'),
+        'trial.celestial.fail.left': ('§cИспытание провалено: ты покинул арену', '§cTrial failed: you left the arena'),
+        'trial.celestial.fail.armor': ('§cИспытание провалено: ты надел доспехи', '§cTrial failed: you put on armor'),
+        'trial.celestial.fail.time': ('§cИспытание провалено: время вышло', '§cTrial failed: time is up'),
+    })
+
+
 def crystal_like(name):
     img = T.noisy(name, [T.hexrgb(h) for h in ('#2a4190', '#3a55b0', '#4d6bd0', '#93c5fd')], cell=4, grain=0.4)
     return img
@@ -399,6 +442,7 @@ def main():
     })
 
     machines(names)
+    trials(names)
 
     # теги дописываем к существующим файлам
     for (kind, name), values in TAGS.items():

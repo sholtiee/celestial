@@ -1,0 +1,9 @@
+/gamemode creative
+fly
+/execute in celestial:heaven run tp @s 10 106 4 0 10
+wait 40
+/execute in celestial:heaven run data get block 10 106 10
+/execute in celestial:heaven run data get block 10 105 10
+/execute in celestial:heaven if block 10 106 10 celestial:trial_crystal run say КРИСТАЛЛ_ТУТ
+pos
+quit

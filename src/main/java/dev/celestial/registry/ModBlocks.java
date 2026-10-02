@@ -163,6 +163,15 @@ public final class ModBlocks {
 	public static final Block SKY_BEACON = register("sky_beacon", dev.celestial.block.machine.SkyBeaconBlock::new,
 		Properties.of().mapColor(MapColor.GOLD).strength(3.0F, 1200.0F).requiresCorrectToolForDrops().sound(SoundType.AMETHYST).lightLevel(s -> 15));
 
+	// Испытания
+	public static final Block TRIAL_CONTROLLER = register("trial_crystal", dev.celestial.trial.TrialControllerBlock::new,
+		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST).noOcclusion()
+			.lightLevel(s -> s.getValue(dev.celestial.trial.TrialControllerBlock.STATE) == dev.celestial.trial.TrialControllerBlock.TrialState.IDLE ? 6 : 15));
+	public static final Block TRIAL_GOAL = register("trial_goal", dev.celestial.trial.TrialGoalBlock::new,
+		Properties.of().mapColor(MapColor.DIAMOND).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST).lightLevel(s -> 12));
+	public static final Block VANISHING_CLOUD = register("vanishing_cloud", dev.celestial.trial.VanishingCloudBlock::new,
+		Properties.of().mapColor(MapColor.SNOW).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.WOOL).noOcclusion());
+
 	// Загадки
 	public static final Block SEALED_DOOR = register("sealed_door", dev.celestial.block.puzzle.SealedDoorBlock::new,
 		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST).lightLevel(s -> 6));

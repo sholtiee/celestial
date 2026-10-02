@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "vanished=false": {
+      "model": "celestial:block/vanishing_cloud"
+    },
+    "vanished=true": {
+      "model": "celestial:block/vanishing_cloud_gone"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "celestial:tuning_fork",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "random_sequence": "celestial:chests/trial_tools"
+}

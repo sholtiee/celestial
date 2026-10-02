@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "state=idle": {
+      "model": "celestial:block/trial_crystal_idle"
+    },
+    "state=running": {
+      "model": "celestial:block/trial_crystal_running"
+    },
+    "state=done": {
+      "model": "celestial:block/trial_crystal_done"
+    }
+  }
+}
