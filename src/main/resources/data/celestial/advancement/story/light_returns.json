@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "altar": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:light_shard"
+    },
+    "title": {
+      "translate": "advancements.celestial.light_returns.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.light_returns.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "altar"
+    ]
+  ],
+  "parent": "celestial:story/fall_of_the_seraph",
+  "rewards": {
+    "experience": 500
+  }
+}

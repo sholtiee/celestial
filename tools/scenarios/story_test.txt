@@ -1,0 +1,46 @@
+# Сюжет: дневник при входе, главы, алтарь и финал
+/gamemode creative
+/time set 6000
+fly
+/gamerule spawn_monsters false
+/advancement revoke @s from celestial:story/root
+/effect clear @s
+/clear @s
+wait 20
+/give @s celestial:wanderer_journal
+/item replace entity @s weapon.mainhand with celestial:wanderer_journal
+wait 40
+useitem
+wait 30
+shot story_journal_page1
+closescreen
+/give @s celestial:flame_shard
+wait 40
+/execute in celestial:heaven run tp @s 0 200 0
+fly
+wait 40
+/advancement grant @s only celestial:story/heart_of_the_void
+/advancement grant @s only celestial:story/fall_of_the_seraph
+/give @s celestial:void_heart
+/give @s celestial:light_shard
+/kill @e[type=celestial:fallen_seraph]
+goto celestial:sky_village 0 2 0 0 20
+wait 100
+pos
+/execute at @s run fill ~-2 ~-1 ~1 ~2 ~-1 ~4 celestial:skystone_bricks
+/execute at @s run setblock ~ ~ ~2 celestial:celestial_altar
+/item replace entity @s weapon.mainhand with celestial:flame_shard
+userel 0 0 2 up
+/item replace entity @s weapon.mainhand with celestial:void_heart
+userel 0 0 2 up
+/item replace entity @s weapon.mainhand with celestial:light_shard
+userel 0 0 2 up
+wait 30
+shot story_finale
+wait 60
+/item replace entity @s weapon.mainhand with celestial:wanderer_journal
+useitem
+wait 20
+shot story_journal_end
+pos
+quit

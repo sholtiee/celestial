@@ -63,6 +63,8 @@ public final class ModItems {
 
 	// Сюжетные предметы
 	public static final Item FLAME_SHARD = register("flame_shard", Item::new, new Item.Properties().rarity(Rarity.RARE).fireResistant().stacksTo(16));
+	public static final Item WANDERER_JOURNAL = register("wanderer_journal", dev.celestial.item.WandererJournalItem::new,
+		new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
 	public static final Item LIGHT_SHARD = register("light_shard", Item::new, new Item.Properties().rarity(Rarity.EPIC).stacksTo(16).fireResistant());
 	public static final Item VOID_HEART = register("void_heart", dev.celestial.item.VoidHeartItem::new, new Item.Properties().rarity(Rarity.EPIC).stacksTo(1));
 

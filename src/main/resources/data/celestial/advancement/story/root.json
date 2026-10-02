@@ -1,0 +1,34 @@
+{
+  "criteria": {
+    "journal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "celestial:wanderer_journal"
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:wanderer_journal"
+    },
+    "title": {
+      "translate": "advancements.celestial.root.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.root.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "background": "minecraft:gui/advancements/backgrounds/end"
+  },
+  "requirements": [
+    [
+      "journal"
+    ]
+  ]
+}

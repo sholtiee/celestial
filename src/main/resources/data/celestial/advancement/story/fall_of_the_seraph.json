@@ -1,0 +1,43 @@
+{
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "celestial:fallen_seraph"
+          }
+        }
+      }
+    },
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:halo"
+    },
+    "title": {
+      "translate": "advancements.celestial.fall_of_the_seraph.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.fall_of_the_seraph.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "killed",
+      "impossible"
+    ]
+  ],
+  "parent": "celestial:story/gates_of_heaven",
+  "rewards": {
+    "experience": 500
+  }
+}

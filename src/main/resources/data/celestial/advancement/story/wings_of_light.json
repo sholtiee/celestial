@@ -1,0 +1,34 @@
+{
+  "criteria": {
+    "wings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "celestial:seraph_wings"
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:seraph_wings"
+    },
+    "title": {
+      "translate": "advancements.celestial.wings_of_light.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.wings_of_light.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "wings"
+    ]
+  ],
+  "parent": "celestial:story/fall_of_the_seraph"
+}

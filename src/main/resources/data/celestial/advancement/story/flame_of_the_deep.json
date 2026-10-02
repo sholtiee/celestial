@@ -1,0 +1,34 @@
+{
+  "criteria": {
+    "shard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "celestial:flame_shard"
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:flame_shard"
+    },
+    "title": {
+      "translate": "advancements.celestial.flame_of_the_deep.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.flame_of_the_deep.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "shard"
+    ]
+  ],
+  "parent": "celestial:story/root"
+}

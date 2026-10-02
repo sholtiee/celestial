@@ -1,0 +1,7 @@
+/gamemode creative
+/item replace entity @s weapon.mainhand with celestial:wanderer_journal
+wait 40
+useitem
+wait 40
+shot journal_open
+quit

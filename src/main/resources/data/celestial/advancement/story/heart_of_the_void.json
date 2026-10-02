@@ -1,0 +1,34 @@
+{
+  "criteria": {
+    "heart": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "celestial:void_heart"
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:void_heart"
+    },
+    "title": {
+      "translate": "advancements.celestial.heart_of_the_void.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.heart_of_the_void.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "heart"
+    ]
+  ],
+  "parent": "celestial:story/flame_of_the_deep"
+}

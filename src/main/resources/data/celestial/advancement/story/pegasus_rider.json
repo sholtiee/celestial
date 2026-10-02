@@ -1,0 +1,36 @@
+{
+  "criteria": {
+    "tamed": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "celestial:pegasus"
+          }
+        }
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:pegasus_spawn_egg"
+    },
+    "title": {
+      "translate": "advancements.celestial.pegasus_rider.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.pegasus_rider.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "tamed"
+    ]
+  ],
+  "parent": "celestial:story/gates_of_heaven"
+}

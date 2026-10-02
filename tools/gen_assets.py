@@ -818,7 +818,12 @@ def gen_keys_and_story_blocks():
     # алтарь: постамент (нижняя часть шире), сверху чаша
     save_png(T.bricks('altar_side', T.SKYSTONE[2:], '#c9a23a'), 'block/celestial_altar_side')
     save_png(T.radiant_stone(), 'block/celestial_altar_top')
-    blockstate('celestial_altar', {'variants': {'': {'model': c('block/celestial_altar')}}})
+    variants = {}
+    for f in ('false', 'true'):
+        for v in ('false', 'true'):
+            for l in ('false', 'true'):
+                variants[f'flame={f},light={l},void={v}'] = {'model': c('block/celestial_altar' + ('_lit' if f == v == l == 'true' else ''))}
+    blockstate('celestial_altar', {'variants': variants})
     model('block/celestial_altar', {'parent': 'minecraft:block/block', 'textures': {
         'particle': c('block/celestial_altar_side'), 'side': c('block/celestial_altar_side'), 'top': c('block/celestial_altar_top')},
         'elements': [
@@ -826,6 +831,52 @@ def gen_keys_and_story_blocks():
             {'from': [4, 4, 4], 'to': [12, 11, 12], 'faces': {d: {'texture': '#side'} for d in ('north', 'south', 'east', 'west')}},
             {'from': [2, 11, 2], 'to': [14, 14, 14], 'faces': {d: {'texture': '#side'} for d in ('north', 'south', 'east', 'west', 'down')} | {'up': {'texture': '#top'}}}]})
     item_def('celestial_altar', c('block/celestial_altar'))
+    with open(os.path.join(ASSETS, 'models/block/celestial_altar.json')) as f:
+        lit = json.load(f)
+    lit['textures']['top'] = c('block/seraph_seal')
+    model('block/celestial_altar_lit', lit)
+    journal = T.sprite([
+        '................',
+        '..1111111111....',
+        '..1222222221....',
+        '..12233332211...',
+        '..12222222213...',
+        '..12333333213...',
+        '..12222222213...',
+        '..12233322213...',
+        '..12222222213...',
+        '..12222442213...',
+        '..12224444213...',
+        '..12222442213...',
+        '..1222222221 3..',
+        '..11111111113...',
+        '...3333333333...',
+        '................'], {'1': '#5b3a1e', '2': '#e9dcb8', '3': '#c9a23a', '4': '#f3c64a'})
+    save_png(journal, 'item/wanderer_journal')
+    model('item/wanderer_journal', {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('item/wanderer_journal')}})
+    item_def('wanderer_journal', c('item/wanderer_journal'))
+    icon = T.Image.new('RGBA', (18, 18), (0, 0, 0, 0))
+    halo_icon = T.sprite([
+        '................',
+        '....11111111....',
+        '...1222222221...',
+        '...1211111121...',
+        '...1222222221...',
+        '....11111111....',
+        '.......33.......',
+        '......3443......',
+        '.....344443.....',
+        '....34444443....',
+        '.....344443.....',
+        '......3443......',
+        '.......33.......',
+        '................',
+        '................',
+        '................'], {'1': '#c9a23a', '2': '#fff3c6', '3': '#f3d27a', '4': '#ffffff'})
+    icon.paste(halo_icon, (1, 1))
+    path = os.path.join(ASSETS, 'textures/mob_effect/blessing.png')
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    icon.save(path)
     block_name('celestial_altar', 'Небесный алтарь', 'Celestial Altar')
     tr('tag.item.celestial.etherite_tool_materials', 'Материалы эфиритовых инструментов', 'Etherite Tool Materials')
     tr('tag.item.celestial.repairs_etherite_armor', 'Чинит эфиритовую броню', 'Repairs Etherite Armor')

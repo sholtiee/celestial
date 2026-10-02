@@ -69,12 +69,21 @@ public final class AutoPilot {
 			var box = start != null && start.isValid() ? start.getBoundingBox() : new net.minecraft.world.level.levelgen.structure.BoundingBox(at);
 			var center = box.getCenter();
 			Celestial.LOGGER.info("Автопилот: {} в {} (коробка {})", id, center, box);
-			player.teleportTo(level, center.getX() + dx, box.maxY() + dy, center.getZ() + dz, java.util.Set.of(), yaw, pitch, false);
+			String cmd = String.format(java.util.Locale.ROOT, "execute in celestial:heaven run tp @s %.1f %.1f %.1f %.1f %.1f",
+				center.getX() + dx + 0.5, box.maxY() + dy, center.getZ() + dz + 0.5, yaw, pitch);
+			server.getCommands().performPrefixedCommand(player.createCommandSourceStack().withPermission(net.minecraft.server.permissions.LevelBasedPermissionSet.OWNER), cmd);
 		});
 	}
 
 	private static void tick(Minecraft mc) {
 		if (mc.player == null || mc.getConnection() == null || steps.isEmpty()) {
+			return;
+		}
+		if (mc.player.isDeadOrDying()) {
+			// игрок умер в прошлом прогоне — возрождаем, иначе клиент «застрянет» на экране смерти
+			mc.player.respawn();
+			mc.gui.setScreen(null);
+			waitTicks = 40;
 			return;
 		}
 		if (waitTicks > 0) {
@@ -130,6 +139,18 @@ public final class AutoPilot {
 			Celestial.LOGGER.info("Автопилот: позиция {} {} {} {} блок-под-ногами={}", mc.player.level().dimension().identifier(),
 				(int) Math.floor(mc.player.getX()), (int) Math.floor(mc.player.getY()), (int) Math.floor(mc.player.getZ()),
 				mc.player.level().getBlockState(mc.player.blockPosition()).getBlock());
+		} else if (step.equals("useitem")) {
+			mc.gameMode.useItem(mc.player, InteractionHand.MAIN_HAND);
+			waitTicks = 5;
+		} else if (step.startsWith("userel ")) {
+			// userel dx dy dz грань — правый клик по блоку относительно позиции игрока
+			String[] a = step.substring(7).strip().split("\\s+");
+			BlockPos pos = mc.player.blockPosition().offset(Integer.parseInt(a[0]), Integer.parseInt(a[1]), Integer.parseInt(a[2]));
+			Direction face = Direction.byName(a[3]);
+			mc.gameMode.useItemOn(mc.player, InteractionHand.MAIN_HAND, new BlockHitResult(Vec3.atCenterOf(pos).relative(face, 0.5), face, pos, false));
+			waitTicks = 5;
+		} else if (step.equals("closescreen")) {
+			mc.gui.setScreen(null);
 		} else if (step.equals("quit")) {
 			mc.stop();
 		}

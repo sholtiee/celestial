@@ -1,7 +1,28 @@
 {
   "variants": {
-    "": {
+    "flame=false,light=false,void=false": {
       "model": "celestial:block/celestial_altar"
+    },
+    "flame=false,light=true,void=false": {
+      "model": "celestial:block/celestial_altar"
+    },
+    "flame=false,light=false,void=true": {
+      "model": "celestial:block/celestial_altar"
+    },
+    "flame=false,light=true,void=true": {
+      "model": "celestial:block/celestial_altar"
+    },
+    "flame=true,light=false,void=false": {
+      "model": "celestial:block/celestial_altar"
+    },
+    "flame=true,light=true,void=false": {
+      "model": "celestial:block/celestial_altar"
+    },
+    "flame=true,light=false,void=true": {
+      "model": "celestial:block/celestial_altar"
+    },
+    "flame=true,light=true,void=true": {
+      "model": "celestial:block/celestial_altar_lit"
     }
   }
 }

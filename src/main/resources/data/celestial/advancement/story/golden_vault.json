@@ -1,0 +1,34 @@
+{
+  "criteria": {
+    "key": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "celestial:golden_key"
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:golden_key"
+    },
+    "title": {
+      "translate": "advancements.celestial.golden_vault.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.golden_vault.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "key"
+    ]
+  ],
+  "parent": "celestial:story/gates_of_heaven"
+}

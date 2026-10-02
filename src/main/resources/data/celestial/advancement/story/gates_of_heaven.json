@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "entered": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "celestial:heaven"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:radiant_stone"
+    },
+    "title": {
+      "translate": "advancements.celestial.gates_of_heaven.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.gates_of_heaven.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "entered"
+    ]
+  ],
+  "parent": "celestial:story/heart_of_the_void"
+}
