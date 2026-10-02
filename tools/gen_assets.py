@@ -415,8 +415,9 @@ def gen_blocks():
     stonecut('skystone_brick_slab_from_stonecutting', c('skystone_brick_slab'), c('skystone_bricks'), 2)
     stonecut('skystone_brick_wall_from_stonecutting', c('skystone_brick_wall'), c('skystone_bricks'))
     # светлый камень — рамка портала в Рай: свет Ада + кварц звёзд + небесный камень
-    shaped('radiant_stone', c('radiant_stone'), ['GSG', 'QBQ', 'GSG'],
-           {'G': 'minecraft:glowstone_dust', 'S': c('skystone'), 'Q': c('starquartz'), 'B': 'minecraft:gold_block'}, 4, 'building')
+    # светлый камень — рамка портала в Рай: только материалы Ада и Верхнего мира, иначе в Рай не попасть
+    shaped('radiant_stone', c('radiant_stone'), ['GQG', 'QBQ', 'GQG'],
+           {'G': 'minecraft:glowstone_dust', 'Q': 'minecraft:quartz', 'B': 'minecraft:gold_block'}, 4, 'building')
     shaped('cloud', c('cloud'), ['##', '##'], {'#': c('cloud_fluff')}, 1, 'building')
     shaped('golden_cloud', c('golden_cloud'), [' G ', 'GCG', ' G '], {'G': 'minecraft:gold_nugget', 'C': c('cloud')}, 1, 'building')
     shapeless('rain_cloud', c('rain_cloud'), [c('cloud'), 'minecraft:water_bucket'], 1, 'building')

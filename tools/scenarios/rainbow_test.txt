@@ -1,0 +1,9 @@
+/gamemode creative
+/time set 6000
+/gamerule advance_time false
+/execute in celestial:heaven run tp @s -16 132 -14 0 5
+fly
+wait 200
+togglehud
+shot rainbow
+quit

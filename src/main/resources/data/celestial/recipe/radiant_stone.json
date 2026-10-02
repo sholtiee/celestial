@@ -3,14 +3,13 @@
   "category": "building",
   "key": {
     "G": "minecraft:glowstone_dust",
-    "S": "celestial:skystone",
-    "Q": "celestial:starquartz",
+    "Q": "minecraft:quartz",
     "B": "minecraft:gold_block"
   },
   "pattern": [
-    "GSG",
+    "GQG",
     "QBQ",
-    "GSG"
+    "GQG"
   ],
   "result": {
     "id": "celestial:radiant_stone",

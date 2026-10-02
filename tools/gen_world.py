@@ -248,6 +248,12 @@ def features():
                 {'type': 'minecraft:matching_block_tag', 'tag': 'minecraft:air'},
                 {'type': 'minecraft:matching_blocks', 'blocks': [c('skystone'), c('golden_grass')], 'offset': [0, -1, 0]}]}}])
 
+    feature('rainbow_arc', {'type': c('rainbow_arc')})
+    placed('rainbow_arcs', c('rainbow_arc'), [
+        {'type': 'minecraft:rarity_filter', 'chance': 5},
+        {'type': 'minecraft:height_range', 'height': {'type': 'minecraft:uniform', 'min_inclusive': {'absolute': 90}, 'max_inclusive': {'absolute': 190}}},
+        {'type': 'minecraft:biome'}])
+
     crystals('crystals_common', 12)
     crystals('crystals_rare', 1)
 
@@ -291,7 +297,7 @@ def biome(name, sky, fog, grass, features_by_step, music='minecraft:music.overwo
 
 
 FEATURE_ORDER = ['ore_etherite', 'ore_etherite_rich', 'ore_starquartz', 'ore_radiant',
-                 'sky_clouds', 'sky_golden_clouds', 'sky_rain_clouds', 'radiant_spires',
+                 'sky_clouds', 'sky_golden_clouds', 'sky_rain_clouds', 'radiant_spires', 'rainbow_arcs',
                  'trees_golden_meadows', 'trees_cloud_forest', 'patch_manna', 'crystals_common', 'crystals_rare']
 ORES = ['ore_etherite', 'ore_etherite_rich', 'ore_starquartz', 'ore_radiant']
 LOCAL_MODS, UNDERGROUND_ORES, VEGETAL = 2, 6, 9
@@ -318,7 +324,7 @@ def biomes():
         music='minecraft:music.overworld.grove',
         monsters=[spawn('storm_spirit', 60, 1, 2), spawn('fallen_guardian', 60, 1, 2), spawn('winged_serpent', 30, 1, 2)], ambient=WISPS)
     biome('rainbow_shoals', '#b9b0ff', '#ffe9f6', '#ffd38a', {
-        UNDERGROUND_ORES: ORES, VEGETAL: ['sky_clouds', 'sky_golden_clouds', 'patch_manna', 'trees_golden_meadows']},
+        UNDERGROUND_ORES: ORES, VEGETAL: ['sky_clouds', 'sky_golden_clouds', 'patch_manna', 'trees_golden_meadows', 'rainbow_arcs']},
         creatures=[spawn('pegasus', 6, 2, 3), spawn('cloud_whale', 4, 1, 1)], monsters=MONSTERS, ambient=WISPS)
 
 

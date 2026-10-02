@@ -1,0 +1,11 @@
+# Парашют: падаем с высоты 250 в выживании — парашют должен раскрыться
+/gamemode survival
+/clear @s
+/give @s celestial:cloud_parachute 2
+/execute in minecraft:overworld run tp @s 0 250 0
+wait 70
+pos
+shot parachute_open
+wait 400
+pos
+quit
