@@ -106,7 +106,7 @@ public final class GraceClient {
 				Vec3 look = player.getLookAngle();
 				Vec3 m = player.getDeltaMovement();
 				player.setDeltaMovement(m.x + look.x * 1.3, Math.max(m.y, 0.15), m.z + look.z * 1.3);
-				player.playSound(SoundEvents.BREEZE_JUMP, 0.8F, 1.4F);
+				player.playSound(dev.celestial.registry.ModSounds.WING_FLAP, 1.0F, 0.8F);
 				for (int i = 0; i < 10; i++) {
 					player.level().addParticle(ParticleTypes.CLOUD, player.getRandomX(0.6), player.getRandomY(), player.getRandomZ(0.6), 0, 0, 0);
 				}
@@ -123,7 +123,7 @@ public final class GraceClient {
 			player.setDeltaMovement(m.x, 0.62, m.z);
 			player.resetFallDistance();
 			doubleJumpUsed = true;
-			player.playSound(SoundEvents.ENDER_DRAGON_FLAP, 0.4F, 1.8F);
+			player.playSound(dev.celestial.registry.ModSounds.WING_FLAP, 0.8F, 1.1F);
 			for (int i = 0; i < 8; i++) {
 				player.level().addParticle(ParticleTypes.CLOUD, player.getRandomX(0.5), player.getY(), player.getRandomZ(0.5), 0, -0.05, 0);
 			}

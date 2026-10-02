@@ -135,7 +135,7 @@ public final class Fading {
 	private static void announce(MinecraftServer server, Component message) {
 		for (ServerPlayer player : server.getPlayerList().getPlayers()) {
 			player.sendSystemMessage(message);
-			player.level().playSound(null, player.blockPosition(), SoundEvents.AMBIENT_CAVE.value(), SoundSource.AMBIENT, 1.0F, 0.6F);
+			player.level().playSound(null, player.blockPosition(), dev.celestial.registry.ModSounds.FADING_GROW, SoundSource.AMBIENT, 1.0F, 1.0F);
 		}
 	}
 

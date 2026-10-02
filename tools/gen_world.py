@@ -19,7 +19,7 @@ def dimension():
         'attributes': {
             'minecraft:audio/background_music': {
                 'default': {'max_delay': 9000, 'min_delay': 2400, 'replace_current_music': True,
-                            'sound': 'minecraft:music.overworld.cherry_grove'}},
+                            'sound': 'celestial:music.heaven'}},
             'minecraft:gameplay/bed_rule': {'can_set_spawn': 'always', 'can_sleep': 'when_dark',
                                             'error_message': {'translate': 'block.minecraft.bed.no_sleep'}},
             'minecraft:gameplay/respawn_anchor_works': False,
@@ -379,7 +379,7 @@ def flora_features():
 
 
 # ------------------------------------------------------------------ биомы
-def biome(name, sky, fog, grass, features_by_step, music='minecraft:music.overworld.cherry_grove', creatures=None, monsters=None, ambient=None,
+def biome(name, sky, fog, grass, features_by_step, music='celestial:music.heaven', creatures=None, monsters=None, ambient=None,
           particle=None, particle_chance=0.0):
     steps = [[] for _ in range(11)]
     for step, fs in features_by_step.items():

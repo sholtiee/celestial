@@ -83,7 +83,7 @@ public class Shadow extends Monster {
 		level.sendParticles(ParticleTypes.LARGE_SMOKE, getX(), getY(1), getZ(), 25, 0.3, 0.6, 0.3, 0.02);
 		if (randomTeleport(to.x, to.y, to.z, false, state -> false)) {
 			level.sendParticles(ParticleTypes.LARGE_SMOKE, getX(), getY(1), getZ(), 25, 0.3, 0.6, 0.3, 0.02);
-			playSound(SoundEvents.ENDERMAN_TELEPORT, 0.6F, 0.5F);
+			playSound(dev.celestial.registry.ModSounds.SHADOW_BLINK, 0.8F, 1.0F);
 		}
 		blinkCooldown = 120;
 	}
@@ -99,7 +99,7 @@ public class Shadow extends Monster {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return SoundEvents.WARDEN_AMBIENT;
+		return dev.celestial.registry.ModSounds.SHADOW_AMBIENT;
 	}
 
 	@Override

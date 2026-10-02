@@ -818,7 +818,7 @@ def gen_equipment():
     tr('entity.celestial.light_spear', 'Копьё Света', 'Spear of Light')
     write_json(os.path.join(DATA, 'jukebox_song/heavenly_choir.json'), {
         'comparator_output': 13, 'description': {'translate': 'jukebox_song.celestial.heavenly_choir'},
-        'length_in_seconds': 287.0, 'sound_event': 'minecraft:music.overworld.cherry_grove'})
+        'length_in_seconds': 106.0, 'sound_event': 'celestial:music_disc.heavenly_choir'})
     tag('item', 'minecraft:bow_enchantable', c('starbow'))
     tag('item', 'minecraft:durability_enchantable', c('starbow'), c('light_spear'), c('seraph_wings'))
     tag('item', 'minecraft:trident_enchantable', c('light_spear'))

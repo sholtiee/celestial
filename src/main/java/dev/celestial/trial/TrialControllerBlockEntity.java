@@ -75,7 +75,7 @@ public class TrialControllerBlockEntity extends BlockEntity {
 		wave = -1;
 		ticksLeft = def.timeLimitSeconds() * 20;
 		level.setBlock(worldPosition, getBlockState().setValue(TrialControllerBlock.STATE, TrialControllerBlock.TrialState.RUNNING), Block.UPDATE_ALL);
-		level.playSound(null, worldPosition, SoundEvents.TRIAL_SPAWNER_OPEN_SHUTTER, SoundSource.BLOCKS, 1.0F, 1.0F);
+		level.playSound(null, worldPosition, dev.celestial.registry.ModSounds.TRIAL_START, SoundSource.BLOCKS, 1.5F, 1.0F);
 		player.sendSystemMessage(Component.translatable("trial.celestial.start." + def.type().name().toLowerCase()));
 		bar = new ServerBossEvent(UUID.randomUUID(), Component.translatable("trial.celestial.name." + trialId), BossEvent.BossBarColor.YELLOW,
 			BossEvent.BossBarOverlay.PROGRESS);

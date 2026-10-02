@@ -4,7 +4,7 @@
       "default": {
         "max_delay": 9000,
         "min_delay": 2400,
-        "sound": "minecraft:music.overworld.cherry_grove"
+        "sound": "celestial:music.heaven"
       }
     },
     "minecraft:visual/sky_color": "#8ec9ff",

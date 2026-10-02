@@ -64,7 +64,7 @@ public final class Spells {
 		var mobs = player.level().getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(32), e -> e instanceof Enemy);
 		mobs.forEach(m -> m.addEffect(new MobEffectInstance(MobEffects.GLOWING, 200)));
 		player.level().sendParticles(ParticleTypes.WAX_OFF, player.getX(), player.getY(1.0), player.getZ(), 40, 2, 1, 2, 0.5);
-		player.level().playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.PLAYERS, 1.0F, 1.6F);
+		player.level().playSound(null, player.blockPosition(), dev.celestial.registry.ModSounds.SPELL_CAST, SoundSource.PLAYERS, 1.0F, 1.0F);
 		player.sendOverlayMessage(Component.translatable("spell.celestial.scouts.result", mobs.size()));
 		return true;
 	}
@@ -88,7 +88,7 @@ public final class Spells {
 			target.hurtServer(level, level.damageSources().indirectMagic(player, player), dmg);
 			target.addEffect(new MobEffectInstance(MobEffects.GLOWING, 100));
 		}
-		level.playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.PLAYERS, 1.0F, 2.0F);
+		level.playSound(null, player.blockPosition(), dev.celestial.registry.ModSounds.LIGHT_BOLT, SoundSource.PLAYERS, 1.0F, 1.0F);
 		return true;
 	}
 

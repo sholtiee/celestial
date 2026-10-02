@@ -1,0 +1,118 @@
+{
+  "music.heaven": {
+    "sounds": [
+      {
+        "name": "celestial:music/heaven_1",
+        "stream": true
+      },
+      {
+        "name": "celestial:music/heaven_2",
+        "stream": true
+      }
+    ]
+  },
+  "music.seraph_battle": {
+    "sounds": [
+      {
+        "name": "celestial:music/seraph_battle",
+        "stream": true
+      }
+    ]
+  },
+  "music_disc.heavenly_choir": {
+    "sounds": [
+      {
+        "name": "celestial:records/heavenly_choir",
+        "stream": true
+      }
+    ]
+  },
+  "entity.wing_flap": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/wing_flap"
+      }
+    ],
+    "subtitle": "subtitles.celestial.wing_flap"
+  },
+  "spell.cast": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/spell_cast"
+      }
+    ],
+    "subtitle": "subtitles.celestial.spell_cast"
+  },
+  "spell.light_bolt": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/light_bolt"
+      }
+    ],
+    "subtitle": "subtitles.celestial.light_bolt"
+  },
+  "meteor.whoosh": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/meteor_whoosh"
+      }
+    ],
+    "subtitle": "subtitles.celestial.meteor_whoosh"
+  },
+  "meteor.impact": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/meteor_impact"
+      }
+    ],
+    "subtitle": "subtitles.celestial.meteor_impact"
+  },
+  "entity.shadow.ambient": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/shadow_ambient"
+      }
+    ],
+    "subtitle": "subtitles.celestial.shadow_ambient"
+  },
+  "entity.shadow.blink": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/shadow_blink"
+      }
+    ],
+    "subtitle": "subtitles.celestial.shadow_blink"
+  },
+  "entity.seraph_crystal.break": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/crystal_break"
+      }
+    ],
+    "subtitle": "subtitles.celestial.crystal_break"
+  },
+  "entity.fallen_seraph.roar": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/seraph_roar"
+      }
+    ],
+    "subtitle": "subtitles.celestial.seraph_roar"
+  },
+  "fading.grow": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/fading_grow"
+      }
+    ],
+    "subtitle": "subtitles.celestial.fading_grow"
+  },
+  "trial.start": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/trial_start"
+      }
+    ],
+    "subtitle": "subtitles.celestial.trial_start"
+  }
+}

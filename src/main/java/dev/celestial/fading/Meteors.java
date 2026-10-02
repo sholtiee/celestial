@@ -40,7 +40,7 @@ public final class Meteors {
 		}
 		Meteor.launch(level, from, target);
 		player.sendSystemMessage(Component.translatable("fading.celestial.meteor_seen"));
-		level.playSound(null, player.blockPosition(), SoundEvents.FIREWORK_ROCKET_LARGE_BLAST_FAR, SoundSource.AMBIENT, 2.0F, 0.5F);
+		level.playSound(null, player.blockPosition(), dev.celestial.registry.ModSounds.METEOR_WHOOSH, SoundSource.AMBIENT, 2.0F, 1.0F);
 		return true;
 	}
 }

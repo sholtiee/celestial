@@ -1,0 +1,40 @@
+# Серафим 2.0: крылья, кристаллы света, предупреждения атак, ударная волна
+/time set 6000
+/gamerule spawn_monsters false
+goto celestial:citadel 0 -20 -8 0 5
+wait 120
+/gamemode survival
+/effect give @s minecraft:resistance 600 4 true
+/effect give @s minecraft:saturation 600 4 true
+/execute at @s run fill ~-3 ~-1 ~2 ~3 ~-1 ~12 celestial:skystone_bricks
+/execute at @s run setblock ~ ~ ~8 celestial:seraph_seal
+wait 60
+camera front
+wait 5
+camera first
+/tp @s ~ ~ ~ 0 0
+wait 40
+togglehud
+shot boss2_phase1
+togglehud
+/damage @e[type=celestial:fallen_seraph,limit=1] 150 minecraft:player_attack by @s
+wait 80
+/tp @s ~ ~ ~ 0 -20
+wait 20
+shot boss2_crystals
+/execute as @e[type=celestial:fallen_seraph,limit=1] run data get entity @s Health
+/damage @e[type=celestial:fallen_seraph,limit=1] 60 minecraft:player_attack by @s
+/execute as @e[type=celestial:fallen_seraph,limit=1] run data get entity @s Health
+wait 40
+/execute as @e[type=celestial:fallen_seraph,limit=1] run data get entity @s Health
+/kill @e[type=celestial:seraph_crystal]
+wait 30
+/damage @e[type=celestial:fallen_seraph,limit=1] 200 minecraft:player_attack by @s
+wait 85
+/tp @s ~ ~ ~ 0 50
+shot boss2_phase3
+wait 60
+shot boss2_phase3b
+/damage @e[type=celestial:fallen_seraph,limit=1] 300 minecraft:player_attack by @s
+wait 60
+quit

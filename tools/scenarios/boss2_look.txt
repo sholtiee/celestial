@@ -1,0 +1,23 @@
+# Внешний вид Серафима 2.0 и кристаллов (творческий режим: босс не атакует)
+/gamemode creative
+/execute in celestial:heaven run tp @s 0 160 -40 0 0
+fly
+wait 80
+/time set 6000
+/kill @e[type=celestial:fallen_seraph]
+/kill @e[type=celestial:seraph_crystal]
+/fill ~-12 ~-1 ~-4 ~12 ~-1 ~18 celestial:skystone_bricks
+/summon celestial:fallen_seraph ~ ~ ~7 {Rotation:[180f,0f]}
+wait 40
+togglehud
+shot boss2_model
+/tp @s ~-5 ~ ~ -40 0
+wait 10
+shot boss2_model_side
+/damage @e[type=celestial:fallen_seraph,limit=1] 150 minecraft:magic
+wait 60
+/tp @s ~-2 ~5 ~-12 -20 15
+wait 30
+shot boss2_crystals_view
+togglehud
+quit

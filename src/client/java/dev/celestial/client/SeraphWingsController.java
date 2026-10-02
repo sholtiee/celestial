@@ -82,7 +82,7 @@ public final class SeraphWingsController {
 		Vec3 look = player.getLookAngle();
 		Vec3 motion = player.getDeltaMovement();
 		player.setDeltaMovement(motion.x + look.x * 0.35, Math.max(motion.y, 0.0) + 0.55, motion.z + look.z * 0.35);
-		player.playSound(SoundEvents.ENDER_DRAGON_FLAP, 0.6F, 1.5F);
+		player.playSound(dev.celestial.registry.ModSounds.WING_FLAP, 1.0F, 1.0F);
 		for (int i = 0; i < 8; i++) {
 			player.level().addParticle(ParticleTypes.CLOUD, player.getRandomX(1.0), player.getY() + 0.5, player.getRandomZ(1.0), 0, -0.05, 0);
 		}

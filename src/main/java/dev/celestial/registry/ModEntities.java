@@ -74,6 +74,10 @@ public final class ModEntities {
 		EntityType.Builder.<dev.celestial.fading.Meteor>of(dev.celestial.fading.Meteor::new, MobCategory.MISC).noLootTable().sized(1.0F, 1.0F)
 			.clientTrackingRange(16).updateInterval(2));
 
+	public static final EntityType<dev.celestial.entity.SeraphCrystal> SERAPH_CRYSTAL = registerNoEgg("seraph_crystal",
+		EntityType.Builder.<dev.celestial.entity.SeraphCrystal>of(dev.celestial.entity.SeraphCrystal::new, MobCategory.MISC).noLootTable()
+			.sized(2.0F, 2.0F).clientTrackingRange(16).updateInterval(Integer.MAX_VALUE));
+
 	// Снаряды (без яиц призыва)
 	public static final EntityType<StarArrow> STAR_ARROW = registerNoEgg("star_arrow",
 		EntityType.Builder.<StarArrow>of(StarArrow::new, MobCategory.MISC).noLootTable().sized(0.5F, 0.5F).eyeHeight(0.13F).clientTrackingRange(4).updateInterval(20));

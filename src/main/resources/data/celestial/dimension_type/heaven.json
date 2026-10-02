@@ -6,7 +6,7 @@
         "max_delay": 9000,
         "min_delay": 2400,
         "replace_current_music": true,
-        "sound": "minecraft:music.overworld.cherry_grove"
+        "sound": "celestial:music.heaven"
       }
     },
     "minecraft:gameplay/bed_rule": {

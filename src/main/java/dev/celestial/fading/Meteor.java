@@ -122,7 +122,7 @@ public class Meteor extends ThrowableItemProjectile {
 		}
 		level.sendParticles(ParticleTypes.EXPLOSION_EMITTER, center.getX() + 0.5, center.getY() + 1, center.getZ() + 0.5, 2, 1, 1, 1, 0);
 		level.sendParticles(ParticleTypes.END_ROD, center.getX() + 0.5, center.getY() + 1, center.getZ() + 0.5, 120, 2, 2, 2, 0.3);
-		level.playSound(null, center, SoundEvents.GENERIC_EXPLODE.value(), SoundSource.BLOCKS, 6.0F, 0.6F);
+		level.playSound(null, center, dev.celestial.registry.ModSounds.METEOR_IMPACT, SoundSource.BLOCKS, 8.0F, 1.0F);
 		final BlockPos corePos = core;
 		level.getPlayers(p -> p.blockPosition().closerThan(corePos, 160)).forEach(p -> {
 			p.sendSystemMessage(Component.translatable("fading.celestial.meteor_landed", corePos.getX(), corePos.getY(), corePos.getZ()));
