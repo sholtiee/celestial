@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "celestial:block/infusion_altar_top",
+    "side": "celestial:block/infusion_altar_side",
+    "bottom": "celestial:block/infusion_altar_side"
+  }
+}

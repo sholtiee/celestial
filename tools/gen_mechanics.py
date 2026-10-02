@@ -59,6 +59,140 @@ def facing_block(name, front, side, states_extra=None, facing_values=('north', '
     blockstate(name, {'variants': variants})
 
 
+def enchantment(name, ru, en, slots, supported, max_level, effects, exclusive=None):
+    """Небесное зачарование: только через Алтарь наделения (нет в тегах стола зачарований и добычи)."""
+    e = {'anvil_cost': 4, 'description': {'translate': f'enchantment.celestial.{name}'}, 'effects': effects,
+         'max_cost': {'base': 60, 'per_level_above_first': 20}, 'min_cost': {'base': 30, 'per_level_above_first': 20},
+         'max_level': max_level, 'slots': slots, 'supported_items': supported, 'weight': 1}
+    if exclusive:
+        e['exclusive_set'] = exclusive
+    write_json(os.path.join(DATA, 'enchantment', name + '.json'), e)
+    return {f'enchantment.celestial.{name}': (ru, en)}
+
+
+def lin(base, per):
+    return {'type': 'minecraft:linear', 'base': base, 'per_level_above_first': per}
+
+
+def machines(names):
+    # --- небесные зачарования
+    names.update(enchantment('heavenly_step', 'Небесная поступь', 'Heavenly Step', ['feet'], '#minecraft:enchantable/foot_armor', 2, {
+        'minecraft:attributes': [
+            {'id': 'celestial:enchantment.heavenly_step_gravity', 'attribute': 'minecraft:gravity', 'amount': lin(-0.1, -0.1),
+             'operation': 'add_multiplied_base'},
+            {'id': 'celestial:enchantment.heavenly_step_fall', 'attribute': 'minecraft:safe_fall_distance', 'amount': lin(3.0, 3.0),
+             'operation': 'add_value'}]}))
+    names.update(enchantment('windstride', 'Попутный ветер', 'Windstride', ['legs'], '#minecraft:enchantable/leg_armor', 3, {
+        'minecraft:attributes': [{'id': 'celestial:enchantment.windstride', 'attribute': 'minecraft:movement_speed', 'amount': lin(0.06, 0.06),
+                                  'operation': 'add_multiplied_base'}]}))
+    names.update(enchantment('radiance', 'Светоносность', 'Radiance', ['mainhand'], '#minecraft:enchantable/weapon', 3, {
+        'minecraft:damage': [{'effect': {'type': 'minecraft:add', 'value': lin(3.0, 2.5)},
+                              'requirements': {'type': 'minecraft:entity_properties', 'entity': 'this',
+                                               'predicate': {'minecraft:entity_type': '#minecraft:undead'}}}],
+        'minecraft:post_attack': [{'affected': 'victim', 'enchanted': 'attacker', 'effect': {
+            'type': 'minecraft:apply_mob_effect', 'to_apply': 'minecraft:glowing', 'min_duration': 3, 'max_duration': lin(4.0, 2.0),
+            'min_amplifier': 0, 'max_amplifier': 0}}]}))
+    names.update(enchantment('grace_strike', 'Удар благодати', 'Grace Strike', ['mainhand'], '#minecraft:enchantable/weapon', 1, {
+        'minecraft:post_attack': [{'affected': 'attacker', 'enchanted': 'attacker', 'effect': {
+            'type': 'minecraft:apply_mob_effect', 'to_apply': 'minecraft:regeneration', 'min_duration': 2, 'max_duration': 3,
+            'min_amplifier': 0, 'max_amplifier': 0}}]}))
+    names.update(enchantment('featherweight', 'Лёгкость пера', 'Featherweight', ['chest'], '#minecraft:enchantable/chest_armor', 1, {
+        'minecraft:attributes': [{'id': 'celestial:enchantment.featherweight', 'attribute': 'minecraft:fall_damage_multiplier',
+                                  'amount': -0.5, 'operation': 'add_multiplied_total'}]}))
+    names.update(enchantment('farsight', 'Небесный взор', 'Farsight', ['head'], '#minecraft:enchantable/head_armor', 2, {
+        'minecraft:attributes': [
+            {'id': 'celestial:enchantment.farsight_block', 'attribute': 'minecraft:block_interaction_range', 'amount': lin(1.0, 1.0), 'operation': 'add_value'},
+            {'id': 'celestial:enchantment.farsight_entity', 'attribute': 'minecraft:entity_interaction_range', 'amount': lin(0.5, 0.5), 'operation': 'add_value'}]}))
+    names.update(enchantment('starbreaker', 'Звездолом', 'Starbreaker', ['mainhand'], '#minecraft:enchantable/mining', 3, {
+        'minecraft:attributes': [{'id': 'celestial:enchantment.starbreaker', 'attribute': 'minecraft:block_break_speed', 'amount': lin(0.15, 0.15),
+                                  'operation': 'add_multiplied_base'}]}))
+
+    # --- машины: текстуры и модели
+    save_png(T.cloud('cloud_lift', T.CLOUD, 255), 'block/cloud_lift')
+    save_png(T.cloud('cloud_lift_on', T.GOLD_CLOUD, 255), 'block/cloud_lift_on')
+    for suffix in ('', '_on'):
+        model('block/cloud_lift' + suffix, {'parent': 'minecraft:block/cube_bottom_top', 'textures': {
+            'top': c('block/cloud_lift' + suffix), 'side': c('block/cloud'), 'bottom': c('block/cloud')}})
+    blockstate('cloud_lift', {'variants': {'lit=false': {'model': c('block/cloud_lift')}, 'lit=true': {'model': c('block/cloud_lift_on')}}})
+    item_def('cloud_lift', c('block/cloud_lift'))
+    self_drop('cloud_lift')
+    names['block.celestial.cloud_lift'] = ('Облачный лифт', 'Cloud Lift')
+
+    save_png(T.metal_block([T.hexrgb(h) for h in ('#8a5a1e', '#c9a23a', '#e8b84a', '#f3d27a', '#fff3c6')]), 'block/celestial_forge_side')
+    save_png(frame_texture('forge_top', '#3a2f42', glow='#ff9a4a'), 'block/celestial_forge_top')
+    model('block/celestial_forge', {'parent': 'minecraft:block/cube_bottom_top', 'textures': {
+        'top': c('block/celestial_forge_top'), 'side': c('block/celestial_forge_side'), 'bottom': c('block/celestial_forge_side')}})
+    save_png(crystal_like('infusion_side'), 'block/infusion_altar_side')
+    save_png(frame_texture('infusion_top', '#2a4190', glow='#bff6ff'), 'block/infusion_altar_top')
+    model('block/infusion_altar', {'parent': 'minecraft:block/cube_bottom_top', 'textures': {
+        'top': c('block/infusion_altar_top'), 'side': c('block/infusion_altar_side'), 'bottom': c('block/infusion_altar_side')}})
+    save_png(frame_texture('sky_beacon_top', '#fff6d8', glow='#ffffff'), 'block/sky_beacon_top')
+    save_png(T.bricks('sky_beacon_side', [T.hexrgb(h) for h in ('#e8b84a', '#f3cf6a', '#fde48f')], '#fff6d8'), 'block/sky_beacon_side')
+    model('block/sky_beacon', {'parent': 'minecraft:block/cube_bottom_top', 'textures': {
+        'top': c('block/sky_beacon_top'), 'side': c('block/sky_beacon_side'), 'bottom': c('block/sky_beacon_side')}})
+    for n, ru, en in (('celestial_forge', 'Небесная кузня', 'Celestial Forge'), ('infusion_altar', 'Алтарь наделения', 'Infusion Altar'),
+                      ('sky_beacon', 'Небесный маяк', 'Sky Beacon')):
+        blockstate(n, {'variants': {'': {'model': c('block/' + n)}}})
+        item_def(n, c('block/' + n))
+        self_drop(n)
+        names[f'block.celestial.{n}'] = (ru, en)
+        tag('block', 'minecraft:mineable/pickaxe', c(n))
+        tag('block', 'minecraft:needs_iron_tool', c(n))
+
+    # --- руны
+    rune_rows = [
+        '................', '....11111111....', '...1222222221...', '..122233332221..', '..122322223221..', '..122223322221..',
+        '..122232222221..', '..122223322221..', '..122222232221..', '..122233332221..', '..122222222221..', '...1222222221...',
+        '....11111111....', '................', '................', '................']
+    for rune, (glyph, ru, en, desc_ru, desc_en) in {
+        'rune_of_wind': ('#bfe9ff', 'Руна ветра', 'Rune of Wind', 'Ботинки: Небесная поступь, поножи: Попутный ветер', 'Boots: Heavenly Step, leggings: Windstride'),
+        'rune_of_light': ('#ffe08a', 'Руна света', 'Rune of Light', 'Оружие: Светоносность, затем Удар благодати', 'Weapon: Radiance, then Grace Strike'),
+        'rune_of_sky': ('#ffffff', 'Руна неба', 'Rune of Sky', 'Нагрудник: Лёгкость пера, шлем: Небесный взор', 'Chestplate: Featherweight, helmet: Farsight'),
+        'rune_of_stars': ('#c7a8ff', 'Руна звёзд', 'Rune of Stars', 'Инструменты: Звездолом', 'Tools: Starbreaker')}.items():
+        save_png(T.sprite(rune_rows, {'1': '#5f6b88', '2': '#adb8c8', '3': glyph}), 'item/' + rune)
+        model('item/' + rune, {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('item/' + rune)}})
+        item_def(rune, c('item/' + rune))
+        names[f'item.celestial.{rune}'] = (ru, en)
+        names[f'item.celestial.{rune}.lore1'] = (desc_ru, desc_en)
+
+    # --- рецепты машин и рун
+    Q, E = c('starquartz'), c('etherite_ingot')
+    shaped('cloud_lift', c('cloud_lift'), ['CCC', 'CQC', 'CCC'], {'C': c('cloud'), 'Q': Q}, 2, 'redstone')
+    shaped('celestial_forge', c('celestial_forge'), ['EEE', 'QAQ', 'RRR'], {'E': E, 'Q': Q, 'A': 'minecraft:anvil', 'R': c('radiant_stone')}, 1, 'misc')
+    shaped('infusion_altar', c('infusion_altar'), [' B ', 'QSQ', 'RRR'], {'B': 'minecraft:book', 'Q': Q, 'S': c('sky_crystal_block'),
+                                                                        'R': c('radiant_stone')}, 1, 'misc')
+    shaped('sky_beacon', c('sky_beacon'), ['QGQ', 'GEG', 'RRR'], {'Q': Q, 'G': 'minecraft:glass', 'E': 'minecraft:ender_pearl',
+                                                                'R': c('radiant_stone')}, 1, 'misc')
+    for rune, mat in (('rune_of_wind', c('cloud_fluff')), ('rune_of_light', 'minecraft:glowstone_dust'), ('rune_of_sky', c('seraph_feather')),
+                      ('rune_of_stars', c('sky_crystal'))):
+        shaped(rune, c(rune), [' Q ', 'QMQ', ' S '], {'Q': Q, 'M': mat, 'S': c('skystone')}, 1, 'misc')
+
+    names.update({
+        'machine.celestial.forge.incomplete': ('Кузня не собрана: нужны 4 блока светлого камня по сторонам ядра',
+                                               'The forge is incomplete: place 4 Radiant Stone around the core'),
+        'machine.celestial.forge.no_light': ('Нет света! Направь в машину луч Солнечной линзы (у кузни — сверху)', 'No light! Aim a Sun Lens beam at the machine (from above for the forge)'),
+        'machine.celestial.forge.cost_upgrade': ('Нужно 2 эфиритовых слитка и звёздный кварц', 'Requires 2 etherite ingots and a starquartz'),
+        'machine.celestial.forge.cost_repair': ('Для перековки нужен звёздный кварц', 'Reforging requires a starquartz'),
+        'machine.celestial.forge.hint': ('Кузня принимает алмазное снаряжение (улучшение) и повреждённые вещи Рая (перековка)',
+                                         'The forge takes diamond gear (upgrade) and damaged Heaven gear (reforge)'),
+        'machine.celestial.forge.done': ('✦ Кузня сделала своё дело', '✦ The forge has done its work'),
+        'machine.celestial.infusion.hint': ('Возьми руну в другую руку и нажми снаряжением по алтарю', 'Hold a rune in your other hand and use gear on the altar'),
+        'machine.celestial.infusion.xp': ('Нужно 3 уровня опыта', 'Requires 3 experience levels'),
+        'machine.celestial.infusion.max': ('Это зачарование уже на максимуме', 'That enchantment is already at max level'),
+        'machine.celestial.infusion.unsuitable': ('Эта руна не подходит к этому предмету', 'This rune does not fit this item'),
+        'machine.celestial.infusion.done': ('✦ Вплетено: %s', '✦ Infused: %s'),
+        'machine.celestial.beacon.header': ('✦ Сеть Небесных маяков (нажми на строку, чтобы перенестись):', '✦ Sky Beacon network (click a line to travel):'),
+        'machine.celestial.beacon.click': ('Перенестись сюда', 'Travel here'),
+        'machine.celestial.beacon.too_far': ('Встань рядом с Небесным маяком', 'Stand next to a Sky Beacon'),
+        'machine.celestial.beacon.lost': ('Этот маяк погас', 'That beacon has gone dark'),
+    })
+
+
+def crystal_like(name):
+    img = T.noisy(name, [T.hexrgb(h) for h in ('#2a4190', '#3a55b0', '#4d6bd0', '#93c5fd')], cell=4, grain=0.4)
+    return img
+
+
 def main():
     names = {}
 
@@ -263,6 +397,8 @@ def main():
         'puzzle.celestial.bells.already': ('Колокола уже поют в унисон', 'The bells already sing in unison'),
         'puzzle.celestial.solved': ('✦ Загадка решена! +1 Благодать', '✦ Puzzle solved! +1 Grace'),
     })
+
+    machines(names)
 
     # теги дописываем к существующим файлам
     for (kind, name), values in TAGS.items():

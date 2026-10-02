@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "Q": "celestial:starquartz",
+    "G": "minecraft:glass",
+    "E": "minecraft:ender_pearl",
+    "R": "celestial:radiant_stone"
+  },
+  "pattern": [
+    "QGQ",
+    "GEG",
+    "RRR"
+  ],
+  "result": {
+    "id": "celestial:sky_beacon"
+  }
+}

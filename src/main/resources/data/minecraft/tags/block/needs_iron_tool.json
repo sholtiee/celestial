@@ -3,6 +3,9 @@
   "values": [
     "celestial:etherite_ore",
     "celestial:etherite_block",
-    "celestial:radiant_stone"
+    "celestial:radiant_stone",
+    "celestial:celestial_forge",
+    "celestial:infusion_altar",
+    "celestial:sky_beacon"
   ]
 }

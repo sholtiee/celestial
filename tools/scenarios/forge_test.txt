@@ -1,0 +1,29 @@
+/gamemode creative
+fly
+/execute in celestial:heaven run fill -2 179 -12 26 192 12 minecraft:air
+/execute in celestial:heaven run fill -2 179 -12 26 179 12 celestial:skystone_bricks
+/execute in celestial:heaven run tp @s 6 180 2 180 30
+wait 30
+/execute in celestial:heaven run setblock 6 186 0 celestial:sun_lens[facing=down]
+/execute in celestial:heaven run setblock 6 180 0 celestial:celestial_forge
+/execute in celestial:heaven run setblock 6 180 1 celestial:radiant_stone
+/execute in celestial:heaven run setblock 6 180 -1 celestial:radiant_stone
+/execute in celestial:heaven run setblock 7 180 0 celestial:radiant_stone
+/execute in celestial:heaven run setblock 5 180 0 celestial:radiant_stone
+/execute in celestial:heaven run setblock 12 186 0 celestial:sun_lens[facing=down]
+/execute in celestial:heaven run setblock 12 180 0 celestial:infusion_altar
+wait 30
+/item replace entity @s weapon.mainhand with minecraft:diamond_sword
+userel 0 0 -2 up
+wait 5
+/execute if items entity @s weapon.mainhand celestial:etherite_sword run say КУЗНЯ_ОК
+/execute in celestial:heaven run tp @s 12 180 2 180 30
+/xp add @s 10 levels
+/item replace entity @s weapon.offhand with celestial:rune_of_light
+wait 10
+userel 0 0 -2 up
+wait 5
+/execute if items entity @s weapon.mainhand celestial:etherite_sword[minecraft:enchantments~[{enchantments:"celestial:radiance"}]] run say АЛТАРЬ_ОК
+togglehud
+shot machines
+quit

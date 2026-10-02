@@ -1,0 +1,44 @@
+{
+  "anvil_cost": 4,
+  "description": {
+    "translate": "enchantment.celestial.heavenly_step"
+  },
+  "effects": {
+    "minecraft:attributes": [
+      {
+        "id": "celestial:enchantment.heavenly_step_gravity",
+        "attribute": "minecraft:gravity",
+        "amount": {
+          "type": "minecraft:linear",
+          "base": -0.1,
+          "per_level_above_first": -0.1
+        },
+        "operation": "add_multiplied_base"
+      },
+      {
+        "id": "celestial:enchantment.heavenly_step_fall",
+        "attribute": "minecraft:safe_fall_distance",
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 3.0,
+          "per_level_above_first": 3.0
+        },
+        "operation": "add_value"
+      }
+    ]
+  },
+  "max_cost": {
+    "base": 60,
+    "per_level_above_first": 20
+  },
+  "min_cost": {
+    "base": 30,
+    "per_level_above_first": 20
+  },
+  "max_level": 2,
+  "slots": [
+    "feet"
+  ],
+  "supported_items": "#minecraft:enchantable/foot_armor",
+  "weight": 1
+}

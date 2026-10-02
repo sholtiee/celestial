@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "celestial:block/cloud_lift"
+    },
+    "lit=true": {
+      "model": "celestial:block/cloud_lift_on"
+    }
+  }
+}

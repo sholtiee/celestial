@@ -1,0 +1,30 @@
+{
+  "anvil_cost": 4,
+  "description": {
+    "translate": "enchantment.celestial.featherweight"
+  },
+  "effects": {
+    "minecraft:attributes": [
+      {
+        "id": "celestial:enchantment.featherweight",
+        "attribute": "minecraft:fall_damage_multiplier",
+        "amount": -0.5,
+        "operation": "add_multiplied_total"
+      }
+    ]
+  },
+  "max_cost": {
+    "base": 60,
+    "per_level_above_first": 20
+  },
+  "min_cost": {
+    "base": 30,
+    "per_level_above_first": 20
+  },
+  "max_level": 1,
+  "slots": [
+    "chest"
+  ],
+  "supported_items": "#minecraft:enchantable/chest_armor",
+  "weight": 1
+}

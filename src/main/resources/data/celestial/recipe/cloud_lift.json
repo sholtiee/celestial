@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "C": "celestial:cloud",
+    "Q": "celestial:starquartz"
+  },
+  "pattern": [
+    "CCC",
+    "CQC",
+    "CCC"
+  ],
+  "result": {
+    "id": "celestial:cloud_lift",
+    "count": 2
+  }
+}

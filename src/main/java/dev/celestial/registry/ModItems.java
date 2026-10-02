@@ -85,6 +85,15 @@ public final class ModItems {
 
 	public static final Item TUNING_FORK = register("tuning_fork", dev.celestial.item.TuningForkItem::new,
 		lore(new Item.Properties().stacksTo(1), "tuning_fork", 1));
+	// Руны для Алтаря наделения
+	public static final Item RUNE_OF_WIND = register("rune_of_wind", p -> new dev.celestial.item.RuneItem(
+		java.util.List.of("heavenly_step", "windstride"), p), lore(new Item.Properties().rarity(Rarity.UNCOMMON), "rune_of_wind", 1));
+	public static final Item RUNE_OF_LIGHT = register("rune_of_light", p -> new dev.celestial.item.RuneItem(
+		java.util.List.of("radiance", "grace_strike"), p), lore(new Item.Properties().rarity(Rarity.UNCOMMON), "rune_of_light", 1));
+	public static final Item RUNE_OF_SKY = register("rune_of_sky", p -> new dev.celestial.item.RuneItem(
+		java.util.List.of("featherweight", "farsight"), p), lore(new Item.Properties().rarity(Rarity.UNCOMMON), "rune_of_sky", 1));
+	public static final Item RUNE_OF_STARS = register("rune_of_stars", p -> new dev.celestial.item.RuneItem(
+		java.util.List.of("starbreaker"), p), lore(new Item.Properties().rarity(Rarity.UNCOMMON), "rune_of_stars", 1));
 	public static final Item SERAPH_FEATHER = register("seraph_feather", Item::new, new Item.Properties().rarity(Rarity.UNCOMMON));
 	public static final ResourceKey<net.minecraft.world.item.JukeboxSong> HEAVENLY_CHOIR_SONG =
 		ResourceKey.create(Registries.JUKEBOX_SONG, Celestial.id("heavenly_choir"));

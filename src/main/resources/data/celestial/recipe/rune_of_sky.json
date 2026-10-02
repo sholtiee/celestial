@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "Q": "celestial:starquartz",
+    "M": "celestial:seraph_feather",
+    "S": "celestial:skystone"
+  },
+  "pattern": [
+    " Q ",
+    "QMQ",
+    " S "
+  ],
+  "result": {
+    "id": "celestial:rune_of_sky"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "anvil_cost": 4,
+  "description": {
+    "translate": "enchantment.celestial.starbreaker"
+  },
+  "effects": {
+    "minecraft:attributes": [
+      {
+        "id": "celestial:enchantment.starbreaker",
+        "attribute": "minecraft:block_break_speed",
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 0.15,
+          "per_level_above_first": 0.15
+        },
+        "operation": "add_multiplied_base"
+      }
+    ]
+  },
+  "max_cost": {
+    "base": 60,
+    "per_level_above_first": 20
+  },
+  "min_cost": {
+    "base": 30,
+    "per_level_above_first": 20
+  },
+  "max_level": 3,
+  "slots": [
+    "mainhand"
+  ],
+  "supported_items": "#minecraft:enchantable/mining",
+  "weight": 1
+}

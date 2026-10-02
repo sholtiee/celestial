@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "Q": "celestial:starquartz",
+    "M": "minecraft:glowstone_dust",
+    "S": "celestial:skystone"
+  },
+  "pattern": [
+    " Q ",
+    "QMQ",
+    " S "
+  ],
+  "result": {
+    "id": "celestial:rune_of_light"
+  }
+}

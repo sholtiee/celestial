@@ -152,6 +152,17 @@ public final class ModBlocks {
 		Properties.of().mapColor(MapColor.GOLD).strength(2.0F).sound(SoundType.METAL)
 			.lightLevel(s -> s.getValue(dev.celestial.block.light.LightReceiverBlock.POWERED) ? 10 : 0));
 
+	// Машины
+	public static final Block CLOUD_LIFT = register("cloud_lift", dev.celestial.block.machine.CloudLiftBlock::new,
+		Properties.of().mapColor(MapColor.SNOW).strength(1.0F).sound(SoundType.WOOL)
+			.lightLevel(s -> s.getValue(dev.celestial.block.machine.CloudLiftBlock.LIT) ? 8 : 0));
+	public static final Block CELESTIAL_FORGE = register("celestial_forge", dev.celestial.block.machine.CelestialForgeBlock::new,
+		Properties.of().mapColor(MapColor.GOLD).strength(5.0F, 1200.0F).requiresCorrectToolForDrops().sound(SoundType.ANVIL).lightLevel(s -> 6));
+	public static final Block INFUSION_ALTAR = register("infusion_altar", dev.celestial.block.machine.InfusionAltarBlock::new,
+		Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).strength(4.0F, 1200.0F).requiresCorrectToolForDrops().sound(SoundType.AMETHYST).lightLevel(s -> 8));
+	public static final Block SKY_BEACON = register("sky_beacon", dev.celestial.block.machine.SkyBeaconBlock::new,
+		Properties.of().mapColor(MapColor.GOLD).strength(3.0F, 1200.0F).requiresCorrectToolForDrops().sound(SoundType.AMETHYST).lightLevel(s -> 15));
+
 	// Загадки
 	public static final Block SEALED_DOOR = register("sealed_door", dev.celestial.block.puzzle.SealedDoorBlock::new,
 		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST).lightLevel(s -> 6));

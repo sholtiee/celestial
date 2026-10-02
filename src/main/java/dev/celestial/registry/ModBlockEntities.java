@@ -18,6 +18,10 @@ public final class ModBlockEntities {
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("bell_altar"),
 		new BlockEntityType<>(dev.celestial.block.puzzle.BellAltarBlockEntity::new, Set.of(ModBlocks.BELL_ALTAR)));
 
+	public static final BlockEntityType<dev.celestial.block.machine.CloudLiftBlockEntity> CLOUD_LIFT = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("cloud_lift"),
+		new BlockEntityType<>(dev.celestial.block.machine.CloudLiftBlockEntity::new, Set.of(ModBlocks.CLOUD_LIFT)));
+
 	private ModBlockEntities() {}
 
 	public static void init() {

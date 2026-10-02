@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "celestial:block/celestial_forge_top",
+    "side": "celestial:block/celestial_forge_side",
+    "bottom": "celestial:block/celestial_forge_side"
+  }
+}

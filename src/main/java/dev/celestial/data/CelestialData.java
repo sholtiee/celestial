@@ -24,7 +24,20 @@ public final class CelestialData {
 		.initializer(() -> WorldState.INITIAL)
 		.buildAndRegister(Celestial.id("world_state"));
 
+	public static final AttachmentType<BeaconNetwork> BEACONS = AttachmentRegistry.<BeaconNetwork>builder()
+		.persistent(BeaconNetwork.CODEC)
+		.initializer(() -> BeaconNetwork.EMPTY)
+		.buildAndRegister(Celestial.id("beacon_network"));
+
 	private CelestialData() {}
+
+	public static BeaconNetwork beacons(MinecraftServer server) {
+		return server.overworld().getAttachedOrCreate(BEACONS);
+	}
+
+	public static void updateBeacons(MinecraftServer server, UnaryOperator<BeaconNetwork> change) {
+		server.overworld().setAttached(BEACONS, change.apply(beacons(server)));
+	}
 
 	public static void init() {
 	}

@@ -21,6 +21,9 @@
     "celestial:sky_bell",
     "celestial:red_filter",
     "celestial:green_filter",
-    "celestial:blue_filter"
+    "celestial:blue_filter",
+    "celestial:celestial_forge",
+    "celestial:infusion_altar",
+    "celestial:sky_beacon"
   ]
 }
