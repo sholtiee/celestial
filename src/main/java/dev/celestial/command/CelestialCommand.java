@@ -57,6 +57,16 @@ public final class CelestialCommand {
 					ctx.getSource().sendSuccess(() -> Component.literal("Благодать: " + data.grace()), true);
 					return data.grace();
 				})))
+			.then(Commands.literal("meteor").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS)).executes(ctx -> {
+				ServerPlayer player = ctx.getSource().getPlayerOrException();
+				return dev.celestial.fading.Meteors.fallNear(player.level(), player) ? 1 : 0;
+			}).then(Commands.argument("pos", net.minecraft.commands.arguments.coordinates.BlockPosArgument.blockPos()).executes(ctx -> {
+				var raw = net.minecraft.commands.arguments.coordinates.BlockPosArgument.getBlockPos(ctx, "pos");
+				var pos = ctx.getSource().getLevel().getHeightmapPos(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, raw);
+				var target = net.minecraft.world.phys.Vec3.atCenterOf(pos);
+				dev.celestial.fading.Meteor.launch(ctx.getSource().getLevel(), target.add(30, 90, 10), target);
+				return 1;
+			})))
 			.then(Commands.literal("learn")
 				.then(Commands.argument("skill", StringArgumentType.word()).executes(ctx ->
 					dev.celestial.grace.Grace.learn(ctx.getSource().getPlayerOrException(), StringArgumentType.getString(ctx, "skill")) ? 1 : 0)))

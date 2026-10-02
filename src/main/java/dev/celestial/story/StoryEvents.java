@@ -102,6 +102,13 @@ public final class StoryEvents {
 		for (ServerPlayer p : level.getPlayers(p -> p.distanceToSqr(net.minecraft.world.phys.Vec3.atCenterOf(altar)) < 96 * 96)) {
 			Story.FINALE.grant(p);
 			Finale.play(p);
+			dev.celestial.data.CelestialData.update(p, d -> d.withGrace(d.grace() + 5));
+		}
+		// Акт I пройден: свет вернулся лишь частично — Угасание отступает на две ступени
+		var server = level.getServer();
+		if (dev.celestial.data.CelestialData.world(server).act() < 1) {
+			dev.celestial.data.CelestialData.updateWorld(server, w -> w.withAct(1).withFlag("act1_done"));
+			dev.celestial.fading.Fading.weaken(server, 2);
 		}
 	}
 }

@@ -1,0 +1,62 @@
+# Угасание: стадии, длинные ночи, усиленные монстры, Тени, метеорит
+/execute in minecraft:overworld run tp @s 93 90 -293
+wait 60
+/spreadplayers 93 -293 0 3 false @s
+wait 40
+pos
+/gamemode creative
+/gamerule spawn_monsters false
+/gamerule advance_time true
+/celestial fading 5
+/time set 14000
+wait 20
+/time of minecraft:overworld query time
+wait 100
+/time of minecraft:overworld query time
+/time set 6000
+wait 20
+/time of minecraft:overworld query time
+wait 100
+/time of minecraft:overworld query time
+/time set 18000
+/gamerule advance_time false
+/summon minecraft:zombie ~3 ~ ~3
+wait 10
+/execute as @e[type=minecraft:zombie,limit=1,sort=nearest] run attribute @s minecraft:max_health get
+/kill @e[type=minecraft:zombie]
+# Тени
+/summon celestial:shadow ^ ^ ^5
+/summon celestial:shadow ^2 ^ ^7
+wait 20
+/tp @s ~ ~ ~ ~ 10
+/effect give @s minecraft:night_vision 60 0 true
+wait 10
+shot fading_shadows
+/kill @e[type=celestial:shadow]
+/celestial fading 4
+/gamemode survival
+/effect give @s minecraft:resistance 600 4 true
+wait 100
+/execute if entity @e[type=celestial:shadow] run say ТЕНИ_ПРИШЛИ
+/gamemode creative
+/kill @e[type=celestial:shadow]
+# метеорит
+/time set 13500
+/tp @s ~ ~ ~ -90 0
+wait 2
+/summon minecraft:marker ^ ^ ^30 {Tags:["crater"]}
+/celestial meteor ^ ^ ^30
+wait 3
+/tp @s ~ ~ ~ ~ -25
+wait 30
+shot fading_meteor_fall
+wait 80
+/time set 5000
+/execute at @e[tag=crater,limit=1] run tp @s ~-14 ~30 ~ -90 55
+fly
+wait 40
+togglehud
+shot fading_crater
+togglehud
+/celestial status
+quit

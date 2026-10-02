@@ -67,6 +67,13 @@ public final class ModEntities {
 	public static final EntityType<StormElemental> STORM_ELEMENTAL = register("storm_elemental",
 		EntityType.Builder.of(StormElemental::new, MobCategory.MONSTER).fireImmune().sized(1.5F, 4.5F).eyeHeight(3.8F).clientTrackingRange(12));
 
+	// Угасание
+	public static final EntityType<dev.celestial.fading.Shadow> SHADOW = register("shadow",
+		EntityType.Builder.of(dev.celestial.fading.Shadow::new, MobCategory.MONSTER).sized(0.6F, 1.95F).eyeHeight(1.74F).clientTrackingRange(8));
+	public static final EntityType<dev.celestial.fading.Meteor> METEOR = registerNoEgg("meteor",
+		EntityType.Builder.<dev.celestial.fading.Meteor>of(dev.celestial.fading.Meteor::new, MobCategory.MISC).noLootTable().sized(1.0F, 1.0F)
+			.clientTrackingRange(16).updateInterval(2));
+
 	// Снаряды (без яиц призыва)
 	public static final EntityType<StarArrow> STAR_ARROW = registerNoEgg("star_arrow",
 		EntityType.Builder.<StarArrow>of(StarArrow::new, MobCategory.MISC).noLootTable().sized(0.5F, 0.5F).eyeHeight(0.13F).clientTrackingRange(4).updateInterval(20));
@@ -102,6 +109,7 @@ public final class ModEntities {
 		FabricDefaultAttributeRegistry.register(CLOUD_JELLY, CloudJelly.createAttributes());
 		FabricDefaultAttributeRegistry.register(MIMIC, Mimic.createAttributes());
 		FabricDefaultAttributeRegistry.register(STORM_ELEMENTAL, StormElemental.createAttributes());
+		FabricDefaultAttributeRegistry.register(SHADOW, dev.celestial.fading.Shadow.createAttributes());
 		SpawnPlacements.register(CHERUB, SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING,
 			(type, level, reason, pos, random) -> level.getBlockState(pos).isAir());
 		SpawnPlacements.register(GOLDEN_RAM, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,

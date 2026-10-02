@@ -83,6 +83,8 @@ public final class ModBlocks {
 		Properties.ofFullCopy(SKYSTONE).strength(3.5F, 6.0F));
 	public static final Block STARQUARTZ_ORE = register("starquartz_ore", p -> new DropExperienceBlock(UniformInt.of(3, 7), p),
 		Properties.ofFullCopy(SKYSTONE).strength(3.0F, 6.0F).lightLevel(s -> 4));
+	public static final Block METEORITE = register("meteorite", Block::new,
+		Properties.of().mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(4.0F, 9.0F).lightLevel(s -> 7).sound(SoundType.ANCIENT_DEBRIS));
 	public static final Block ETHERITE_BLOCK = register("etherite_block", Block::new,
 		Properties.of().mapColor(MapColor.DIAMOND).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.METAL));
 	public static final Block SKY_CRYSTAL = register("sky_crystal", p -> new AmethystClusterBlock(7.0F, 10.0F, p),

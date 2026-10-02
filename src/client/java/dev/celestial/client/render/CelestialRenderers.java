@@ -80,6 +80,8 @@ public final class CelestialRenderers {
 			tex("cloud_jelly"), 0.6F, 1.4F, true));
 		EntityRendererRegistry.register(ModEntities.MIMIC, MimicRenderer::new);
 		EntityRendererRegistry.register(ModEntities.LIGHT_SPEAR, ctx -> new ThrownItemRenderer<>(ctx, 1.6F, true));
+		EntityRendererRegistry.register(ModEntities.SHADOW, ctx -> new Humanoid<>(ctx, tex("shadow"), 1.0F));
+		EntityRendererRegistry.register(ModEntities.METEOR, ctx -> new ThrownItemRenderer<>(ctx, 3.0F, true));
 	}
 
 	/** Человекоподобные мобы Рая на общей модели 64×64. Крылья рисует ванильный WingsLayer по предмету в слоте груди. */
