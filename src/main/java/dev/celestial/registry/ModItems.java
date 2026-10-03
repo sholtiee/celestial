@@ -56,7 +56,18 @@ public final class ModItems {
 		Map.of(ArmorType.BOOTS, 1, ArmorType.LEGGINGS, 2, ArmorType.CHESTPLATE, 3, ArmorType.HELMET, 1, ArmorType.BODY, 3),
 		15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, REPAIRS_FUR_ARMOR, FUR_ASSET);
 
+	/** Морозная сталь: инструменты уровня алмаза, броня бережёт тепло, полный комплект не замерзает. */
+	public static final TagKey<Item> FROST_TOOL_MATERIALS = TagKey.create(Registries.ITEM, Celestial.id("frost_tool_materials"));
+	public static final TagKey<Item> REPAIRS_FROST_ARMOR = TagKey.create(Registries.ITEM, Celestial.id("repairs_frost_armor"));
+	public static final ResourceKey<EquipmentAsset> FROST_ASSET = ResourceKey.create(EquipmentAssets.ROOT_ID, Celestial.id("frost_steel"));
+	public static final ToolMaterial FROST_TOOL = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 1600, 8.5F, 3.0F, 20, FROST_TOOL_MATERIALS);
+	public static final ArmorMaterial FROST_ARMOR = new ArmorMaterial(30,
+		Map.of(ArmorType.BOOTS, 3, ArmorType.LEGGINGS, 6, ArmorType.CHESTPLATE, 8, ArmorType.HELMET, 3, ArmorType.BODY, 11),
+		20, SoundEvents.ARMOR_EQUIP_IRON, 2.0F, 0.05F, REPAIRS_FROST_ARMOR, FROST_ASSET);
+
 	// Материалы
+	public static final Item RAW_FROST_STEEL = register("raw_frost_steel", Item::new, new Item.Properties());
+	public static final Item FROST_STEEL_INGOT = register("frost_steel_ingot", Item::new, new Item.Properties());
 	public static final Item FUR = register("fur", Item::new, new Item.Properties());
 	public static final Item ABYSSAL_SHARD = register("abyssal_shard", Item::new, lore(new Item.Properties(), "abyssal_shard", 1));
 	public static final Item ABYSSAL_INGOT = register("abyssal_ingot", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON).fireResistant(), "abyssal_ingot", 1));
@@ -89,6 +100,16 @@ public final class ModItems {
 	public static final Item ETHERITE_AXE = register("etherite_axe", Item::new, new Item.Properties().axe(ETHERITE_TOOL, 5.0F, -3.0F));
 	public static final Item ETHERITE_SHOVEL = register("etherite_shovel", Item::new, new Item.Properties().shovel(ETHERITE_TOOL, 1.5F, -3.0F));
 	public static final Item ETHERITE_HOE = register("etherite_hoe", Item::new, new Item.Properties().hoe(ETHERITE_TOOL, -3.0F, 0.0F));
+
+	// Морозная сталь
+	public static final Item FROST_SWORD = register("frost_steel_sword", Item::new, new Item.Properties().sword(FROST_TOOL, 3.0F, -2.4F));
+	public static final Item FROST_PICKAXE = register("frost_steel_pickaxe", Item::new, new Item.Properties().pickaxe(FROST_TOOL, 1.0F, -2.8F));
+	public static final Item FROST_AXE = register("frost_steel_axe", Item::new, new Item.Properties().axe(FROST_TOOL, 5.0F, -3.0F));
+	public static final Item FROST_SHOVEL = register("frost_steel_shovel", Item::new, new Item.Properties().shovel(FROST_TOOL, 1.5F, -3.0F));
+	public static final Item FROST_HELMET = register("frost_steel_helmet", Item::new, lore(new Item.Properties().humanoidArmor(FROST_ARMOR, ArmorType.HELMET), "frost_steel_helmet", 1));
+	public static final Item FROST_CHESTPLATE = register("frost_steel_chestplate", Item::new, lore(new Item.Properties().humanoidArmor(FROST_ARMOR, ArmorType.CHESTPLATE), "frost_steel_chestplate", 1));
+	public static final Item FROST_LEGGINGS = register("frost_steel_leggings", Item::new, lore(new Item.Properties().humanoidArmor(FROST_ARMOR, ArmorType.LEGGINGS), "frost_steel_leggings", 1));
+	public static final Item FROST_BOOTS = register("frost_steel_boots", Item::new, lore(new Item.Properties().humanoidArmor(FROST_ARMOR, ArmorType.BOOTS), "frost_steel_boots", 1));
 
 	// Меховая одежда
 	public static final Item FUR_HOOD = register("fur_hood", Item::new, lore(new Item.Properties().humanoidArmor(FUR_ARMOR, ArmorType.HELMET), "fur_hood", 1));

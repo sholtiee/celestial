@@ -265,6 +265,47 @@ def fur_gear():
     append_tag('worldgen/biome', 'minecraft:spawns_snow_foxes', [c(b) for b in ('glacier', 'aurora_fields', 'ice_spires')])
 
 
+def frost_steel():
+    """Морозная сталь: руда → сырая сталь (удача) → переплавка в слиток; инструменты и броня в ледяной палитре."""
+    from gen_assets import ASSETS, VANILLA, shaped, smelt, ore_drop
+    ICE = {'1': '#1f3a55', '2': '#3a6a8f', '3': '#6aa6cf', '4': '#a6d8f2', '5': '#e0f6ff', '6': '#ffffff'}
+    raw = ['................', '................', '................', '.....1111.......', '....123321......', '...12344321.....', '...12345431.....',
+           '...1234443211...', '....12333321....', '.....122221.....', '......1111......', '................', '................',
+           '................', '................', '................']
+    save_png(T.sprite(raw, ICE), 'item/raw_frost_steel')
+    save_png(T.sprite(T.SPR['etherite_ingot'], {**ICE}), 'item/frost_steel_ingot')
+    names = ['raw_frost_steel', 'frost_steel_ingot']
+    for part in ('sword', 'pickaxe', 'axe', 'shovel', 'helmet', 'chestplate', 'leggings', 'boots'):
+        save_png(T.sprite(T.SPR['etherite_' + part], {**ICE, **T.WOOD}), f'item/frost_steel_{part}')
+        names.append(f'frost_steel_{part}')
+    for n in names:
+        handheld = any(n.endswith(t) for t in ('sword', 'pickaxe', 'axe', 'shovel'))
+        model('item/' + n, {'parent': 'minecraft:item/handheld' if handheld else 'minecraft:item/generated', 'textures': {'layer0': c('item/' + n)}})
+        item_def(n, c('item/' + n))
+    palette = T.pal('#1f3a55', '#3a6a8f', '#6aa6cf', '#a6d8f2', '#e0f6ff')
+    for layer in ('humanoid', 'humanoid_leggings'):
+        save_png(T.armor_layer(os.path.join(VANILLA, f'textures/entity/equipment/{layer}/iron.png'), palette), f'entity/equipment/{layer}/frost_steel')
+    write_json(os.path.join(ASSETS, 'equipment/frost_steel.json'), {'layers': {'humanoid': [{'texture': c('frost_steel')}],
+                                                                             'humanoid_leggings': [{'texture': c('frost_steel')}]}})
+    ore_drop('frost_ore', c('raw_frost_steel'), 1, 2)
+    smelt('frost_steel_ingot', c('frost_steel_ingot'), c('raw_frost_steel'), 1.0)
+    X, S, I = '#celestial:frost_tool_materials', 'minecraft:stick', c('frost_steel_ingot')
+    shaped('frost_steel_sword', c('frost_steel_sword'), ['X', 'X', '#'], {'X': X, '#': S}, 1, 'equipment')
+    shaped('frost_steel_pickaxe', c('frost_steel_pickaxe'), ['XXX', ' # ', ' # '], {'X': X, '#': S}, 1, 'equipment')
+    shaped('frost_steel_axe', c('frost_steel_axe'), ['XX', 'X#', ' #'], {'X': X, '#': S}, 1, 'equipment')
+    shaped('frost_steel_shovel', c('frost_steel_shovel'), ['X', '#', '#'], {'X': X, '#': S}, 1, 'equipment')
+    shaped('frost_steel_helmet', c('frost_steel_helmet'), ['XXX', 'X X'], {'X': I}, 1, 'equipment')
+    shaped('frost_steel_chestplate', c('frost_steel_chestplate'), ['X X', 'XXX', 'XXX'], {'X': I}, 1, 'equipment')
+    shaped('frost_steel_leggings', c('frost_steel_leggings'), ['XXX', 'X X', 'X X'], {'X': I}, 1, 'equipment')
+    shaped('frost_steel_boots', c('frost_steel_boots'), ['X X', 'X X'], {'X': I}, 1, 'equipment')
+    append_tag('item', 'celestial:frost_tool_materials', [I])
+    append_tag('item', 'celestial:repairs_frost_armor', [I])
+    for t in ('sword', 'pickaxe', 'axe', 'shovel'):
+        append_tag('item', f'minecraft:{t}s', [c('frost_steel_' + t)])
+    for a, slot in (('helmet', 'head'), ('chestplate', 'chest'), ('leggings', 'leg'), ('boots', 'foot')):
+        append_tag('item', f'minecraft:{slot}_armor', [c('frost_steel_' + a)])
+
+
 def portal():
     """Завеса портала: наша анимированная текстура портала Рая, перекрашенная в ледяные тона; форма модели — как у ванильного портала."""
     import colorsys
@@ -298,6 +339,7 @@ def main():
     portal()
     frozen_angel()
     fur_gear()
+    frost_steel()
     dimension()
     noises()
     surface()
@@ -316,6 +358,20 @@ def main():
         'hud.celestial.warmth': ('Тепло', 'Warmth'),
         'block.celestial.frozen_angel': ('Вмёрзший ангел', 'Frozen Angel'),
         'item.celestial.fur': ('Мех снежного лиса', 'Snow Fox Fur'),
+        'item.celestial.raw_frost_steel': ('Сырая морозная сталь', 'Raw Frost Steel'),
+        'item.celestial.frost_steel_ingot': ('Слиток морозной стали', 'Frost Steel Ingot'),
+        'item.celestial.frost_steel_sword': ('Меч из морозной стали', 'Frost Steel Sword'),
+        'item.celestial.frost_steel_pickaxe': ('Кирка из морозной стали', 'Frost Steel Pickaxe'),
+        'item.celestial.frost_steel_axe': ('Топор из морозной стали', 'Frost Steel Axe'),
+        'item.celestial.frost_steel_shovel': ('Лопата из морозной стали', 'Frost Steel Shovel'),
+        'item.celestial.frost_steel_helmet': ('Шлем из морозной стали', 'Frost Steel Helmet'),
+        'item.celestial.frost_steel_chestplate': ('Нагрудник из морозной стали', 'Frost Steel Chestplate'),
+        'item.celestial.frost_steel_leggings': ('Поножи из морозной стали', 'Frost Steel Leggings'),
+        'item.celestial.frost_steel_boots': ('Сапоги из морозной стали', 'Frost Steel Boots'),
+        'item.celestial.frost_steel_helmet.lore1': ('§bТепло −15% медленнее; комплект — не замерзаешь', '§bWarmth drains 15% slower; full set: no freezing'),
+        'item.celestial.frost_steel_chestplate.lore1': ('§bТепло −15% медленнее; комплект — не замерзаешь', '§bWarmth drains 15% slower; full set: no freezing'),
+        'item.celestial.frost_steel_leggings.lore1': ('§bТепло −15% медленнее; комплект — не замерзаешь', '§bWarmth drains 15% slower; full set: no freezing'),
+        'item.celestial.frost_steel_boots.lore1': ('§bТепло −15% медленнее; комплект — не замерзаешь', '§bWarmth drains 15% slower; full set: no freezing'),
         'item.celestial.fur_hood': ('Меховой капюшон', 'Fur Hood'),
         'item.celestial.fur_cloak': ('Меховой плащ', 'Fur Cloak'),
         'item.celestial.fur_leggings': ('Меховые штаны', 'Fur Leggings'),

@@ -1,0 +1,31 @@
+# Морозная сталь: вид и защита от холода
+/gamemode creative
+/effect clear @s
+/execute in celestial:frozen_halls run fill 10 119 10 20 119 20 celestial:frost_stone_bricks
+/execute in celestial:frozen_halls run fill 10 120 10 20 124 20 minecraft:air
+/execute in celestial:frozen_halls run tp @s 15 120 15 0 10
+wait 60
+/kill @e[type=!minecraft:player,distance=..30]
+/weather clear
+/celestial grace 0
+/clear @s
+/item replace entity @s armor.head with celestial:frost_steel_helmet
+/item replace entity @s armor.chest with celestial:frost_steel_chestplate
+/item replace entity @s armor.legs with celestial:frost_steel_leggings
+/item replace entity @s armor.feet with celestial:frost_steel_boots
+camera front
+wait 10
+togglehud
+shot frost_front
+togglehud
+camera first
+/gamemode survival
+wait 200
+/celestial status
+/give @s celestial:frost_steel_sword
+/give @s celestial:frost_steel_pickaxe
+/give @s celestial:frost_steel_ingot 3
+/give @s celestial:raw_frost_steel 2
+wait 10
+shot frost_hud
+quit

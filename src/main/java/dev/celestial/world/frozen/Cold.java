@@ -78,7 +78,7 @@ public final class Cold {
 				player.sendOverlayMessage(Component.translatable("frozen.celestial.cold_rising"));
 			}
 		}
-		if (warmth <= 0) {
+		if (warmth <= 0 && !hasFrostSet(player)) {
 			player.setTicksFrozen(Math.max(player.getTicksFrozen(), player.getTicksRequiredToFreeze() + 40));
 		}
 	}
@@ -91,12 +91,23 @@ public final class Cold {
 			if (stack.is(dev.celestial.registry.ModItems.FUR_HOOD) || stack.is(dev.celestial.registry.ModItems.FUR_CLOAK)
 				|| stack.is(dev.celestial.registry.ModItems.FUR_LEGGINGS) || stack.is(dev.celestial.registry.ModItems.FUR_BOOTS)) {
 				total += 0.22F;
+			} else if (stack.is(dev.celestial.registry.ModItems.FROST_HELMET) || stack.is(dev.celestial.registry.ModItems.FROST_CHESTPLATE)
+				|| stack.is(dev.celestial.registry.ModItems.FROST_LEGGINGS) || stack.is(dev.celestial.registry.ModItems.FROST_BOOTS)) {
+				total += 0.15F;
 			} else if (stack.is(Items.LEATHER_HELMET) || stack.is(Items.LEATHER_CHESTPLATE) || stack.is(Items.LEATHER_LEGGINGS)
 				|| stack.is(Items.LEATHER_BOOTS)) {
 				total += 0.12F;
 			}
 		}
 		return Math.min(0.9F, total);
+	}
+
+	/** Полный комплект морозной стали: не замерзает (тепло всё равно тает, но иней не наступает). */
+	public static boolean hasFrostSet(ServerPlayer player) {
+		return player.getItemBySlot(EquipmentSlot.HEAD).is(dev.celestial.registry.ModItems.FROST_HELMET)
+			&& player.getItemBySlot(EquipmentSlot.CHEST).is(dev.celestial.registry.ModItems.FROST_CHESTPLATE)
+			&& player.getItemBySlot(EquipmentSlot.LEGS).is(dev.celestial.registry.ModItems.FROST_LEGGINGS)
+			&& player.getItemBySlot(EquipmentSlot.FEET).is(dev.celestial.registry.ModItems.FROST_BOOTS);
 	}
 
 	/** Огонь рядом: костёр (горящий), огонь, лава, магма, горящая жаровня — в радиусе 4. */
