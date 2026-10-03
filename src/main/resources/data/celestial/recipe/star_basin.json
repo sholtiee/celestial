@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": "celestial:skystone_bricks",
+    "S": "celestial:starquartz"
+  },
+  "pattern": [
+    "B B",
+    "BSB",
+    "BBB"
+  ],
+  "result": {
+    "id": "celestial:star_basin"
+  }
+}

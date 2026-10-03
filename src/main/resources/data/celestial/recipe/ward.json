@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "R": "celestial:radiant_stone",
+    "S": "celestial:starsteel_ingot",
+    "F": "celestial:star_fragment",
+    "B": "celestial:skystone_bricks"
+  },
+  "pattern": [
+    " R ",
+    "SFS",
+    "BBB"
+  ],
+  "result": {
+    "id": "celestial:ward"
+  }
+}

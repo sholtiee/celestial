@@ -48,6 +48,12 @@ public final class ModItems {
 	// Угасание: метеориты и Тени
 	public static final Item STAR_FRAGMENT = register("star_fragment", Item::new, new Item.Properties().rarity(Rarity.UNCOMMON));
 	public static final Item SHADOW_ESSENCE = register("shadow_essence", Item::new, new Item.Properties());
+	// Звёздный свет (волна 0.3)
+	public static final Item STARLIGHT_FLASK = register("starlight_flask", dev.celestial.starlight.StarlightFlaskItem::new,
+		new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(16).usingConvertsTo(net.minecraft.world.item.Items.GLASS_BOTTLE)
+			.component(net.minecraft.core.component.DataComponents.CONSUMABLE, net.minecraft.world.item.component.Consumables.defaultDrink().build()));
+	public static final Item STARSTEEL_INGOT = register("starsteel_ingot", Item::new, new Item.Properties());
+	public static final Item CHARGED_CRYSTAL = register("charged_crystal", Item::new, new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(16));
 	public static final Item SKY_JELLY = register("sky_jelly", Item::new, new Item.Properties().food(
 		new FoodProperties.Builder().nutrition(3).saturationModifier(0.4F).alwaysEdible().build(),
 		net.minecraft.world.item.component.Consumables.defaultFood().onConsume(new net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect(java.util.List.of(

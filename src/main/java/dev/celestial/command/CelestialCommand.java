@@ -32,6 +32,15 @@ public final class CelestialCommand {
 					src.sendSuccess(() -> Component.literal("§bБлагодать: §f" + data.grace() + " §bНавыки: §f" + data.skills()
 						+ " §bРепутация: §f" + data.reputation() + " §bСияние: §f" + (int) data.radiance() + " §bСтрах: §f" + (int) data.fear()
 						+ " §bИспытания: §f" + data.trials() + " §bКодекс: §f" + data.codex().size()), false);
+					// диагностика тьмы: что сейчас считает Darkness
+					var eyes = net.minecraft.core.BlockPos.containing(player.getEyePosition());
+					src.sendSuccess(() -> Component.literal("§8Тьма: мир=" + player.level().dimension().identifier()
+						+ " бездна=" + dev.celestial.world.abyss.Darkness.inAbyss(player)
+						+ " свет_у_глаз=" + player.level().getBrightness(net.minecraft.world.level.LightLayer.BLOCK, eyes)
+						+ " свет_в_руке=" + dev.celestial.world.abyss.Darkness.holdsLight(player)
+						+ " оберег=" + dev.celestial.starlight.Wards.protects(player.level(), player.blockPosition())
+						+ " сияние=" + player.hasEffect(dev.celestial.registry.ModEffects.STARLIGHT)
+						+ " режим=" + player.gameMode.getGameModeForPlayer()), false);
 				}
 				return 1;
 			}))

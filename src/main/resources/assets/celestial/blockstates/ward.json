@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "crystal=false,lit=false": {
+      "model": "celestial:block/ward"
+    },
+    "crystal=false,lit=true": {
+      "model": "celestial:block/ward"
+    },
+    "crystal=true,lit=false": {
+      "model": "celestial:block/ward_crystal"
+    },
+    "crystal=true,lit=true": {
+      "model": "celestial:block/ward_lit"
+    }
+  }
+}

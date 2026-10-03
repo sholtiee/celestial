@@ -182,6 +182,9 @@ public final class Fading {
 			return;
 		}
 		BlockPos pos = new BlockPos(x, level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z), z);
+		if (dev.celestial.starlight.Wards.protects(level, pos)) {
+			return;
+		}
 		if (level.getBrightness(LightLayer.BLOCK, pos) > 6 || !level.getFluidState(pos.below()).isEmpty() || level.getFluidState(pos).isSource()) {
 			return;
 		}

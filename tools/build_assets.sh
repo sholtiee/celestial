@@ -13,3 +13,4 @@ python3 gen_fading.py
 python3 gen_places.py
 python3 gen_boss.py
 python3 gen_abyss.py
+python3 gen_starlight.py

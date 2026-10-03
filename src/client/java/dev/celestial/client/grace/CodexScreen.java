@@ -88,7 +88,7 @@ public class CodexScreen extends Screen {
 				}
 			}
 			case GUIDE -> {
-				for (int i = 1; i <= 9; i++) {
+				for (int i = 1; i <= 12; i++) {
 					lines.add(Component.translatable("codex.celestial.guide." + i));
 				}
 			}

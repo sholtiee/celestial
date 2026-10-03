@@ -219,6 +219,15 @@ public final class ModBlocks {
 	public static final Block ABYSSAL_OBSIDIAN_ORE = register("abyssal_obsidian_ore", p -> new DropExperienceBlock(UniformInt.of(4, 8), p),
 		Properties.of().mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(25.0F, 1200.0F).sound(SoundType.DEEPSLATE));
 
+	public static final Block STAR_COLLECTOR = register("star_collector", dev.celestial.starlight.StarCollectorBlock::new,
+		Properties.of().mapColor(MapColor.QUARTZ).strength(2.0F).noOcclusion().sound(SoundType.STONE)
+			.lightLevel(s -> s.getValue(dev.celestial.starlight.StarCollectorBlock.CHARGE) * 3));
+	public static final Block STAR_BASIN = register("star_basin", dev.celestial.starlight.StarBasinBlock::new,
+		Properties.of().mapColor(MapColor.QUARTZ).strength(2.0F).noOcclusion().sound(SoundType.STONE)
+			.lightLevel(s -> s.getValue(dev.celestial.starlight.StarBasinBlock.LEVEL) * 4));
+	public static final Block WARD = register("ward", dev.celestial.starlight.WardBlock::new,
+		Properties.of().mapColor(MapColor.QUARTZ).strength(3.0F).noOcclusion().sound(SoundType.STONE)
+			.lightLevel(s -> s.getValue(dev.celestial.starlight.WardBlock.LIT) ? 15 : s.getValue(dev.celestial.starlight.WardBlock.CRYSTAL) ? 5 : 0));
 	public static final Block ABYSS_RIFT = registerNoItem("abyss_rift", dev.celestial.world.abyss.AbyssRiftBlock::new,
 		Properties.of().mapColor(MapColor.COLOR_BLACK).noCollision().lightLevel(s -> 8).strength(-1.0F, 3600000.0F).noLootTable()
 			.pushReaction(PushReaction.IMMOVEABLE));

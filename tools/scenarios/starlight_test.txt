@@ -1,0 +1,71 @@
+# Звёздный свет: Звездоловка ночью в Раю → флакон → купель (железо → звёздная сталь) → Оберег в Бездне → выпить флакон
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/execute in celestial:heaven run tp @s 0 160 -40
+fly
+wait 60
+goto celestial:sky_village 0 2 0 0 30
+wait 80
+/time set 18000
+/gamerule advance_time false
+/clear @s
+/execute at @s run fill ~-3 ~-1 ~2 ~3 ~-1 ~6 celestial:skystone_bricks
+/execute at @s run fill ~-3 ~ ~2 ~3 ~3 ~6 minecraft:air
+/execute at @s run setblock ~-1 ~ ~3 celestial:star_collector
+/execute at @s run setblock ~1 ~ ~3 celestial:star_basin
+wait 10
+/tick sprint 1400
+wait 120
+/item replace entity @s weapon.mainhand with minecraft:glass_bottle 4
+usenear celestial:star_collector
+wait 5
+usenear celestial:star_collector
+wait 5
+/execute if items entity @s container.* celestial:starlight_flask run say ФЛАКОН_ЕСТЬ
+/item replace entity @s weapon.mainhand with celestial:starlight_flask
+usenear celestial:star_basin
+wait 10
+/execute at @s run summon minecraft:item ~1 ~1.2 ~3 {Item:{id:"minecraft:iron_ingot",count:4}}
+wait 60
+/execute at @s if entity @e[type=minecraft:item,distance=..6,nbt={Item:{id:"celestial:starsteel_ingot"}}] run say ЗВЁЗДНАЯ_СТАЛЬ
+togglehud
+/tp @s ~ ~1 ~ 0 35
+wait 10
+shot starlight_blocks
+togglehud
+# Оберег в Бездне
+/execute in celestial:abyss run fill 466 79 276 474 79 284 celestial:abyss_bricks
+/execute in celestial:abyss run fill 466 80 276 474 84 284 minecraft:air
+/execute in celestial:abyss run tp @s 470 80 278 0 20
+wait 60
+/execute in celestial:abyss run setblock 470 80 281 celestial:ward
+/item replace entity @s weapon.mainhand with celestial:charged_crystal
+usenear celestial:ward
+/item replace entity @s weapon.mainhand with celestial:starlight_flask
+usenear celestial:ward
+wait 20
+/execute in celestial:abyss run summon celestial:shadow 472 80 283
+wait 5
+/execute in celestial:abyss if entity @e[type=celestial:shadow,distance=..20] run say ТЕНЬ_ПРОШЛА
+/item replace entity @s weapon.mainhand with minecraft:air
+/gamemode survival
+/effect give @s minecraft:resistance 600 4 true
+wait 200
+/celestial status
+shot starlight_ward
+/gamemode creative
+/execute in celestial:abyss run fill 464 78 314 476 86 326 celestial:abyss_bricks
+/execute in celestial:abyss run fill 466 80 316 474 84 324 minecraft:air
+/tp @s 470 80 320
+/gamemode survival
+wait 300
+/celestial status
+/item replace entity @s weapon.mainhand with celestial:starlight_flask
+hold use 45
+wait 50
+/celestial status
+/effect clear @s minecraft:resistance
+wait 200
+/celestial status
+quit

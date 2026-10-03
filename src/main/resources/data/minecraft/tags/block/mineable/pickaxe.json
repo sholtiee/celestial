@@ -30,6 +30,9 @@
     "celestial:abyss_bricks",
     "celestial:gloom_moss",
     "celestial:shadow_crystal",
-    "celestial:abyssal_obsidian_ore"
+    "celestial:abyssal_obsidian_ore",
+    "celestial:star_collector",
+    "celestial:star_basin",
+    "celestial:ward"
   ]
 }

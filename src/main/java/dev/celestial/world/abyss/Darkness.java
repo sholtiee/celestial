@@ -44,8 +44,16 @@ public final class Darkness {
 
 	private Darkness() {}
 
+	/** Твари, которых не пускает Оберег: только что появившиеся в радиусе исчезают. */
+	public static final TagKey<net.minecraft.world.entity.EntityType<?>> REPELLED = TagKey.create(Registries.ENTITY_TYPE, Celestial.id("repelled_by_wards"));
+
 	public static void init() {
 		ServerTickEvents.END_SERVER_TICK.register(Darkness::tick);
+		net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents.ENTITY_LOAD.register((entity, level) -> {
+			if (entity.tickCount == 0 && entity.is(REPELLED) && dev.celestial.starlight.Wards.protects(level, entity.blockPosition())) {
+				entity.discard();
+			}
+		});
 		ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> clearLight(handler.player.getUUID()));
 	}
 
@@ -79,7 +87,8 @@ public final class Darkness {
 			return;
 		}
 		BlockPos eyes = BlockPos.containing(player.getEyePosition());
-		boolean lit = holdsLight(player) || player.level().getBrightness(LightLayer.BLOCK, eyes) >= 6;
+		boolean lit = holdsLight(player) || player.level().getBrightness(LightLayer.BLOCK, eyes) >= 6
+			|| dev.celestial.starlight.Wards.protects(player.level(), player.blockPosition());
 		float gain = lit ? -8.0F : 4.0F;
 		if (!lit) {
 			if (data.hasSkill(Skill.INNER_LIGHT.id)) {
@@ -114,7 +123,8 @@ public final class Darkness {
 	private static void updateLight(ServerPlayer player) {
 		UUID id = player.getUUID();
 		LightSpot current = LIGHTS.get(id);
-		if (!inAbyss(player) || !holdsLight(player) || player.isSpectator()) {
+		boolean glowing = holdsLight(player) || player.hasEffect(dev.celestial.registry.ModEffects.STARLIGHT);
+		if (!inAbyss(player) || !glowing || player.isSpectator()) {
 			if (current != null) {
 				clearLight(id);
 			}

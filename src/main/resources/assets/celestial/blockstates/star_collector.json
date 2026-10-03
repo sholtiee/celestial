@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "charge=0": {
+      "model": "celestial:block/star_collector_0"
+    },
+    "charge=1": {
+      "model": "celestial:block/star_collector_1"
+    },
+    "charge=2": {
+      "model": "celestial:block/star_collector_2"
+    },
+    "charge=3": {
+      "model": "celestial:block/star_collector_3"
+    },
+    "charge=4": {
+      "model": "celestial:block/star_collector_4"
+    }
+  }
+}

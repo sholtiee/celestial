@@ -14,6 +14,12 @@ public final class ModBlockEntities {
 	public static final BlockEntityType<dev.celestial.world.abyss.AbyssRiftBlockEntity> ABYSS_RIFT = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("abyss_rift"),
 		new BlockEntityType<>(dev.celestial.world.abyss.AbyssRiftBlockEntity::new, Set.of(ModBlocks.ABYSS_RIFT)));
+	public static final BlockEntityType<dev.celestial.starlight.StarCollectorBlockEntity> STAR_COLLECTOR = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("star_collector"),
+		new BlockEntityType<>(dev.celestial.starlight.StarCollectorBlockEntity::new, Set.of(ModBlocks.STAR_COLLECTOR)));
+	public static final BlockEntityType<dev.celestial.starlight.WardBlockEntity> WARD = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("ward"),
+		new BlockEntityType<>(dev.celestial.starlight.WardBlockEntity::new, Set.of(ModBlocks.WARD)));
 	public static final BlockEntityType<dev.celestial.block.light.BeamSourceBlockEntity> BEAM_SOURCE = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("beam_source"),
 		new BlockEntityType<>(dev.celestial.block.light.BeamSourceBlockEntity::new, Set.of(ModBlocks.SUN_LENS, ModBlocks.BEAM_LANTERN)));

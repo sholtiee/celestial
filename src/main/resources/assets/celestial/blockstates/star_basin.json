@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "level=0": {
+      "model": "celestial:block/star_basin_0"
+    },
+    "level=1": {
+      "model": "celestial:block/star_basin_1"
+    },
+    "level=2": {
+      "model": "celestial:block/star_basin_2"
+    },
+    "level=3": {
+      "model": "celestial:block/star_basin_3"
+    }
+  }
+}
