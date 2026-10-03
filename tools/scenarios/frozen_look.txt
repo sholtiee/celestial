@@ -1,0 +1,20 @@
+# Ледяные Чертоги: общий вид
+/gamemode creative
+/effect clear @s
+/execute in celestial:frozen_halls run tp @s 0 140 0 0 25
+fly
+wait 200
+/time set 6000
+togglehud
+shot frozen_1
+/tp @s ~ ~ ~ 120 20
+wait 20
+shot frozen_2
+/execute in celestial:frozen_halls run tp @s 400 140 300 200 30
+wait 200
+shot frozen_3
+/time set 15000
+wait 20
+shot frozen_dusk
+togglehud
+quit

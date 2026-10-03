@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "celestial:block/aurora_crystal"
+    },
+    "facing=down": {
+      "model": "celestial:block/aurora_crystal",
+      "x": 180
+    },
+    "facing=north": {
+      "model": "celestial:block/aurora_crystal",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "celestial:block/aurora_crystal",
+      "x": 90,
+      "y": 180
+    },
+    "facing=east": {
+      "model": "celestial:block/aurora_crystal",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west": {
+      "model": "celestial:block/aurora_crystal",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

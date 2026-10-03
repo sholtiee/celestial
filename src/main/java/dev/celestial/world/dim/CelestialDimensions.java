@@ -12,7 +12,10 @@ public final class CelestialDimensions {
 	/** Бездна: обычная гравитация, выпасть некуда (бедрок сверху и снизу). */
 	public static final CelestialDimension ABYSS = new CelestialDimension(AbyssFeatures.ABYSS, 0.0, 0.0, -64, null, 0.0);
 
-	public static final List<CelestialDimension> ALL = List.of(HEAVEN, ABYSS);
+	/** Ледяные Чертоги: обычная физика, упасть в пустоту — смерть, как в Верхнем мире. */
+	public static final CelestialDimension FROZEN_HALLS = new CelestialDimension(AbyssFeatures.FROZEN_HALLS, 0.0, 0.0, -128, null, 0.0);
+
+	public static final List<CelestialDimension> ALL = List.of(HEAVEN, ABYSS, FROZEN_HALLS);
 
 	private CelestialDimensions() {}
 

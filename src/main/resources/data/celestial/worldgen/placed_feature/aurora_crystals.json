@@ -1,0 +1,62 @@
+{
+  "feature": "celestial:aurora_crystal",
+  "placement": [
+    {
+      "type": "minecraft:count",
+      "count": 6
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:heightmap",
+      "heightmap": "MOTION_BLOCKING"
+    },
+    {
+      "type": "minecraft:biome"
+    },
+    {
+      "type": "minecraft:count",
+      "count": 6
+    },
+    {
+      "type": "minecraft:offset",
+      "x": {
+        "type": "minecraft:uniform",
+        "min_inclusive": -3,
+        "max_inclusive": 3
+      },
+      "y": 0,
+      "z": {
+        "type": "minecraft:uniform",
+        "min_inclusive": -3,
+        "max_inclusive": 3
+      }
+    },
+    {
+      "type": "minecraft:heightmap",
+      "heightmap": "MOTION_BLOCKING"
+    },
+    {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:all_of",
+        "predicates": [
+          {
+            "type": "minecraft:matching_block_tag",
+            "tag": "minecraft:air"
+          },
+          {
+            "type": "minecraft:has_sturdy_face",
+            "direction": "up",
+            "offset": [
+              0,
+              -1,
+              0
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

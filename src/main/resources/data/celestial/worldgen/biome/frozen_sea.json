@@ -1,0 +1,49 @@
+{
+  "attributes": {
+    "minecraft:visual/sky_color": "#3a5f80",
+    "minecraft:visual/fog_color": "#b4cde0",
+    "minecraft:visual/water_fog_color": "#3d6a8a",
+    "minecraft:visual/ambient_particles": {
+      "argument": [
+        {
+          "particle": {
+            "type": "minecraft:white_ash"
+          },
+          "probability": 0.006
+        }
+      ],
+      "modifier": "append"
+    }
+  },
+  "carvers": [],
+  "downfall": 0.6,
+  "effects": {
+    "grass_color": "#80b4a0",
+    "foliage_color": "#6a9a8a",
+    "water_color": "#3d6a8a"
+  },
+  "features": [
+    [],
+    [],
+    [
+      "minecraft:iceberg_packed",
+      "minecraft:iceberg_blue"
+    ],
+    [],
+    [],
+    [],
+    [
+      "celestial:ore_frost"
+    ],
+    [
+      "minecraft:blue_ice"
+    ],
+    [],
+    [],
+    [
+      "minecraft:freeze_top_layer"
+    ]
+  ],
+  "has_precipitation": true,
+  "temperature": -0.7
+}

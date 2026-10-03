@@ -34,6 +34,10 @@
     "celestial:star_collector",
     "celestial:star_basin",
     "celestial:ward",
-    "celestial:brazier"
+    "celestial:brazier",
+    "celestial:frost_stone",
+    "celestial:frost_stone_bricks",
+    "celestial:frost_ore",
+    "celestial:aurora_crystal"
   ]
 }

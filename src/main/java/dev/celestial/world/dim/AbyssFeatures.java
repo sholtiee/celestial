@@ -11,5 +11,7 @@ public final class AbyssFeatures {
 	public static final ResourceKey<net.minecraft.world.level.levelgen.feature.Feature> HUGE_GLOWSHROOM =
 		ResourceKey.create(Registries.FEATURE, Celestial.id("huge_glowshroom"));
 
+	public static final ResourceKey<Level> FROZEN_HALLS = ResourceKey.create(Registries.DIMENSION, Celestial.id("frozen_halls"));
+
 	private AbyssFeatures() {}
 }

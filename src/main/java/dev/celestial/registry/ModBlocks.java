@@ -233,6 +233,16 @@ public final class ModBlocks {
 			.lightLevel(s -> s.getValue(dev.celestial.boss.BrazierBlock.LIT) ? 15 : 0), 1);
 	public static final Block DEVOURER_SEAL = register("devourer_seal", dev.celestial.boss.DevourerSealBlock::new,
 		Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(-1.0F, 3600000.0F).noLootTable().lightLevel(s -> 6).sound(SoundType.DEEPSLATE));
+	// ---------------------------------------------------------------- Ледяные Чертоги (волна 0.4)
+	public static final Block FROST_STONE = register("frost_stone", Block::new,
+		Properties.of().mapColor(MapColor.ICE).requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.DEEPSLATE).friction(0.9F));
+	public static final Block FROST_STONE_BRICKS = register("frost_stone_bricks", Block::new,
+		Properties.ofFullCopy(FROST_STONE).sound(SoundType.DEEPSLATE_BRICKS).friction(0.6F));
+	public static final Block AURORA_CRYSTAL = register("aurora_crystal", p -> new AmethystClusterBlock(7.0F, 3.0F, p),
+		Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).forceSolidOn().noOcclusion().sound(SoundType.AMETHYST_CLUSTER)
+			.strength(1.5F).lightLevel(s -> 11).pushReaction(PushReaction.POPPED));
+	public static final Block FROST_ORE = register("frost_ore", p -> new DropExperienceBlock(UniformInt.of(3, 6), p),
+		Properties.ofFullCopy(FROST_STONE).strength(4.0F, 6.0F).sound(SoundType.DEEPSLATE));
 	public static final Block ABYSS_RIFT = registerNoItem("abyss_rift", dev.celestial.world.abyss.AbyssRiftBlock::new,
 		Properties.of().mapColor(MapColor.COLOR_BLACK).noCollision().lightLevel(s -> 8).strength(-1.0F, 3600000.0F).noLootTable()
 			.pushReaction(PushReaction.IMMOVEABLE));
