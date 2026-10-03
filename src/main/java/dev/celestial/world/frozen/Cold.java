@@ -65,7 +65,7 @@ public final class Cold {
 				delta -= 1.0F;
 				player.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 40, 0, true, false, false));
 			}
-			delta *= 1.0F - 0.2F * leatherPieces(player);
+			delta *= 1.0F - insulation(player);
 			if (data.hasSkill(Skill.INNER_FIRE.id)) {
 				delta *= 0.5F;
 			}
@@ -83,15 +83,20 @@ public final class Cold {
 		}
 	}
 
-	private static int leatherPieces(ServerPlayer player) {
-		int n = 0;
+	/** Насколько одежда сберегает тепло: кожа −12% за предмет, мех снежного лиса −22% (полный меховой комплект почти не мёрзнет). */
+	public static float insulation(ServerPlayer player) {
+		float total = 0;
 		for (EquipmentSlot slot : new EquipmentSlot[] {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}) {
 			var stack = player.getItemBySlot(slot);
-			if (stack.is(Items.LEATHER_HELMET) || stack.is(Items.LEATHER_CHESTPLATE) || stack.is(Items.LEATHER_LEGGINGS) || stack.is(Items.LEATHER_BOOTS)) {
-				n++;
+			if (stack.is(dev.celestial.registry.ModItems.FUR_HOOD) || stack.is(dev.celestial.registry.ModItems.FUR_CLOAK)
+				|| stack.is(dev.celestial.registry.ModItems.FUR_LEGGINGS) || stack.is(dev.celestial.registry.ModItems.FUR_BOOTS)) {
+				total += 0.22F;
+			} else if (stack.is(Items.LEATHER_HELMET) || stack.is(Items.LEATHER_CHESTPLATE) || stack.is(Items.LEATHER_LEGGINGS)
+				|| stack.is(Items.LEATHER_BOOTS)) {
+				total += 0.12F;
 			}
 		}
-		return n;
+		return Math.min(0.9F, total);
 	}
 
 	/** Огонь рядом: костёр (горящий), огонь, лава, магма, горящая жаровня — в радиусе 4. */

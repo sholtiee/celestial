@@ -182,7 +182,9 @@ def biomes():
             'attributes': {'minecraft:visual/sky_color': sky, 'minecraft:visual/fog_color': fog, 'minecraft:visual/water_fog_color': '#3d6a8a',
                            'minecraft:gameplay/natural_mob_spawns': {'argument': {'spawn_costs': {}, 'spawns_by_category': {'monster': [
                                {'type': c('frost_wraith'), 'count': {'type': 'minecraft:uniform', 'min_inclusive': 1, 'max_inclusive': 2}, 'weight': 60},
-                               {'type': 'minecraft:stray', 'count': {'type': 'minecraft:uniform', 'min_inclusive': 1, 'max_inclusive': 3}, 'weight': 80}]}},
+                               {'type': 'minecraft:stray', 'count': {'type': 'minecraft:uniform', 'min_inclusive': 1, 'max_inclusive': 3}, 'weight': 80}],
+                               'creature': [{'type': 'minecraft:fox', 'count': {'type': 'minecraft:uniform', 'min_inclusive': 2, 'max_inclusive': 4}, 'weight': 10},
+                                            {'type': 'minecraft:polar_bear', 'count': 1, 'weight': 2}]}},
                                'modifier': 'overlay'},
                            'minecraft:visual/ambient_particles': {'argument': [{'particle': {'type': 'minecraft:white_ash'}, 'probability': 0.006}],
                                                                   'modifier': 'append'}},
@@ -232,6 +234,37 @@ def frozen_angel():
             {'type': 'minecraft:has_sturdy_face', 'direction': 'up', 'offset': [0, -1, 0]}]}}]})
 
 
+def fur_gear():
+    """Мех снежного лиса и меховая одежда: иконки (формы наших спрайтов в «меховой» палитре), слой на теле, рецепты, теги."""
+    from gen_assets import ASSETS, VANILLA, shaped
+    FUR = {'1': '#8a8278', '2': '#c9c2b6', '3': '#e6e0d6', '4': '#f6f2ec', '5': '#ffffff', '6': '#ffffff'}
+    fur_icon = ['................', '................', '....11111.......', '...1233321......', '..123443321.....', '..1234443321....',
+                '..12344443321...', '...123444321....', '....1234321.....', '....12321.......', '.....121........', '......1.........',
+                '................', '................', '................', '................']
+    save_png(T.sprite(fur_icon, FUR), 'item/fur')
+    model('item/fur', {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('item/fur')}})
+    item_def('fur', c('item/fur'))
+    for part, shape in (('hood', 'helmet'), ('cloak', 'chestplate'), ('leggings', 'leggings'), ('boots', 'boots')):
+        save_png(T.sprite(T.SPR['etherite_' + shape], {**FUR, **T.WOOD}), f'item/fur_{part}')
+        model(f'item/fur_{part}', {'parent': 'minecraft:item/generated', 'textures': {'layer0': c(f'item/fur_{part}')}})
+        item_def(f'fur_{part}', c(f'item/fur_{part}'))
+    palette = T.pal('#8a8278', '#c9c2b6', '#e6e0d6', '#f6f2ec', '#ffffff')
+    for layer in ('humanoid', 'humanoid_leggings'):
+        save_png(T.armor_layer(os.path.join(VANILLA, f'textures/entity/equipment/{layer}/leather.png'), palette),
+                 f'entity/equipment/{layer}/fur')
+    write_json(os.path.join(ASSETS, 'equipment/fur.json'), {'layers': {'humanoid': [{'texture': c('fur')}],
+                                                                     'humanoid_leggings': [{'texture': c('fur')}]}})
+    F = c('fur')
+    shaped('fur_hood', c('fur_hood'), ['FFF', 'F F'], {'F': F}, 1, 'equipment')
+    shaped('fur_cloak', c('fur_cloak'), ['F F', 'FFF', 'FFF'], {'F': F}, 1, 'equipment')
+    shaped('fur_leggings', c('fur_leggings'), ['FFF', 'F F', 'F F'], {'F': F}, 1, 'equipment')
+    shaped('fur_boots', c('fur_boots'), ['F F', 'F F'], {'F': F}, 1, 'equipment')
+    append_tag('item', 'celestial:repairs_fur_armor', [F])
+    for part, slot in (('hood', 'head'), ('cloak', 'chest'), ('leggings', 'leg'), ('boots', 'foot')):
+        append_tag('item', f'minecraft:{slot}_armor', [c('fur_' + part)])
+    append_tag('worldgen/biome', 'minecraft:spawns_snow_foxes', [c(b) for b in ('glacier', 'aurora_fields', 'ice_spires')])
+
+
 def portal():
     """Завеса портала: наша анимированная текстура портала Рая, перекрашенная в ледяные тона; форма модели — как у ванильного портала."""
     import colorsys
@@ -264,6 +297,7 @@ def main():
     blocks()
     portal()
     frozen_angel()
+    fur_gear()
     dimension()
     noises()
     surface()
@@ -281,6 +315,15 @@ def main():
         'block.celestial.frozen_portal': ('Ледяные врата', 'Frozen Gate'),
         'hud.celestial.warmth': ('Тепло', 'Warmth'),
         'block.celestial.frozen_angel': ('Вмёрзший ангел', 'Frozen Angel'),
+        'item.celestial.fur': ('Мех снежного лиса', 'Snow Fox Fur'),
+        'item.celestial.fur_hood': ('Меховой капюшон', 'Fur Hood'),
+        'item.celestial.fur_cloak': ('Меховой плащ', 'Fur Cloak'),
+        'item.celestial.fur_leggings': ('Меховые штаны', 'Fur Leggings'),
+        'item.celestial.fur_boots': ('Меховые унты', 'Fur Boots'),
+        'item.celestial.fur_hood.lore1': ('§bХолод забирает тепло на 22% медленнее', '§bThe cold drains warmth 22% slower'),
+        'item.celestial.fur_cloak.lore1': ('§bХолод забирает тепло на 22% медленнее', '§bThe cold drains warmth 22% slower'),
+        'item.celestial.fur_leggings.lore1': ('§bХолод забирает тепло на 22% медленнее', '§bThe cold drains warmth 22% slower'),
+        'item.celestial.fur_boots.lore1': ('§bХолод забирает тепло на 22% медленнее', '§bThe cold drains warmth 22% slower'),
         'block.celestial.frozen_angel.lore1': ('Разбей лёд — ангел оттает и отблагодарит.', 'Break the ice: the angel will thaw and repay you.'),
         'frozen.celestial.angel_freed': ('§bЛёд трескается, и ангел делает первый вдох за века. «Спасибо, Странник…» §6Благодать +1',
                                          '§bThe ice cracks and the angel takes its first breath in ages. "Thank you, Wanderer..." §6Grace +1'),

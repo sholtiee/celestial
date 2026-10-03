@@ -49,7 +49,15 @@ public final class ModItems {
 		Map.of(ArmorType.BOOTS, 3, ArmorType.LEGGINGS, 7, ArmorType.CHESTPLATE, 9, ArmorType.HELMET, 3, ArmorType.BODY, 15),
 		16, SoundEvents.ARMOR_EQUIP_NETHERITE, 3.5F, 0.15F, REPAIRS_ABYSSAL_ARMOR, ABYSSAL_ASSET);
 
+	/** Мех снежного лиса: лёгкая броня, зато лучшая защита от холода Ледяных Чертогов. */
+	public static final TagKey<Item> REPAIRS_FUR_ARMOR = TagKey.create(Registries.ITEM, Celestial.id("repairs_fur_armor"));
+	public static final ResourceKey<EquipmentAsset> FUR_ASSET = ResourceKey.create(EquipmentAssets.ROOT_ID, Celestial.id("fur"));
+	public static final ArmorMaterial FUR_ARMOR = new ArmorMaterial(12,
+		Map.of(ArmorType.BOOTS, 1, ArmorType.LEGGINGS, 2, ArmorType.CHESTPLATE, 3, ArmorType.HELMET, 1, ArmorType.BODY, 3),
+		15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, REPAIRS_FUR_ARMOR, FUR_ASSET);
+
 	// Материалы
+	public static final Item FUR = register("fur", Item::new, new Item.Properties());
 	public static final Item ABYSSAL_SHARD = register("abyssal_shard", Item::new, lore(new Item.Properties(), "abyssal_shard", 1));
 	public static final Item ABYSSAL_INGOT = register("abyssal_ingot", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON).fireResistant(), "abyssal_ingot", 1));
 	public static final Item RAW_ETHERITE = register("raw_etherite", Item::new, new Item.Properties());
@@ -81,6 +89,12 @@ public final class ModItems {
 	public static final Item ETHERITE_AXE = register("etherite_axe", Item::new, new Item.Properties().axe(ETHERITE_TOOL, 5.0F, -3.0F));
 	public static final Item ETHERITE_SHOVEL = register("etherite_shovel", Item::new, new Item.Properties().shovel(ETHERITE_TOOL, 1.5F, -3.0F));
 	public static final Item ETHERITE_HOE = register("etherite_hoe", Item::new, new Item.Properties().hoe(ETHERITE_TOOL, -3.0F, 0.0F));
+
+	// Меховая одежда
+	public static final Item FUR_HOOD = register("fur_hood", Item::new, lore(new Item.Properties().humanoidArmor(FUR_ARMOR, ArmorType.HELMET), "fur_hood", 1));
+	public static final Item FUR_CLOAK = register("fur_cloak", Item::new, lore(new Item.Properties().humanoidArmor(FUR_ARMOR, ArmorType.CHESTPLATE), "fur_cloak", 1));
+	public static final Item FUR_LEGGINGS = register("fur_leggings", Item::new, lore(new Item.Properties().humanoidArmor(FUR_ARMOR, ArmorType.LEGGINGS), "fur_leggings", 1));
+	public static final Item FUR_BOOTS = register("fur_boots", Item::new, lore(new Item.Properties().humanoidArmor(FUR_ARMOR, ArmorType.BOOTS), "fur_boots", 1));
 
 	// Бездновый обсидиан
 	public static final Item ABYSSAL_SWORD = register("abyssal_sword", Item::new, lore(new Item.Properties().sword(ABYSSAL_TOOL, 3.0F, -2.4F).fireResistant(), "abyssal_sword", 1));

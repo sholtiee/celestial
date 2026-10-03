@@ -37,6 +37,8 @@ public final class StoryEvents {
 				builder.withPool(chancePool(ModItems.FLAME_SHARD, 0.35F));
 			} else if (key.equals(BuiltInLootTables.BASTION_TREASURE) || key.equals(BuiltInLootTables.BASTION_OTHER)) {
 				builder.withPool(chancePool(ModItems.FLAME_SHARD, 0.5F));
+			} else if (key.equals(net.minecraft.world.entity.EntityTypes.FOX.getDefaultLootTable().orElse(null))) {
+				builder.withPool(chancePool(ModItems.FUR, 0.6F));
 			} else if (key.equals(BuiltInLootTables.END_CITY_TREASURE)) {
 				builder.withPool(chancePool(ModItems.VOID_HEART, 0.15F));
 			}

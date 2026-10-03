@@ -1,0 +1,24 @@
+# Меховая одежда: вид и защита от холода
+/gamemode creative
+/effect clear @s
+/execute in celestial:frozen_halls run fill 10 119 10 20 119 20 celestial:frost_stone_bricks
+/execute in celestial:frozen_halls run fill 10 120 10 20 124 20 minecraft:air
+/execute in celestial:frozen_halls run tp @s 15 120 15 0 10
+wait 60
+/kill @e[type=!minecraft:player,distance=..30]
+/weather clear
+/clear @s
+/item replace entity @s armor.head with celestial:fur_hood
+/item replace entity @s armor.chest with celestial:fur_cloak
+/item replace entity @s armor.legs with celestial:fur_leggings
+/item replace entity @s armor.feet with celestial:fur_boots
+camera front
+wait 10
+togglehud
+shot fur_front
+togglehud
+camera first
+/gamemode survival
+wait 400
+/celestial status
+quit
