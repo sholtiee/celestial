@@ -26,6 +26,16 @@
                 "max_inclusive": 2
               },
               "weight": 100
+            },
+            {
+              "type": "celestial:blind_hunter",
+              "count": 1,
+              "weight": 40
+            },
+            {
+              "type": "celestial:deep_worm",
+              "count": 1,
+              "weight": 3
             }
           ]
         }

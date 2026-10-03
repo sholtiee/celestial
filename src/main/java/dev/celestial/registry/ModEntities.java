@@ -78,6 +78,14 @@ public final class ModEntities {
 		EntityType.Builder.<dev.celestial.entity.SeraphCrystal>of(dev.celestial.entity.SeraphCrystal::new, MobCategory.MISC).noLootTable()
 			.sized(2.0F, 2.0F).clientTrackingRange(16).updateInterval(Integer.MAX_VALUE));
 
+	// Бездна (волна 0.3)
+	public static final EntityType<dev.celestial.entity.BlindHunter> BLIND_HUNTER = register("blind_hunter",
+		EntityType.Builder.of(dev.celestial.entity.BlindHunter::new, MobCategory.MONSTER).sized(0.9F, 2.6F).eyeHeight(2.3F).clientTrackingRange(10));
+	public static final EntityType<dev.celestial.entity.LightEater> LIGHT_EATER = register("light_eater",
+		EntityType.Builder.of(dev.celestial.entity.LightEater::new, MobCategory.MONSTER).sized(0.8F, 0.6F).eyeHeight(0.3F).clientTrackingRange(8));
+	public static final EntityType<dev.celestial.entity.DeepWorm> DEEP_WORM = register("deep_worm",
+		EntityType.Builder.of(dev.celestial.entity.DeepWorm::new, MobCategory.MONSTER).sized(1.6F, 3.2F).eyeHeight(2.8F).clientTrackingRange(12));
+
 	// Снаряды (без яиц призыва)
 	public static final EntityType<StarArrow> STAR_ARROW = registerNoEgg("star_arrow",
 		EntityType.Builder.<StarArrow>of(StarArrow::new, MobCategory.MISC).noLootTable().sized(0.5F, 0.5F).eyeHeight(0.13F).clientTrackingRange(4).updateInterval(20));
@@ -114,6 +122,13 @@ public final class ModEntities {
 		FabricDefaultAttributeRegistry.register(MIMIC, Mimic.createAttributes());
 		FabricDefaultAttributeRegistry.register(STORM_ELEMENTAL, StormElemental.createAttributes());
 		FabricDefaultAttributeRegistry.register(SHADOW, dev.celestial.fading.Shadow.createAttributes());
+		FabricDefaultAttributeRegistry.register(BLIND_HUNTER, dev.celestial.entity.BlindHunter.createAttributes());
+		FabricDefaultAttributeRegistry.register(LIGHT_EATER, dev.celestial.entity.LightEater.createAttributes());
+		FabricDefaultAttributeRegistry.register(DEEP_WORM, dev.celestial.entity.DeepWorm.createAttributes());
+		SpawnPlacements.register(BLIND_HUNTER, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+		SpawnPlacements.register(LIGHT_EATER, SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING,
+			(type, level, reason, pos, random) -> level.getBlockState(pos).isAir());
+		SpawnPlacements.register(DEEP_WORM, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
 		SpawnPlacements.register(CHERUB, SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING,
 			(type, level, reason, pos, random) -> level.getBlockState(pos).isAir());
 		SpawnPlacements.register(GOLDEN_RAM, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,

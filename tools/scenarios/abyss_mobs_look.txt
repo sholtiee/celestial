@@ -1,0 +1,26 @@
+# Существа Бездны: внешний вид и светящиеся слои
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/execute in celestial:abyss run fill 460 79 270 480 79 290 celestial:abyss_bricks
+/execute in celestial:abyss run fill 460 80 270 480 88 290 minecraft:air
+/execute in celestial:abyss run tp @s 470 80 272 0 10
+wait 60
+/kill @e[type=!minecraft:player,distance=..40]
+/summon celestial:blind_hunter 466 80 279 {NoAI:1b,Rotation:[180f,0f]}
+/summon celestial:light_eater 470 81.5 278 {NoAI:1b,Rotation:[150f,0f]}
+/summon celestial:deep_worm 474 80 281 {NoAI:1b,WormPhase:2,Rotation:[200f,0f]}
+/execute in celestial:abyss run setblock 470 84 276 minecraft:glowstone
+/execute in celestial:abyss run setblock 466 84 281 minecraft:glowstone
+/execute in celestial:abyss run setblock 474 84 284 minecraft:glowstone
+wait 40
+togglehud
+shot abyss_mobs_lit
+/execute in celestial:abyss run fill 460 84 270 480 84 290 minecraft:air
+wait 20
+shot abyss_mobs_dark
+/tp @s 470 81 276 0 15
+wait 10
+shot abyss_mobs_close
+togglehud
+quit

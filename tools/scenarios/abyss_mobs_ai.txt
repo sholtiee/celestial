@@ -1,0 +1,40 @@
+# Поведение существ Бездны: охотник слышит шаги, светоед ест факелы, червь выныривает
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/execute in celestial:abyss run fill 440 79 250 500 79 310 celestial:abyss_bricks
+/execute in celestial:abyss run fill 440 80 250 500 90 310 minecraft:air
+/execute in celestial:abyss run tp @s 470 80 270 0 0
+wait 60
+/kill @e[type=!minecraft:player,distance=..60]
+/gamemode survival
+/effect give @s minecraft:resistance 900 4 true
+/effect give @s minecraft:night_vision 900 0 true
+/summon celestial:blind_hunter 470 80 283
+wait 5
+hold sneak 160
+wait 150
+/execute as @e[type=celestial:blind_hunter] at @s unless entity @p[distance=..5] run say НЕ_УСЛЫШАЛ_КРАДУЩЕГОСЯ
+wait 20
+hold forward 25
+wait 100
+/execute as @e[type=celestial:blind_hunter] at @s if entity @p[distance=..7] run say УСЛЫШАЛ_ШАГИ
+/kill @e[type=celestial:blind_hunter]
+# светоед
+/execute in celestial:abyss run setblock 480 80 290 minecraft:torch
+/summon celestial:light_eater 474 83 286
+wait 260
+/execute in celestial:abyss unless block 480 80 290 minecraft:torch run say ФАКЕЛ_СЪЕДЕН
+/kill @e[type=celestial:light_eater]
+# червь
+/execute in celestial:abyss run tp @s 470 80 270
+/summon celestial:deep_worm 470 74 262
+wait 100
+/data get entity @e[type=celestial:deep_worm,limit=1] WormPhase
+wait 60
+/data get entity @e[type=celestial:deep_worm,limit=1] WormPhase
+shot worm_attack
+wait 40
+/data get entity @e[type=celestial:deep_worm,limit=1] WormPhase
+/data get entity @s Health
+quit

@@ -52,6 +52,7 @@ public final class ModItems {
 	public static final Item STARLIGHT_FLASK = register("starlight_flask", dev.celestial.starlight.StarlightFlaskItem::new,
 		new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(16).usingConvertsTo(net.minecraft.world.item.Items.GLASS_BOTTLE)
 			.component(net.minecraft.core.component.DataComponents.CONSUMABLE, net.minecraft.world.item.component.Consumables.defaultDrink().build()));
+	public static final Item WORM_CHITIN = register("worm_chitin", Item::new, new Item.Properties().rarity(Rarity.UNCOMMON));
 	public static final Item STARSTEEL_INGOT = register("starsteel_ingot", Item::new, new Item.Properties());
 	public static final Item CHARGED_CRYSTAL = register("charged_crystal", Item::new, new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(16));
 	public static final Item SKY_JELLY = register("sky_jelly", Item::new, new Item.Properties().food(

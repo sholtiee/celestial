@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "celestial:shadow"
+    "celestial:shadow",
+    "celestial:blind_hunter",
+    "celestial:light_eater"
   ]
 }

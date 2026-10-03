@@ -19,13 +19,22 @@
         "spawns_by_category": {
           "monster": [
             {
+              "type": "celestial:light_eater",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 3
+              },
+              "weight": 100
+            },
+            {
               "type": "celestial:shadow",
               "count": {
                 "type": "minecraft:uniform",
                 "min_inclusive": 1,
                 "max_inclusive": 2
               },
-              "weight": 100
+              "weight": 40
             }
           ]
         }
