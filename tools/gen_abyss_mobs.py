@@ -181,8 +181,31 @@ MOBS = {
 }
 
 
+def fallen_guardian_extras():
+    """Доп. детали Падшего стража (GuardianRenderer.Model) поверх базовой развёртки: плащ, наплечники, гребень, нимб."""
+    img = M.fallen_guardian()
+    glow = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
+    r = rng_for('guardian_extras')
+    cape = [hexrgb(h) for h in ('#3a2a55', '#43305f', '#2e2145')]
+    metal = [hexrgb(h) for h in ('#5b6070', '#6c7284', '#4a4f5e')]
+    gold = hexrgb('#b08a3c')
+    M.paint_box(img, 0, 32, 10, 14, 1, lambda f, x, y, fw, fh: gold if y == fh - 1 or (f == 'front' and y == 0) else r.choice(cape))
+    M.paint_box(img, 24, 32, 5, 3, 5, lambda f, x, y, fw, fh: gold if y == fh - 1 and f != 'top' else r.choice(metal))
+    M.paint_box(img, 44, 32, 1, 4, 7, lambda f, x, y, fw, fh: hexrgb('#8a2f3a') if f in ('left', 'right') else gold)
+    for v, (w, d) in ((48, (10, 1)), (50, (7, 1)), (52, (1, 8))):
+        M.paint_box(img, 0, v, w, 1, d, lambda f, x, y, fw, fh: hexrgb('#d8c070'))
+        M.paint_box(glow, 0, v, w, 1, d, lambda f, x, y, fw, fh: (255, 230, 150, 255) if (x + y) % 2 == 0 else None)
+    # светятся только глаза в прорези капюшона (лицевая грань головы: x 8..15, y 8..15 развёртки)
+    for x in (10, 13):
+        glow.putpixel((x, 12), (95, 245, 255, 255))
+    return img, glow
+
+
 def main():
     names = {}
+    tex, glow = fallen_guardian_extras()
+    save_png(tex, 'entity/fallen_guardian')
+    save_png(glow, 'entity/fallen_guardian_glow')
     for name, (fn, ru, en, base, spots, dru, den) in MOBS.items():
         tex, glow = fn()
         save_png(tex, 'entity/' + name)

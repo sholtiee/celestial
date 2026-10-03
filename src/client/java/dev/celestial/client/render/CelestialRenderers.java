@@ -53,7 +53,8 @@ public final class CelestialRenderers {
 			dev.celestial.registry.ModBlockEntities.BEAM_SOURCE, ctx -> new BeamRenderer());
 		net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry.register(
 			riftType(), ctx -> new net.minecraft.client.renderer.blockentity.TheEndPortalRenderer());
-		EntityRendererRegistry.register(ModEntities.FALLEN_GUARDIAN, ctx -> new Humanoid<>(ctx, tex("fallen_guardian"), 1.0F));
+		GuardianRenderer.register();
+		EntityRendererRegistry.register(ModEntities.FALLEN_GUARDIAN, GuardianRenderer::new);
 		EntityRendererRegistry.register(ModEntities.ANGEL, AngelRenderer::new);
 		EntityRendererRegistry.register(ModEntities.STORM_SPIRIT, StormSpiritRenderer::new);
 		EntityRendererRegistry.register(ModEntities.FALLEN_SERAPH, SeraphRenderer::new);

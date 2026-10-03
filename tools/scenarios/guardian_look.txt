@@ -1,0 +1,19 @@
+# Падший страж: своя модель (гребень, наплечники, плащ, надломленный нимб) и светящиеся глаза
+/gamemode creative
+/effect clear @s
+/execute in celestial:heaven run tp @s 0 160 -40 0 10
+fly
+wait 60
+/time set 6000
+/execute at @s run fill ~-4 ~-1 ~1 ~4 ~-1 ~8 celestial:skystone_bricks
+/kill @e[type=celestial:fallen_guardian]
+/execute at @s run summon celestial:fallen_guardian ~-1 ~ ~4 {NoAI:1b,Rotation:[200f,0f]}
+/execute at @s run summon celestial:fallen_guardian ~2 ~ ~5 {NoAI:1b,Rotation:[120f,0f]}
+wait 20
+togglehud
+shot guardian_day
+/time set 18000
+wait 10
+shot guardian_night
+togglehud
+quit

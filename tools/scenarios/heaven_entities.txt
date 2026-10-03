@@ -1,0 +1,4 @@
+/execute in celestial:heaven run tp @s 0 160 -40 0 10
+wait 80
+/execute as @e[distance=..80,type=!minecraft:player] run say @s
+quit
