@@ -24,8 +24,11 @@ public class CodexScreen extends Screen {
 	private static final String[] PLACES = {"sky_village", "sky_ruins", "trial_tower", "beam_temple", "cloud_castle", "sky_lighthouse",
 		"airship_wreck", "citadel", "meteor_crater", "observatory", "flame_sanctuary", "void_rift", "abyss_rift", "abyss", "sunken_temple", "devourer_lair"};
 	private static final int W = 340, H = 210;
+	private static final net.minecraft.resources.Identifier BACKGROUND = dev.celestial.Celestial.id("textures/gui/codex.png");
 	private static Tab tab = Tab.SAGA;
 	private final List<Component> lines = new ArrayList<>();
+	private int scroll;
+	private int maxScroll;
 
 	public CodexScreen() {
 		super(Component.translatable("codex.celestial.title"));
@@ -54,6 +57,7 @@ public class CodexScreen extends Screen {
 			Component label = Component.translatable("codex.celestial.tab." + t.name().toLowerCase());
 			Button b = Button.builder(t == tab ? label.copy().withStyle(ChatFormatting.GOLD) : label, btn -> {
 				tab = t;
+				scroll = 0;
 				init();
 			}).bounds(x, top() + 6, 64, 18).build();
 			addRenderableWidget(b);
@@ -98,6 +102,11 @@ public class CodexScreen extends Screen {
 	private void buildGrace(PlayerData d) {
 		lines.add(Component.translatable("codex.celestial.grace.points", d.grace()).withStyle(ChatFormatting.GOLD));
 		int colW = (W - 12) / 3;
+		int longest = 0;
+		for (Skill.Branch b : Skill.Branch.values()) {
+			longest = Math.max(longest, Skill.branch(b).size());
+		}
+		int rowH = Math.min(21, (H - 60) / longest);
 		for (Skill.Branch branch : Skill.Branch.values()) {
 			int bx = left() + 6 + branch.ordinal() * colW;
 			int row = 0;
@@ -113,7 +122,7 @@ public class CodexScreen extends Screen {
 				Button b = Button.builder(label, btn -> {
 					ClientPlayNetworking.send(new GracePayloads.LearnSkill(s.id));
 					onClose();
-				}).bounds(bx + indent, top() + 54 + row * 21, colW - 4 - indent, 19).build();
+				}).bounds(bx + indent, top() + 54 + row * rowH, colW - 4 - indent, rowH - 2).build();
 				var tip = Component.translatable("skill.celestial." + s.id + ".desc").copy()
 					.append(Component.literal("\n")).append(Component.translatable("codex.celestial.grace.cost", s.cost).withStyle(ChatFormatting.GOLD));
 				if (s.requires != null) {
@@ -134,9 +143,7 @@ public class CodexScreen extends Screen {
 
 	@Override
 	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
-		graphics.fill(left(), top(), left() + W, top() + H, 0xE0141A30);
-		graphics.fill(left(), top(), left() + W, top() + 1, 0xFFC9A23A);
-		graphics.fill(left(), top() + H - 1, left() + W, top() + H, 0xFFC9A23A);
+		graphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, BACKGROUND, left(), top(), 0.0F, 0.0F, W, H, 512, 256);
 		super.extractRenderState(graphics, mouseX, mouseY, a);
 		int y = top() + 32;
 		if (tab == Tab.GRACE) {
@@ -145,15 +152,31 @@ public class CodexScreen extends Screen {
 					left() + 8 + b.ordinal() * ((W - 12) / 3), top() + 43, 0xFFFFFFFF);
 			}
 		}
+		// длинные вкладки (бестиарий, справочник) прокручиваются колесом мыши
+		List<FormattedCharSequence> rows = new ArrayList<>();
 		for (Component line : lines) {
-			for (FormattedCharSequence part : font.split(line, W - 16)) {
-				if (y > top() + H - 12) {
-					return;
-				}
-				graphics.text(font, part, left() + 8, y, 0xFFFFFFFF);
-				y += 10;
-			}
+			rows.addAll(font.split(line, W - 16));
 		}
+		int visible = (top() + H - 12 - y) / 10;
+		maxScroll = Math.max(0, rows.size() - visible);
+		scroll = Math.min(scroll, maxScroll);
+		for (int i = scroll; i < rows.size() && i < scroll + visible; i++) {
+			graphics.text(font, rows.get(i), left() + 8, y, 0xFFFFFFFF);
+			y += 10;
+		}
+		if (maxScroll > 0) {  // полоса прокрутки у правого края
+			int trackTop = top() + 32, trackH = H - 44;
+			int thumbH = Math.max(12, trackH * visible / rows.size());
+			int thumbY = trackTop + (trackH - thumbH) * scroll / maxScroll;
+			graphics.fill(left() + W - 7, trackTop, left() + W - 5, trackTop + trackH, 0x60C9A23A);
+			graphics.fill(left() + W - 7, thumbY, left() + W - 5, thumbY + thumbH, 0xFFC9A23A);
+		}
+	}
+
+	@Override
+	public boolean mouseScrolled(double x, double y, double scrollX, double scrollY) {
+		scroll = Math.max(0, Math.min(maxScroll, scroll - (int) Math.signum(scrollY) * 2));
+		return true;
 	}
 
 	@Override
