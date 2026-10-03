@@ -166,9 +166,9 @@ def features():
 def biomes():
     MC = 'minecraft:'
     steps = {
-        'glacier': {6: [c('ore_frost')], 9: [MC + 'spruce_on_snow', c('aurora_crystals_rare')], 10: [MC + 'freeze_top_layer']},
+        'glacier': {6: [c('ore_frost')], 9: [MC + 'spruce_on_snow', c('aurora_crystals_rare'), c('frozen_angel')], 10: [MC + 'freeze_top_layer']},
         'ice_spires': {4: [MC + 'ice_spike'], 6: [c('ore_frost')], 9: [c('aurora_crystals_rare')], 10: [MC + 'freeze_top_layer']},
-        'aurora_fields': {6: [c('ore_frost')], 9: [c('aurora_crystals')], 10: [MC + 'freeze_top_layer']},
+        'aurora_fields': {6: [c('ore_frost')], 9: [c('aurora_crystals'), c('frozen_angel')], 10: [MC + 'freeze_top_layer']},
         'frozen_sea': {2: [MC + 'iceberg_packed', MC + 'iceberg_blue'], 6: [c('ore_frost')], 7: [MC + 'blue_ice'], 10: [MC + 'freeze_top_layer']},
     }
     colors = {'glacier': ('#3a5a7a', '#a8c4d8'), 'ice_spires': ('#2f4d6e', '#9cbad6'), 'aurora_fields': ('#2a3f66', '#8fd8c0'),
@@ -185,6 +185,47 @@ def biomes():
             'carvers': [], 'downfall': 0.6,
             'effects': {'grass_color': '#80b4a0', 'foliage_color': '#6a9a8a', 'water_color': '#3d6a8a'},
             'features': feats, 'has_precipitation': True, 'temperature': -0.7})
+
+
+def frozen_angel():
+    """Вмёрзший ангел: прозрачная глыба льда (наружный куб) с фигурой ангела внутри (крест-плоскости)."""
+    from PIL import Image
+    ice = Image.new('RGBA', (16, 16))
+    r = T.rng_for('frozen_angel_ice')
+    for y in range(16):
+        for x in range(16):
+            edge = x in (0, 15) or y in (0, 15)
+            base = T.hexrgb('#cfeaff' if edge else '#9fd0f0')
+            ice.putpixel((x, y), (*T.shade(base, 0.92 + r.random() * 0.12), 230 if edge else 120))
+    save_png(ice, 'block/frozen_angel_ice')
+    figure = Image.new('RGBA', (16, 16), (0, 0, 0, 0))
+    rows = ['......yyyy......', '.....y....y.....', '......ssss......', '......sees......', '......ssss......',
+            'ww...rrrrrr...ww', 'www.rrrrrrrr.www', '.wwwrrggggrrwww.', '..wwrrrrrrrrww..', '...wrrrrrrrrw...',
+            '....rrrrrrrr....', '....rrrrrrrr....', '.....rrrrrr.....', '.....rr..rr.....', '.....rr..rr.....', '.....gg..gg.....']
+    pal = {'y': '#ffe08a', 's': '#f1d6c0', 'e': '#3a4a66', 'w': '#ffffff', 'r': '#f4f1e8', 'g': '#e3b54a'}
+    for y, row in enumerate(rows):
+        for x, ch in enumerate(row):
+            if ch in pal:
+                figure.putpixel((x, y), (*T.hexrgb(pal[ch]), 255))
+    save_png(figure, 'block/frozen_angel_figure')
+    els = [{'from': [0, 0, 8], 'to': [16, 16, 8], 'shade': False, 'rotation': {'origin': [8, 8, 8], 'axis': 'y', 'angle': rot, 'rescale': True},
+            'faces': {'north': {'texture': '#figure'}, 'south': {'texture': '#figure'}}} for rot in (45, -45)]
+    els.append({'from': [0, 0, 0], 'to': [16, 16, 16], 'faces': {d: {'texture': '#ice'} for d in ('north', 'south', 'east', 'west', 'up', 'down')}})
+    model('block/frozen_angel', {'textures': {'ice': c('block/frozen_angel_ice'), 'figure': c('block/frozen_angel_figure'),
+                                              'particle': c('block/frozen_angel_ice')}, 'elements': els})
+    blockstate('frozen_angel', {'variants': {'': {'model': c('block/frozen_angel')}}})
+    item_def('frozen_angel', c('block/frozen_angel'))
+    # глыба не выпадает: ангел выходит наружу
+    write_json(os.path.join(DATA, 'loot_table/blocks/frozen_angel.json'), {'type': 'minecraft:block', 'pools': []})
+    append_tag('block', 'minecraft:mineable/pickaxe', [c('frozen_angel')])
+    feature_obj = {'type': 'minecraft:simple_block', 'to_place': {'id': c('frozen_angel')}}
+    write_json(os.path.join(WG, 'feature/frozen_angel.json'), feature_obj)
+    write_json(os.path.join(WG, 'placed_feature/frozen_angel.json'), {'feature': c('frozen_angel'), 'placement': [
+        {'type': 'minecraft:rarity_filter', 'chance': 6}, {'type': 'minecraft:in_square'},
+        {'type': 'minecraft:heightmap', 'heightmap': 'MOTION_BLOCKING'}, {'type': 'minecraft:biome'},
+        {'type': 'minecraft:block_predicate_filter', 'predicate': {'type': 'minecraft:all_of', 'predicates': [
+            {'type': 'minecraft:matching_block_tag', 'tag': 'minecraft:air'},
+            {'type': 'minecraft:has_sturdy_face', 'direction': 'up', 'offset': [0, -1, 0]}]}}]})
 
 
 def portal():
@@ -218,6 +259,7 @@ def portal():
 def main():
     blocks()
     portal()
+    frozen_angel()
     dimension()
     noises()
     surface()
@@ -234,6 +276,12 @@ def main():
         'biome.celestial.frozen_sea': ('Замёрзшее море', 'Frozen Sea'),
         'block.celestial.frozen_portal': ('Ледяные врата', 'Frozen Gate'),
         'hud.celestial.warmth': ('Тепло', 'Warmth'),
+        'block.celestial.frozen_angel': ('Вмёрзший ангел', 'Frozen Angel'),
+        'block.celestial.frozen_angel.lore1': ('Разбей лёд — ангел оттает и отблагодарит.', 'Break the ice: the angel will thaw and repay you.'),
+        'frozen.celestial.angel_freed': ('§bЛёд трескается, и ангел делает первый вдох за века. «Спасибо, Странник…» §6Благодать +1',
+                                         '§bThe ice cracks and the angel takes its first breath in ages. "Thank you, Wanderer..." §6Grace +1'),
+        'codex.celestial.place.frozen_angels': ('ангелы, вмёрзшие в лёд при бегстве от Безликого. Разбей глыбу — освободишь.',
+                                                'angels frozen in ice while fleeing the Faceless. Break the block to free one.'),
         'frozen.celestial.cold_rising': ('§bХолод пробирает до костей… Найди огонь!', '§bThe cold bites to the bone... Find a fire!'),
         'story.celestial.frozen_portal_lit': ('§bЯдро вспыхивает холодом. Рамка затягивается льдом — Ледяные врата открыты!',
                                               '§bThe Core flares with cold. The frame frosts over: the Frozen Gate is open!'),

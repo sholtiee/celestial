@@ -1,0 +1,28 @@
+# Вмёрзший ангел: вид и освобождение
+/gamemode creative
+/effect clear @s
+/execute in celestial:frozen_halls run fill 10 119 10 20 119 20 celestial:frost_stone_bricks
+/execute in celestial:frozen_halls run fill 10 120 10 20 124 20 minecraft:air
+/execute in celestial:frozen_halls run tp @s 15 120 13 0 15
+wait 60
+/time set 6000
+/kill @e[type=celestial:angel,distance=..20]
+/execute in celestial:frozen_halls run setblock 15 120 15 celestial:frozen_angel
+/execute in celestial:frozen_halls run setblock 17 120 16 celestial:frozen_angel
+wait 10
+togglehud
+shot frozen_angel_look
+togglehud
+/gamemode survival
+/effect give @s minecraft:resistance 300 4 true
+/effect give @s minecraft:haste 300 5 true
+/item replace entity @s weapon.mainhand with minecraft:diamond_pickaxe
+/tp @s 15 120 13 0 35
+wait 5
+hold attack 60
+wait 70
+/execute if entity @e[type=celestial:angel,distance=..6] run say АНГЕЛ_СВОБОДЕН
+togglehud
+shot frozen_angel_freed
+togglehud
+quit

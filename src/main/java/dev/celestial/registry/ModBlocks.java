@@ -243,6 +243,8 @@ public final class ModBlocks {
 			.strength(1.5F).lightLevel(s -> 11).pushReaction(PushReaction.POPPED));
 	public static final Block FROST_ORE = register("frost_ore", p -> new DropExperienceBlock(UniformInt.of(3, 6), p),
 		Properties.ofFullCopy(FROST_STONE).strength(4.0F, 6.0F).sound(SoundType.DEEPSLATE));
+	public static final Block FROZEN_ANGEL = register("frozen_angel", dev.celestial.world.frozen.FrozenAngelBlock::new,
+		Properties.of().mapColor(MapColor.ICE).strength(2.5F).noOcclusion().sound(SoundType.GLASS).lightLevel(s -> 6).friction(0.98F), 1);
 	public static final Block FROZEN_PORTAL = registerNoItem("frozen_portal",
 		p -> new dev.celestial.world.portal.CelestialPortalBlock(() -> dev.celestial.world.portal.PortalTypes.FROZEN, p),
 		Properties.of().noCollision().strength(-1.0F).sound(SoundType.GLASS).lightLevel(s -> 11).pushReaction(PushReaction.IMMOVEABLE).noLootTable());
