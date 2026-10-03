@@ -98,13 +98,16 @@ def noises():
 
     for name in ('temperature', 'humidity'):
         write_json(os.path.join(WG, f'density_function/frozen/{name}.json'), noise(name, -8, 2))
-    land = add(add(grad(30, 110, 1.0, -1.0), mul(noise('continent', -7, 3), 0.9)), mul(noise('rough', -4, 2), 0.12))
+    land = add(add(add(grad(30, 110, 1.0, -1.0), mul(noise('continent', -7, 3), 0.9)), mul(noise('rough', -4, 2), 0.12)), -0.22)
+    # ледниковые щиты: плоские плато с отвесными стенами (двумерная маска → вертикальные края)
+    glacier = {'type': 'minecraft:range_choice', 'input': noise('glacier', -6, 2), 'min_inclusive': 0.22, 'max_exclusive': 10.0,
+               'when_in_range': grad(78, 96, 2.0, -2.0), 'when_out_of_range': -1.0}
     # трещины ледников: где шум близок к нулю — узкий глубокий разрез
     crevasse = mul({'type': 'minecraft:max', 'left': add(0.045, mul({'type': 'minecraft:abs', 'input': noise('crevasse', -5, 2)}, -1.0)),
                     'right': 0.0}, -45.0)
     spires = add(mul({'type': 'minecraft:max', 'left': add(noise('spires', -3, 2, [1.0, 0.4]), -0.36), 'right': 0.0}, 6.0),
                  grad(64, 150, 0.0, -5.0))
-    terrain = {'type': 'minecraft:max', 'left': add(land, crevasse), 'right': spires}
+    terrain = {'type': 'minecraft:max', 'left': add({'type': 'minecraft:max', 'left': land, 'right': glacier}, crevasse), 'right': spires}
     final = add({'type': 'minecraft:interpolated', 'cell_size_xz': 4, 'cell_size_y': 4, 'input': terrain}, {'type': 'minecraft:beardifier'})
     write_json(os.path.join(WG, 'density_function/frozen/final_density.json'), final)
 
@@ -122,6 +125,8 @@ def surface():
                                                                                          'if_true': 'minecraft:on_floor', 'then_run': block('minecraft:gravel')}},
         {'type': 'minecraft:condition', 'if_true': biome_is('ice_spires'), 'then_run': {'type': 'minecraft:condition',
                                                                                          'if_true': 'minecraft:on_floor', 'then_run': block('minecraft:packed_ice')}},
+        # отвесные стены ледников и шпилей — синий и плотный лёд, а не камень
+        {'type': 'minecraft:condition', 'if_true': {'type': 'minecraft:steep'}, 'then_run': block('minecraft:blue_ice')},
         {'type': 'minecraft:condition', 'if_true': 'minecraft:on_floor', 'then_run': block('minecraft:snow_block')},
         {'type': 'minecraft:condition', 'if_true': 'minecraft:under_floor', 'then_run': block('minecraft:packed_ice')},
     ]})

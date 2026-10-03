@@ -9,37 +9,64 @@
       "left": {
         "type": "minecraft:add",
         "left": {
-          "type": "minecraft:add",
+          "type": "minecraft:max",
           "left": {
             "type": "minecraft:add",
             "left": {
-              "type": "minecraft:gradient",
-              "axis": "y",
-              "from_coordinate": 30,
-              "from_value": 1.0,
-              "to_coordinate": 110,
-              "to_value": -1.0
-            },
-            "right": {
-              "type": "minecraft:mul",
+              "type": "minecraft:add",
               "left": {
-                "type": "minecraft:noise",
-                "noise": "celestial:frozen_continent",
-                "xz_scale": 1.0,
-                "y_scale": 0.0
+                "type": "minecraft:add",
+                "left": {
+                  "type": "minecraft:gradient",
+                  "axis": "y",
+                  "from_coordinate": 30,
+                  "from_value": 1.0,
+                  "to_coordinate": 110,
+                  "to_value": -1.0
+                },
+                "right": {
+                  "type": "minecraft:mul",
+                  "left": {
+                    "type": "minecraft:noise",
+                    "noise": "celestial:frozen_continent",
+                    "xz_scale": 1.0,
+                    "y_scale": 0.0
+                  },
+                  "right": 0.9
+                }
               },
-              "right": 0.9
-            }
+              "right": {
+                "type": "minecraft:mul",
+                "left": {
+                  "type": "minecraft:noise",
+                  "noise": "celestial:frozen_rough",
+                  "xz_scale": 1.0,
+                  "y_scale": 0.0
+                },
+                "right": 0.12
+              }
+            },
+            "right": -0.22
           },
           "right": {
-            "type": "minecraft:mul",
-            "left": {
+            "type": "minecraft:range_choice",
+            "input": {
               "type": "minecraft:noise",
-              "noise": "celestial:frozen_rough",
+              "noise": "celestial:frozen_glacier",
               "xz_scale": 1.0,
               "y_scale": 0.0
             },
-            "right": 0.12
+            "min_inclusive": 0.22,
+            "max_exclusive": 10.0,
+            "when_in_range": {
+              "type": "minecraft:gradient",
+              "axis": "y",
+              "from_coordinate": 78,
+              "from_value": 2.0,
+              "to_coordinate": 96,
+              "to_value": -2.0
+            },
+            "when_out_of_range": -1.0
           }
         },
         "right": {
