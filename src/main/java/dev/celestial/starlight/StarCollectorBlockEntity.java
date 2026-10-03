@@ -50,7 +50,7 @@ public class StarCollectorBlockEntity extends BlockEntity {
 		}
 		charge = Math.min(MAX, charge + gain);
 		if (level.getRandom().nextInt(3) == 0) {
-			level.sendParticles(ParticleTypes.END_ROD, worldPosition.getX() + 0.5, worldPosition.getY() + 6 + level.getRandom().nextInt(4),
+			level.sendParticles(dev.celestial.registry.ModParticles.STARLIGHT, worldPosition.getX() + 0.5, worldPosition.getY() + 6 + level.getRandom().nextInt(4),
 				worldPosition.getZ() + 0.5, 1, 0.2, 0, 0.2, 0.0);
 		}
 		sync();

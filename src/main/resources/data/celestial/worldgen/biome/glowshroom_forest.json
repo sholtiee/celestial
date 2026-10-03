@@ -6,9 +6,9 @@
       "argument": [
         {
           "particle": {
-            "type": "minecraft:glow"
+            "type": "celestial:spore"
           },
-          "probability": 0.004
+          "probability": 0.012
         }
       ],
       "modifier": "append"

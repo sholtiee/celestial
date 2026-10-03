@@ -102,7 +102,7 @@ public class AbyssRiftBlock extends BaseEntityBlock implements Portal {
 	@Override
 	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
 		if (random.nextInt(3) == 0) {
-			level.addParticle(ParticleTypes.REVERSE_PORTAL, pos.getX() + random.nextDouble(), pos.getY() + 0.8, pos.getZ() + random.nextDouble(),
+			level.addParticle(dev.celestial.registry.ModParticles.RIFT, pos.getX() + random.nextDouble(), pos.getY() + 0.8, pos.getZ() + random.nextDouble(),
 				0, -0.05, 0);
 		}
 		level.addParticle(ParticleTypes.SMOKE, pos.getX() + random.nextDouble(), pos.getY() + 0.8, pos.getZ() + random.nextDouble(), 0, 0, 0);

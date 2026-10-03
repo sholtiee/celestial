@@ -30,7 +30,7 @@ public class DevourerSealBlockEntity extends BlockEntity {
 			p -> !p.isSpectator() && !((Player) p).isCreative());
 		if (player == null) {
 			if (level.getRandom().nextInt(2) == 0) {
-				server.sendParticles(ParticleTypes.SQUID_INK, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5, 4, 0.3, 0.3, 0.3, 0.01);
+				server.sendParticles(dev.celestial.registry.ModParticles.SHADOW, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5, 4, 0.3, 0.3, 0.3, 0.01);
 			}
 			return;
 		}
@@ -46,7 +46,7 @@ public class DevourerSealBlockEntity extends BlockEntity {
 		boss.snapTo(pos.getX() + 0.5, pos.getY() + 9, pos.getZ() + 0.5, 0, 0);
 		boss.setHome(pos);
 		level.addFreshEntity(boss);
-		level.sendParticles(ParticleTypes.SQUID_INK, pos.getX() + 0.5, pos.getY() + 6, pos.getZ() + 0.5, 300, 3, 3, 3, 0.1);
+		level.sendParticles(dev.celestial.registry.ModParticles.SHADOW, pos.getX() + 0.5, pos.getY() + 6, pos.getZ() + 0.5, 300, 3, 3, 3, 0.1);
 		level.playSound(null, pos, dev.celestial.registry.ModSounds.DEVOURER_ROAR, SoundSource.HOSTILE, 4.0F, 1.0F);
 		for (ServerPlayer p : level.getPlayers(p -> p.distanceToSqr(net.minecraft.world.phys.Vec3.atCenterOf(pos)) < 64 * 64)) {
 			p.sendSystemMessage(Component.translatable("boss.celestial.light_devourer.awaken"));

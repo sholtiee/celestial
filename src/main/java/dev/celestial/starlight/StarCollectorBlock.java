@@ -107,7 +107,7 @@ public class StarCollectorBlock extends BaseEntityBlock {
 	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
 		int charge = state.getValue(CHARGE);
 		if (charge > 0 && random.nextInt(5 - charge) == 0) {
-			level.addParticle(ParticleTypes.END_ROD, pos.getX() + 0.5 + (random.nextDouble() - 0.5) * 0.6, pos.getY() + 0.95,
+			level.addParticle(dev.celestial.registry.ModParticles.STARLIGHT, pos.getX() + 0.5 + (random.nextDouble() - 0.5) * 0.6, pos.getY() + 0.95,
 				pos.getZ() + 0.5 + (random.nextDouble() - 0.5) * 0.6, 0, 0.02, 0);
 		}
 	}

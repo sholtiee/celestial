@@ -62,7 +62,7 @@ public class Shadow extends Monster {
 		super.aiStep();
 		if (level().isClientSide()) {
 			if (random.nextInt(3) == 0) {
-				level().addParticle(ParticleTypes.SMOKE, getRandomX(0.6), getRandomY(), getRandomZ(0.6), 0, 0.02, 0);
+				level().addParticle(dev.celestial.registry.ModParticles.SHADOW, getRandomX(0.6), getRandomY(), getRandomZ(0.6), 0, 0.02, 0);
 			}
 			return;
 		}
@@ -80,9 +80,9 @@ public class Shadow extends Monster {
 		Vec3 back = target.getLookAngle().multiply(1, 0, 1).normalize().scale(-2.5);
 		Vec3 to = target.position().add(back);
 		ServerLevel level = (ServerLevel) level();
-		level.sendParticles(ParticleTypes.LARGE_SMOKE, getX(), getY(1), getZ(), 25, 0.3, 0.6, 0.3, 0.02);
+		level.sendParticles(dev.celestial.registry.ModParticles.SHADOW, getX(), getY(1), getZ(), 25, 0.3, 0.6, 0.3, 0.02);
 		if (randomTeleport(to.x, to.y, to.z, false, state -> false)) {
-			level.sendParticles(ParticleTypes.LARGE_SMOKE, getX(), getY(1), getZ(), 25, 0.3, 0.6, 0.3, 0.02);
+			level.sendParticles(dev.celestial.registry.ModParticles.SHADOW, getX(), getY(1), getZ(), 25, 0.3, 0.6, 0.3, 0.02);
 			playSound(dev.celestial.registry.ModSounds.SHADOW_BLINK, 0.8F, 1.0F);
 		}
 		blinkCooldown = 120;

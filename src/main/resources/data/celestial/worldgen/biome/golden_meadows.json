@@ -14,9 +14,9 @@
       "argument": [
         {
           "particle": {
-            "type": "minecraft:end_rod"
+            "type": "celestial:feather"
           },
-          "probability": 0.0008
+          "probability": 0.0006
         }
       ],
       "modifier": "append"

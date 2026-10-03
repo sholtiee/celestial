@@ -436,7 +436,7 @@ def biomes():
         VEGETAL: ['sky_clouds', 'sky_golden_clouds', 'trees_golden_meadows', 'patch_manna', 'patch_flowers_meadow',
                   'patch_golden_grass', 'patch_tall_golden_grass', 'crystals_rare', *common]},
         creatures=[spawn('pegasus', 8, 2, 4), spawn('cloud_whale', 3, 1, 1), spawn('angel', 1, 1, 1), spawn('golden_ram', 6, 2, 4)],
-        monsters=MONSTERS, ambient=WISPS, particle='minecraft:end_rod', particle_chance=0.0008)
+        monsters=MONSTERS, ambient=WISPS, particle='celestial:feather', particle_chance=0.0006)
     biome('cloud_forest', '#a9d4ff', '#ffffff', '#e8d070', {
         UNDERGROUND_ORES: ORES, FLUID_SPRINGS: GROUND,
         VEGETAL: ['sky_clouds', 'sky_rain_clouds', 'trees_cloud_forest', 'trees_cloud_willow', 'patch_manna', 'patch_golden_grass',
@@ -474,7 +474,7 @@ def biomes():
         VEGETAL: ['sky_clouds', 'trees_starpine', 'patch_flowers_star', 'patch_golden_grass', 'crystals_rare', *common]},
         music='minecraft:music.overworld.grove',
         creatures=[spawn('cloud_whale', 2, 1, 1)], monsters=[spawn('winged_serpent', 30, 1, 2)], ambient=[spawn('light_wisp', 30, 2, 4)],
-        particle='minecraft:end_rod', particle_chance=0.003)
+        particle='celestial:starlight', particle_chance=0.003)
 
 
 def main():

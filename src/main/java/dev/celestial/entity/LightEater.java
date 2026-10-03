@@ -149,7 +149,7 @@ public class LightEater extends Mob implements Enemy {
 	public void aiStep() {
 		super.aiStep();
 		if (level().isClientSide() && random.nextInt(6 - Math.min(5, fullness())) == 0) {
-			level().addParticle(ParticleTypes.WAX_OFF, getRandomX(0.4), getRandomY(), getRandomZ(0.4), 0, -0.02, 0);
+			level().addParticle(dev.celestial.registry.ModParticles.STARLIGHT, getRandomX(0.4), getRandomY(), getRandomZ(0.4), 0, -0.02, 0);
 		}
 	}
 

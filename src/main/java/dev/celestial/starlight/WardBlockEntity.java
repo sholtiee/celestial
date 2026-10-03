@@ -41,7 +41,7 @@ public class WardBlockEntity extends BlockEntity {
 				setChanged();
 			}
 			if (level.getGameTime() % 10 == 0) {
-				level.sendParticles(ParticleTypes.END_ROD, worldPosition.getX() + 0.5, worldPosition.getY() + 1.6, worldPosition.getZ() + 0.5,
+				level.sendParticles(dev.celestial.registry.ModParticles.STARLIGHT, worldPosition.getX() + 0.5, worldPosition.getY() + 1.6, worldPosition.getZ() + 0.5,
 					2, 0.15, 0.3, 0.15, 0.02);
 			}
 			if (level.getGameTime() % 40 == 0) {  // граница защиты — кольцо искр

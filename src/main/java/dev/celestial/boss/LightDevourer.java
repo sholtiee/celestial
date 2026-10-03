@@ -234,7 +234,7 @@ public class LightDevourer extends Monster {
 		Vec3 over = Vec3.atCenterOf(brazierTarget).add(0, 2.5, 0);
 		steer(over, 0.35);
 		faceTowards(over);
-		level.sendParticles(ParticleTypes.SQUID_INK, getX(), getY(0.5), getZ(), 3, 1.5, 0.3, 1.5, 0.01);
+		level.sendParticles(dev.celestial.registry.ModParticles.SHADOW, getX(), getY(0.5), getZ(), 3, 1.5, 0.3, 1.5, 0.01);
 		if (position().distanceToSqr(over) < 6) {
 			BrazierBlock.extinguish(level, brazierTarget, level.getBlockState(brazierTarget));
 			playSound(ModSounds.DEVOURER_ROAR, 2.5F, 0.8F);
@@ -248,7 +248,7 @@ public class LightDevourer extends Monster {
 		Vec3 look = target.position().subtract(position()).normalize();
 		for (int i = 1; i <= 12; i++) {
 			Vec3 p = position().add(look.scale(i));
-			level.sendParticles(ParticleTypes.SQUID_INK, p.x, p.y + 1, p.z, 8, 0.4 + i * 0.12, 0.4, 0.4 + i * 0.12, 0.02);
+			level.sendParticles(dev.celestial.registry.ModParticles.SHADOW, p.x, p.y + 1, p.z, 8, 0.4 + i * 0.12, 0.4, 0.4 + i * 0.12, 0.02);
 		}
 		for (ServerPlayer p : bossEvent.getPlayers()) {
 			Vec3 to = p.position().subtract(position());
@@ -268,7 +268,7 @@ public class LightDevourer extends Monster {
 			for (int i = 0; i < 20; i++) {
 				double a = random.nextDouble() * Math.PI * 2;
 				double r = 4 + random.nextDouble() * 10;
-				level.sendParticles(ParticleTypes.REVERSE_PORTAL, getX() + Math.cos(a) * r, getY() - 2 + random.nextDouble() * 4,
+				level.sendParticles(dev.celestial.registry.ModParticles.RIFT, getX() + Math.cos(a) * r, getY() - 2 + random.nextDouble() * 4,
 					getZ() + Math.sin(a) * r, 1, 0, 0, 0, 0.0);
 			}
 		}
@@ -294,7 +294,7 @@ public class LightDevourer extends Monster {
 				BlockPos at = home.offset(random.nextInt(13) - 6, 2, random.nextInt(13) - 6);
 				mob.snapTo(at, random.nextFloat() * 360, 0);
 				level.addFreshEntity(mob);
-				level.sendParticles(ParticleTypes.SQUID_INK, at.getX() + 0.5, at.getY() + 0.5, at.getZ() + 0.5, 20, 0.3, 0.5, 0.3, 0.02);
+				level.sendParticles(dev.celestial.registry.ModParticles.SHADOW, at.getX() + 0.5, at.getY() + 0.5, at.getZ() + 0.5, 20, 0.3, 0.5, 0.3, 0.02);
 			}
 		}
 	}
@@ -317,7 +317,7 @@ public class LightDevourer extends Monster {
 	public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
 		if (!exposed() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
 			amount *= 0.08F;
-			level.sendParticles(ParticleTypes.SQUID_INK, getX(), getY(0.5), getZ(), 15, 1.2, 0.5, 1.2, 0.05);
+			level.sendParticles(dev.celestial.registry.ModParticles.SHADOW, getX(), getY(0.5), getZ(), 15, 1.2, 0.5, 1.2, 0.05);
 			if (absorbMessageCooldown == 0 && source.getEntity() instanceof ServerPlayer player) {
 				player.sendOverlayMessage(Component.translatable("boss.celestial.light_devourer.absorbs"));
 				absorbMessageCooldown = 60;

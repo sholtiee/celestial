@@ -6,9 +6,9 @@
       "argument": [
         {
           "particle": {
-            "type": "minecraft:ash"
+            "type": "celestial:shadow"
           },
-          "probability": 0.01
+          "probability": 0.004
         }
       ],
       "modifier": "append"

@@ -350,12 +350,12 @@ def biomes():
     eater = lambda w: spawn(c('light_eater'), w, 1, 3)  # noqa: E731
     worm = lambda w: spawn(c('deep_worm'), w, 1, 1)  # noqa: E731
     biome('glowshroom_forest', '#06100f', '#0d2a33', ['ore_abyssal_obsidian'],
-          ['glowshroom_giants', 'patch_glowshroom', 'shadow_crystals_few', 'abyss_cave_vines'], [eater(100), sh(40)], 'minecraft:glow', 0.004)
+          ['glowshroom_giants', 'patch_glowshroom', 'shadow_crystals_few', 'abyss_cave_vines'], [eater(100), sh(40)], 'celestial:spore', 0.012)
     biome('dark_wastes', '#08080b', '#0a0612', ['ore_abyssal_obsidian'],
-          ['patch_glowshroom_sparse', 'shadow_crystals_few'], [sh(100), hunter(40), worm(3)], 'minecraft:ash', 0.01)
+          ['patch_glowshroom_sparse', 'shadow_crystals_few'], [sh(100), hunter(40), worm(3)], 'celestial:shadow', 0.004)
     biome('crystal_hollows', '#0c0912', '#1a0d2b', ['ore_abyssal_obsidian', 'ore_abyssal_obsidian_rich'],
           ['shadow_crystals_floor', 'shadow_crystals_ceiling', 'patch_glowshroom_sparse'], [sh(80), eater(60), hunter(20), worm(2)],
-          'minecraft:portal', 0.004)
+          'celestial:rift', 0.004)
     biome('dark_lakes', '#05080c', '#03070c', ['ore_abyssal_obsidian'],
           ['glowshroom_giants_sparse', 'patch_glowshroom_sparse', 'abyss_cave_vines'], [sh(60), eater(40), hunter(20)],
           'minecraft:underwater', 0.006)

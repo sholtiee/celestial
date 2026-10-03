@@ -6,7 +6,7 @@
       "argument": [
         {
           "particle": {
-            "type": "minecraft:portal"
+            "type": "celestial:rift"
           },
           "probability": 0.004
         }

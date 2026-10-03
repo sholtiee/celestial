@@ -98,14 +98,14 @@ public class StarBasinBlock extends Block {
 		out.setDeltaMovement(0, 0.25, 0);
 		server.addFreshEntity(out);
 		server.setBlock(pos, state.setValue(LEVEL, state.getValue(LEVEL) - 1), Block.UPDATE_ALL);
-		server.sendParticles(ParticleTypes.END_ROD, pos.getX() + 0.5, pos.getY() + 0.9, pos.getZ() + 0.5, 40, 0.3, 0.2, 0.3, 0.12);
+		server.sendParticles(dev.celestial.registry.ModParticles.STARLIGHT, pos.getX() + 0.5, pos.getY() + 0.9, pos.getZ() + 0.5, 40, 0.3, 0.2, 0.3, 0.12);
 		server.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.BLOCKS, 1.2F, 1.4F);
 	}
 
 	@Override
 	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
 		if (state.getValue(LEVEL) > 0 && random.nextInt(3) == 0) {
-			level.addParticle(ParticleTypes.END_ROD, pos.getX() + 0.3 + random.nextDouble() * 0.4, pos.getY() + 0.8,
+			level.addParticle(dev.celestial.registry.ModParticles.STARLIGHT, pos.getX() + 0.3 + random.nextDouble() * 0.4, pos.getY() + 0.8,
 				pos.getZ() + 0.3 + random.nextDouble() * 0.4, 0, 0.03, 0);
 		}
 	}
