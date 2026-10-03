@@ -148,6 +148,52 @@ public final class AbyssModels {
 		}
 	}
 
+	// ---------------------------------------------------------------- Морозный дух (64×64)
+	public static class FrostWraith extends EntityModel<State> {
+		private final ModelPart body;
+		private final ModelPart tail;
+		private final ModelPart tip;
+		private final ModelPart leftArm;
+		private final ModelPart rightArm;
+
+		public FrostWraith(ModelPart root) {
+			super(root);
+			this.body = root.getChild("body");
+			this.tail = body.getChild("tail");
+			this.tip = tail.getChild("tip");
+			this.leftArm = body.getChild("left_arm");
+			this.rightArm = body.getChild("right_arm");
+		}
+
+		public static LayerDefinition createLayer() {
+			MeshDefinition mesh = new MeshDefinition();
+			PartDefinition root = mesh.getRoot();
+			PartDefinition body = root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 16).addBox(-4, 0, -2.5F, 8, 10, 5),
+				PartPose.offset(0, 2, 0));
+			body.addOrReplaceChild("hood", CubeListBuilder.create().texOffs(0, 0).addBox(-4, -8, -4, 8, 8, 8), PartPose.ZERO);
+			PartDefinition tail = body.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(0, 32).addBox(-3, 0, -2, 6, 8, 4),
+				PartPose.offset(0, 10, 0));
+			tail.addOrReplaceChild("tip", CubeListBuilder.create().texOffs(24, 32).addBox(-2, 0, -1.5F, 4, 6, 3), PartPose.offset(0, 8, 0));
+			body.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(32, 16).addBox(0, 0, -1, 2, 12, 2), PartPose.offset(4, 1, 0));
+			body.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(40, 16).addBox(-2, 0, -1, 2, 12, 2), PartPose.offset(-4, 1, 0));
+			return LayerDefinition.create(mesh, 64, 64);
+		}
+
+		@Override
+		public void setupAnim(State state) {
+			super.setupAnim(state);
+			float t = state.ageInTicks;
+			body.y = 2 + Mth.sin(t * 0.1F) * 1.2F;
+			tail.xRot = 0.25F + Mth.sin(t * 0.12F) * 0.15F;
+			tip.xRot = 0.3F + Mth.sin(t * 0.12F - 0.8F) * 0.25F;
+			tail.zRot = Mth.sin(t * 0.07F) * 0.1F;
+			leftArm.xRot = -0.9F + Mth.sin(t * 0.09F) * 0.2F;
+			rightArm.xRot = -0.9F + Mth.sin(t * 0.09F + 1.5F) * 0.2F;
+			leftArm.zRot = -0.25F;
+			rightArm.zRot = 0.25F;
+		}
+	}
+
 	// ---------------------------------------------------------------- Глубинный червь (128×128)
 	public static class DeepWorm extends EntityModel<State> {
 		private final ModelPart[] segments = new ModelPart[3];

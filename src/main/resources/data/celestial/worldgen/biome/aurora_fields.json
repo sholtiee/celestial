@@ -3,6 +3,34 @@
     "minecraft:visual/sky_color": "#2a3f66",
     "minecraft:visual/fog_color": "#8fd8c0",
     "minecraft:visual/water_fog_color": "#3d6a8a",
+    "minecraft:gameplay/natural_mob_spawns": {
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "monster": [
+            {
+              "type": "celestial:frost_wraith",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 2
+              },
+              "weight": 60
+            },
+            {
+              "type": "minecraft:stray",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 3
+              },
+              "weight": 80
+            }
+          ]
+        }
+      },
+      "modifier": "overlay"
+    },
     "minecraft:visual/ambient_particles": {
       "argument": [
         {

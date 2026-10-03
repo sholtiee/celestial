@@ -180,6 +180,10 @@ def biomes():
         sky, fog = colors[name]
         write_json(os.path.join(WG, 'biome', name + '.json'), {
             'attributes': {'minecraft:visual/sky_color': sky, 'minecraft:visual/fog_color': fog, 'minecraft:visual/water_fog_color': '#3d6a8a',
+                           'minecraft:gameplay/natural_mob_spawns': {'argument': {'spawn_costs': {}, 'spawns_by_category': {'monster': [
+                               {'type': c('frost_wraith'), 'count': {'type': 'minecraft:uniform', 'min_inclusive': 1, 'max_inclusive': 2}, 'weight': 60},
+                               {'type': 'minecraft:stray', 'count': {'type': 'minecraft:uniform', 'min_inclusive': 1, 'max_inclusive': 3}, 'weight': 80}]}},
+                               'modifier': 'overlay'},
                            'minecraft:visual/ambient_particles': {'argument': [{'particle': {'type': 'minecraft:white_ash'}, 'probability': 0.006}],
                                                                   'modifier': 'append'}},
             'carvers': [], 'downfall': 0.6,

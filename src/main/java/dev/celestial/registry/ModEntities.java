@@ -86,6 +86,8 @@ public final class ModEntities {
 	public static final EntityType<dev.celestial.entity.DeepWorm> DEEP_WORM = register("deep_worm",
 		EntityType.Builder.of(dev.celestial.entity.DeepWorm::new, MobCategory.MONSTER).sized(1.6F, 3.2F).eyeHeight(2.8F).clientTrackingRange(12));
 
+	public static final EntityType<dev.celestial.entity.FrostWraith> FROST_WRAITH = register("frost_wraith",
+		EntityType.Builder.of(dev.celestial.entity.FrostWraith::new, MobCategory.MONSTER).sized(0.7F, 1.8F).eyeHeight(1.5F).clientTrackingRange(8));
 	public static final EntityType<dev.celestial.boss.LightDevourer> LIGHT_DEVOURER = register("light_devourer",
 		EntityType.Builder.of(dev.celestial.boss.LightDevourer::new, MobCategory.MONSTER).fireImmune().sized(5.0F, 2.0F).eyeHeight(1.0F)
 			.clientTrackingRange(16));
@@ -130,6 +132,9 @@ public final class ModEntities {
 		FabricDefaultAttributeRegistry.register(LIGHT_EATER, dev.celestial.entity.LightEater.createAttributes());
 		FabricDefaultAttributeRegistry.register(DEEP_WORM, dev.celestial.entity.DeepWorm.createAttributes());
 		FabricDefaultAttributeRegistry.register(LIGHT_DEVOURER, dev.celestial.boss.LightDevourer.createAttributes());
+		FabricDefaultAttributeRegistry.register(FROST_WRAITH, dev.celestial.entity.FrostWraith.createAttributes());
+		SpawnPlacements.register(FROST_WRAITH, SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING,
+			(type, level, reason, pos, random) -> level.getBlockState(pos).isAir() && level.getMaxLocalRawBrightness(pos) < 8);
 		SpawnPlacements.register(BLIND_HUNTER, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
 		SpawnPlacements.register(LIGHT_EATER, SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING,
 			(type, level, reason, pos, random) -> level.getBlockState(pos).isAir());

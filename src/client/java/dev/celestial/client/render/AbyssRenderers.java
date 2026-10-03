@@ -22,6 +22,7 @@ public final class AbyssRenderers {
 	public static final ModelLayerLocation BLIND_HUNTER = layer("blind_hunter");
 	public static final ModelLayerLocation LIGHT_EATER = layer("light_eater");
 	public static final ModelLayerLocation DEEP_WORM = layer("deep_worm");
+	public static final ModelLayerLocation FROST_WRAITH = layer("frost_wraith");
 
 	private AbyssRenderers() {}
 
@@ -37,6 +38,9 @@ public final class AbyssRenderers {
 		ModelLayerRegistry.registerModelLayer(BLIND_HUNTER, AbyssModels.BlindHunter::createLayer);
 		ModelLayerRegistry.registerModelLayer(LIGHT_EATER, AbyssModels.LightEater::createLayer);
 		ModelLayerRegistry.registerModelLayer(DEEP_WORM, AbyssModels.DeepWorm::createLayer);
+		ModelLayerRegistry.registerModelLayer(FROST_WRAITH, AbyssModels.FrostWraith::createLayer);
+		EntityRendererRegistry.register(ModEntities.FROST_WRAITH,
+			ctx -> new Renderer<>(ctx, new AbyssModels.FrostWraith(ctx.bakeLayer(FROST_WRAITH)), "frost_wraith", 0.3F, 1.0F));
 		ModelLayerRegistry.registerModelLayer(DevourerRenderer.LAYER, DevourerRenderer.Model::createLayer);
 		EntityRendererRegistry.register(ModEntities.LIGHT_DEVOURER, DevourerRenderer::new);
 		EntityRendererRegistry.register(ModEntities.BLIND_HUNTER,

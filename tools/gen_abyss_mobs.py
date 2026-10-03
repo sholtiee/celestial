@@ -168,6 +168,34 @@ def deep_worm():
     return img, glow
 
 
+def frost_wraith():
+    img = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
+    glow = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
+    r = rng_for('frost_wraith')
+    robe = [hexrgb(h) for h in ('#b8d4e8', '#a6c6de', '#cfe4f2', '#94b8d4')]
+    dark = hexrgb('#1c2a3a')
+
+    def hood(face, x, y, fw, fh):
+        if face == 'front' and 1 <= x <= 6 and 2 <= y <= 7:
+            return dark  # пустота под капюшоном
+        return r.choice(robe)
+
+    def cloth(face, x, y, fw, fh):
+        frost = (x * 3 + y * 5) % 11 == 0
+        return hexrgb('#e8f6ff') if frost else r.choice(robe)
+
+    M.paint_box(img, 0, 0, 8, 8, 8, hood)
+    M.paint_box(img, 0, 16, 8, 10, 5, cloth)
+    M.paint_box(img, 0, 32, 6, 8, 4, cloth)
+    M.paint_box(img, 24, 32, 4, 6, 3, lambda f, x, y, fw, fh: (*r.choice(robe), 200 - y * 25))
+    M.paint_box(img, 32, 16, 2, 12, 2, cloth)
+    M.paint_box(img, 40, 16, 2, 12, 2, cloth)
+    for x in (2, 5):  # глаза
+        glow.putpixel((8 + x, 8 + 4), (140, 230, 255, 255))
+    M.paint_box(glow, 0, 16, 8, 10, 5, lambda f, x, y, fw, fh: (170, 235, 255, 255) if (x * 3 + y * 5) % 11 == 0 else None)
+    return img, glow
+
+
 MOBS = {
     'blind_hunter': (blind_hunter, 'Слепой охотник', 'Blind Hunter', '#b7b0a3', '#5ae6d0',
                      'не видит, но слышит каждый шаг. Крадись или замри — и он пройдёт мимо.',
@@ -175,6 +203,9 @@ MOBS = {
     'light_eater': (light_eater, 'Светоед', 'Light Eater', '#4a3b5c', '#f5e6a8',
                     'моль Бездны. Ест факелы и фонари, высасывает Сияние у того, кто несёт огонь.',
                     'a moth of the Abyss. It eats torches and lanterns and drains Radiance from anyone carrying a flame.'),
+    'frost_wraith': (frost_wraith, 'Морозный дух', 'Frost Wraith', '#b8d4e8', '#1c2a3a',
+                     'призрак Чертогов, крадёт тепло касанием. Боится огня — держись у костра.',
+                     'a ghost of the Halls that steals warmth with a touch. It fears fire: stay by a campfire.'),
     'deep_worm': (deep_worm, 'Глубинный червь', 'Deep Worm', '#4a3f58', '#6effeb',
                   'роет камень под ногами. Неуязвим под землёй — бей, пока он над поверхностью.',
                   'burrows through the stone beneath you. Invulnerable underground — strike while it is above the surface.'),
@@ -229,6 +260,7 @@ def main():
 
     entity_loot('blind_hunter', [(c('shadow_essence'), 1, 2), ('minecraft:bone', 1, 3)])
     entity_loot('light_eater', [('minecraft:glowstone_dust', 1, 3), (c('shadow_essence'), 1, 1, 0.3)])
+    entity_loot('frost_wraith', [('minecraft:snowball', 1, 3), ('minecraft:blue_ice', 1, 1, 0.25)])
     entity_loot('deep_worm', [(c('worm_chitin'), 2, 4), (c('shadow_essence'), 2, 4), (c('star_fragment'), 1, 1, 0.5)])
 
     append_tag('entity_type', 'celestial:repelled_by_wards', [c('blind_hunter'), c('light_eater')])

@@ -1,0 +1,22 @@
+# Морозный дух: вид и кража тепла
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/execute in celestial:frozen_halls run fill 10 119 10 20 119 20 celestial:frost_stone_bricks
+/execute in celestial:frozen_halls run fill 10 120 10 20 124 20 minecraft:air
+/execute in celestial:frozen_halls run tp @s 15 120 13 0 5
+wait 60
+/time set 6000
+/kill @e[type=celestial:frost_wraith]
+/execute in celestial:frozen_halls run summon celestial:frost_wraith 15 121 17 {NoAI:1b,Rotation:[180f,0f]}
+wait 20
+togglehud
+shot wraith_look
+togglehud
+/kill @e[type=celestial:frost_wraith]
+/gamemode survival
+/effect give @s minecraft:resistance 300 4 true
+/execute in celestial:frozen_halls run summon celestial:frost_wraith 15 122 19
+wait 120
+/celestial status
+quit
