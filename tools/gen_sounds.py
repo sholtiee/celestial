@@ -172,6 +172,55 @@ def choir(seed, sec=100):
     return reverb(track, 0.6, 0.9)
 
 
+def abyss_music(seed, sec=110):
+    """Бездна: низкий гул, медленно дрейфующие кластеры, редкие далёкие колокола и «капли»."""
+    rng = np.random.default_rng(seed)
+    track = np.zeros(int(sec * SR) + SR * 6)
+    t = t_axis(sec)
+    drone = sum(np.sin(2 * np.pi * f * t + rng.random() * 6) / (i + 1) for i, f in enumerate((36.7, 55.0, 73.4)))
+    drone *= 0.5 + 0.5 * np.sin(2 * np.pi * t / 23.0) ** 2
+    place(track, lowpass_fast(drone, 220) * 0.6, 0)
+    clusters = [(-12, -11, -5), (-10, -7, -3), (-14, -9, -8), (-12, -5, -4)]
+    for i in range(int(sec / 9)):
+        for n in clusters[i % len(clusters)]:
+            place(track, pad(note(57 + n), 12.0, detune=0.009, bright=600) * 0.12, i * 9)
+    for _ in range(int(sec / 7)):
+        at = rng.random() * sec
+        place(track, bell(note(rng.choice([69, 72, 76, 81])), 5.0, 0.06), at)
+        tt = t_axis(0.3)
+        place(track, np.sin(2 * np.pi * (1800 - 900 * tt / 0.3) * tt) * np.exp(-tt * 18) * 0.05, rng.random() * sec)  # капля
+    return reverb(track, 0.7, 0.92)
+
+
+def devourer_battle(seed, bars=36, bpm=118):
+    """Битва с Пожирателем: тяжёлый пульс, «рёв» низкой пилы, хор-кластеры, ускорение к концу."""
+    rng = np.random.default_rng(seed)
+    beat = 60 / bpm
+    bar = beat * 4
+    track = np.zeros(int(bar * bars * SR + SR * 3))
+    root = 50
+    prog = [(0, 1, 7), (0, 3, 6), (-2, 1, 5), (-4, 0, 3)]
+    tk = t_axis(0.5)
+    kick = np.sin(2 * np.pi * (40 + 90 * np.exp(-tk * 25)) * tk) * np.exp(-tk * 6)
+    ts = t_axis(0.3)
+    hit = rng.standard_normal(len(ts)) * np.exp(-ts * 14) * 0.6 + np.sin(2 * np.pi * 140 * ts) * np.exp(-ts * 20) * 0.5
+    for b in range(bars):
+        ch = prog[(b // 2) % len(prog)]
+        for n in ch:
+            place(track, pad(note(root + n), bar * 1.05, detune=0.012, bright=1200) * 0.18, b * bar)
+        growl = pad(note(root + ch[0] - 24), bar, detune=0.02, bright=320) * 0.5
+        place(track, growl, b * bar)
+        for st in range(8 if b >= 20 else 4):
+            step = beat * (0.5 if b >= 20 else 1)
+            place(track, kick * 0.9, b * bar + st * step)
+        place(track, hit * 0.8, b * bar + beat)
+        place(track, hit * 0.8, b * bar + beat * 3)
+        if b >= 8 and b % 2 == 0:
+            for k in range(3):
+                place(track, bell(note(root + 24 + ch[k]), 1.6, 0.18), b * bar + k * beat / 2)
+    return reverb(track, 0.3, 0.7)
+
+
 # ---------------------------------------------------------------- эффекты
 def sfx():
     rng = np.random.default_rng(7)
@@ -208,10 +257,29 @@ def sfx():
     t = t_axis(1.8)
     out['trial_start'] = sum(np.sin(2 * np.pi * note(n) * t) * (0.6 if i else 1) for i, n in enumerate((55, 62, 67))) * \
         env(len(t), a=0.08, d=0.3, s=0.6, r=0.9)
+    t = t_axis(3.2)
+    growl = sum(np.sin(2 * np.pi * f * (1 - 0.2 * t / 3.2) * t + rng.random() * 6) for f in (45, 68, 90, 135))
+    out['devourer_roar'] = lowpass(growl * (1 + 0.5 * np.sin(2 * np.pi * 17 * t)) + rng.standard_normal(len(t)) * 0.8, 900) * \
+        env(len(t), a=0.3, d=0.5, s=0.8, r=1.4)
+    t = t_axis(0.9)
+    screech = np.sin(2 * np.pi * (1400 + 600 * np.sin(2 * np.pi * 9 * t)) * t) * 0.6 + rng.standard_normal(len(t)) * 0.3
+    out['hunter_screech'] = screech * env(len(t), a=0.05, d=0.2, s=0.6, r=0.4)
+    t = t_axis(0.7)
+    out['light_eater_feed'] = (np.sin(2 * np.pi * (2400 * np.exp(-t * 4) + 200) * t) * 0.5 +
+                               lowpass(rng.standard_normal(len(t)), 3000) * 0.4) * np.exp(-t * 4)
+    t = t_axis(0.6)
+    crunch = lowpass(rng.standard_normal(len(t)), 1800) * (np.sin(2 * np.pi * 30 * t) > 0) * np.exp(-t * 5)
+    out['worm_bite'] = crunch + np.sin(2 * np.pi * 70 * t) * np.exp(-t * 8) * 0.8
     return {k: reverb(v, 0.2, 0.5) for k, v in out.items()}
 
 
 SOUNDS = {  # событие → (файл(ы), категория для субтитров, стрим?)
+    'music.abyss': (['music/abyss_1'], None, True),
+    'music.devourer_battle': (['music/devourer_battle'], None, True),
+    'entity.light_devourer.roar': (['sfx/devourer_roar'], 'devourer_roar', False),
+    'entity.blind_hunter.screech': (['sfx/hunter_screech'], 'hunter_screech', False),
+    'entity.light_eater.feed': (['sfx/light_eater_feed'], 'light_eater_feed', False),
+    'entity.deep_worm.bite': (['sfx/worm_bite'], 'worm_bite', False),
     'music.heaven': (['music/heaven_1', 'music/heaven_2'], None, True),
     'music.seraph_battle': (['music/seraph_battle'], None, True),
     'music_disc.heavenly_choir': (['records/heavenly_choir'], None, True),
@@ -237,6 +305,9 @@ def main():
     save('music/seraph_battle', battle_music(3), 3)
     print('пластинка…')
     save('records/heavenly_choir', choir(4), 3)
+    print('Бездна…')
+    save('music/abyss_1', abyss_music(5), 3)
+    save('music/devourer_battle', devourer_battle(6), 3)
     print('эффекты…')
     for k, v in sfx().items():
         save('sfx/' + k, v, 5)

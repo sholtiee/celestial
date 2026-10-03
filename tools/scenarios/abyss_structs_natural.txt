@@ -1,0 +1,14 @@
+# Затонувший храм и Логово в естественной генерации
+/gamemode creative
+/effect clear @s
+/effect give @s minecraft:night_vision 600 0 true
+/execute in celestial:abyss run tp @s -640 60 64 90 25
+fly
+wait 200
+togglehud
+shot natural_temple
+/execute in celestial:abyss run tp @s -412 62 256 90 20
+wait 200
+shot natural_lair
+togglehud
+quit

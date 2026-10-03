@@ -209,15 +209,17 @@ def devourer_lair():
 
 
 def structures():
-    for name, biomes, y, spacing, sep, salt in (('sunken_temple', ('dark_lakes', 'glowshroom_forest'), 26, 22, 8, 7300201),
-                                                ('devourer_lair', ('dark_wastes', 'crystal_hollows'), 36, 40, 14, 7300202)):
+    # пол пещеры ищет свой тип постройки celestial:cave_floor (карта высот в мире с потолком указывает на крышу)
+    for name, biomes, offset, clearance, spacing, sep, salt in (
+            ('sunken_temple', ('dark_lakes', 'glowshroom_forest'), -2, 10, 22, 8, 7300201),
+            ('devourer_lair', ('dark_wastes', 'crystal_hollows'), -1, 14, 40, 14, 7300202)):
         write_json(os.path.join(DATA, f'worldgen/template_pool/{name}/main.json'), {'fallback': 'minecraft:empty', 'elements': [
             {'weight': 1, 'element': {'element_type': 'minecraft:single_pool_element', 'location': c(name + '/main'),
                                       'processors': 'minecraft:empty', 'projection': 'rigid'}}]})
         write_json(os.path.join(DATA, f'worldgen/structure/{name}.json'), {
-            'type': 'minecraft:jigsaw', 'biomes': '#' + c('has_structure/' + name), 'max_distance_from_center': 80, 'size': 1,
-            'spawn_overrides': {}, 'start_height': {'absolute': y}, 'start_pool': c(name + '/main'), 'step': 'underground_structures',
-            'terrain_adaptation': 'beard_box', 'use_expansion_hack': False})
+            'type': c('cave_floor'), 'biomes': '#' + c('has_structure/' + name), 'spawn_overrides': {}, 'step': 'surface_structures',
+            'terrain_adaptation': 'beard_box', 'start_pool': c(name + '/main'), 'min_y': 30, 'max_y': 110,
+            'floor_offset': offset, 'clearance': clearance, 'max_distance_from_center': 80})
         write_json(os.path.join(DATA, f'tags/worldgen/biome/has_structure/{name}.json'), {'values': [c(b) for b in biomes]})
         write_json(os.path.join(DATA, f'worldgen/structure_set/{name}.json'), {
             'placement': {'type': 'minecraft:random_spread', 'salt': salt, 'separation': sep, 'spacing': spacing},

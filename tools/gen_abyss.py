@@ -144,7 +144,7 @@ def dimension():
         'ambient_light': 0.0,
         'attributes': {
             'minecraft:audio/background_music': {'default': {'max_delay': 6000, 'min_delay': 1200, 'replace_current_music': True,
-                                                             'sound': 'minecraft:music.overworld.deep_dark'}},
+                                                             'sound': 'celestial:music.abyss'}},
             'minecraft:gameplay/bed_rule': {'can_set_spawn': 'never', 'can_sleep': 'never', 'destroy_on_use': False,
                                             'error_message': {'translate': 'block.minecraft.bed.no_sleep'}},
             'minecraft:gameplay/respawn_anchor_works': False,

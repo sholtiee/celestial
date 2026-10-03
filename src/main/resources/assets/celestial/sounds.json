@@ -1,4 +1,52 @@
 {
+  "music.abyss": {
+    "sounds": [
+      {
+        "name": "celestial:music/abyss_1",
+        "stream": true
+      }
+    ]
+  },
+  "music.devourer_battle": {
+    "sounds": [
+      {
+        "name": "celestial:music/devourer_battle",
+        "stream": true
+      }
+    ]
+  },
+  "entity.light_devourer.roar": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/devourer_roar"
+      }
+    ],
+    "subtitle": "subtitles.celestial.devourer_roar"
+  },
+  "entity.blind_hunter.screech": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/hunter_screech"
+      }
+    ],
+    "subtitle": "subtitles.celestial.hunter_screech"
+  },
+  "entity.light_eater.feed": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/light_eater_feed"
+      }
+    ],
+    "subtitle": "subtitles.celestial.light_eater_feed"
+  },
+  "entity.deep_worm.bite": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/worm_bite"
+      }
+    ],
+    "subtitle": "subtitles.celestial.worm_bite"
+  },
   "music.heaven": {
     "sounds": [
       {

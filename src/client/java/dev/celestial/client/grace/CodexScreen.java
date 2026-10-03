@@ -66,7 +66,7 @@ public class CodexScreen extends Screen {
 				lines.add(Component.translatable("codex.celestial.saga.fading", ClientState.fading()));
 				lines.add(Component.translatable("codex.celestial.saga.stats", d.grace(), d.reputation(), d.trials().size(), d.codex().size()));
 				lines.add(Component.empty());
-				lines.add(Component.translatable("codex.celestial.saga.text." + Math.min(ClientState.act(), 1)));
+				lines.add(Component.translatable("codex.celestial.saga.text." + Math.min(ClientState.act(), 2)));
 			}
 			case GRACE -> buildGrace(d);
 			case BESTIARY -> {

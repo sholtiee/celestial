@@ -85,10 +85,16 @@ def main():
                                         'Пустоту (дракон Энда или Разлом Пустоты) и Свет (Падший Серафим в Цитадели Рая) — и верни их на алтарь Цитадели.',
                                         'Act I "The Fading Light". The world\'s light is fading. Gather three shards: Flame (the Blazing Sanctuary in the Nether), '
                                         'Void (the Ender Dragon or a Void Rift) and Light (the Fallen Seraph in Heaven\'s Citadel), then return them to the Citadel altar.'),
-        'codex.celestial.saga.text.1': ('Акт I пройден. Угасание отступило, но на груди Серафима был знак Безликого — лицо без лица. '
-                                        'Что-то ждёт под облаками Рая. Сага продолжится в Бездне.',
-                                        'Act I complete. The Fading has receded, but the Seraph bore the mark of the Faceless: a face without a face. '
-                                        'Something waits beneath Heaven\'s clouds. The saga continues in the Abyss.'),
+        'codex.celestial.saga.text.1': ('Акт II «Ниже облаков». На груди Серафима был знак Безликого. На нижнем ярусе Рая открылся Разлом — '
+                                        'спустись в Бездну, найди Затонувший храм с картой и одолей Пожирателя Света в его Логове. '
+                                        'Держи огонь в руке: тьма Бездны сводит с ума.',
+                                        'Act II "Beneath the Clouds". The Seraph bore the mark of the Faceless. A Rift has opened on Heaven\'s lowest tier: '
+                                        'descend into the Abyss, find a Sunken Temple with a map and defeat the Light Devourer in its Lair. '
+                                        'Keep a flame in hand: the dark of the Abyss drives you mad.'),
+        'codex.celestial.saga.text.2': ('Акт II пройден. Пожиратель Света пал, Тёмное Ядро у тебя. Ядро тянет к холоду: где-то вмёрзли в лёд '
+                                        'ангелы, бежавшие от Безликого. Сага продолжится в Ледяных Чертогах.',
+                                        'Act II complete. The Light Devourer has fallen and the Dark Core is yours. The Core pulls toward the cold: '
+                                        'somewhere, angels who fled the Faceless are frozen in ice. The saga continues in the Frozen Halls.'),
         'grace.celestial.second_wind': ('Второе дыхание спасло тебя от смерти!', 'Second Wind saved you from death!'),
         'grace.celestial.locked': ('Сначала изучи предыдущий навык', 'Learn the previous skill first'),
         'grace.celestial.not_enough': ('Нужно %s Благодати', 'Requires %s Grace'),

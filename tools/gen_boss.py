@@ -79,6 +79,10 @@ def main():
         'subtitles.celestial.seraph_roar': ('Серафим ревёт', 'Seraph roars'),
         'subtitles.celestial.fading_grow': ('Свет мира тускнеет', 'The world\'s light dims'),
         'subtitles.celestial.trial_start': ('Испытание начинается', 'Trial begins'),
+        'subtitles.celestial.devourer_roar': ('Пожиратель Света ревёт', 'Light Devourer roars'),
+        'subtitles.celestial.hunter_screech': ('Слепой охотник визжит', 'Blind Hunter shrieks'),
+        'subtitles.celestial.light_eater_feed': ('Светоед глотает свет', 'Light Eater devours light'),
+        'subtitles.celestial.worm_bite': ('Глубинный червь кусает', 'Deep Worm bites'),
     })
     print('ok: Серафим и звуки')
 
