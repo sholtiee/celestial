@@ -1,0 +1,13 @@
+/gamemode creative
+/execute in celestial:frozen_halls run tp @s 15 120 15 0 30
+wait 60
+/execute in celestial:frozen_halls run setblock 15 120 17 minecraft:campfire[lit=true]
+wait 5
+/execute in celestial:frozen_halls if block 15 120 17 minecraft:campfire[lit=true] run say ГОРИТ_СРАЗУ
+wait 60
+/execute in celestial:frozen_halls if block 15 120 17 minecraft:campfire[lit=true] run say ГОРИТ_ПОТОМ
+/execute in celestial:frozen_halls if block 15 120 17 minecraft:campfire[lit=false] run say ПОГАС
+/execute in celestial:frozen_halls if block 15 120 17 minecraft:air run say ВОЗДУХ
+/execute in celestial:frozen_halls if block 15 119 17 minecraft:air run say ПОД_НИМ_ВОЗДУХ
+/celestial status
+quit

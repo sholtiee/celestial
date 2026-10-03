@@ -233,6 +233,8 @@ def main():
         'biome.celestial.aurora_fields': ('Поля сияния', 'Aurora Fields'),
         'biome.celestial.frozen_sea': ('Замёрзшее море', 'Frozen Sea'),
         'block.celestial.frozen_portal': ('Ледяные врата', 'Frozen Gate'),
+        'hud.celestial.warmth': ('Тепло', 'Warmth'),
+        'frozen.celestial.cold_rising': ('§bХолод пробирает до костей… Найди огонь!', '§bThe cold bites to the bone... Find a fire!'),
         'story.celestial.frozen_portal_lit': ('§bЯдро вспыхивает холодом. Рамка затягивается льдом — Ледяные врата открыты!',
                                               '§bThe Core flares with cold. The frame frosts over: the Frozen Gate is open!'),
     })

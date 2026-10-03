@@ -30,7 +30,7 @@ public final class CelestialCommand {
 				if (src.getEntity() instanceof ServerPlayer player) {
 					PlayerData data = CelestialData.get(player);
 					src.sendSuccess(() -> Component.literal("§bБлагодать: §f" + data.grace() + " §bНавыки: §f" + data.skills()
-						+ " §bРепутация: §f" + data.reputation() + " §bСияние: §f" + (int) data.radiance() + " §bСтрах: §f" + (int) data.fear()
+						+ " §bРепутация: §f" + data.reputation() + " §bСияние: §f" + (int) data.radiance() + " §bСтрах: §f" + (int) data.fear() + " §bТепло: §f" + (int) data.warmth()
 						+ " §bИспытания: §f" + data.trials() + " §bКодекс: §f" + data.codex().size()), false);
 					// диагностика тьмы: что сейчас считает Darkness
 					var eyes = net.minecraft.core.BlockPos.containing(player.getEyePosition());
@@ -40,7 +40,9 @@ public final class CelestialCommand {
 						+ " свет_в_руке=" + dev.celestial.world.abyss.Darkness.holdsLight(player)
 						+ " оберег=" + dev.celestial.starlight.Wards.protects(player.level(), player.blockPosition())
 						+ " сияние=" + player.hasEffect(dev.celestial.registry.ModEffects.STARLIGHT)
-						+ " режим=" + player.gameMode.getGameModeForPlayer()), false);
+						+ " режим=" + player.gameMode.getGameModeForPlayer()
+						+ " у_огня=" + dev.celestial.world.frozen.Cold.nearHeat(player.level(), player.blockPosition())
+						+ " поз=" + player.blockPosition().toShortString()), false);
 				}
 				return 1;
 			}))

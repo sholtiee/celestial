@@ -26,7 +26,8 @@ public enum Skill {
 	HEAVENLY_STRIKE("heavenly_strike", Branch.MIGHT, 2, VIGOR, 0, 1),
 	RESILIENCE("resilience", Branch.MIGHT, 2, VIGOR, 1, 1),
 	FLASH("flash", Branch.MIGHT, 3, HEAVENLY_STRIKE, 0, 2),
-	SECOND_WIND("second_wind", Branch.MIGHT, 5, RESILIENCE, 1, 2);
+	SECOND_WIND("second_wind", Branch.MIGHT, 5, RESILIENCE, 1, 2),
+	INNER_FIRE("inner_fire", Branch.MIGHT, 3, VIGOR, 0, 3);
 
 	public enum Branch { WINGS, LIGHT, MIGHT }
 

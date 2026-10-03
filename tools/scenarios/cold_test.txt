@@ -1,0 +1,24 @@
+# Холод: тепло тает, у костра растёт; на нуле — замерзание
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/execute in celestial:frozen_halls run fill 10 119 10 20 119 20 celestial:frost_stone_bricks
+/execute in celestial:frozen_halls run fill 10 120 10 20 124 20 minecraft:air
+/execute in celestial:frozen_halls run tp @s 15 120 15 0 30
+wait 80
+/weather clear
+/clear @s
+/gamemode survival
+/effect give @s minecraft:resistance 900 4 true
+wait 400
+/celestial status
+wait 300
+/celestial status
+/data get entity @s TicksFrozen
+togglehud
+shot cold_frozen
+togglehud
+/execute in celestial:frozen_halls run setblock 15 120 17 minecraft:campfire[lit=true]
+wait 120
+/celestial status
+quit

@@ -80,6 +80,7 @@ public final class GraceClient {
 			int tx = Math.min(x, graphics.guiWidth() - mc.font.width(name) - 2);
 			graphics.text(mc.font, name, tx, y - 10, color);
 			drawFear(mc, graphics, d);
+			drawWarmth(mc, graphics, d);
 		});
 	}
 
@@ -109,6 +110,22 @@ public final class GraceClient {
 		graphics.fill(x + bw - (int) (bw * f), y, x + bw, y + 4, f >= 0.8F ? 0xFFB23A6E : 0xFF6B4FA8);
 		Component label = Component.translatable("hud.celestial.fear");
 		graphics.text(mc.font, label, x + bw - mc.font.width(label), y - 10, 0xFFB9A6E0);
+	}
+
+	/** Тепло: голубая полоска слева от хотбара в Ледяных Чертогах (или пока не отогрелся). */
+	private static void drawWarmth(Minecraft mc, net.minecraft.client.gui.GuiGraphicsExtractor graphics, PlayerData d) {
+		boolean frozen = mc.player.level().dimension() == dev.celestial.world.dim.AbyssFeatures.FROZEN_HALLS;
+		if (!frozen && d.warmth() >= 100) {
+			return;
+		}
+		int bw = 72;
+		int x = graphics.guiWidth() / 2 - 98 - bw;
+		int y = graphics.guiHeight() - 12;
+		float f = d.warmth() / 100.0F;
+		graphics.fill(x - 1, y - 1, x + bw + 1, y + 5, 0xAA000000);
+		graphics.fill(x, y, x + (int) (bw * f), y + 4, f < 0.3F ? 0xFF7FB8FF : 0xFFFFB060);
+		Component label = Component.translatable("hud.celestial.warmth");
+		graphics.text(mc.font, label, x + bw - mc.font.width(label), y - 10, f < 0.3F ? 0xFFBFE0FF : 0xFFFFD8A8);
 	}
 
 	private static void tick(Minecraft mc) {

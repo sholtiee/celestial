@@ -9,6 +9,8 @@ SKILLS = {
     'feather_fall': ('Пёрышко', 'Featherfall', 'Безопасная высота падения +9 блоков.', '+9 blocks of safe fall height.'),
     'radiance_pool': ('Сосуд Сияния', 'Radiance Vessel', 'Максимум Сияния 150.', 'Max Radiance 150.'),
     'light_bolt': ('Световой луч', 'Light Bolt', 'Заклинание: луч света (7 урона, 11 по нежити).', 'Spell: a bolt of light (7 damage, 11 vs undead).'),
+    'inner_fire': ('Внутренний огонь', 'Inner Fire', 'Холод Ледяных Чертогов отнимает тепло вдвое медленнее.',
+                   'The cold of the Frozen Halls drains warmth half as fast.'),
     'inner_light': ('Внутренний свет', 'Inner Light', 'Страх тьмы в Бездне растёт вдвое медленнее.', 'Fear of the dark grows half as fast in the Abyss.'),
     'radiance_regen': ('Родник Сияния', 'Radiance Spring', 'Сияние восстанавливается вдвое быстрее.', 'Radiance regenerates twice as fast.'),
     'healing_light': ('Исцеляющий свет', 'Healing Light', 'Заклинание: лечит и даёт регенерацию.', 'Spell: heals and grants regeneration.'),
