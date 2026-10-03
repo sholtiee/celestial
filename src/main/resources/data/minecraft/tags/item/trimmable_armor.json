@@ -4,6 +4,10 @@
     "celestial:etherite_helmet",
     "celestial:etherite_chestplate",
     "celestial:etherite_leggings",
-    "celestial:etherite_boots"
+    "celestial:etherite_boots",
+    "celestial:abyssal_helmet",
+    "celestial:abyssal_chestplate",
+    "celestial:abyssal_leggings",
+    "celestial:abyssal_boots"
   ]
 }

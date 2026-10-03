@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "celestial:etherite_shovel"
+    "celestial:etherite_shovel",
+    "celestial:abyssal_shovel"
   ]
 }

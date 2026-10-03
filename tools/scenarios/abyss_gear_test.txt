@@ -1,0 +1,41 @@
+# Снаряжение из безднового обсидиана: вид на игроке, страх вдвое медленнее, руда даёт осколки
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/execute in celestial:abyss run fill 464 78 314 476 86 326 celestial:abyss_bricks
+/execute in celestial:abyss run fill 466 80 316 474 84 324 minecraft:air
+/execute in celestial:abyss run tp @s 470 80 320 0 20
+wait 60
+/clear @s
+/item replace entity @s armor.head with celestial:abyssal_helmet
+/item replace entity @s armor.chest with celestial:abyssal_chestplate
+/item replace entity @s armor.legs with celestial:abyssal_leggings
+/item replace entity @s armor.feet with celestial:abyssal_boots
+/item replace entity @s weapon.mainhand with celestial:abyssal_pickaxe
+/give @s celestial:abyssal_sword
+/give @s celestial:abyssal_ingot 5
+/give @s celestial:abyssal_shard 7
+/execute in celestial:abyss run setblock 470 82 323 minecraft:glowstone
+/execute in celestial:abyss run setblock 472 82 323 minecraft:glowstone
+wait 10
+camera front
+wait 10
+togglehud
+shot gear_front
+togglehud
+camera first
+/execute in celestial:abyss run fill 466 80 316 474 84 324 minecraft:air
+/celestial status
+/gamemode survival
+/effect give @s minecraft:resistance 600 4 true
+wait 400
+/celestial status
+shot gear_hud
+/execute in celestial:abyss run setblock 470 80 322 celestial:abyssal_obsidian_ore
+/tp @s 470 80 320 0 50
+wait 10
+hold attack 140
+wait 150
+/execute if items entity @s container.* celestial:abyssal_shard[minecraft:custom_data={}] run say ЕСТЬ
+/clear @s celestial:abyssal_shard 0
+quit

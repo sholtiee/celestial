@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "celestial:etherite_pickaxe"
+    "celestial:etherite_pickaxe",
+    "celestial:abyssal_pickaxe"
   ]
 }

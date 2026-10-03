@@ -40,7 +40,18 @@ public final class ModItems {
 		Map.of(ArmorType.BOOTS, 3, ArmorType.LEGGINGS, 6, ArmorType.CHESTPLATE, 8, ArmorType.HELMET, 3, ArmorType.BODY, 13),
 		18, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5F, 0.05F, REPAIRS_ETHERITE_ARMOR, ETHERITE_ASSET);
 
+	/** Бездновый обсидиан: копает как незерит, броня между алмазом и незеритом; полный комплект гасит страх тьмы. */
+	public static final TagKey<Item> ABYSSAL_TOOL_MATERIALS = TagKey.create(Registries.ITEM, Celestial.id("abyssal_tool_materials"));
+	public static final TagKey<Item> REPAIRS_ABYSSAL_ARMOR = TagKey.create(Registries.ITEM, Celestial.id("repairs_abyssal_armor"));
+	public static final ResourceKey<EquipmentAsset> ABYSSAL_ASSET = ResourceKey.create(EquipmentAssets.ROOT_ID, Celestial.id("abyssal"));
+	public static final ToolMaterial ABYSSAL_TOOL = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2400, 10.0F, 4.5F, 16, ABYSSAL_TOOL_MATERIALS);
+	public static final ArmorMaterial ABYSSAL_ARMOR = new ArmorMaterial(40,
+		Map.of(ArmorType.BOOTS, 3, ArmorType.LEGGINGS, 7, ArmorType.CHESTPLATE, 9, ArmorType.HELMET, 3, ArmorType.BODY, 15),
+		16, SoundEvents.ARMOR_EQUIP_NETHERITE, 3.5F, 0.15F, REPAIRS_ABYSSAL_ARMOR, ABYSSAL_ASSET);
+
 	// Материалы
+	public static final Item ABYSSAL_SHARD = register("abyssal_shard", Item::new, new Item.Properties());
+	public static final Item ABYSSAL_INGOT = register("abyssal_ingot", Item::new, new Item.Properties().rarity(Rarity.UNCOMMON).fireResistant());
 	public static final Item RAW_ETHERITE = register("raw_etherite", Item::new, new Item.Properties());
 	public static final Item ETHERITE_INGOT = register("etherite_ingot", Item::new, new Item.Properties());
 	public static final Item STARQUARTZ = register("starquartz", Item::new, new Item.Properties());
@@ -70,6 +81,18 @@ public final class ModItems {
 	public static final Item ETHERITE_AXE = register("etherite_axe", Item::new, new Item.Properties().axe(ETHERITE_TOOL, 5.0F, -3.0F));
 	public static final Item ETHERITE_SHOVEL = register("etherite_shovel", Item::new, new Item.Properties().shovel(ETHERITE_TOOL, 1.5F, -3.0F));
 	public static final Item ETHERITE_HOE = register("etherite_hoe", Item::new, new Item.Properties().hoe(ETHERITE_TOOL, -3.0F, 0.0F));
+
+	// Бездновый обсидиан
+	public static final Item ABYSSAL_SWORD = register("abyssal_sword", Item::new, new Item.Properties().sword(ABYSSAL_TOOL, 3.0F, -2.4F).fireResistant());
+	public static final Item ABYSSAL_PICKAXE = register("abyssal_pickaxe", Item::new, new Item.Properties().pickaxe(ABYSSAL_TOOL, 1.0F, -2.8F).fireResistant());
+	public static final Item ABYSSAL_AXE = register("abyssal_axe", Item::new, new Item.Properties().axe(ABYSSAL_TOOL, 5.0F, -3.0F).fireResistant());
+	public static final Item ABYSSAL_SHOVEL = register("abyssal_shovel", Item::new, new Item.Properties().shovel(ABYSSAL_TOOL, 1.5F, -3.0F).fireResistant());
+	public static final Item ABYSSAL_HOE = register("abyssal_hoe", Item::new, new Item.Properties().hoe(ABYSSAL_TOOL, -4.0F, 0.0F).fireResistant());
+	public static final Item ABYSSAL_HELMET = register("abyssal_helmet", Item::new, new Item.Properties().humanoidArmor(ABYSSAL_ARMOR, ArmorType.HELMET).fireResistant());
+	public static final Item ABYSSAL_CHESTPLATE = register("abyssal_chestplate", Item::new,
+		new Item.Properties().humanoidArmor(ABYSSAL_ARMOR, ArmorType.CHESTPLATE).fireResistant());
+	public static final Item ABYSSAL_LEGGINGS = register("abyssal_leggings", Item::new, new Item.Properties().humanoidArmor(ABYSSAL_ARMOR, ArmorType.LEGGINGS).fireResistant());
+	public static final Item ABYSSAL_BOOTS = register("abyssal_boots", Item::new, new Item.Properties().humanoidArmor(ABYSSAL_ARMOR, ArmorType.BOOTS).fireResistant());
 
 	// Броня из эфирита
 	public static final Item ETHERITE_HELMET = register("etherite_helmet", Item::new, new Item.Properties().humanoidArmor(ETHERITE_ARMOR, ArmorType.HELMET));

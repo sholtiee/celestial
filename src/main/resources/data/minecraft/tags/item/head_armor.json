@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "celestial:etherite_helmet"
+    "celestial:etherite_helmet",
+    "celestial:abyssal_helmet"
   ]
 }

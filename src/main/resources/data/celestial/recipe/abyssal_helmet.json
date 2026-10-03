@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "X": "celestial:abyssal_ingot",
+    "C": "celestial:worm_chitin"
+  },
+  "pattern": [
+    "XCX",
+    "X X"
+  ],
+  "result": {
+    "id": "celestial:abyssal_helmet"
+  }
+}

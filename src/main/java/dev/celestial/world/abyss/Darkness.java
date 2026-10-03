@@ -101,7 +101,7 @@ public final class Darkness {
 		}
 		final float delta = gain;
 		float fear = CelestialData.update(player, d -> d.withFear(d.fear() + delta)).fear();
-		if (fear >= 50) {
+		if (fear >= 50 && !dev.celestial.item.EquipmentEffects.hasAbyssalSet(player)) {
 			player.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 60, 0, true, false, false));
 		}
 		if (fear >= 80) {

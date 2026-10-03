@@ -30,7 +30,14 @@ public final class EquipmentEffects {
 
 	/** Множитель роста страха в Бездне от снаряжения (комплект безднового обсидиана — вдвое меньше). */
 	public static float fearMultiplier(ServerPlayer player) {
-		return 1.0F;
+		return hasAbyssalSet(player) ? 0.5F : 1.0F;
+	}
+
+	public static boolean hasAbyssalSet(ServerPlayer player) {
+		return player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.ABYSSAL_HELMET)
+			&& player.getItemBySlot(EquipmentSlot.CHEST).is(ModItems.ABYSSAL_CHESTPLATE)
+			&& player.getItemBySlot(EquipmentSlot.LEGS).is(ModItems.ABYSSAL_LEGGINGS)
+			&& player.getItemBySlot(EquipmentSlot.FEET).is(ModItems.ABYSSAL_BOOTS);
 	}
 
 	public static void init() {

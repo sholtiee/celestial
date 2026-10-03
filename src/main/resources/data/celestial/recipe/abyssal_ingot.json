@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "celestial:abyssal_shard",
+    "celestial:abyssal_shard",
+    "celestial:abyssal_shard",
+    "celestial:starsteel_ingot"
+  ],
+  "result": {
+    "id": "celestial:abyssal_ingot"
+  }
+}
