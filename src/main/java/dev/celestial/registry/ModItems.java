@@ -50,23 +50,22 @@ public final class ModItems {
 		16, SoundEvents.ARMOR_EQUIP_NETHERITE, 3.5F, 0.15F, REPAIRS_ABYSSAL_ARMOR, ABYSSAL_ASSET);
 
 	// Материалы
-	public static final Item ABYSSAL_SHARD = register("abyssal_shard", Item::new, new Item.Properties());
-	public static final Item ABYSSAL_INGOT = register("abyssal_ingot", Item::new, new Item.Properties().rarity(Rarity.UNCOMMON).fireResistant());
+	public static final Item ABYSSAL_SHARD = register("abyssal_shard", Item::new, lore(new Item.Properties(), "abyssal_shard", 1));
+	public static final Item ABYSSAL_INGOT = register("abyssal_ingot", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON).fireResistant(), "abyssal_ingot", 1));
 	public static final Item RAW_ETHERITE = register("raw_etherite", Item::new, new Item.Properties());
 	public static final Item ETHERITE_INGOT = register("etherite_ingot", Item::new, new Item.Properties());
 	public static final Item STARQUARTZ = register("starquartz", Item::new, new Item.Properties());
 	public static final Item CLOUD_FLUFF = register("cloud_fluff", Item::new, new Item.Properties());
 	// Угасание: метеориты и Тени
-	public static final Item STAR_FRAGMENT = register("star_fragment", Item::new, new Item.Properties().rarity(Rarity.UNCOMMON));
-	public static final Item SHADOW_ESSENCE = register("shadow_essence", Item::new, new Item.Properties());
+	public static final Item STAR_FRAGMENT = register("star_fragment", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON), "star_fragment", 1));
+	public static final Item SHADOW_ESSENCE = register("shadow_essence", Item::new, lore(new Item.Properties(), "shadow_essence", 1));
 	// Звёздный свет (волна 0.3)
-	public static final Item STARLIGHT_FLASK = register("starlight_flask", dev.celestial.starlight.StarlightFlaskItem::new,
-		new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(16).usingConvertsTo(net.minecraft.world.item.Items.GLASS_BOTTLE)
-			.component(net.minecraft.core.component.DataComponents.CONSUMABLE, net.minecraft.world.item.component.Consumables.defaultDrink().build()));
-	public static final Item DARK_CORE = register("dark_core", Item::new, new Item.Properties().rarity(Rarity.EPIC).stacksTo(1).fireResistant());
-	public static final Item WORM_CHITIN = register("worm_chitin", Item::new, new Item.Properties().rarity(Rarity.UNCOMMON));
-	public static final Item STARSTEEL_INGOT = register("starsteel_ingot", Item::new, new Item.Properties());
-	public static final Item CHARGED_CRYSTAL = register("charged_crystal", Item::new, new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(16));
+	public static final Item STARLIGHT_FLASK = register("starlight_flask", dev.celestial.starlight.StarlightFlaskItem::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(16).usingConvertsTo(net.minecraft.world.item.Items.GLASS_BOTTLE)
+			.component(net.minecraft.core.component.DataComponents.CONSUMABLE, net.minecraft.world.item.component.Consumables.defaultDrink().build()), "starlight_flask", 2));
+	public static final Item DARK_CORE = register("dark_core", Item::new, lore(new Item.Properties().rarity(Rarity.EPIC).stacksTo(1).fireResistant(), "dark_core", 2));
+	public static final Item WORM_CHITIN = register("worm_chitin", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON), "worm_chitin", 1));
+	public static final Item STARSTEEL_INGOT = register("starsteel_ingot", Item::new, lore(new Item.Properties(), "starsteel_ingot", 1));
+	public static final Item CHARGED_CRYSTAL = register("charged_crystal", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(16), "charged_crystal", 1));
 	public static final Item SKY_JELLY = register("sky_jelly", Item::new, new Item.Properties().food(
 		new FoodProperties.Builder().nutrition(3).saturationModifier(0.4F).alwaysEdible().build(),
 		net.minecraft.world.item.component.Consumables.defaultFood().onConsume(new net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect(java.util.List.of(
@@ -84,16 +83,15 @@ public final class ModItems {
 	public static final Item ETHERITE_HOE = register("etherite_hoe", Item::new, new Item.Properties().hoe(ETHERITE_TOOL, -3.0F, 0.0F));
 
 	// Бездновый обсидиан
-	public static final Item ABYSSAL_SWORD = register("abyssal_sword", Item::new, new Item.Properties().sword(ABYSSAL_TOOL, 3.0F, -2.4F).fireResistant());
-	public static final Item ABYSSAL_PICKAXE = register("abyssal_pickaxe", Item::new, new Item.Properties().pickaxe(ABYSSAL_TOOL, 1.0F, -2.8F).fireResistant());
+	public static final Item ABYSSAL_SWORD = register("abyssal_sword", Item::new, lore(new Item.Properties().sword(ABYSSAL_TOOL, 3.0F, -2.4F).fireResistant(), "abyssal_sword", 1));
+	public static final Item ABYSSAL_PICKAXE = register("abyssal_pickaxe", Item::new, lore(new Item.Properties().pickaxe(ABYSSAL_TOOL, 1.0F, -2.8F).fireResistant(), "abyssal_pickaxe", 1));
 	public static final Item ABYSSAL_AXE = register("abyssal_axe", Item::new, new Item.Properties().axe(ABYSSAL_TOOL, 5.0F, -3.0F).fireResistant());
 	public static final Item ABYSSAL_SHOVEL = register("abyssal_shovel", Item::new, new Item.Properties().shovel(ABYSSAL_TOOL, 1.5F, -3.0F).fireResistant());
 	public static final Item ABYSSAL_HOE = register("abyssal_hoe", Item::new, new Item.Properties().hoe(ABYSSAL_TOOL, -4.0F, 0.0F).fireResistant());
-	public static final Item ABYSSAL_HELMET = register("abyssal_helmet", Item::new, new Item.Properties().humanoidArmor(ABYSSAL_ARMOR, ArmorType.HELMET).fireResistant());
-	public static final Item ABYSSAL_CHESTPLATE = register("abyssal_chestplate", Item::new,
-		new Item.Properties().humanoidArmor(ABYSSAL_ARMOR, ArmorType.CHESTPLATE).fireResistant());
-	public static final Item ABYSSAL_LEGGINGS = register("abyssal_leggings", Item::new, new Item.Properties().humanoidArmor(ABYSSAL_ARMOR, ArmorType.LEGGINGS).fireResistant());
-	public static final Item ABYSSAL_BOOTS = register("abyssal_boots", Item::new, new Item.Properties().humanoidArmor(ABYSSAL_ARMOR, ArmorType.BOOTS).fireResistant());
+	public static final Item ABYSSAL_HELMET = register("abyssal_helmet", Item::new, lore(new Item.Properties().humanoidArmor(ABYSSAL_ARMOR, ArmorType.HELMET).fireResistant(), "abyssal_helmet", 1));
+	public static final Item ABYSSAL_CHESTPLATE = register("abyssal_chestplate", Item::new, lore(new Item.Properties().humanoidArmor(ABYSSAL_ARMOR, ArmorType.CHESTPLATE).fireResistant(), "abyssal_chestplate", 1));
+	public static final Item ABYSSAL_LEGGINGS = register("abyssal_leggings", Item::new, lore(new Item.Properties().humanoidArmor(ABYSSAL_ARMOR, ArmorType.LEGGINGS).fireResistant(), "abyssal_leggings", 1));
+	public static final Item ABYSSAL_BOOTS = register("abyssal_boots", Item::new, lore(new Item.Properties().humanoidArmor(ABYSSAL_ARMOR, ArmorType.BOOTS).fireResistant(), "abyssal_boots", 1));
 
 	// Броня из эфирита
 	public static final Item ETHERITE_HELMET = register("etherite_helmet", Item::new, new Item.Properties().humanoidArmor(ETHERITE_ARMOR, ArmorType.HELMET));

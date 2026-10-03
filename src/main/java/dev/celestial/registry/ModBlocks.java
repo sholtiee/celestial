@@ -84,9 +84,9 @@ public final class ModBlocks {
 	public static final Block STARQUARTZ_ORE = register("starquartz_ore", p -> new DropExperienceBlock(UniformInt.of(3, 7), p),
 		Properties.ofFullCopy(SKYSTONE).strength(3.0F, 6.0F).lightLevel(s -> 4));
 	public static final Block METEORITE = register("meteorite", Block::new,
-		Properties.of().mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(4.0F, 9.0F).lightLevel(s -> 7).sound(SoundType.ANCIENT_DEBRIS));
+		Properties.of().mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(4.0F, 9.0F).lightLevel(s -> 7).sound(SoundType.ANCIENT_DEBRIS), 1);
 	public static final Block TELESCOPE = register("telescope", dev.celestial.fading.TelescopeBlock::new,
-		Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(1.5F).noOcclusion().sound(SoundType.COPPER));
+		Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(1.5F).noOcclusion().sound(SoundType.COPPER), 1);
 	public static final Block ETHERITE_BLOCK = register("etherite_block", Block::new,
 		Properties.of().mapColor(MapColor.DIAMOND).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.METAL));
 	public static final Block SKY_CRYSTAL = register("sky_crystal", p -> new AmethystClusterBlock(7.0F, 10.0F, p),
@@ -208,7 +208,7 @@ public final class ModBlocks {
 	public static final Block GLOWSHROOM = register("glowshroom",
 		p -> new net.minecraft.world.level.block.MushroomBlock(dev.celestial.world.dim.AbyssFeatures.HUGE_GLOWSHROOM, p),
 		Properties.of().mapColor(MapColor.COLOR_CYAN).noCollision().randomTicks().instabreak().sound(SoundType.GRASS).lightLevel(s -> 10)
-			.offsetType(net.minecraft.world.level.block.state.BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.POPPED));
+			.offsetType(net.minecraft.world.level.block.state.BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.POPPED), 1);
 	public static final Block GLOWSHROOM_CAP = register("glowshroom_cap", net.minecraft.world.level.block.HugeMushroomBlock::new,
 		Properties.of().mapColor(MapColor.COLOR_CYAN).strength(0.2F).sound(SoundType.WOOD).lightLevel(s -> 13));
 	public static final Block GLOWSHROOM_STEM = register("glowshroom_stem", net.minecraft.world.level.block.HugeMushroomBlock::new,
@@ -221,16 +221,16 @@ public final class ModBlocks {
 
 	public static final Block STAR_COLLECTOR = register("star_collector", dev.celestial.starlight.StarCollectorBlock::new,
 		Properties.of().mapColor(MapColor.QUARTZ).strength(2.0F).noOcclusion().sound(SoundType.STONE)
-			.lightLevel(s -> s.getValue(dev.celestial.starlight.StarCollectorBlock.CHARGE) * 3));
+			.lightLevel(s -> s.getValue(dev.celestial.starlight.StarCollectorBlock.CHARGE) * 3), 2);
 	public static final Block STAR_BASIN = register("star_basin", dev.celestial.starlight.StarBasinBlock::new,
 		Properties.of().mapColor(MapColor.QUARTZ).strength(2.0F).noOcclusion().sound(SoundType.STONE)
-			.lightLevel(s -> s.getValue(dev.celestial.starlight.StarBasinBlock.LEVEL) * 4));
+			.lightLevel(s -> s.getValue(dev.celestial.starlight.StarBasinBlock.LEVEL) * 4), 2);
 	public static final Block WARD = register("ward", dev.celestial.starlight.WardBlock::new,
 		Properties.of().mapColor(MapColor.QUARTZ).strength(3.0F).noOcclusion().sound(SoundType.STONE)
-			.lightLevel(s -> s.getValue(dev.celestial.starlight.WardBlock.LIT) ? 15 : s.getValue(dev.celestial.starlight.WardBlock.CRYSTAL) ? 5 : 0));
+			.lightLevel(s -> s.getValue(dev.celestial.starlight.WardBlock.LIT) ? 15 : s.getValue(dev.celestial.starlight.WardBlock.CRYSTAL) ? 5 : 0), 2);
 	public static final Block BRAZIER = register("brazier", dev.celestial.boss.BrazierBlock::new,
 		Properties.of().mapColor(MapColor.COLOR_BLACK).strength(3.0F, 9.0F).noOcclusion().sound(SoundType.DEEPSLATE_BRICKS)
-			.lightLevel(s -> s.getValue(dev.celestial.boss.BrazierBlock.LIT) ? 15 : 0));
+			.lightLevel(s -> s.getValue(dev.celestial.boss.BrazierBlock.LIT) ? 15 : 0), 1);
 	public static final Block DEVOURER_SEAL = register("devourer_seal", dev.celestial.boss.DevourerSealBlock::new,
 		Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(-1.0F, 3600000.0F).noLootTable().lightLevel(s -> 6).sound(SoundType.DEEPSLATE));
 	public static final Block ABYSS_RIFT = registerNoItem("abyss_rift", dev.celestial.world.abyss.AbyssRiftBlock::new,
@@ -248,6 +248,19 @@ public final class ModBlocks {
 	private static Block registerNoItem(String name, Function<Properties, Block> factory, Properties properties) {
 		ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, Celestial.id(name));
 		return Blocks.register(key, factory, properties);
+	}
+
+	/** Блок с подсказкой в описании предмета (строки block.celestial.<имя>.lore1..N). */
+	private static Block register(String name, Function<Properties, Block> factory, Properties properties, int loreLines) {
+		Block block = registerNoItem(name, factory, properties);
+		java.util.List<net.minecraft.network.chat.Component> lines = new java.util.ArrayList<>();
+		for (int i = 1; i <= loreLines; i++) {
+			lines.add(net.minecraft.network.chat.Component.translatable("block.celestial." + name + ".lore" + i).withStyle(net.minecraft.ChatFormatting.GRAY));
+		}
+		ModItems.register(name, p -> new BlockItem(block, p), new Item.Properties().useBlockDescriptionPrefix()
+			.component(net.minecraft.core.component.DataComponents.LORE, new net.minecraft.world.item.component.ItemLore(lines)));
+		WITH_ITEMS.add(block);
+		return block;
 	}
 
 	private static Block register(String name, Function<Properties, Block> factory, Properties properties) {
