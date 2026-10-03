@@ -14,7 +14,14 @@ public final class PortalTypes {
 		s -> s.is(ModBlocks.GOLDEN_GRASS) || s.is(ModBlocks.SKYSTONE),
 		() -> ModBlocks.SKYSTONE_BRICKS.defaultBlockState(), 124);
 
-	public static final List<PortalType> ALL = List.of(HEAVEN);
+	/** Ледяные Чертоги: рамка из кирпичей морозного камня, зажигается Тёмным Ядром (награда Акта II). */
+	public static final PortalType FROZEN = new PortalType("frozen",
+		() -> ModBlocks.FROST_STONE_BRICKS, () -> ModBlocks.FROZEN_PORTAL, () -> ModItems.DARK_CORE,
+		Level.OVERWORLD, dev.celestial.world.dim.AbyssFeatures.FROZEN_HALLS,
+		s -> s.is(net.minecraft.world.level.block.Blocks.SNOW_BLOCK) || s.is(net.minecraft.world.level.block.Blocks.PACKED_ICE) || s.is(ModBlocks.FROST_STONE),
+		() -> ModBlocks.FROST_STONE_BRICKS.defaultBlockState(), 90);
+
+	public static final List<PortalType> ALL = List.of(HEAVEN, FROZEN);
 
 	private PortalTypes() {}
 }

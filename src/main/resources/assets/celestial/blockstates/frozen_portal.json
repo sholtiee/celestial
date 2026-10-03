@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "celestial:block/frozen_portal_ns"
+    },
+    "axis=z": {
+      "model": "celestial:block/frozen_portal_ew"
+    }
+  }
+}

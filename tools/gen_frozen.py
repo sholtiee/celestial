@@ -187,8 +187,37 @@ def biomes():
             'features': feats, 'has_precipitation': True, 'temperature': -0.7})
 
 
+def portal():
+    """Завеса портала: наша анимированная текстура портала Рая, перекрашенная в ледяные тона; форма модели — как у ванильного портала."""
+    import colorsys
+    import json
+    from PIL import Image
+    from gen_assets import ASSETS, VANILLA, shaped
+    src = Image.open(os.path.join(ASSETS, 'textures/block/heaven_portal.png')).convert('RGBA')
+    px = src.load()
+    for y in range(src.height):
+        for x in range(src.width):
+            r, g, b, a = px[x, y]
+            h, l, sat = colorsys.rgb_to_hls(r / 255, g / 255, b / 255)
+            nr, ng, nb = colorsys.hls_to_rgb(0.53, min(1.0, l * 1.05), min(1.0, sat * 0.8 + 0.2))
+            px[x, y] = (int(nr * 255), int(ng * 255), int(nb * 255), a)
+    save_png(src, 'block/frozen_portal')
+    with open(os.path.join(ASSETS, 'textures/block/frozen_portal.png.mcmeta'), 'w') as f:
+        json.dump({'animation': {'frametime': 3, 'interpolate': True}}, f)
+    blockstate('frozen_portal', {'variants': {'axis=x': {'model': c('block/frozen_portal_ns')}, 'axis=z': {'model': c('block/frozen_portal_ew')}}})
+    for suffix in ('ns', 'ew'):
+        with open(os.path.join(VANILLA, f'models/block/nether_portal_{suffix}.json')) as f:
+            m = json.load(f)
+        m['textures'] = {'particle': c('block/frozen_portal'), 'portal': c('block/frozen_portal')}
+        model(f'block/frozen_portal_{suffix}', m)
+    # рамка: 4 кирпича морозного камня из синего льда и звёздного обломка — делается в Верхнем мире
+    shaped('frost_stone_bricks_from_ice', c('frost_stone_bricks'), [' B ', 'BSB', ' B '],
+           {'B': 'minecraft:blue_ice', 'S': c('star_fragment')}, 4, 'building')
+
+
 def main():
     blocks()
+    portal()
     dimension()
     noises()
     surface()
@@ -203,6 +232,9 @@ def main():
         'biome.celestial.ice_spires': ('Ледяные шпили', 'Ice Spires'),
         'biome.celestial.aurora_fields': ('Поля сияния', 'Aurora Fields'),
         'biome.celestial.frozen_sea': ('Замёрзшее море', 'Frozen Sea'),
+        'block.celestial.frozen_portal': ('Ледяные врата', 'Frozen Gate'),
+        'story.celestial.frozen_portal_lit': ('§bЯдро вспыхивает холодом. Рамка затягивается льдом — Ледяные врата открыты!',
+                                              '§bThe Core flares with cold. The frame frosts over: the Frozen Gate is open!'),
     })
     print('ok: Ледяные Чертоги')
 

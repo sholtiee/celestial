@@ -62,7 +62,7 @@ public final class ModItems {
 	// Звёздный свет (волна 0.3)
 	public static final Item STARLIGHT_FLASK = register("starlight_flask", dev.celestial.starlight.StarlightFlaskItem::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(16).usingConvertsTo(net.minecraft.world.item.Items.GLASS_BOTTLE)
 			.component(net.minecraft.core.component.DataComponents.CONSUMABLE, net.minecraft.world.item.component.Consumables.defaultDrink().build()), "starlight_flask", 2));
-	public static final Item DARK_CORE = register("dark_core", Item::new, lore(new Item.Properties().rarity(Rarity.EPIC).stacksTo(1).fireResistant(), "dark_core", 2));
+	public static final Item DARK_CORE = register("dark_core", dev.celestial.item.DarkCoreItem::new, lore(new Item.Properties().rarity(Rarity.EPIC).stacksTo(1).fireResistant(), "dark_core", 2));
 	public static final Item WORM_CHITIN = register("worm_chitin", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON), "worm_chitin", 1));
 	public static final Item STARSTEEL_INGOT = register("starsteel_ingot", Item::new, lore(new Item.Properties(), "starsteel_ingot", 1));
 	public static final Item CHARGED_CRYSTAL = register("charged_crystal", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(16), "charged_crystal", 1));

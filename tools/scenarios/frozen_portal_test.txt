@@ -1,0 +1,20 @@
+# Ледяные врата: рамка из кирпичей морозного камня + Тёмное Ядро → Ледяные Чертоги
+/gamemode creative
+/effect clear @s
+/execute in minecraft:overworld run tp @s 93 90 -293
+wait 60
+/execute in minecraft:overworld run fill 96 70 -296 99 74 -296 celestial:frost_stone_bricks
+/execute in minecraft:overworld run fill 97 71 -296 98 73 -296 minecraft:air
+/execute in minecraft:overworld run tp @s 97 71 -292 180 0
+wait 10
+/item replace entity @s weapon.mainhand with celestial:dark_core
+use 97 70 -296 up
+wait 20
+togglehud
+shot frozen_gate
+togglehud
+/execute in minecraft:overworld run tp @s 97 71 -296
+wait 120
+pos
+shot frozen_arrival
+quit

@@ -243,6 +243,9 @@ public final class ModBlocks {
 			.strength(1.5F).lightLevel(s -> 11).pushReaction(PushReaction.POPPED));
 	public static final Block FROST_ORE = register("frost_ore", p -> new DropExperienceBlock(UniformInt.of(3, 6), p),
 		Properties.ofFullCopy(FROST_STONE).strength(4.0F, 6.0F).sound(SoundType.DEEPSLATE));
+	public static final Block FROZEN_PORTAL = registerNoItem("frozen_portal",
+		p -> new dev.celestial.world.portal.CelestialPortalBlock(() -> dev.celestial.world.portal.PortalTypes.FROZEN, p),
+		Properties.of().noCollision().strength(-1.0F).sound(SoundType.GLASS).lightLevel(s -> 11).pushReaction(PushReaction.IMMOVEABLE).noLootTable());
 	public static final Block ABYSS_RIFT = registerNoItem("abyss_rift", dev.celestial.world.abyss.AbyssRiftBlock::new,
 		Properties.of().mapColor(MapColor.COLOR_BLACK).noCollision().lightLevel(s -> 8).strength(-1.0F, 3600000.0F).noLootTable()
 			.pushReaction(PushReaction.IMMOVEABLE));
