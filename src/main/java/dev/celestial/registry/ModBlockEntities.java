@@ -20,6 +20,9 @@ public final class ModBlockEntities {
 	public static final BlockEntityType<dev.celestial.starlight.WardBlockEntity> WARD = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("ward"),
 		new BlockEntityType<>(dev.celestial.starlight.WardBlockEntity::new, Set.of(ModBlocks.WARD)));
+	public static final BlockEntityType<dev.celestial.boss.DevourerSealBlockEntity> DEVOURER_SEAL = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("devourer_seal"),
+		new BlockEntityType<>(dev.celestial.boss.DevourerSealBlockEntity::new, Set.of(ModBlocks.DEVOURER_SEAL)));
 	public static final BlockEntityType<dev.celestial.block.light.BeamSourceBlockEntity> BEAM_SOURCE = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("beam_source"),
 		new BlockEntityType<>(dev.celestial.block.light.BeamSourceBlockEntity::new, Set.of(ModBlocks.SUN_LENS, ModBlocks.BEAM_LANTERN)));

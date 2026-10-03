@@ -22,6 +22,9 @@ public final class ModSounds {
 	public static final SoundEvent SERAPH_ROAR = register("entity.fallen_seraph.roar");
 	public static final SoundEvent FADING_GROW = register("fading.grow");
 	public static final SoundEvent TRIAL_START = register("trial.start");
+	public static final net.minecraft.core.Holder<SoundEvent> MUSIC_DEVOURER_BATTLE = registerHolder("music.devourer_battle");
+	public static final net.minecraft.core.Holder<SoundEvent> MUSIC_ABYSS = registerHolder("music.abyss");
+	public static final SoundEvent DEVOURER_ROAR = register("entity.light_devourer.roar");
 	public static final SoundEvent HUNTER_SCREECH = register("entity.blind_hunter.screech");
 	public static final SoundEvent LIGHT_EATER_FEED = register("entity.light_eater.feed");
 	public static final SoundEvent WORM_BITE = register("entity.deep_worm.bite");

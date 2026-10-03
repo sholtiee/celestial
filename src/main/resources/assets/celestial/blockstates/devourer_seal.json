@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "awakened=false": {
+      "model": "celestial:block/devourer_seal"
+    },
+    "awakened=true": {
+      "model": "celestial:block/devourer_seal_awakened"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "criteria": {
+    "armor": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "celestial:abyssal_chestplate"
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:abyssal_chestplate"
+    },
+    "title": {
+      "translate": "advancements.celestial.dark_suits_me.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.dark_suits_me.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "armor"
+    ]
+  ],
+  "parent": "celestial:story/beneath_the_clouds"
+}

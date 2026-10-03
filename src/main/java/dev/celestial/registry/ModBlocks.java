@@ -228,6 +228,11 @@ public final class ModBlocks {
 	public static final Block WARD = register("ward", dev.celestial.starlight.WardBlock::new,
 		Properties.of().mapColor(MapColor.QUARTZ).strength(3.0F).noOcclusion().sound(SoundType.STONE)
 			.lightLevel(s -> s.getValue(dev.celestial.starlight.WardBlock.LIT) ? 15 : s.getValue(dev.celestial.starlight.WardBlock.CRYSTAL) ? 5 : 0));
+	public static final Block BRAZIER = register("brazier", dev.celestial.boss.BrazierBlock::new,
+		Properties.of().mapColor(MapColor.COLOR_BLACK).strength(3.0F, 9.0F).noOcclusion().sound(SoundType.DEEPSLATE_BRICKS)
+			.lightLevel(s -> s.getValue(dev.celestial.boss.BrazierBlock.LIT) ? 15 : 0));
+	public static final Block DEVOURER_SEAL = register("devourer_seal", dev.celestial.boss.DevourerSealBlock::new,
+		Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(-1.0F, 3600000.0F).noLootTable().lightLevel(s -> 6).sound(SoundType.DEEPSLATE));
 	public static final Block ABYSS_RIFT = registerNoItem("abyss_rift", dev.celestial.world.abyss.AbyssRiftBlock::new,
 		Properties.of().mapColor(MapColor.COLOR_BLACK).noCollision().lightLevel(s -> 8).strength(-1.0F, 3600000.0F).noLootTable()
 			.pushReaction(PushReaction.IMMOVEABLE));

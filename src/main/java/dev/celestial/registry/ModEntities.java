@@ -86,6 +86,10 @@ public final class ModEntities {
 	public static final EntityType<dev.celestial.entity.DeepWorm> DEEP_WORM = register("deep_worm",
 		EntityType.Builder.of(dev.celestial.entity.DeepWorm::new, MobCategory.MONSTER).sized(1.6F, 3.2F).eyeHeight(2.8F).clientTrackingRange(12));
 
+	public static final EntityType<dev.celestial.boss.LightDevourer> LIGHT_DEVOURER = register("light_devourer",
+		EntityType.Builder.of(dev.celestial.boss.LightDevourer::new, MobCategory.MONSTER).fireImmune().sized(5.0F, 2.0F).eyeHeight(1.0F)
+			.clientTrackingRange(16));
+
 	// Снаряды (без яиц призыва)
 	public static final EntityType<StarArrow> STAR_ARROW = registerNoEgg("star_arrow",
 		EntityType.Builder.<StarArrow>of(StarArrow::new, MobCategory.MISC).noLootTable().sized(0.5F, 0.5F).eyeHeight(0.13F).clientTrackingRange(4).updateInterval(20));
@@ -125,6 +129,7 @@ public final class ModEntities {
 		FabricDefaultAttributeRegistry.register(BLIND_HUNTER, dev.celestial.entity.BlindHunter.createAttributes());
 		FabricDefaultAttributeRegistry.register(LIGHT_EATER, dev.celestial.entity.LightEater.createAttributes());
 		FabricDefaultAttributeRegistry.register(DEEP_WORM, dev.celestial.entity.DeepWorm.createAttributes());
+		FabricDefaultAttributeRegistry.register(LIGHT_DEVOURER, dev.celestial.boss.LightDevourer.createAttributes());
 		SpawnPlacements.register(BLIND_HUNTER, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
 		SpawnPlacements.register(LIGHT_EATER, SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING,
 			(type, level, reason, pos, random) -> level.getBlockState(pos).isAir());

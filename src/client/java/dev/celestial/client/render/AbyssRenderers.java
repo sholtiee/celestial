@@ -37,6 +37,8 @@ public final class AbyssRenderers {
 		ModelLayerRegistry.registerModelLayer(BLIND_HUNTER, AbyssModels.BlindHunter::createLayer);
 		ModelLayerRegistry.registerModelLayer(LIGHT_EATER, AbyssModels.LightEater::createLayer);
 		ModelLayerRegistry.registerModelLayer(DEEP_WORM, AbyssModels.DeepWorm::createLayer);
+		ModelLayerRegistry.registerModelLayer(DevourerRenderer.LAYER, DevourerRenderer.Model::createLayer);
+		EntityRendererRegistry.register(ModEntities.LIGHT_DEVOURER, DevourerRenderer::new);
 		EntityRendererRegistry.register(ModEntities.BLIND_HUNTER,
 			ctx -> new Renderer<>(ctx, new AbyssModels.BlindHunter(ctx.bakeLayer(BLIND_HUNTER)), "blind_hunter", 0.7F, 1.0F));
 		EntityRendererRegistry.register(ModEntities.LIGHT_EATER,

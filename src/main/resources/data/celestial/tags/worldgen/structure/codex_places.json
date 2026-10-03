@@ -1,4 +1,5 @@
 {
+  "replace": false,
   "values": [
     "celestial:sky_village",
     "celestial:sky_ruins",
@@ -11,6 +12,8 @@
     "celestial:observatory",
     "celestial:flame_sanctuary",
     "celestial:void_rift",
-    "celestial:abyss_rift"
+    "celestial:abyss_rift",
+    "celestial:sunken_temple",
+    "celestial:devourer_lair"
   ]
 }

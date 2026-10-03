@@ -13,13 +13,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Minecraft.class)
 public abstract class BossMusicMixin {
 	private static final Music SERAPH_BATTLE = new Music(ModSounds.MUSIC_SERAPH_BATTLE, 0, 0, true);
+	private static final Music DEVOURER_BATTLE = new Music(ModSounds.MUSIC_DEVOURER_BATTLE, 0, 0, true);
 
 	@Inject(method = "getSituationalMusic", at = @At("HEAD"), cancellable = true)
 	private void celestial$bossMusic(CallbackInfoReturnable<Music> cir) {
 		Minecraft mc = (Minecraft) (Object) this;
 		if (mc.player != null && mc.gui.screen() == null && mc.player.level().dimension() != Level.END
 			&& mc.gui.hud.getBossOverlay().shouldPlayMusic()) {
-			cir.setReturnValue(SERAPH_BATTLE);
+			// тема по ближайшему боссу мода
+			boolean devourer = !mc.player.level().getEntitiesOfClass(dev.celestial.boss.LightDevourer.class,
+				mc.player.getBoundingBox().inflate(80)).isEmpty();
+			cir.setReturnValue(devourer ? DEVOURER_BATTLE : SERAPH_BATTLE);
 		}
 	}
 }

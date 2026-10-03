@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:jigsaw",
+  "biomes": "#celestial:has_structure/devourer_lair",
+  "max_distance_from_center": 80,
+  "size": 1,
+  "spawn_overrides": {},
+  "start_height": {
+    "absolute": 36
+  },
+  "start_pool": "celestial:devourer_lair/main",
+  "step": "underground_structures",
+  "terrain_adaptation": "beard_box",
+  "use_expansion_hack": false
+}

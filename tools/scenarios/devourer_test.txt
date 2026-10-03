@@ -1,0 +1,53 @@
+# Логово и Пожиратель Света: пробуждение, жаровни, уязвимость, фазы, смерть → Акт II
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/celestial act 1
+/execute in celestial:abyss run tp @s 600 80 600
+wait 80
+/execute in celestial:abyss run place template celestial:devourer_lair/main 584 60 584
+wait 40
+/kill @e[type=!minecraft:player,distance=..80]
+/execute in celestial:abyss run tp @s 600 62 620 180 -10
+/effect give @s minecraft:night_vision 900 0 true
+wait 20
+togglehud
+shot lair_inside
+togglehud
+/gamemode survival
+/effect give @s minecraft:resistance 900 4 true
+/effect give @s minecraft:regeneration 900 2 true
+/execute in celestial:abyss run tp @s 600 62 608 180 -15
+wait 60
+togglehud
+shot devourer_awake
+togglehud
+/damage @e[type=celestial:light_devourer,limit=1] 50 minecraft:player_attack by @s
+/data get entity @e[type=celestial:light_devourer,limit=1] Health
+/execute in celestial:abyss run tp @s 610 62 600 90 0
+/item replace entity @s weapon.mainhand with minecraft:flint_and_steel
+wait 5
+usenear celestial:brazier
+/execute in celestial:abyss run tp @s 600 62 610 180 0
+wait 5
+usenear celestial:brazier
+wait 20
+/damage @e[type=celestial:light_devourer,limit=1] 50 minecraft:player_attack by @s
+/data get entity @e[type=celestial:light_devourer,limit=1] Health
+/execute in celestial:abyss run tp @s 596 62 598 facing entity @e[type=celestial:light_devourer,limit=1]
+wait 10
+togglehud
+shot devourer_exposed
+/execute in celestial:abyss run tp @s 606 62 606 facing entity @e[type=celestial:light_devourer,limit=1]
+wait 5
+shot devourer_side
+togglehud
+/damage @e[type=celestial:light_devourer,limit=1] 400 minecraft:out_of_world
+wait 10
+/data get entity @e[type=celestial:light_devourer,limit=1] Health
+/kill @e[type=celestial:light_devourer]
+wait 60
+/celestial status
+/execute if entity @e[type=minecraft:item,nbt={Item:{id:"celestial:dark_core"}}] run say ЯДРО_ВЫПАЛО
+shot devourer_dead
+quit

@@ -16,3 +16,4 @@ python3 gen_abyss.py
 python3 gen_starlight.py
 python3 gen_abyss_mobs.py
 python3 gen_abyss_gear.py
+python3 gen_abyss_boss.py

@@ -91,6 +91,29 @@ public final class StoryEvents {
 		});
 	}
 
+	/** Акт II пройден: Пожиратель Света повержен — Тёмное Ядро, титры, Угасание отступает ещё на ступень. */
+	public static void onDevourerDefeated(ServerLevel level, LivingEntity boss) {
+		ItemEntity core = new ItemEntity(level, boss.getX(), boss.getY(), boss.getZ(), new ItemStack(ModItems.DARK_CORE));
+		core.setGlowingTag(true);
+		core.setUnlimitedLifetime();
+		level.addFreshEntity(core);
+		for (ServerPlayer p : level.getPlayers(p -> p.distanceToSqr(boss) < 96 * 96)) {
+			Story.DEVOURER.grant(p);
+			dev.celestial.data.CelestialData.update(p, d -> d.withGrace(d.grace() + 6));
+			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket(20, 100, 40));
+			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket(Component.translatable("story.celestial.act2.title")));
+			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket(Component.translatable("story.celestial.act2.subtitle")));
+			for (int i = 1; i <= 3; i++) {
+				p.sendSystemMessage(Component.translatable("story.celestial.act2." + i));
+			}
+		}
+		var server = level.getServer();
+		if (dev.celestial.data.CelestialData.world(server).act() < 2) {
+			dev.celestial.data.CelestialData.updateWorld(server, w -> w.withAct(2).withFlag("act2_done"));
+			dev.celestial.fading.Fading.weaken(server, 1);
+		}
+	}
+
 	/** Финал: все три осколка на алтаре. */
 	public static void onAltarComplete(ServerLevel level, net.minecraft.core.BlockPos altar) {
 		level.playSound(null, altar, SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, SoundSource.BLOCKS, 3.0F, 1.0F);

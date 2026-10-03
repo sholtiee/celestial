@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 7300201,
+    "separation": 8,
+    "spacing": 22
+  },
+  "structures": [
+    {
+      "structure": "celestial:sunken_temple",
+      "weight": 1
+    }
+  ]
+}

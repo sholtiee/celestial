@@ -1,0 +1,43 @@
+{
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "celestial:light_devourer"
+          }
+        }
+      }
+    },
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:dark_core"
+    },
+    "title": {
+      "translate": "advancements.celestial.heart_of_darkness.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.heart_of_darkness.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "killed",
+      "impossible"
+    ]
+  ],
+  "parent": "celestial:story/beneath_the_clouds",
+  "rewards": {
+    "experience": 500
+  }
+}

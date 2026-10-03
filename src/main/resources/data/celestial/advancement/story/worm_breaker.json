@@ -1,0 +1,36 @@
+{
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "celestial:deep_worm"
+          }
+        }
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:worm_chitin"
+    },
+    "title": {
+      "translate": "advancements.celestial.worm_breaker.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.worm_breaker.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "killed"
+    ]
+  ],
+  "parent": "celestial:story/beneath_the_clouds"
+}

@@ -12,7 +12,9 @@ public enum Story {
 	VOID("heart_of_the_void"),
 	GATES("gates_of_heaven"),
 	SERAPH("fall_of_the_seraph"),
-	FINALE("light_returns");
+	FINALE("light_returns"),
+	ABYSS("beneath_the_clouds"),
+	DEVOURER("heart_of_darkness");
 
 	public final Identifier id;
 

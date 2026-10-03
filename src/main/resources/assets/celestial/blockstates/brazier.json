@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "celestial:block/brazier"
+    },
+    "lit=true": {
+      "model": "celestial:block/brazier_lit"
+    }
+  }
+}

@@ -55,6 +55,13 @@ public class WandererJournalItem extends Item {
 		}
 		if (Story.FINALE.isDone(player)) {
 			page(pages, "finale");
+			page(pages, "task_abyss");
+		}
+		if (Story.ABYSS.isDone(player)) {
+			page(pages, "abyss");
+		}
+		if (Story.DEVOURER.isDone(player)) {
+			page(pages, "devourer");
 		}
 		return new WrittenBookContent(Filterable.passThrough("Дневник Странника"), "Странник", 0, pages, true);
 	}

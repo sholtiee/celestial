@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "celestial:block/devourer_seal",
+    "side": "celestial:block/abyss_bricks"
+  }
+}

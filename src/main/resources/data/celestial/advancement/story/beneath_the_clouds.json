@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "entered": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "celestial:abyss"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:abyss_stone"
+    },
+    "title": {
+      "translate": "advancements.celestial.beneath_the_clouds.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.beneath_the_clouds.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "entered"
+    ]
+  ],
+  "parent": "celestial:story/light_returns"
+}
