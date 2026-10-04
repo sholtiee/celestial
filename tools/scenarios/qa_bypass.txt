@@ -28,13 +28,16 @@ use 20005 200 20000 north
 wait 5
 /execute if block 20005 200 20000 celestial:rune_pedestal[solved=false]
 /gamemode creative
-# T3 этаж 5 Башни Испытаний (BUG-042): над финишем должно быть 2 блока воздуха
+# T3 этаж 5 Башни Испытаний (BUG-042): финиш (12,37,16) шаблона, над ним и над всеми облаками пути 2 блока воздуха, выше — потолок
 /say TEST T3 tower_floor5_headroom
 /execute in minecraft:overworld run place template celestial:trial_tower/main 20040 150 20000
 wait 40
-/execute if block 20043 188 20012 celestial:trial_goal
-/execute if block 20043 189 20012 minecraft:air
-/execute if block 20043 190 20012 minecraft:air
+/execute if block 20052 187 20016 celestial:trial_goal
+/execute if block 20052 188 20016 minecraft:air
+/execute if block 20052 189 20016 minecraft:air
+/execute if block 20053 183 20010 celestial:vanishing_cloud
+/execute if block 20053 184 20010 minecraft:air
+/execute if block 20053 185 20010 minecraft:air
 # T4 мирный режим (BUG-022): Тень и Морозный дух должны исчезнуть
 /say TEST T4 peaceful_despawn
 /summon celestial:shadow 20010 200 20010
@@ -85,5 +88,14 @@ wait 400
 wait 60
 /celestial status
 /gamemode creative
+# T8 Осколок Света (BUG-016): убийство Серафима рядом выдаёт осколок в инвентарь, дроп-лутом его нет
+/say TEST T8 light_shard_grant
+/clear @s celestial:light_shard
+/summon celestial:fallen_seraph ~ ~ ~5 {Tags:["qa_seraph"]}
+wait 10
+/kill @e[type=celestial:fallen_seraph]
+wait 20
+/execute if items entity @s container.* celestial:light_shard
+/execute unless entity @e[type=item,nbt={Item:{id:"celestial:light_shard"}}]
 /say TEST END
 quit

@@ -619,7 +619,7 @@ def gen_mobs():
     item_name('sky_jelly', 'Небесное желе', 'Sky Jelly')
     item_name('golden_fleece', 'Золотое руно', 'Golden Fleece')
     write_json(os.path.join(DATA, 'loot_table/entities/fallen_seraph.json'), {'type': 'minecraft:entity', 'pools': [
-        {'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': c('light_shard')}]},
+        # Осколок Света не лутом (пропадал за 5 минут, а Печать будит Серафима один раз): StoryEvents.onSeraphDefeated выдаёт его напрямую
         {'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': c('seraph_wings')}]},
         {'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': c('halo')}]},
         {'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': c('seraph_feather'), 'modifier': [

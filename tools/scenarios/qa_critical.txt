@@ -1,0 +1,32 @@
+# QA: проверка обходов и багов в выживании. Результаты — строки «Тест пройден/не пройден» в build/client.log после метки /say.
+/gamemode creative
+/effect clear @s
+/difficulty normal
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 20000 210 20000
+fly
+wait 120
+/fill 19990 199 19990 20030 199 20030 minecraft:smooth_stone
+/fill 19990 200 19990 20030 215 20030 minecraft:air
+# T3 этаж 5 Башни Испытаний (BUG-042): финиш (12,37,16) шаблона, над ним и над всеми облаками пути 2 блока воздуха, выше — потолок
+/say TEST T3 tower_floor5_headroom
+/execute in minecraft:overworld run place template celestial:trial_tower/main 20040 150 20000
+wait 40
+/execute if block 20052 187 20016 celestial:trial_goal
+/execute if block 20052 188 20016 minecraft:air
+/execute if block 20052 189 20016 minecraft:air
+/execute if block 20053 183 20010 celestial:vanishing_cloud
+/execute if block 20053 184 20010 minecraft:air
+/execute if block 20053 185 20010 minecraft:air
+# T8 Осколок Света (BUG-016): убийство Серафима рядом выдаёт осколок в инвентарь, дроп-лутом его нет
+/say TEST T8 light_shard_grant
+/clear @s celestial:light_shard
+/summon celestial:fallen_seraph ~ ~ ~5 {Tags:["qa_seraph"]}
+wait 10
+/kill @e[type=celestial:fallen_seraph]
+wait 20
+/execute if items entity @s container.* celestial:light_shard
+/execute unless entity @e[type=item,nbt={Item:{id:"celestial:light_shard"}}]
+/say TEST END
+quit

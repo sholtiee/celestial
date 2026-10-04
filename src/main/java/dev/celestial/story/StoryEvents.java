@@ -90,6 +90,16 @@ public final class StoryEvents {
 		level.getPlayers(p -> p.distanceToSqr(seraph) < 96 * 96).forEach(p -> {
 			Story.SERAPH.grant(p);
 			p.sendSystemMessage(Component.translatable("story.celestial.seraph_defeated"));
+			// Осколок Света нельзя потерять: Печать будит Серафима один раз, а без осколка закрыты и финал, и всё дальше.
+			// Выдаём каждому участнику прямо в инвентарь; если места нет — предмет лежит вечно.
+			ItemStack shard = new ItemStack(ModItems.LIGHT_SHARD);
+			if (!p.getInventory().add(shard)) {
+				ItemEntity drop = p.spawnAtLocation(level, shard);
+				if (drop != null) {
+					drop.setUnlimitedLifetime();
+					drop.setGlowingTag(true);
+				}
+			}
 		});
 	}
 
