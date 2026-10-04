@@ -128,8 +128,13 @@ public final class Fading {
 
 	/** Сюжет снизил Угасание (пройден акт). */
 	public static void weaken(MinecraftServer server, int stages) {
-		WorldState next = CelestialData.updateWorld(server, s -> s.withFading(s.fading() - stages));
-		announce(server, Component.translatable("fading.celestial.weaken", next.fading()));
+		long day = server.overworld().getOverworldClockTime() / 24000L;
+		// lastFadingDay обновляем: иначе следующая граница периода возвращала стадию через минуты после победы
+		boolean was = CelestialData.world(server).fading() > 0;
+		WorldState next = CelestialData.updateWorld(server, s -> s.withFading(s.fading() - stages).withLastFadingDay(Math.max(1L, day)));
+		if (enabled(server) && was) {  // при выключенном правиле или стадии 0 сообщение «Угасание отступает» не нужно
+			announce(server, Component.translatable("fading.celestial.weaken", next.fading()));
+		}
 	}
 
 	private static void announce(MinecraftServer server, Component message) {
@@ -167,7 +172,7 @@ public final class Fading {
 	/** Тени приходят во тьме вокруг игрока: не больше (стадия − 1) рядом. */
 	private static void spawnShadows(ServerLevel level, ServerPlayer player, int stage) {
 		RandomSource random = level.getRandom();
-		if (random.nextFloat() > 0.35F) {
+		if (level.getDifficulty() == net.minecraft.world.Difficulty.PEACEFUL || random.nextFloat() > 0.35F) {
 			return;
 		}
 		int near = level.getEntities(ModEntities.SHADOW, player.getBoundingBox().inflate(48), e -> true).size();

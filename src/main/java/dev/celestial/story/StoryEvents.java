@@ -27,7 +27,21 @@ public final class StoryEvents {
 	private StoryEvents() {}
 
 	public static void init() {
-		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> server.execute(() -> giveJournalOnce(handler.player)));
+		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> server.execute(() -> {
+			giveJournalOnce(handler.player);
+			Finale.ensureBlessing(handler.player);
+		}));
+		net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
+			Finale.ensureBlessing(newPlayer);
+			if (!alive) {  // смерть: тепло и страх не переносятся (иначе респаун у кровати в Чертогах = мгновенное замерзание)
+				dev.celestial.data.CelestialData.update(newPlayer, d -> d.withWarmth(100.0F).withFear(0.0F));
+			}
+		});
+		net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents.END_SERVER_TICK.register(server -> {
+			if (server.getTickCount() % 100 == 0) {  // молоко снимает эффекты
+				server.getPlayerList().getPlayers().forEach(Finale::ensureBlessing);
+			}
+		});
 
 		LootTableEvents.MODIFY.register((key, builder, source, registries) -> {
 			if (!source.isBuiltin()) {

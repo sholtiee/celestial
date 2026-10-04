@@ -488,6 +488,7 @@
   "quest.celestial.board.header": "✦ Angel quests (reputation: %s). Click [Take] or [Turn in]:",
   "quest.celestial.bring": "Bring: %s - %3$s/%2$s",
   "quest.celestial.done": "✦ Quest complete!",
+  "quest.celestial.done_today": "You already completed this quest today",
   "quest.celestial.explore": "Find and visit: %s",
   "quest.celestial.kill": "Defeat: %s - %3$s/%2$s",
   "quest.celestial.nothing": "Nothing to turn in",

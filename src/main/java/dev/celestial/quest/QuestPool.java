@@ -33,7 +33,8 @@ public final class QuestPool {
 	private QuestPool() {}
 
 	public static List<Quest> offers(long day, BlockPos board) {
-		RandomSource random = RandomSource.create(day * 341873128712L ^ board.asLong());
+		// сид только от дня: иначе передвинув доску на блок, получаешь новые поручения (обход «раз в день»)
+		RandomSource random = RandomSource.create(day * 341873128712L);
 		List<Quest> out = new ArrayList<>();
 		List<Template> pool = new ArrayList<>(TEMPLATES);
 		for (int i = 0; i < PER_DAY && !pool.isEmpty(); i++) {

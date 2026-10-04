@@ -488,6 +488,7 @@
   "quest.celestial.board.header": "✦ Поручения ангелов (репутация: %s). Нажми [Взять] или [Сдать]:",
   "quest.celestial.bring": "Принести: %s — %3$s/%2$s",
   "quest.celestial.done": "✦ Поручение выполнено!",
+  "quest.celestial.done_today": "Это поручение уже выполнено сегодня",
   "quest.celestial.explore": "Найти и посетить: %s",
   "quest.celestial.kill": "Одолеть: %s — %3$s/%2$s",
   "quest.celestial.nothing": "Нечего сдавать",

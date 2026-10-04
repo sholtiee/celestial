@@ -320,7 +320,7 @@ public class FallenSeraph extends Monster {
 			amount *= 0.5F;
 			level.sendParticles(ParticleTypes.WAX_ON, getX(), getY(0.6), getZ(), 6, 0.5, 0.8, 0.5, 0.05);
 		}
-		if (source.getDirectEntity() instanceof LightSpear || source.is(net.minecraft.tags.DamageTypeTags.IS_FALL)) {
+		if (source.getDirectEntity() instanceof LightSpear spear && spear.isBossSpear() || source.is(net.minecraft.tags.DamageTypeTags.IS_FALL)) {
 			return false;
 		}
 		return super.hurtServer(level, source, amount);

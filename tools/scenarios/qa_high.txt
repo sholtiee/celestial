@@ -1,0 +1,57 @@
+# QA: проверка исправлений высоких багов (см. docs/BUGS.md). Ожидаемые «Проверка пройдена» помечены в say.
+/gamemode creative
+/effect clear @s
+/difficulty normal
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 20000 210 20000
+fly
+wait 100
+/fill 19990 199 19990 20030 199 20030 minecraft:smooth_stone
+/fill 19990 200 19990 20030 215 20030 minecraft:air
+# H1 мирный режим (BUG-022): Тень и Морозный дух исчезают -> ожидаем «Проверка пройдена» дважды (unless)
+/say TEST H1 peaceful_despawn expect=pass,pass
+/summon celestial:shadow 20010 200 20010
+/summon celestial:frost_wraith 20012 202 20010
+wait 10
+/difficulty peaceful
+wait 80
+/execute unless entity @e[type=celestial:shadow,x=20010,y=200,z=20010,distance=..20]
+/execute unless entity @e[type=celestial:frost_wraith,x=20010,y=200,z=20010,distance=..20]
+/difficulty normal
+# H2 Копьё Света ранит Серафима (BUG-020): здоровье должно упасть ниже максимума
+/say TEST H2 spear_vs_seraph expect=pass
+/gamemode survival
+/tp @s 20000 200 20000 0 0
+/item replace entity @s weapon.mainhand with celestial:light_spear
+/summon celestial:fallen_seraph 20000 200 20006 {NoAI:1b,Tags:["qa_s"]}
+wait 20
+/data get entity @e[type=celestial:fallen_seraph,limit=1] Health
+useitem
+wait 40
+/data get entity @e[type=celestial:fallen_seraph,limit=1] Health
+/kill @e[type=celestial:fallen_seraph]
+wait 20
+# H3 благословение возвращается после смерти (BUG-021)
+/say TEST H3 blessing_after_death expect=pass
+/advancement grant @s only celestial:story/light_returns
+wait 40
+/execute if entity @s[nbt={active_effects:[{id:"celestial:blessing"}]}]
+/kill @s
+wait 80
+/execute if entity @s[nbt={active_effects:[{id:"celestial:blessing"}]}]
+# H4 тепло/страх сбрасываются после смерти (BUG-017)
+/say TEST H4 respawn_warmth expect=Тепло:100
+/execute in celestial:frozen_halls run tp @s 0 200 0
+/execute in celestial:frozen_halls run fill -3 198 -3 3 198 3 minecraft:glass
+/execute in celestial:frozen_halls run tp @s 0 199 0
+/item replace entity @s armor.feet with minecraft:air
+/tick sprint 1500
+wait 100
+/celestial status
+/kill @s
+wait 80
+/celestial status
+/gamemode creative
+/say TEST END
+quit

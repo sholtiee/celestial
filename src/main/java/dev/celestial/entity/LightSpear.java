@@ -43,6 +43,23 @@ public class LightSpear extends ThrowableItemProjectile {
 		return spear;
 	}
 
+	/** Копья босса: не бьют его свиту и кристаллы, а сам Серафим неуязвим только к ним (копья игрока и Звездопад ранят). */
+	public boolean isBossSpear() {
+		return hostile && !(getOwner() instanceof Player);
+	}
+
+	@Override
+	protected void addAdditionalSaveData(net.minecraft.world.level.storage.ValueOutput output) {
+		super.addAdditionalSaveData(output);
+		output.putBoolean("Hostile", hostile);  // без флага после перезахода «враждебное» копьё становилось предметом (дюп Звездопада)
+	}
+
+	@Override
+	protected void readAdditionalSaveData(net.minecraft.world.level.storage.ValueInput input) {
+		super.readAdditionalSaveData(input);
+		hostile = input.getBooleanOr("Hostile", false);
+	}
+
 	@Override
 	protected Item getDefaultItem() {
 		return ModItems.LIGHT_SPEAR;
@@ -67,7 +84,7 @@ public class LightSpear extends ThrowableItemProjectile {
 	protected void onHitEntity(EntityHitResult hit) {
 		super.onHitEntity(hit);
 		Entity target = hit.getEntity();
-		if (level() instanceof ServerLevel level && target != getOwner() && !(hostile && target instanceof FallenGuardian)) {
+		if (level() instanceof ServerLevel level && target != getOwner() && !(isBossSpear() && (target instanceof FallenGuardian || target instanceof SeraphCrystal))) {
 			target.hurtServer(level, damageSources().thrown(this, getOwner()), hostile ? 7.0F : DAMAGE);
 			if (target instanceof LivingEntity living) {
 				living.addEffect(new MobEffectInstance(MobEffects.GLOWING, 100), this);

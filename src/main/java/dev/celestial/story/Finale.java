@@ -19,6 +19,13 @@ public final class Finale {
 		for (int i = 1; i <= 5; i++) {
 			player.sendSystemMessage(Component.translatable("story.celestial.epilogue." + i));
 		}
-		player.addEffect(new MobEffectInstance(ModEffects.BLESSING, MobEffectInstance.INFINITE_DURATION, 0, true, true, true));
+		ensureBlessing(player);
+	}
+
+	/** Вечное Благословение возвращается после смерти, молока и перезахода. */
+	public static void ensureBlessing(ServerPlayer player) {
+		if (Story.FINALE.isDone(player) && !player.hasEffect(ModEffects.BLESSING)) {
+			player.addEffect(new MobEffectInstance(ModEffects.BLESSING, MobEffectInstance.INFINITE_DURATION, 0, true, true, true));
+		}
 	}
 }

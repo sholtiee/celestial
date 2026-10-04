@@ -34,11 +34,11 @@ import net.minecraft.world.level.levelgen.Heightmap;
 
 public final class ModEntities {
 	public static final EntityType<FallenGuardian> FALLEN_GUARDIAN = register("fallen_guardian",
-		EntityType.Builder.of(FallenGuardian::new, MobCategory.MONSTER).sized(0.6F, 1.95F).eyeHeight(1.74F).clientTrackingRange(8));
+		EntityType.Builder.of(FallenGuardian::new, MobCategory.MONSTER).sized(0.6F, 1.95F).eyeHeight(1.74F).clientTrackingRange(8).notInPeaceful());
 	public static final EntityType<StormSpirit> STORM_SPIRIT = register("storm_spirit",
-		EntityType.Builder.of(StormSpirit::new, MobCategory.MONSTER).fireImmune().sized(0.6F, 1.8F).clientTrackingRange(8));
+		EntityType.Builder.of(StormSpirit::new, MobCategory.MONSTER).fireImmune().sized(0.6F, 1.8F).clientTrackingRange(8).notInPeaceful());
 	public static final EntityType<WingedSerpent> WINGED_SERPENT = register("winged_serpent",
-		EntityType.Builder.of(WingedSerpent::new, MobCategory.MONSTER).sized(0.9F, 0.5F).eyeHeight(0.175F).clientTrackingRange(8));
+		EntityType.Builder.of(WingedSerpent::new, MobCategory.MONSTER).sized(0.9F, 0.5F).eyeHeight(0.175F).clientTrackingRange(8).notInPeaceful());
 	public static final EntityType<CloudWhale> CLOUD_WHALE = register("cloud_whale",
 		EntityType.Builder.of(CloudWhale::new, MobCategory.CREATURE).sized(3.5F, 2.2F).eyeHeight(1.2F).clientTrackingRange(12));
 	public static final EntityType<LightWisp> LIGHT_WISP = register("light_wisp",
@@ -63,13 +63,13 @@ public final class ModEntities {
 	public static final EntityType<CloudJelly> CLOUD_JELLY = register("cloud_jelly",
 		EntityType.Builder.of(CloudJelly::new, MobCategory.AMBIENT).sized(1.4F, 1.1F).eyeHeight(0.6F).clientTrackingRange(8));
 	public static final EntityType<Mimic> MIMIC = register("mimic",
-		EntityType.Builder.of(Mimic::new, MobCategory.MONSTER).sized(0.9F, 0.9F).eyeHeight(0.6F).clientTrackingRange(8));
+		EntityType.Builder.of(Mimic::new, MobCategory.MONSTER).sized(0.9F, 0.9F).eyeHeight(0.6F).clientTrackingRange(8).notInPeaceful());
 	public static final EntityType<StormElemental> STORM_ELEMENTAL = register("storm_elemental",
-		EntityType.Builder.of(StormElemental::new, MobCategory.MONSTER).fireImmune().sized(1.5F, 4.5F).eyeHeight(3.8F).clientTrackingRange(12));
+		EntityType.Builder.of(StormElemental::new, MobCategory.MONSTER).fireImmune().sized(1.5F, 4.5F).eyeHeight(3.8F).clientTrackingRange(12).notInPeaceful());
 
 	// Угасание
 	public static final EntityType<dev.celestial.fading.Shadow> SHADOW = register("shadow",
-		EntityType.Builder.of(dev.celestial.fading.Shadow::new, MobCategory.MONSTER).sized(0.6F, 1.95F).eyeHeight(1.74F).clientTrackingRange(8));
+		EntityType.Builder.of(dev.celestial.fading.Shadow::new, MobCategory.MONSTER).sized(0.6F, 1.95F).eyeHeight(1.74F).clientTrackingRange(8).notInPeaceful());
 	public static final EntityType<dev.celestial.fading.Meteor> METEOR = registerNoEgg("meteor",
 		EntityType.Builder.<dev.celestial.fading.Meteor>of(dev.celestial.fading.Meteor::new, MobCategory.MISC).noLootTable().sized(1.0F, 1.0F)
 			.clientTrackingRange(16).updateInterval(2));
@@ -80,14 +80,14 @@ public final class ModEntities {
 
 	// Бездна (волна 0.3)
 	public static final EntityType<dev.celestial.entity.BlindHunter> BLIND_HUNTER = register("blind_hunter",
-		EntityType.Builder.of(dev.celestial.entity.BlindHunter::new, MobCategory.MONSTER).sized(0.9F, 2.6F).eyeHeight(2.3F).clientTrackingRange(10));
+		EntityType.Builder.of(dev.celestial.entity.BlindHunter::new, MobCategory.MONSTER).sized(0.9F, 2.6F).eyeHeight(2.3F).clientTrackingRange(10).notInPeaceful());
 	public static final EntityType<dev.celestial.entity.LightEater> LIGHT_EATER = register("light_eater",
-		EntityType.Builder.of(dev.celestial.entity.LightEater::new, MobCategory.MONSTER).sized(0.8F, 0.6F).eyeHeight(0.3F).clientTrackingRange(8));
+		EntityType.Builder.of(dev.celestial.entity.LightEater::new, MobCategory.MONSTER).sized(0.8F, 0.6F).eyeHeight(0.3F).clientTrackingRange(8).notInPeaceful());
 	public static final EntityType<dev.celestial.entity.DeepWorm> DEEP_WORM = register("deep_worm",
-		EntityType.Builder.of(dev.celestial.entity.DeepWorm::new, MobCategory.MONSTER).sized(1.6F, 3.2F).eyeHeight(2.8F).clientTrackingRange(12));
+		EntityType.Builder.of(dev.celestial.entity.DeepWorm::new, MobCategory.MONSTER).sized(1.6F, 3.2F).eyeHeight(2.8F).clientTrackingRange(12).notInPeaceful());
 
 	public static final EntityType<dev.celestial.entity.FrostWraith> FROST_WRAITH = register("frost_wraith",
-		EntityType.Builder.of(dev.celestial.entity.FrostWraith::new, MobCategory.MONSTER).sized(0.7F, 1.8F).eyeHeight(1.5F).clientTrackingRange(8));
+		EntityType.Builder.of(dev.celestial.entity.FrostWraith::new, MobCategory.MONSTER).sized(0.7F, 1.8F).eyeHeight(1.5F).clientTrackingRange(8).notInPeaceful());
 	public static final EntityType<dev.celestial.boss.LightDevourer> LIGHT_DEVOURER = register("light_devourer",
 		EntityType.Builder.of(dev.celestial.boss.LightDevourer::new, MobCategory.MONSTER).fireImmune().sized(5.0F, 2.0F).eyeHeight(1.0F)
 			.clientTrackingRange(16));

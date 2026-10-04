@@ -79,6 +79,12 @@ public class LightReceiverBlock extends Block implements BeamTarget, Rotatable {
 
 	@Override
 	public BlockState rotateWithFork(BlockState state) {
-		return state.cycle(COLOR).setValue(POWERED, false);
+		// только красный → зелёный → синий: белый приёмник принимает любой луч, превращение в него снимало цветовую загадку
+		LightColor current = state.getValue(COLOR);
+		if (current == LightColor.WHITE) {
+			return state;
+		}
+		LightColor next = current == LightColor.RED ? LightColor.GREEN : current == LightColor.GREEN ? LightColor.BLUE : LightColor.RED;
+		return state.setValue(COLOR, next).setValue(POWERED, false);
 	}
 }

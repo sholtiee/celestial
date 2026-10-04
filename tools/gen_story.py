@@ -142,6 +142,7 @@ MESSAGES = {
     'quest.celestial.take_hint': ('Взять поручение (не больше трёх сразу)', 'Take the quest (three at most)'),
     'quest.celestial.turn_in': ('[Сдать]', '[Turn in]'),
     'quest.celestial.taken': ('Поручение принято', 'Quest accepted'),
+    'quest.celestial.done_today': ('Это поручение уже выполнено сегодня', 'You already completed this quest today'),
     'quest.celestial.too_many': ('Не больше трёх поручений одновременно', 'No more than three quests at once'),
     'quest.celestial.nothing': ('Нечего сдавать', 'Nothing to turn in'),
     'quest.celestial.done': ('✦ Поручение выполнено!', '✦ Quest complete!'),
