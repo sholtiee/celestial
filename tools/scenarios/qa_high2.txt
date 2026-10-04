@@ -1,0 +1,38 @@
+# QA: фиксы пачки 2 — Златорунный баран (размножение, руно), холод в кожаной обуви
+/gamemode creative
+/effect clear @s
+/difficulty normal
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 20000 210 20000
+fly
+wait 100
+/fill 19990 199 19990 20030 199 20030 celestial:golden_grass
+/fill 19990 200 19990 20030 215 20030 minecraft:air
+# R1 ягнёнок Златорунного барана — golden_ram, обычной овцы нет
+/say TEST R1 golden_ram_breed expect=pass; счётчик golden_ram = 3 (2 родителя + ягнёнок)
+/kill @e[type=minecraft:sheep,distance=..300]
+/summon celestial:golden_ram 20020 200 20020 {InLove:600}
+/summon celestial:golden_ram 20021 200 20020 {InLove:600}
+wait 200
+/execute unless entity @e[type=minecraft:sheep,x=20020,y=200,z=20020,distance=..10]
+/execute if entity @e[type=celestial:golden_ram,x=20020,y=200,z=20020,distance=..10]
+# R2 руно отрастает на золотой траве
+/say TEST R2 fleece_regrow expect=pass
+/kill @e[type=celestial:golden_ram]
+/summon celestial:golden_ram 20010 200 20010 {Sheared:1b,NoAI:1b}
+/tick sprint 3000
+wait 80
+/execute if entity @e[type=celestial:golden_ram,x=20010,y=200,z=20010,distance=..3,nbt={Sheared:0b}]
+# C1 кожаные ботинки не отменяют урон холода
+/say TEST C1 cold_leather expect=Health<24
+/gamemode survival
+/execute in celestial:frozen_halls run fill -3 198 -3 3 198 3 minecraft:glass
+/execute in celestial:frozen_halls run tp @s 0 199 0
+/item replace entity @s armor.feet with minecraft:leather_boots
+/tick sprint 1700
+wait 100
+/data get entity @s Health
+/gamemode creative
+/say TEST END
+quit

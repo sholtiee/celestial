@@ -375,12 +375,14 @@ public class LightDevourer extends Monster {
 	protected void addAdditionalSaveData(ValueOutput output) {
 		super.addAdditionalSaveData(output);
 		output.store("Home", BlockPos.CODEC, home);
+		output.putInt("Phase", phase);  // без фазы после перезахода «входил» в фазу заново и гасил все жаровни
 	}
 
 	@Override
 	protected void readAdditionalSaveData(ValueInput input) {
 		super.readAdditionalSaveData(input);
 		home = input.read("Home", BlockPos.CODEC).orElse(BlockPos.ZERO);
+		phase = input.getIntOr("Phase", 1);
 	}
 
 	@Override

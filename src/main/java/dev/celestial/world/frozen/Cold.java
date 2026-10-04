@@ -80,6 +80,10 @@ public final class Cold {
 		}
 		if (warmth <= 0 && !hasFrostSet(player)) {
 			player.setTicksFrozen(Math.max(player.getTicksFrozen(), player.getTicksRequiredToFreeze() + 40));
+			// ванильный урон мороза не идёт, если надет любой предмет из #freeze_immune_wearables (вся кожа) — бьём сами
+			if (!player.canFreeze()) {
+				player.hurtServer(level, level.damageSources().freeze(), 1.0F);
+			}
 		}
 	}
 

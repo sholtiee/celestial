@@ -44,6 +44,8 @@ public class TrialControllerBlockEntity extends BlockEntity {
 	private int ticksLeft;
 	private final List<UUID> spawned = new ArrayList<>();
 	private ServerBossEvent bar;
+	/** После загрузки мира сущности волны ещё не загружены: пока ждём, не считаем их погибшими. */
+	private int loadGrace;
 
 	public TrialControllerBlockEntity(BlockPos pos, BlockState state) {
 		super(ModBlockEntities.TRIAL_CONTROLLER, pos, state);
@@ -77,12 +79,16 @@ public class TrialControllerBlockEntity extends BlockEntity {
 		level.setBlock(worldPosition, getBlockState().setValue(TrialControllerBlock.STATE, TrialControllerBlock.TrialState.RUNNING), Block.UPDATE_ALL);
 		level.playSound(null, worldPosition, dev.celestial.registry.ModSounds.TRIAL_START, SoundSource.BLOCKS, 1.5F, 1.0F);
 		player.sendSystemMessage(Component.translatable("trial.celestial.start." + def.type().name().toLowerCase()));
+		createBar(player);
+		setChanged();
+	}
+
+	private void createBar(Player player) {
 		bar = new ServerBossEvent(UUID.randomUUID(), Component.translatable("trial.celestial.name." + trialId), BossEvent.BossBarColor.YELLOW,
 			BossEvent.BossBarOverlay.PROGRESS);
 		if (player instanceof ServerPlayer sp) {
 			bar.addPlayer(sp);
 		}
-		setChanged();
 	}
 
 	private static boolean hasArmor(Player player) {
@@ -100,6 +106,13 @@ public class TrialControllerBlockEntity extends BlockEntity {
 		}
 		Player player = level.getPlayerByUUID(challenger);
 		TrialDefinition def = definition();
+		if (bar == null && player != null) {  // испытание продолжается после перезахода
+			createBar(player);
+		}
+		if (loadGrace > 0) {
+			loadGrace--;
+			return;
+		}
 		if (player == null || !player.isAlive() || player.distanceToSqr(Vec3.atCenterOf(worldPosition)) > 48 * 48) {
 			fail(level, "trial.celestial.fail.left");
 			return;
@@ -251,11 +264,32 @@ public class TrialControllerBlockEntity extends BlockEntity {
 	protected void saveAdditional(ValueOutput output) {
 		super.saveAdditional(output);
 		output.putString("Trial", trialId);
+		// состояние хода испытания: раньше терялось, блок оставался «идёт», а мобы волны — вечными
+		if (challenger != null) {
+			output.putString("Challenger", challenger.toString());
+			output.putInt("Wave", wave);
+			output.putInt("TicksLeft", ticksLeft);
+			output.store("Spawned", net.minecraft.core.UUIDUtil.CODEC.listOf(), new ArrayList<>(spawned));
+		}
 	}
 
 	@Override
 	protected void loadAdditional(ValueInput input) {
 		super.loadAdditional(input);
 		trialId = input.getStringOr("Trial", "heaven_1");
+		String who = input.getStringOr("Challenger", "");
+		challenger = null;
+		spawned.clear();
+		if (!who.isEmpty()) {
+			try {
+				challenger = UUID.fromString(who);
+				wave = input.getIntOr("Wave", -1);
+				ticksLeft = input.getIntOr("TicksLeft", 0);
+				spawned.addAll(input.read("Spawned", net.minecraft.core.UUIDUtil.CODEC.listOf()).orElse(List.of()));
+				loadGrace = 100;
+			} catch (IllegalArgumentException e) {
+				challenger = null;
+			}
+		}
 	}
 }

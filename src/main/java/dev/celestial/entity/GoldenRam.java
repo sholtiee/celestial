@@ -33,6 +33,27 @@ public class GoldenRam extends Sheep {
 		return result;
 	}
 
+	/** На золотой траве руно отрастает (ванильная овца ест только обычную траву и дёрн — золотая в «съедобное» не входит). */
+	@Override
+	public void aiStep() {
+		super.aiStep();
+		if (!level().isClientSide() && isSheared() && random.nextInt(400) == 0
+			&& level().getBlockState(blockPosition().below()).is(dev.celestial.registry.ModBlocks.GOLDEN_GRASS)) {
+			setSheared(false);
+			((ServerLevel) level()).sendParticles(net.minecraft.core.particles.ParticleTypes.HAPPY_VILLAGER, getX(), getY(1.0), getZ(), 6, 0.3, 0.3, 0.3, 0.0);
+		}
+	}
+
+	/** Ягнёнок Златорунного барана — тоже Златорунный (а не обычная овца). */
+	@Override
+	public @Nullable Sheep getBreedOffspring(ServerLevel level, net.minecraft.world.entity.AgeableMob partner) {
+		GoldenRam lamb = dev.celestial.registry.ModEntities.GOLDEN_RAM.create(level, EntitySpawnReason.BREEDING);
+		if (lamb != null) {
+			lamb.setColor(DyeColor.YELLOW);
+		}
+		return lamb;
+	}
+
 	@Override
 	public void shear(ServerLevel level, SoundSource source, ItemStack tool) {
 		level.playSound(null, this, SoundEvents.SHEEP_SHEAR, source, 1.0F, 1.2F);
