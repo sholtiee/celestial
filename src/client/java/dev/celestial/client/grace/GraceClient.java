@@ -63,12 +63,13 @@ public final class GraceClient {
 		ClientTickEvents.END_CLIENT_TICK.register(GraceClient::tick);
 		HudElementRegistry.attachElementAfter(VanillaHudElements.HOTBAR, Celestial.id("radiance"), (graphics, delta) -> {
 			Minecraft mc = Minecraft.getInstance();
-			if (mc.player == null || mc.gui.hud.isHidden()) {
+			if (mc.player == null || mc.gui.hud.isHidden() || mc.player.isSpectator()) {
 				return;
 			}
 			PlayerData d = data();
 			float max = Grace.maxRadiance(d);
-			int x = graphics.guiWidth() / 2 + 98;
+			// правее слота второй руки (у левши он справа от хотбара) и индикатора атаки: +98..+120 заняты
+			int x = Math.min(graphics.guiWidth() / 2 + 124, graphics.guiWidth() - 76);
 			int y = graphics.guiHeight() - 12;
 			int w = 72;
 			graphics.fill(x - 1, y - 1, x + w + 1, y + 5, 0xAA000000);
@@ -104,8 +105,8 @@ public final class GraceClient {
 			}
 		}
 		int bw = 72;
-		int x = w / 2 - 98 - bw;
-		int y = h - 12;
+		int x = Math.max(2, w / 2 - 124 - bw);  // левее слота второй руки (−120..−98), а не под ним
+		int y = h - 12 - (warmthVisible(mc, d) ? 16 : 0);  // если тепло тоже показано — страх строчкой выше, а не поверх
 		graphics.fill(x - 1, y - 1, x + bw + 1, y + 5, 0xAA000000);
 		graphics.fill(x + bw - (int) (bw * f), y, x + bw, y + 4, f >= 0.8F ? 0xFFB23A6E : 0xFF6B4FA8);
 		Component label = Component.translatable("hud.celestial.fear");
@@ -113,13 +114,16 @@ public final class GraceClient {
 	}
 
 	/** Тепло: голубая полоска слева от хотбара в Ледяных Чертогах (или пока не отогрелся). */
+	private static boolean warmthVisible(Minecraft mc, PlayerData d) {
+		return mc.player.level().dimension() == dev.celestial.world.dim.AbyssFeatures.FROZEN_HALLS || d.warmth() < 100;
+	}
+
 	private static void drawWarmth(Minecraft mc, net.minecraft.client.gui.GuiGraphicsExtractor graphics, PlayerData d) {
-		boolean frozen = mc.player.level().dimension() == dev.celestial.world.dim.AbyssFeatures.FROZEN_HALLS;
-		if (!frozen && d.warmth() >= 100) {
+		if (!warmthVisible(mc, d)) {
 			return;
 		}
 		int bw = 72;
-		int x = graphics.guiWidth() / 2 - 98 - bw;
+		int x = Math.max(2, graphics.guiWidth() / 2 - 124 - bw);
 		int y = graphics.guiHeight() - 12;
 		float f = d.warmth() / 100.0F;
 		graphics.fill(x - 1, y - 1, x + bw + 1, y + 5, 0xAA000000);

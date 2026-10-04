@@ -88,6 +88,12 @@ public class Meteor extends ThrowableItemProjectile {
 	public static void impact(ServerLevel level, BlockPos center) {
 		RandomSource random = level.getRandom();
 		level.explode(null, center.getX() + 0.5, center.getY() + 0.5, center.getZ() + 0.5, 3.0F, Level.ExplosionInteraction.NONE);
+		if (!level.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.MOB_GRIEFING) || dev.celestial.starlight.Wards.protects(level, center)) {
+			// «грифинг» выключен или упало под Оберегом: только зрелище — кратера, огня и метеорита нет
+			level.sendParticles(ParticleTypes.END_ROD, center.getX() + 0.5, center.getY() + 1, center.getZ() + 0.5, 120, 2, 2, 2, 0.3);
+			level.playSound(null, center, dev.celestial.registry.ModSounds.METEOR_IMPACT, SoundSource.BLOCKS, 8.0F, 1.0F);
+			return;
+		}
 		int radius = 4 + random.nextInt(2);
 		for (BlockPos pos : BlockPos.betweenClosed(center.offset(-radius - 1, -radius, -radius - 1), center.offset(radius + 1, radius, radius + 1))) {
 			double dx = pos.getX() - center.getX();

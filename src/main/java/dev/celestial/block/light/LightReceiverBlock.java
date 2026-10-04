@@ -27,6 +27,10 @@ public class LightReceiverBlock extends Block implements BeamTarget, Rotatable {
 	public static final BooleanProperty SEALED = BooleanProperty.create("sealed");
 	private static final Map<Long, Long> LAST_HIT = new ConcurrentHashMap<>();
 
+	public static void clearState() {
+		LAST_HIT.clear();
+	}
+
 	public LightReceiverBlock(Properties properties) {
 		super(properties);
 		registerDefaultState(stateDefinition.any().setValue(COLOR, LightColor.WHITE).setValue(POWERED, false).setValue(SEALED, false));

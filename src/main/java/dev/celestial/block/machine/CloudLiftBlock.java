@@ -36,6 +36,10 @@ public class CloudLiftBlock extends Block implements EntityBlock, BeamTarget {
 	private static final int HEIGHT = 12;
 	private static final Map<Long, Long> LAST_BEAM = new ConcurrentHashMap<>();
 
+	public static void clearState() {
+		LAST_BEAM.clear();
+	}
+
 	public CloudLiftBlock(Properties properties) {
 		super(properties);
 		registerDefaultState(stateDefinition.any().setValue(LIT, false));

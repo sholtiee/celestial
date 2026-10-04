@@ -15,6 +15,10 @@ public final class Wards {
 
 	private Wards() {}
 
+	public static void clear() {
+		ACTIVE.clear();
+	}
+
 	static void set(Level level, BlockPos pos, boolean active) {
 		Set<BlockPos> set = ACTIVE.computeIfAbsent(level.dimension(), k -> new HashSet<>());
 		if (active) {

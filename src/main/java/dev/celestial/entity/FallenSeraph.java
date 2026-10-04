@@ -377,6 +377,7 @@ public class FallenSeraph extends Monster {
 		super.addAdditionalSaveData(output);
 		output.store("Home", BlockPos.CODEC, home);
 		output.putBoolean("CrystalsSpawned", crystalsSpawned);
+		output.putInt("Phase", phase);  // без фазы после перезахода реплики и эффекты фаз повторялись
 		output.store("Crystals", net.minecraft.core.UUIDUtil.CODEC.listOf(), crystals);
 	}
 
@@ -385,6 +386,7 @@ public class FallenSeraph extends Monster {
 		super.readAdditionalSaveData(input);
 		home = input.read("Home", BlockPos.CODEC).orElse(BlockPos.ZERO);
 		crystalsSpawned = input.getBooleanOr("CrystalsSpawned", false);
+		phase = input.getIntOr("Phase", 1);
 		crystals.clear();
 		crystals.addAll(input.read("Crystals", net.minecraft.core.UUIDUtil.CODEC.listOf()).orElse(java.util.List.of()));
 	}

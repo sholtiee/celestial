@@ -1,0 +1,13 @@
+# QA: полосы HUD не перекрывают слот второй руки и не лежат друг на друге
+/gamemode survival
+/effect clear @s
+/execute in celestial:frozen_halls run tp @s 0 200 0
+/execute in celestial:frozen_halls run fill -3 198 -3 3 198 3 minecraft:glass
+/execute in celestial:frozen_halls run tp @s 0 199 0
+/item replace entity @s weapon.offhand with minecraft:shield
+/item replace entity @s weapon.mainhand with celestial:light_spear
+/tick sprint 400
+wait 60
+shot hud_frozen
+/gamemode creative
+quit

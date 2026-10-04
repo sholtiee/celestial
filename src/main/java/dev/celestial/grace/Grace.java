@@ -29,6 +29,11 @@ public final class Grace {
 	private static final Map<UUID, Long> SECOND_WIND_USED = new ConcurrentHashMap<>();
 	private static final long SECOND_WIND_COOLDOWN = 20 * 60 * 10;
 
+	/** Состояние привязано ко времени мира: между мирами одиночной игры его надо сбрасывать (иначе «Второе дыхание» не работало в новом мире). */
+	public static void clearState() {
+		SECOND_WIND_USED.clear();
+	}
+
 	private Grace() {}
 
 	public static void init() {
