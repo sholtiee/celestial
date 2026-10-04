@@ -1,5 +1,7 @@
 """Проход качества: подсказки-лор у предметов и блоков (что это и как работает) — ru/en."""
+from gen_assets import blockstate, c, item_def, model, save_png
 from gen_story import lang_patch
+import mob_textures as M
 
 LORE = {
     # предметы
@@ -38,7 +40,19 @@ LORE.update({
 })
 
 
+def asset_fixes():
+    # BUG-008: у разлома в Бездну не было blockstate → «missing model» в логе и пурпурные частицы (сам вид рисует рендерер портала)
+    model('block/abyss_rift', {'textures': {'particle': c('block/abyss_stone')}})
+    blockstate('abyss_rift', {'variants': {'': {'model': c('block/abyss_rift')}}})
+    # BUG-009: у яйца призыва Пожирателя Света не было модели предмета
+    save_png(M.spawn_egg('#1c1230', '#c9a8ff'), 'item/light_devourer_spawn_egg')
+    model('item/light_devourer_spawn_egg', {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('item/light_devourer_spawn_egg')}})
+    item_def('light_devourer_spawn_egg', c('item/light_devourer_spawn_egg'))
+    lang_patch({'item.celestial.light_devourer_spawn_egg': ('Яйцо призыва: Пожиратель Света', 'Light Devourer Spawn Egg')})
+
+
 def main():
+    asset_fixes()
     lang_patch(LORE)
     print('ok: подсказки', len(LORE))
 

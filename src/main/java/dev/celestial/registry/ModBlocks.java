@@ -159,6 +159,7 @@ public final class ModBlocks {
 	// Машины
 	public static final Block CLOUD_LIFT = register("cloud_lift", dev.celestial.block.machine.CloudLiftBlock::new,
 		Properties.of().mapColor(MapColor.SNOW).strength(1.0F).sound(SoundType.WOOL)
+			.noOcclusion()  // текстура полупрозрачная: без этого соседние грани отсекаются и сквозь лифт видна пустота
 			.lightLevel(s -> s.getValue(dev.celestial.block.machine.CloudLiftBlock.LIT) ? 8 : 0));
 	public static final Block CELESTIAL_FORGE = register("celestial_forge", dev.celestial.block.machine.CelestialForgeBlock::new,
 		Properties.of().mapColor(MapColor.GOLD).strength(5.0F, 1200.0F).requiresCorrectToolForDrops().sound(SoundType.ANVIL).lightLevel(s -> 6));

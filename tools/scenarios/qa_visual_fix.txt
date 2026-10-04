@@ -1,0 +1,27 @@
+# QA: визуальные фиксы — золотая трава в Верхнем мире, Облачный лифт без x-ray, яйцо Пожирателя в рамке
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 30000 130 30000 0 25
+fly
+wait 100
+/fill 29990 119 29990 30010 119 30010 minecraft:stone
+/fill 29990 120 29990 30010 130 30010 minecraft:air
+/fill 29997 120 29997 30003 120 30003 celestial:golden_grass
+/setblock 29997 121 29997 celestial:golden_tuft
+/setblock 29999 121 29997 celestial:tall_golden_grass[half=lower]
+/setblock 29999 122 29997 celestial:tall_golden_grass[half=upper]
+/fill 30002 120 29994 30004 122 29994 minecraft:stone
+/setblock 30003 121 29994 celestial:cloud_lift
+/fill 29994 120 30000 29994 122 30000 minecraft:stone
+/summon minecraft:item_frame 30000 122 29995 {Facing:2b,Fixed:1b,Item:{id:"celestial:light_devourer_spawn_egg",count:1}}
+/tp @s 30000 123 29990 0 20
+wait 40
+togglehud
+shot vfix_a
+/tp @s 30003 122 29990 0 15
+wait 30
+shot vfix_b
+togglehud
+quit
