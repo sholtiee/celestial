@@ -265,11 +265,19 @@ def features():
             {'type': 'minecraft:matching_blocks', 'blocks': [c('skystone'), c('golden_grass')], 'offset': [0, -1, 0]}]))
 
     feature('rainbow_arc', {'type': c('rainbow_arc')})
+    # арка встаёт «ногой» на остров: высота — по поверхности рельефа (heightmap), а не случайная 90–190
     placed('rainbow_arcs', c('rainbow_arc'), [
-        {'type': 'minecraft:rarity_filter', 'chance': 5},
-        {'type': 'minecraft:offset', 'x': 8, 'y': 0, 'z': 8},
-        {'type': 'minecraft:height_range', 'height': {'type': 'minecraft:uniform', 'min_inclusive': {'absolute': 90}, 'max_inclusive': {'absolute': 190}}},
+        {'type': 'minecraft:count', 'count': 2},  # попыток несколько: большинство отбраковывается проверкой «не врезаться»
+        {'type': 'minecraft:in_square'},
+        {'type': 'minecraft:heightmap', 'heightmap': 'WORLD_SURFACE_WG'},
+        {'type': 'minecraft:offset', 'x': 0, 'y': 1, 'z': 0},
         {'type': 'minecraft:biome'}])
+
+    # служебные блоки построек не заменяются фичами (жеоды, руды, облака)
+    tag_dir = os.path.join(os.path.dirname(DATA), 'minecraft', 'tags', 'block')
+    write_json(os.path.join(tag_dir, 'features_cannot_replace.json'), {'replace': False, 'values': [
+        c(n) for n in ('sealed_door', 'trial_crystal', 'trial_goal', 'vanishing_cloud', 'seraph_seal', 'celestial_altar', 'bell_altar',
+                       'rune_pedestal', 'star_tile', 'sky_bell', 'quest_board', 'sky_beacon', 'devourer_seal', 'brazier')]})
 
     flora_features()
 
@@ -332,7 +340,7 @@ def flora_features():
 
     # водопады: источник в боку острова, вода срывается в бездну
     feature('heaven_spring', {'type': 'minecraft:spring_feature', 'state': {'id': 'minecraft:water', 'properties': {'falling': 'true'}},
-                              'valid_blocks': [c('skystone'), c('heaven_dirt')], 'requires_block_below': False, 'rock_count': 3, 'hole_count': 1})
+                              'valid_blocks': [c('skystone'), c('heaven_dirt')], 'requires_block_below': True, 'rock_count': 3, 'hole_count': 1})
     placed('heaven_waterfalls', c('heaven_spring'), [{'type': 'minecraft:count', 'count': 6}, {'type': 'minecraft:in_square'},
                                                     {'type': 'minecraft:height_range', 'height': {'type': 'minecraft:uniform',
                                                                                                   'min_inclusive': {'absolute': 50},
@@ -343,9 +351,9 @@ def flora_features():
     feature('sky_geode', {'type': 'minecraft:geode', 'blocks': {
         'alternate_inner_layer_provider': {'id': c('radiant_stone')}, 'cannot_replace': '#minecraft:features_cannot_replace',
         'filling_provider': {'id': 'minecraft:air'}, 'inner_layer_provider': {'id': c('sky_crystal_block')},
-        'inner_placements': [state(c('sky_crystal'), facing='up', waterlogged=False)], 'invalid_blocks': '#minecraft:geode_invalid_blocks',
+        'inner_placements': [state(c('sky_crystal'), facing='up', waterlogged=False)], 'invalid_blocks': ['minecraft:air', 'minecraft:cave_air', 'minecraft:void_air', 'minecraft:bedrock'],
         'middle_layer_provider': {'id': 'minecraft:calcite'}, 'outer_layer_provider': {'id': c('skystone_bricks')}},
-        'crack': {'generate_crack_chance': 0.6}, 'invalid_blocks_threshold': 1, 'layers': {},
+        'crack': {'generate_crack_chance': 0.6}, 'invalid_blocks_threshold': 0, 'layers': {},
         'outer_wall_distance': {'type': 'minecraft:uniform', 'min_inclusive': 3, 'max_inclusive': 5}, 'use_alternate_layer0_chance': 0.06})
     placed('sky_geodes', c('sky_geode'), [{'type': 'minecraft:rarity_filter', 'chance': 10}, {'type': 'minecraft:in_square'},
                                           {'type': 'minecraft:height_range', 'height': {'type': 'minecraft:uniform',
@@ -384,7 +392,10 @@ def biome(name, sky, fog, grass, features_by_step, music='celestial:music.heaven
     steps = [[] for _ in range(11)]
     for step, fs in features_by_step.items():
         # единый порядок фич во всех биомах, иначе игра падает с «Feature order cycle»
-        steps[step] += [c(f) for f in sorted(fs, key=FEATURE_ORDER.index)]
+        for f in sorted(fs, key=FEATURE_ORDER.index):
+            steps[BEFORE_STRUCTURES if f in EARLY_FEATURES else step].append(c(f))
+    for step in steps:
+        step.sort(key=lambda f: FEATURE_ORDER.index(f.split(':')[1]))
     spawns = {}
     if creatures:
         spawns['creature'] = creatures
@@ -419,6 +430,9 @@ ORES = ['sky_geodes', 'ore_etherite', 'ore_etherite_rich', 'ore_starquartz', 'or
 UNDER = ['lumivines', 'island_roots']
 GROUND = ['heaven_waterfalls']
 LOCAL_MODS, UNDERGROUND_ORES, FLUID_SPRINGS, VEGETAL = 2, 6, 8, 9
+# постройки идут на шаге 4 (surface_structures): облака и жеоды ставим раньше, чтобы здания перекрывали их, а не наоборот
+BEFORE_STRUCTURES = 3
+EARLY_FEATURES = {'sky_geodes', 'sky_clouds', 'sky_golden_clouds', 'sky_rain_clouds'}
 
 
 def spawn(mob, weight, lo, hi):

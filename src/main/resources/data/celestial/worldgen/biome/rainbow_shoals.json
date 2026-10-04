@@ -111,11 +111,14 @@
     [],
     [],
     [],
-    [],
+    [
+      "celestial:sky_geodes",
+      "celestial:sky_clouds",
+      "celestial:sky_golden_clouds"
+    ],
     [],
     [],
     [
-      "celestial:sky_geodes",
       "celestial:ore_etherite",
       "celestial:ore_etherite_rich",
       "celestial:ore_starquartz",
@@ -126,8 +129,6 @@
       "celestial:heaven_waterfalls"
     ],
     [
-      "celestial:sky_clouds",
-      "celestial:sky_golden_clouds",
       "celestial:rainbow_arcs",
       "celestial:trees_golden_meadows",
       "celestial:patch_manna",

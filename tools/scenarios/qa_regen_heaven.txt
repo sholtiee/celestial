@@ -1,0 +1,122 @@
+# QA: перегенерация Неба и Чертогов после фиксов генерации — облёт тех же точек
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+fly
+/effect give @s minecraft:night_vision 99999 0 true
+togglehud
+/execute in celestial:heaven run tp @s 3000 200 0 0 35
+wait 220
+/tp @s ~ ~ ~ 0 35
+wait 25
+shot heaven0_s
+/tp @s ~ ~ ~ 90 35
+wait 25
+shot heaven0_w
+/tp @s ~ ~ ~ 180 35
+wait 25
+shot heaven0_n
+/tp @s ~ ~ ~ 270 35
+wait 25
+shot heaven0_e
+/execute in celestial:heaven run tp @s 3600 200 900 0 35
+wait 220
+/tp @s ~ ~ ~ 0 35
+wait 25
+shot heaven1_s
+/tp @s ~ ~ ~ 90 35
+wait 25
+shot heaven1_w
+/tp @s ~ ~ ~ 180 35
+wait 25
+shot heaven1_n
+/tp @s ~ ~ ~ 270 35
+wait 25
+shot heaven1_e
+/execute in celestial:heaven run tp @s -3000 200 2500 0 35
+wait 220
+/tp @s ~ ~ ~ 0 35
+wait 25
+shot heaven2_s
+/tp @s ~ ~ ~ 90 35
+wait 25
+shot heaven2_w
+/tp @s ~ ~ ~ 180 35
+wait 25
+shot heaven2_n
+/tp @s ~ ~ ~ 270 35
+wait 25
+shot heaven2_e
+/execute in celestial:heaven run tp @s 0 200 -4200 0 35
+wait 220
+/tp @s ~ ~ ~ 0 35
+wait 25
+shot heaven3_s
+/tp @s ~ ~ ~ 90 35
+wait 25
+shot heaven3_w
+/tp @s ~ ~ ~ 180 35
+wait 25
+shot heaven3_n
+/tp @s ~ ~ ~ 270 35
+wait 25
+shot heaven3_e
+/execute in celestial:heaven run tp @s 5200 200 -5200 0 35
+wait 220
+/tp @s ~ ~ ~ 0 35
+wait 25
+shot heaven4_s
+/tp @s ~ ~ ~ 90 35
+wait 25
+shot heaven4_w
+/tp @s ~ ~ ~ 180 35
+wait 25
+shot heaven4_n
+/tp @s ~ ~ ~ 270 35
+wait 25
+shot heaven4_e
+/execute in celestial:heaven run tp @s -6000 200 -1000 0 35
+wait 220
+/tp @s ~ ~ ~ 0 35
+wait 25
+shot heaven5_s
+/tp @s ~ ~ ~ 90 35
+wait 25
+shot heaven5_w
+/tp @s ~ ~ ~ 180 35
+wait 25
+shot heaven5_n
+/tp @s ~ ~ ~ 270 35
+wait 25
+shot heaven5_e
+/execute in celestial:heaven run tp @s 8000 200 8000 0 35
+wait 220
+/tp @s ~ ~ ~ 0 35
+wait 25
+shot heaven6_s
+/tp @s ~ ~ ~ 90 35
+wait 25
+shot heaven6_w
+/tp @s ~ ~ ~ 180 35
+wait 25
+shot heaven6_n
+/tp @s ~ ~ ~ 270 35
+wait 25
+shot heaven6_e
+/execute in celestial:heaven run tp @s -9000 200 7000 0 35
+wait 220
+/tp @s ~ ~ ~ 0 35
+wait 25
+shot heaven7_s
+/tp @s ~ ~ ~ 90 35
+wait 25
+shot heaven7_w
+/tp @s ~ ~ ~ 180 35
+wait 25
+shot heaven7_n
+/tp @s ~ ~ ~ 270 35
+wait 25
+shot heaven7_e
+togglehud
+quit

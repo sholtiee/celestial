@@ -20,7 +20,12 @@
         }
       }
     ],
-    "invalid_blocks": "#minecraft:geode_invalid_blocks",
+    "invalid_blocks": [
+      "minecraft:air",
+      "minecraft:cave_air",
+      "minecraft:void_air",
+      "minecraft:bedrock"
+    ],
     "middle_layer_provider": {
       "id": "minecraft:calcite"
     },
@@ -31,7 +36,7 @@
   "crack": {
     "generate_crack_chance": 0.6
   },
-  "invalid_blocks_threshold": 1,
+  "invalid_blocks_threshold": 0,
   "layers": {},
   "outer_wall_distance": {
     "type": "minecraft:uniform",

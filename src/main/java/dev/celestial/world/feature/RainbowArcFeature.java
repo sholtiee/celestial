@@ -1,6 +1,9 @@
 package dev.celestial.world.feature;
 
 import com.mojang.serialization.MapCodec;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
@@ -27,21 +30,48 @@ public record RainbowArcFeature() implements Feature {
 		int radius = 7 + random.nextInt(2);
 		boolean alongX = random.nextBoolean();
 		int width = 3;
+		// сначала собираем форму (шаг 1° и множество — без щелей между полосами), потом проверяем, а не рисуем «что влезет»
+		Map<BlockPos, BlockState> shape = new LinkedHashMap<>();
 		for (int band = 0; band < BANDS.length; band++) {
 			double r = radius - band;
 			BlockState glass = BANDS[band].defaultBlockState();
-			for (int a = 0; a <= 180; a += 2) {
+			for (int a = 0; a <= 180; a++) {
 				double rad = Math.toRadians(a);
 				int u = (int) Math.round(Math.cos(rad) * r);
 				int v = (int) Math.round(Math.sin(rad) * r);
 				for (int w = 0; w < width; w++) {
-					BlockPos pos = alongX ? origin.offset(u, v, w) : origin.offset(w, v, u);
-					if (level.getBlockState(pos).isAir()) {
-						level.setBlock(pos, glass, Block.UPDATE_CLIENTS);
-					}
+					shape.putIfAbsent((alongX ? origin.offset(u, v, w) : origin.offset(w, v, u)).immutable(), glass);
 				}
 			}
 		}
+		// арка не должна врезаться: вся форма и её окружение в 1 блок — воздух (иначе — не ставим вовсе, а не обрубок)
+		for (BlockPos pos : shape.keySet()) {
+			if (!level.getBlockState(pos).isAir()) {
+				return false;
+			}
+			for (Direction d : Direction.values()) {
+				BlockPos n = pos.relative(d);
+				if (!shape.containsKey(n) && !level.getBlockState(n).isAir()) {
+					return false;
+				}
+			}
+		}
+		// и хотя бы одна «нога» стоит на земле (в пределах 4 блоков под концом внешней полосы), а не висит в пустоте
+		BlockPos footA = alongX ? origin.offset(radius, 0, 1) : origin.offset(1, 0, radius);
+		BlockPos footB = alongX ? origin.offset(-radius, 0, 1) : origin.offset(1, 0, -radius);
+		if (!hasGroundBelow(level, footA) && !hasGroundBelow(level, footB)) {
+			return false;
+		}
+		shape.forEach((pos, glass) -> level.setBlock(pos, glass, Block.UPDATE_CLIENTS));
 		return true;
+	}
+
+	private static boolean hasGroundBelow(WorldGenLevel level, BlockPos foot) {
+		for (int i = 1; i <= 4; i++) {
+			if (!level.getBlockState(foot.below(i)).isAir()) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

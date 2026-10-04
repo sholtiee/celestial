@@ -81,11 +81,13 @@
     [],
     [],
     [],
-    [],
+    [
+      "celestial:sky_geodes",
+      "celestial:sky_clouds"
+    ],
     [],
     [],
     [
-      "celestial:sky_geodes",
       "celestial:ore_etherite",
       "celestial:ore_etherite_rich",
       "celestial:ore_starquartz",
@@ -94,7 +96,6 @@
     [],
     [],
     [
-      "celestial:sky_clouds",
       "celestial:radiant_spires",
       "celestial:crystals_common",
       "celestial:lumivines",

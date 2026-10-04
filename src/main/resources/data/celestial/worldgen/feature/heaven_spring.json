@@ -10,7 +10,7 @@
     "celestial:skystone",
     "celestial:heaven_dirt"
   ],
-  "requires_block_below": false,
+  "requires_block_below": true,
   "rock_count": 3,
   "hole_count": 1
 }

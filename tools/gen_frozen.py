@@ -126,7 +126,11 @@ def surface():
         {'type': 'minecraft:condition', 'if_true': biome_is('ice_spires'), 'then_run': {'type': 'minecraft:condition',
                                                                                          'if_true': 'minecraft:on_floor', 'then_run': block('minecraft:packed_ice')}},
         # отвесные стены ледников и шпилей — синий и плотный лёд, а не камень
-        {'type': 'minecraft:condition', 'if_true': {'type': 'minecraft:steep'}, 'then_run': block('minecraft:blue_ice')},
+        # только верхние 4 блока: без ограничения глубины крутой склон заливал синим льдом ВСЮ колонку до бедрока,
+        # а «steep» считается по уклону внутри чанка — отсюда швы по сетке чанков (BUG-041)
+        {'type': 'minecraft:condition', 'if_true': {'type': 'minecraft:steep'}, 'then_run': {'type': 'minecraft:condition',
+            'if_true': {'type': 'minecraft:stone_depth', 'offset': 3, 'surface_type': 'floor', 'add_surface_depth': False, 'secondary_depth_range': 0},
+            'then_run': block('minecraft:blue_ice')}},
         {'type': 'minecraft:condition', 'if_true': 'minecraft:on_floor', 'then_run': block('minecraft:snow_block')},
         {'type': 'minecraft:condition', 'if_true': 'minecraft:under_floor', 'then_run': block('minecraft:packed_ice')},
     ]})

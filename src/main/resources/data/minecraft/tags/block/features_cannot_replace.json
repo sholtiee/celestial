@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "celestial:sealed_door",
+    "celestial:trial_crystal",
+    "celestial:trial_goal",
+    "celestial:vanishing_cloud",
+    "celestial:seraph_seal",
+    "celestial:celestial_altar",
+    "celestial:bell_altar",
+    "celestial:rune_pedestal",
+    "celestial:star_tile",
+    "celestial:sky_bell",
+    "celestial:quest_board",
+    "celestial:sky_beacon",
+    "celestial:devourer_seal",
+    "celestial:brazier"
+  ]
+}

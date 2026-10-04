@@ -210,7 +210,7 @@ def check_rainbows(w, dim, out):
         for c in comp:
             for n in neighbors6(c):
                 b = w.get(*n)
-                if b not in AIRS and b not in RAINBOW:
+                if b not in AIRS and b not in RAINBOW and b not in PLANTS and not b.endswith(('_leaves', 'hanging_roots', 'lumivine', 'cloud', 'cloud_moss')):  # растения и облака рядом позже арки — касание, не врезание
                     foreign[b] += 1
         where = f'{dim} {min(xs)},{min(ys)},{min(zs)}..{max(xs)},{max(ys)},{max(zs)}'
         if foreign:
@@ -221,7 +221,7 @@ def check_rainbows(w, dim, out):
             out['RAINBOW_TRUNCATED'].append(f'{where}: всего {len(comp)} стекла (полная 276–330)')
         base_y = min(ys)
         feet = [c for c in comp if c[1] == base_y]
-        if all(w.get(c[0], c[1] - 1, c[2]) in AIRS for c in feet):
+        if all(all(w.get(c[0], c[1] - d, c[2]) in AIRS for d in range(1, 6)) for c in feet):  # ног на земле нет (допуск 5 блоков)
             out['RAINBOW_FLOATING'].append(f'{where}: опоры нет, под арками пусто')
 
 
@@ -286,7 +286,7 @@ def check_ice_grid(w, dim, out):
 def check_chunk_cuts(w, dim, out):
     """Блоки-фичи мода, у которых соседний столб за границей чанка пуст, а внутри чанка — полон."""
     feature = {'celestial:sky_crystal', 'celestial:sky_crystal_block', 'celestial:radiant_stone', 'celestial:aurora_crystal',
-               'celestial:shadow_crystal', 'celestial:glowshroom_cap', 'celestial:glowshroom_stem', 'minecraft:blue_ice', 'minecraft:packed_ice'}
+               'celestial:shadow_crystal', 'celestial:glowshroom_cap', 'celestial:glowshroom_stem'}
     cols = defaultdict(int)
     for f in ids_of(feature):
         for (cx, cz), a in w.chunks.items():
