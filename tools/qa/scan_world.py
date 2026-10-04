@@ -11,6 +11,7 @@
   VOID_FLUID         текущая вода/лава у дна мира (водопад в пустоту)
   STRUCTURE_OVERLAP  bbox двух разных построек пересекаются
   FEATURE_CHUNK_CUT  столб фичи обрывается ровно по границе чанка
+  ICE_CHUNK_GRID     Чертоги: подземный объём чанка — синий лёд, у соседа камень (шов по сетке чанков)
 """
 import io
 import math
@@ -87,15 +88,32 @@ def unpack(states, bits, count=4096):
     return out
 
 
+import numpy as np
+
+NAMES = ['minecraft:air']      # глобальная таблица id → имя
+IDS = {'minecraft:air': 0}
+
+
+def gid(name):
+    if name not in IDS:
+        IDS[name] = len(NAMES)
+        NAMES.append(name)
+    return IDS[name]
+
+
+def ids_of(names):
+    return np.array([gid(n) for n in names], dtype=np.uint16)
+
+
 class World:
-    """Блоки полностью сгенерированных чанков: dict (x,y,z) -> имя (только не-воздух)."""
+    """Готовые чанки как numpy-массивы [y, z, x] глобальных id (сплошные миры не раздувают память)."""
 
     def __init__(self):
-        self.blocks = {}
-        self.props = {}
-        self.chunks = set()
+        self.chunks = {}
         self.starts = []  # (structure_id, (minx,miny,minz,maxx,maxy,maxz), chunk)
-        self.min_y = 0
+        self.min_y = None
+        self.height = None
+        self.air = ids_of(AIRS)
 
     def load_dim(self, region_dir):
         for name in os.listdir(region_dir):
@@ -104,36 +122,30 @@ class World:
                     self.add_chunk(chunk)
 
     def add_chunk(self, c):
-        status = str(c.get('Status', ''))
-        if not status.endswith('full'):
+        if not str(c.get('Status', '')).endswith('full'):
             return
         cx, cz = int(c['xPos']), int(c['zPos'])
-        self.chunks.add((cx, cz))
-        self.min_y = min(self.min_y, int(c.get('yPos', 0)) * 16)
-        for sec in c.get('sections', []):
-            bs = sec.get('block_states')
-            if not bs:
+        secs = [s for s in c.get('sections', []) if s.get('block_states')]
+        if not secs:
+            return
+        ys = [int(s['Y']) for s in c.get('sections', [])]
+        lo, hi = min(ys), max(ys)
+        if self.min_y is None:
+            self.min_y, self.height = lo * 16, (hi - lo + 1) * 16
+        arr = np.zeros((self.height, 16, 16), dtype=np.uint16)
+        for sec in secs:
+            bs = sec['block_states']
+            pal = ids_of([parse_state(p)[0] for p in bs['palette']])
+            sy = int(sec['Y']) * 16 - self.min_y
+            if not 0 <= sy < self.height:
                 continue
-            palette = [parse_state(p) for p in bs['palette']]
-            names = [n for n, _ in palette]
-            sy = int(sec['Y'])
-            if len(palette) == 1:
-                if names[0] in AIRS:
-                    continue
-                idx = [0] * 4096
+            if len(pal) == 1:
+                arr[sy:sy + 16] = pal[0]
             else:
-                bits = max(4, math.ceil(math.log2(len(palette))))
-                idx = unpack(bs['data'], bits)
-            for i, p in enumerate(idx):
-                n = names[p]
-                if n in AIRS:
-                    continue
-                x = cx * 16 + (i & 15)
-                z = cz * 16 + ((i >> 4) & 15)
-                y = sy * 16 + (i >> 8)
-                self.blocks[(x, y, z)] = n
-                if n in FLUIDS and palette[p][1]:
-                    self.props[(x, y, z)] = palette[p][1]
+                bits = max(4, math.ceil(math.log2(len(pal))))
+                idx = np.array(unpack(bs['data'], bits), dtype=np.int64)
+                arr[sy:sy + 16] = pal[idx].reshape(16, 16, 16)
+        self.chunks[(cx, cz)] = arr
         for sid, start in (c.get('structures', {}).get('starts', {}) or {}).items():
             if str(start.get('id', 'INVALID')) == 'INVALID':
                 continue
@@ -146,7 +158,21 @@ class World:
         return (x >> 4, z >> 4) in self.chunks
 
     def get(self, x, y, z):
-        return self.blocks.get((x, y, z), 'minecraft:air')
+        a = self.chunks.get((x >> 4, z >> 4))
+        if a is None or self.min_y is None or not 0 <= y - self.min_y < self.height:
+            return 'minecraft:air'
+        return NAMES[a[y - self.min_y, z & 15, x & 15]]
+
+    def find(self, names):
+        """Все позиции блоков из набора имён: список (x, y, z)."""
+        want = ids_of(names)
+        out = []
+        for (cx, cz), a in self.chunks.items():
+            m = np.isin(a, want)
+            if m.any():
+                for y, z, x in zip(*np.nonzero(m)):
+                    out.append((cx * 16 + int(x), int(y) + self.min_y, cz * 16 + int(z)))
+        return out
 
 
 def neighbors6(p):
@@ -155,7 +181,7 @@ def neighbors6(p):
 
 
 def check_rainbows(w, dim, out):
-    glass = {p for p, n in w.blocks.items() if n in RAINBOW}
+    glass = set(w.find(RAINBOW))
     seen = set()
     for p in glass:
         if p in seen:
@@ -200,8 +226,9 @@ def check_rainbows(w, dim, out):
 
 
 def check_plants(w, dim, out):
-    for (x, y, z), n in w.blocks.items():
-        if n in PLANTS:
+    for (x, y, z) in w.find(PLANTS):
+        n = w.get(x, y, z)
+        if True:
             below = w.get(x, y - 1, z)
             if below in AIRS or below in FLUIDS:
                 out['PLANT_FLOATING'].append(f'{dim} {x},{y},{z}: {n.split(":")[1]} над {below.split(":")[1]}')
@@ -209,9 +236,13 @@ def check_plants(w, dim, out):
 
 def check_void_fluids(w, dim, out):
     per_chunk = defaultdict(int)
-    for (x, y, z), n in w.blocks.items():
-        if n in FLUIDS and y <= w.min_y + 8:
-            per_chunk[(x >> 4, z >> 4, n)] += 1
+    fl = ids_of(FLUIDS)
+    for (cx, cz), a in w.chunks.items():
+        low = a[:9]
+        for f in fl:
+            cnt = int((low == f).sum())
+            if cnt:
+                per_chunk[(cx, cz, NAMES[f])] += cnt
     for (cx, cz, n), cnt in per_chunk.items():
         out['VOID_FLUID'].append(f'{dim} чанк {cx},{cz} (блок ~{cx * 16},{cz * 16}): {cnt}× {n.split(":")[1]} у дна мира — поток в пустоту')
 
@@ -238,14 +269,30 @@ def check_structures(w, dim, out):
             break
 
 
+def check_ice_grid(w, dim, out):
+    """Подземный объём чанка залит синим льдом, а у соседа — камень: сетка 16×16 видна сквозь лёд моря."""
+    bi = gid('minecraft:blue_ice')
+    frac = {k: float((a[5:55] == bi).mean()) for k, a in w.chunks.items()}
+    for (cx, cz), f in frac.items():
+        if f < 0.3:
+            continue
+        for d in ((1, 0), (0, 1)):
+            n = frac.get((cx + d[0], cz + d[1]))
+            if n is not None and n < 0.05:
+                out['ICE_CHUNK_GRID'].append(f'{dim} чанк {cx},{cz} (~{cx * 16},{cz * 16}): {f:.0%} синего льда под землёй, сосед {n:.0%}')
+                break
+
+
 def check_chunk_cuts(w, dim, out):
     """Блоки-фичи мода, у которых соседний столб за границей чанка пуст, а внутри чанка — полон."""
     feature = {'celestial:sky_crystal', 'celestial:sky_crystal_block', 'celestial:radiant_stone', 'celestial:aurora_crystal',
                'celestial:shadow_crystal', 'celestial:glowshroom_cap', 'celestial:glowshroom_stem', 'minecraft:blue_ice', 'minecraft:packed_ice'}
     cols = defaultdict(int)
-    for (x, y, z), n in w.blocks.items():
-        if n in feature:
-            cols[(x, z, n)] += 1
+    for f in ids_of(feature):
+        for (cx, cz), a in w.chunks.items():
+            counts = (a == f).sum(axis=0)
+            for z, x in zip(*np.nonzero(counts)):
+                cols[(cx * 16 + int(x), cz * 16 + int(z), NAMES[f])] = int(counts[z, x])
     flagged = set()
     for (x, z, n), cnt in cols.items():
         if cnt < 4:
@@ -274,12 +321,14 @@ def main():
             continue
         w = World()
         w.load_dim(region)
-        print(f'{dim}: {len(w.chunks)} готовых чанков, {len(w.blocks)} блоков, {len(w.starts)} кусков построек', file=sys.stderr)
+        print(f'{dim}: {len(w.chunks)} готовых чанков, {len(w.starts)} кусков построек', file=sys.stderr)
         if dim == 'celestial/heaven':
             check_rainbows(w, dim, out)
         check_plants(w, dim, out)
-        if dim != 'overworld':
+        if dim == 'celestial/heaven':  # под Небом пустота; в сплошных мирах вода у дна — водоносные слои
             check_void_fluids(w, dim, out)
+        if dim == 'celestial/frozen_halls':
+            check_ice_grid(w, dim, out)
         check_structures(w, dim, out)
         check_chunk_cuts(w, dim, out)
     total = 0
