@@ -1,0 +1,89 @@
+# QA: проверка обходов и багов в выживании. Результаты — строки «Тест пройден/не пройден» в build/client.log после метки /say.
+/gamemode creative
+/effect clear @s
+/difficulty normal
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 20000 210 20000
+fly
+wait 120
+/fill 19990 199 19990 20030 199 20030 minecraft:smooth_stone
+/fill 19990 200 19990 20030 215 20030 minecraft:air
+# T1 печать-дверь + блок красного камня (BUG-010): дверь должна устоять
+/say TEST T1 sealed_door_redstone
+/fill 20000 200 20005 20002 202 20005 celestial:sealed_door
+/setblock 20003 201 20005 minecraft:redstone_block
+wait 10
+/execute if block 20001 201 20005 celestial:sealed_door
+# T2 рунный пьедестал: неверный ответ и сразу верный (BUG-015): после ошибки должна быть блокировка
+/say TEST T2 riddle_bruteforce
+/setblock 20005 200 20000 celestial:rune_pedestal[riddle=0]
+/gamemode survival
+/tp @s 20005 200 19998 0 30
+wait 10
+/item replace entity @s weapon.mainhand with minecraft:dirt
+use 20005 200 20000 north
+/item replace entity @s weapon.mainhand with minecraft:feather
+use 20005 200 20000 north
+wait 5
+/execute if block 20005 200 20000 celestial:rune_pedestal[solved=false]
+/gamemode creative
+# T3 этаж 5 Башни Испытаний (BUG-042): над финишем должно быть 2 блока воздуха
+/say TEST T3 tower_floor5_headroom
+/execute in minecraft:overworld run place template celestial:trial_tower/main 20040 150 20000
+wait 40
+/execute if block 20043 188 20012 celestial:trial_goal
+/execute if block 20043 189 20012 minecraft:air
+/execute if block 20043 190 20012 minecraft:air
+# T4 мирный режим (BUG-022): Тень и Морозный дух должны исчезнуть
+/say TEST T4 peaceful_despawn
+/summon celestial:shadow 20010 200 20010
+/summon celestial:frost_wraith 20012 202 20010
+wait 10
+/difficulty peaceful
+wait 60
+/execute if entity @e[type=celestial:shadow,x=20010,y=200,z=20010,distance=..20]
+/execute if entity @e[type=celestial:frost_wraith,x=20010,y=200,z=20010,distance=..20]
+/difficulty normal
+# T5 разведение Златорунного барана (BUG-029): потомство должно быть golden_ram, не sheep
+/say TEST T5 golden_ram_breed
+/kill @e[type=minecraft:sheep,distance=..300]
+/summon celestial:golden_ram 20020 200 20020 {InLove:600}
+/summon celestial:golden_ram 20021 200 20020 {InLove:600}
+wait 200
+/execute if entity @e[type=minecraft:sheep,x=20020,y=200,z=20020,distance=..10]
+/execute if entity @e[type=celestial:golden_ram,x=20020,y=200,z=20020,distance=..10,nbt={Age:-24000}]
+# T6 холод: кожаные ботинки против полного меха (BUG-043) — здоровье после 40 с при тепле 0
+/say TEST T6 cold_leather
+/gamemode survival
+/execute in celestial:frozen_halls run tp @s 0 200 0
+/execute in celestial:frozen_halls run fill -3 198 -3 3 198 3 minecraft:glass
+/execute in celestial:frozen_halls run tp @s 0 199 0
+/item replace entity @s armor.feet with minecraft:leather_boots
+/tick sprint 1200
+wait 400
+/effect give @s minecraft:instant_health 1 5
+wait 20
+/tick sprint 1200
+wait 400
+/data get entity @s Health
+/celestial status
+/say TEST T6b cold_fur
+/item replace entity @s armor.feet with celestial:fur_boots
+/item replace entity @s armor.legs with celestial:fur_leggings
+/item replace entity @s armor.chest with celestial:fur_cloak
+/item replace entity @s armor.head with celestial:fur_hood
+/effect give @s minecraft:instant_health 1 5
+wait 20
+/tick sprint 1200
+wait 400
+/data get entity @s Health
+/celestial status
+# T7 смерть от холода: после респауна тепло должно восстановиться (BUG-017)
+/say TEST T7 respawn_warmth
+/kill @s
+wait 60
+/celestial status
+/gamemode creative
+/say TEST END
+quit
