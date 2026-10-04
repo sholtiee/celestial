@@ -26,6 +26,9 @@ public final class ModBlockEntities {
 	public static final BlockEntityType<dev.celestial.block.light.BeamSourceBlockEntity> BEAM_SOURCE = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("beam_source"),
 		new BlockEntityType<>(dev.celestial.block.light.BeamSourceBlockEntity::new, Set.of(ModBlocks.SUN_LENS, ModBlocks.BEAM_LANTERN)));
+	public static final BlockEntityType<dev.celestial.block.puzzle.ReliquaryBlockEntity> RELIQUARY = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("reliquary"),
+		new BlockEntityType<>(dev.celestial.block.puzzle.ReliquaryBlockEntity::new, Set.of(ModBlocks.RELIQUARY)));
 	public static final BlockEntityType<dev.celestial.block.puzzle.BellAltarBlockEntity> BELL_ALTAR = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("bell_altar"),
 		new BlockEntityType<>(dev.celestial.block.puzzle.BellAltarBlockEntity::new, Set.of(ModBlocks.BELL_ALTAR)));

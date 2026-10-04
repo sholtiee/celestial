@@ -23,16 +23,18 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 public class LightReceiverBlock extends Block implements BeamTarget, Rotatable {
 	public static final EnumProperty<LightColor> COLOR = EnumProperty.create("color", LightColor.class);
 	public static final BooleanProperty POWERED = BooleanProperty.create("powered");
+	/** Приёмник святилища (ставится только генерацией): принимает лишь родной луч, не ломается и открывает печать-двери. */
+	public static final BooleanProperty SEALED = BooleanProperty.create("sealed");
 	private static final Map<Long, Long> LAST_HIT = new ConcurrentHashMap<>();
 
 	public LightReceiverBlock(Properties properties) {
 		super(properties);
-		registerDefaultState(stateDefinition.any().setValue(COLOR, LightColor.WHITE).setValue(POWERED, false));
+		registerDefaultState(stateDefinition.any().setValue(COLOR, LightColor.WHITE).setValue(POWERED, false).setValue(SEALED, false));
 	}
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(COLOR, POWERED);
+		builder.add(COLOR, POWERED, SEALED);
 	}
 
 	public static boolean accepts(BlockState state, LightColor color) {
@@ -42,12 +44,20 @@ public class LightReceiverBlock extends Block implements BeamTarget, Rotatable {
 
 	@Override
 	public void onBeamHit(ServerLevel level, BlockPos pos, BlockState state, LightColor color, Direction travel) {
-		if (!accepts(state, color)) {
+		if (!accepts(state, color) || (state.getValue(SEALED) && !dev.celestial.light.LightBeams.sealedSource)) {
 			return;
 		}
 		LAST_HIT.put(key(level, pos), level.getGameTime());
 		if (!state.getValue(POWERED)) {
 			level.setBlock(pos, state.setValue(POWERED, true), Block.UPDATE_ALL);
+			if (state.getValue(SEALED)) {  // родной приёмник решает загадку: растворяются печати, к которым он примыкает (раньше — любой сигнал красного камня)
+				for (BlockPos near : BlockPos.betweenClosed(pos.offset(-2, -2, -2), pos.offset(2, 2, 2))) {
+					if (level.getBlockState(near).is(dev.celestial.registry.ModBlocks.SEALED_DOOR)) {
+						dev.celestial.block.puzzle.SealedDoorBlock.dissolve(level, near.immutable());
+						break;
+					}
+				}
+			}
 			level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.BLOCKS, 1.0F, 1.6F);
 			level.sendParticles(ParticleTypes.END_ROD, pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, 6, 0.2, 0.1, 0.2, 0.02);
 		}
@@ -72,6 +82,12 @@ public class LightReceiverBlock extends Block implements BeamTarget, Rotatable {
 		return true;
 	}
 
+	/** Приёмник святилища нельзя сломать: без него печать уже не открыть. */
+	@Override
+	protected float getDestroyProgress(BlockState state, net.minecraft.world.entity.player.Player player, net.minecraft.world.level.BlockGetter level, BlockPos pos) {
+		return state.getValue(SEALED) ? 0.0F : super.getDestroyProgress(state, player, level, pos);
+	}
+
 	@Override
 	protected int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
 		return state.getValue(POWERED) ? 15 : 0;
@@ -79,6 +95,9 @@ public class LightReceiverBlock extends Block implements BeamTarget, Rotatable {
 
 	@Override
 	public BlockState rotateWithFork(BlockState state) {
+		if (state.getValue(SEALED)) {
+			return state;
+		}
 		// только красный → зелёный → синий: белый приёмник принимает любой луч, превращение в него снимало цветовую загадку
 		LightColor current = state.getValue(COLOR);
 		if (current == LightColor.WHITE) {

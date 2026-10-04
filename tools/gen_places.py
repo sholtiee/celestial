@@ -12,7 +12,7 @@ from PIL import Image
 import textures as T
 from gen_assets import ASSETS, DATA, blockstate, c, item_def, model, save_png, self_drop, shaped, write_json
 from gen_story import lang_patch
-from gen_structures import Template, chest
+from gen_structures import Template, chest, reliquary
 
 MC = lambda n: 'minecraft:' + n  # noqa: E731
 VANILLA = os.path.join(os.path.dirname(__file__), '..', '.mcsrc', 'assets', 'assets', 'minecraft', 'textures')
@@ -71,7 +71,7 @@ def observatory():
     # хранилище за печатью у западной стены
     t.fill(3, 1, 7, 5, 3, 11, MC('chiseled_stone_bricks'))
     t.fill(3, 1, 8, 4, 2, 10, MC('air'))
-    chest(t, 3, 1, 9, 'celestial:chests/observatory', facing='east')
+    reliquary(t, 3, 1, 9, 'celestial:chests/observatory')
     t.fill(5, 1, 8, 5, 2, 10, C('sealed_door'))
     t.set(cx + 4, 1, cz, MC('cartography_table'))
     return t.save('observatory/main')
@@ -106,7 +106,7 @@ def flame_sanctuary():
     # хранилище
     t.fill(cx - 2, 6, 1, cx + 2, 9, 4, MC('polished_blackstone_bricks'))
     t.fill(cx - 1, 6, 2, cx + 1, 8, 3, MC('air'))
-    chest(t, cx, 6, 2, 'celestial:chests/flame_sanctuary', facing='south')
+    reliquary(t, cx, 6, 2, 'celestial:chests/flame_sanctuary')
     t.fill(cx - 1, 6, 4, cx + 1, 8, 4, C('sealed_door'))
     return t.save('flame_sanctuary/main')
 
@@ -135,7 +135,7 @@ def void_rift():
     t.set(cx, 1, cz, C('trial_crystal'), nbt={'id': C('trial_crystal'), 'Trial': 'void_rift'}, state='idle')
     t.fill(cx - 1, 1, 13, cx + 1, 3, 15, MC('purpur_block'))
     t.set(cx, 1, 14, MC('air'))
-    chest(t, cx, 1, 14, 'celestial:chests/void_rift', facing='north')
+    reliquary(t, cx, 1, 14, 'celestial:chests/void_rift')
     t.set(cx, 1, 13, C('sealed_door'))
     t.set(cx, 2, 13, C('sealed_door'))
     return t.save('void_rift/main')

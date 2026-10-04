@@ -14,7 +14,7 @@ import textures as T
 from gen_abyss import append_tag
 from gen_assets import DATA, blockstate, c, item_def, model, save_png, self_drop, write_json
 from gen_story import lang_patch
-from gen_structures import Template, chest
+from gen_structures import Template, chest, reliquary
 
 MC = lambda n: 'minecraft:' + n  # noqa: E731
 F6 = ('north', 'south', 'east', 'west', 'up', 'down')
@@ -163,13 +163,13 @@ def sunken_temple():
         t.fill(x, 3, z, x, 10, z, c('glowshroom_stem'))
         t.set(x, 11, z, c('glowshroom_cap'))
     # загадка: рычаг на фонаре, луч на восток в зеркало (стоит неверно), от него на юг — к приёмнику у печати
-    t.set(5, 3, 11, c('beam_lantern'), nbt={'id': c('beam_source')}, facing='east', active=False)
+    t.set(5, 3, 11, c('beam_lantern'), nbt={'id': c('beam_source')}, facing='east', active=False, sealed=True)
     t.set(5, 4, 11, MC('lever'), face='floor', facing='east', powered=False)
     t.set(11, 3, 11, c('beam_mirror'), flipped=False)  # неверно: луч уходит на север, надо повернуть Камертоном
-    t.set(11, 3, 15, c('light_receiver'), color='white', powered=False)
+    t.set(11, 3, 15, c('light_receiver'), color='white', powered=False, sealed=True)
     t.fill(10, 3, 16, 12, 5, 16, c('sealed_door'))
     t.fill(5, 3, 17, 17, 6, 18, MC('air'))
-    chest(t, 11, 3, 18, 'celestial:chests/sunken_temple', facing='north')
+    reliquary(t, 11, 3, 18, 'celestial:chests/sunken_temple')
     chest(t, 16, 3, 5, 'celestial:chests/trial_tools', facing='west')
     t.set(7, 3, 5, c('shadow_crystal'), facing='up', waterlogged=False)
     t.set(15, 3, 13, c('shadow_crystal'), facing='up', waterlogged=False)

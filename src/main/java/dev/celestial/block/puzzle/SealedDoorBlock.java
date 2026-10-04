@@ -18,21 +18,14 @@ import net.minecraft.world.level.redstone.Orientation;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Печать-дверь: неразрушимая стена святилищ. Растворяется целиком (все соседние блоки печати),
- * когда на неё подан сигнал красного камня — от приёмника света, решённой загадки и т. п.
+ * Печать-дверь: неразрушимая стена святилищ. Растворяется целиком (все соседние блоки печати) только по решению загадки
+ * ({@link dev.celestial.puzzle.PuzzleRewards}, испытание). На редстоун не реагирует: рычаг рядом раньше открывал любую дверь.
  */
 public class SealedDoorBlock extends Block {
 	private static final int MAX_BLOCKS = 128;
 
 	public SealedDoorBlock(Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, @Nullable Orientation orientation, boolean movedByPiston) {
-		if (level instanceof ServerLevel server && level.hasNeighborSignal(pos)) {
-			dissolve(server, pos);
-		}
 	}
 
 	public static void dissolve(ServerLevel level, BlockPos start) {

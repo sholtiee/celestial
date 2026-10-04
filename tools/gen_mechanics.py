@@ -228,6 +228,8 @@ def trials(names):
         'trial.celestial.fail.left': ('§cИспытание провалено: ты покинул арену', '§cTrial failed: you left the arena'),
         'trial.celestial.fail.armor': ('§cИспытание провалено: ты надел доспехи', '§cTrial failed: you put on armor'),
         'trial.celestial.fail.time': ('§cИспытание провалено: время вышло', '§cTrial failed: time is up'),
+        'trial.celestial.fail.cheat': ('§cИспытание провалено: пропасть нужно пройти своими ногами', '§cTrial failed: cross the chasm on foot'),
+        'trial.celestial.no_build': ('Пока идёт испытание, строить рядом нельзя.', 'You cannot build nearby while the trial is running.'),
     })
 
 

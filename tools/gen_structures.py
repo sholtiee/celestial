@@ -113,6 +113,11 @@ def island_base(t, cx, cz, radius, top_y, depth, rng):
                 t.set(x, y, z, GRASS if y == top_y else DIRT if y >= top_y - 2 else STONE)
 
 
+def reliquary(t, x, y, z, loot):
+    """Награда за загадку: неразрушимый Реликварий, открывается, только когда рядом не осталось печатей-дверей."""
+    t.set(x, y, z, 'celestial:reliquary', nbt={'id': 'celestial:reliquary', 'LootTable': loot})
+
+
 def chest(t, x, y, z, loot, facing='north', lock=None):
     nbt = {'id': 'minecraft:chest', 'LootTable': loot}
     if lock:
@@ -371,18 +376,18 @@ def beam_temple():
     for x, z in ((6, 6), (20, 6), (6, 20), (20, 20)):
         t.set(x, top + 7, z, 'minecraft:lantern', hanging=True, waterlogged=False)
     # луч: линза на крыше светит вниз в перископ (стоит не туда — надо повернуть на юг)
-    t.set(8, top + 9, 8, C('sun_lens'), nbt={'id': C('beam_source')}, facing='down', active=False)
+    t.set(8, top + 9, 8, C('sun_lens'), nbt={'id': C('beam_source')}, facing='down', active=False, sealed=True)
     t.set(8, top + 8, 8, 'minecraft:glass')
     t.set(8, top + 1, 8, C('periscope'), facing='west', up=False)
     t.set(8, top + 1, 14, C('beam_prism'))
     t.set(8, top + 1, 18, C('beam_mirror'), flipped=False)  # стоит неверно: зелёный уйдёт на запад
-    t.set(14, top + 1, 14, C('light_receiver'), color='red', powered=False)
-    t.set(2 + 1, top + 1, 14, C('light_receiver'), color='blue', powered=False)
-    t.set(16, top + 1, 18, C('light_receiver'), color='green', powered=False)
+    t.set(14, top + 1, 14, C('light_receiver'), color='red', powered=False, sealed=True)
+    t.set(2 + 1, top + 1, 14, C('light_receiver'), color='blue', powered=False, sealed=True)
+    t.set(16, top + 1, 18, C('light_receiver'), color='green', powered=False, sealed=True)
     t.fill(17, top + 1, 17, 17, top + 3, 19, C('sealed_door'))
     # сокровищница за печатью
     t.fill(18, top + 1, 16, 23, top + 4, 21, 'minecraft:air')
-    chest(t, 22, top + 1, 18, 'celestial:chests/beam_temple', facing='west')
+    reliquary(t, 22, top + 1, 18, 'celestial:chests/beam_temple')
     chest(t, 4, top + 1, 4, 'celestial:chests/trial_tools', facing='south')
     t.set(13, top + 1, 6, C('rune_pedestal'), riddle=3, solved=False)
     return t.save('beam_temple/main')
@@ -588,11 +593,11 @@ def decorate_floor(t, n, y0, rng):
         t.set(gx - 1 if gx > 3 else gx, y0 + (len(path) // 5 if n == 5 else 0), gz, C('trial_goal'))
     if n == 3:
         # лучи: линза светит на восток, луч надо развернуть зеркалами (Камертон лежит в сундуке) на приёмник у южной стены
-        t.set(2, y0 + 1, c0 - 3, C('sun_lens'), nbt={'id': C('beam_source')}, facing='east', active=False)
+        t.set(2, y0 + 1, c0 - 3, C('sun_lens'), nbt={'id': C('beam_source')}, facing='east', active=False, sealed=True)
         t.set(c0 + 3, y0 + 1, c0 - 3, C('beam_mirror'), flipped=False)
         t.set(c0 + 3, y0 + 1, c0 + 4, C('beam_mirror'), flipped=False)
         t.set(c0 - 4, y0 + 1, c0 + 4, C('beam_mirror'), flipped=True)
-        t.set(c0 - 4, y0 + 1, TOWER - 3, C('light_receiver'), color='white', powered=False)
+        t.set(c0 - 4, y0 + 1, TOWER - 3, C('light_receiver'), color='white', powered=False, sealed=True)
         chest(t, 3, y0 + 1, TOWER - 4, 'celestial:chests/trial_tools', facing='east')
     if n == 4:
         t.set(c0, y0 + 1, c0 + 4, C('bell_altar'), nbt={'id': C('bell_altar')}, solved=False)

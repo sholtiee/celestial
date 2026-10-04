@@ -2,6 +2,8 @@
 from gen_assets import blockstate, c, item_def, model, save_png
 from gen_story import lang_patch
 import mob_textures as M
+import textures as T
+from PIL import ImageDraw
 
 LORE = {
     # предметы
@@ -51,8 +53,31 @@ def asset_fixes():
     lang_patch({'item.celestial.light_devourer_spawn_egg': ('Яйцо призыва: Пожиратель Света', 'Light Devourer Spawn Egg')})
 
 
+def reliquary():
+    """Реликварий: золотой ларец в тёмной оправе со знаком света (награда за загадку, открывается без печатей рядом)."""
+    img = T.noisy('reliquary', [T.hexrgb(h) for h in ('#3b2f14', '#5a4720', '#7a6228', '#a2822f')], cell=2, grain=0.35).convert('RGBA')
+    d = ImageDraw.Draw(img)
+    gold, dark, glow = (232, 196, 90, 255), (28, 22, 12, 255), (255, 243, 198, 255)
+    d.rectangle([0, 0, 15, 15], outline=dark)
+    d.rectangle([1, 1, 14, 14], outline=gold)
+    d.rectangle([4, 4, 11, 11], fill=dark)
+    # знак: четыре луча и сердцевина
+    for x, y in ((7, 5), (8, 5), (7, 10), (8, 10), (5, 7), (5, 8), (10, 7), (10, 8)):
+        d.point((x, y), fill=gold)
+    d.rectangle([7, 7, 8, 8], fill=glow)
+    save_png(img, 'block/reliquary')
+    model('block/reliquary', {'parent': 'minecraft:block/cube_all', 'textures': {'all': c('block/reliquary')}})
+    blockstate('reliquary', {'variants': {'': {'model': c('block/reliquary')}}})
+    lang_patch({
+        'block.celestial.reliquary': ('Реликварий', 'Reliquary'),
+        'puzzle.celestial.reliquary.sealed': ('Печать всё ещё держит сокровище.', 'The seal still holds the treasure.'),
+        'puzzle.celestial.reliquary.empty': ('Ты уже забрал свою долю.', 'You already took your share.'),
+    })
+
+
 def main():
     asset_fixes()
+    reliquary()
     lang_patch(LORE)
     print('ok: подсказки', len(LORE))
 

@@ -46,6 +46,7 @@ public class TrialControllerBlockEntity extends BlockEntity {
 	private ServerBossEvent bar;
 	/** После загрузки мира сущности волны ещё не загружены: пока ждём, не считаем их погибшими. */
 	private int loadGrace;
+	private net.minecraft.world.phys.Vec3 lastPos;
 
 	public TrialControllerBlockEntity(BlockPos pos, BlockState state) {
 		super(ModBlockEntities.TRIAL_CONTROLLER, pos, state);
@@ -80,6 +81,10 @@ public class TrialControllerBlockEntity extends BlockEntity {
 		level.playSound(null, worldPosition, dev.celestial.registry.ModSounds.TRIAL_START, SoundSource.BLOCKS, 1.5F, 1.0F);
 		player.sendSystemMessage(Component.translatable("trial.celestial.start." + def.type().name().toLowerCase()));
 		createBar(player);
+		if (def.type() == TrialDefinition.Type.PARKOUR) {
+			TrialGuard.started(level, worldPosition);
+		}
+		lastPos = null;
 		setChanged();
 	}
 
@@ -120,6 +125,18 @@ public class TrialControllerBlockEntity extends BlockEntity {
 		if (def.type() == TrialDefinition.Type.BARE_WAVES && hasArmor(player)) {
 			fail(level, "trial.celestial.fail.armor");
 			return;
+		}
+		if (def.type() == TrialDefinition.Type.PARKOUR) {
+			// жемчуг, элитры, верховая езда и левитация обходят пропасть: считаем это провалом
+			var now = player.position();
+			boolean cheat = player.isFallFlying() || player.isPassenger() || player.hasEffect(net.minecraft.world.effect.MobEffects.LEVITATION)
+				|| player.hasEffect(net.minecraft.world.effect.MobEffects.SLOW_FALLING) || (lastPos != null && now.distanceToSqr(lastPos) > 64.0);
+			lastPos = now;
+			if (cheat) {
+				fail(level, "trial.celestial.fail.cheat");
+				return;
+			}
+			TrialGuard.started(level, worldPosition);  // идемпотентно; после перезахода защита от строительства включается заново
 		}
 		if (def.timeLimitSeconds() > 0) {
 			ticksLeft--;
@@ -188,6 +205,10 @@ public class TrialControllerBlockEntity extends BlockEntity {
 			BlockState s = level.getBlockState(p);
 			String path = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(s.getBlock()).getPath();
 			boolean puzzle = path.equals("light_receiver") || path.equals("bell_altar") || path.equals("star_tile") || path.equals("rune_pedestal");
+			// приёмники света считаются только родные (sealed): свой приёмник в арене испытание не проходит
+			if (path.equals("light_receiver") && !s.getValue(dev.celestial.block.light.LightReceiverBlock.SEALED)) {
+				continue;
+			}
 			if (puzzle && s.getSignal(level, p, net.minecraft.core.Direction.UP) > 0) {
 				return true;
 			}
@@ -251,6 +272,9 @@ public class TrialControllerBlockEntity extends BlockEntity {
 	}
 
 	private void cleanup() {
+		if (level instanceof ServerLevel server) {
+			TrialGuard.ended(server, worldPosition);
+		}
 		challenger = null;
 		spawned.clear();
 		wave = -1;

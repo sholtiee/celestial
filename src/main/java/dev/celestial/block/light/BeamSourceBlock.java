@@ -32,6 +32,8 @@ import org.jspecify.annotations.Nullable;
 public class BeamSourceBlock extends Block implements EntityBlock, Rotatable {
 	public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
 	public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
+	/** Источник святилища (только из генерации): его луч единственный, что засчитывается запечатанным приёмникам; не ломается. */
+	public static final BooleanProperty SEALED = BooleanProperty.create("sealed");
 
 	public enum Kind { SUN_LENS, LANTERN }
 
@@ -40,12 +42,12 @@ public class BeamSourceBlock extends Block implements EntityBlock, Rotatable {
 	public BeamSourceBlock(Kind kind, Properties properties) {
 		super(properties);
 		this.kind = kind;
-		registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(ACTIVE, false));
+		registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(ACTIVE, false).setValue(SEALED, false));
 	}
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(FACING, ACTIVE);
+		builder.add(FACING, ACTIVE, SEALED);
 	}
 
 	@Override
@@ -90,14 +92,24 @@ public class BeamSourceBlock extends Block implements EntityBlock, Rotatable {
 		if (!shine) {
 			return;
 		}
-		LightBeams.trace(level, pos, state.getValue(FACING), LightColor.WHITE, new LightBeams.Visitor() {
-			@Override
-			public void hit(BlockPos hitPos, BlockState hitState, LightColor color, Direction travel) {
-				if (hitState.getBlock() instanceof BeamTarget target) {
-					target.onBeamHit(server, hitPos, hitState, color, travel);
+		LightBeams.sealedSource = state.getValue(SEALED);
+		try {
+			LightBeams.trace(level, pos, state.getValue(FACING), LightColor.WHITE, new LightBeams.Visitor() {
+				@Override
+				public void hit(BlockPos hitPos, BlockState hitState, LightColor color, Direction travel) {
+					if (hitState.getBlock() instanceof BeamTarget target) {
+						target.onBeamHit(server, hitPos, hitState, color, travel);
+					}
 				}
-			}
-		});
+			});
+		} finally {
+			LightBeams.sealedSource = false;
+		}
+	}
+
+	@Override
+	protected float getDestroyProgress(BlockState state, net.minecraft.world.entity.player.Player player, net.minecraft.world.level.BlockGetter level, BlockPos pos) {
+		return state.getValue(SEALED) ? 0.0F : super.getDestroyProgress(state, player, level, pos);
 	}
 
 	/** Клиент: рисуем луч частицами пыли нужного цвета вдоль всего пути. */

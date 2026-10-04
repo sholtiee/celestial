@@ -39,6 +39,7 @@ public class Celestial implements ModInitializer {
 		dev.celestial.fading.Stargazer.init();
 		dev.celestial.world.abyss.Darkness.init();
 		dev.celestial.puzzle.Attempts.init();
+		dev.celestial.trial.TrialGuard.init();
 		dev.celestial.world.frozen.Cold.init();
 		dev.celestial.world.CaveFloorStructure.init();
 		LOGGER.info("Celestial: небеса открываются");

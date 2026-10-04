@@ -1,0 +1,32 @@
+# QA: паркур этажа 2 — телепорт/жемчуг и строительство не обходят испытание (BUG-013)
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 22010 175 22010
+fly
+wait 100
+/fill 21990 140 21990 22040 149 22040 minecraft:stone
+/place template celestial:trial_tower/main 22000 150 22000
+wait 60
+/gamemode survival
+/tp @s 22011 163 22009 0 20
+wait 20
+# crystal heaven_2 at (10,13,10) -> (22010,163,22010); игрок стоит рядом
+use 22010 163 22010 up
+wait 20
+/say TEST K1 trial_running expect=pass
+/execute if block 22010 163 22010 celestial:trial_crystal[state=running]
+# K2 строить рядом нельзя: камень на блок острова рядом с кристаллом
+/item replace entity @s weapon.mainhand with minecraft:stone
+use 22011 163 22010 up
+wait 10
+/say TEST K2 no_build expect=pass(air above)
+/execute if block 22011 164 22010 minecraft:air
+# K3 телепорт на 12 блоков = провал испытания
+/say TEST K3 teleport_fails_trial expect=pass
+/tp @s 22011 164 22022
+wait 40
+/execute if block 22010 163 22010 celestial:trial_crystal[state=idle]
+/gamemode creative
+quit

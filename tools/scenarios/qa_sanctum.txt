@@ -1,0 +1,49 @@
+# QA: святилище не обходится. Затонувший храм: рычаг/редстоун у двери, свой фонарь у приёмника, реликварий до и после решения
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 21000 170 21000
+fly
+wait 100
+/fill 20990 140 20990 21040 149 21040 minecraft:stone
+/place template celestial:sunken_temple/main 21000 150 21000
+wait 60
+/clear @s
+# S1 редстоун-блок у двери (раньше открывал любую печать): дверь на месте
+/say TEST S1 redstone_next_to_door expect=pass
+/setblock 21013 153 21016 minecraft:redstone_block
+/setblock 21009 153 21016 minecraft:redstone_block
+/setblock 21011 153 21017 minecraft:redstone_block
+wait 30
+/execute if block 21011 153 21016 celestial:sealed_door
+# S2 свой фонарь светит в родной приёмник (11,3,15): не засчитывается
+/say TEST S2 own_lantern_to_sealed_receiver expect=pass
+/setblock 21011 153 21013 celestial:beam_lantern[facing=south]
+/setblock 21010 153 21013 minecraft:redstone_block
+wait 60
+/execute if block 21011 153 21016 celestial:sealed_door
+/execute if block 21011 153 21015 celestial:light_receiver[powered=false]
+/setblock 21011 153 21013 minecraft:air
+/setblock 21010 153 21013 minecraft:air
+# S3 реликварий заперт, пока печать на месте
+/say TEST S3 reliquary_sealed expect=pass(no items)
+/tp @s 21011 153 21019 0 0
+/gamemode survival
+wait 10
+use 21011 153 21018 north
+wait 10
+/execute unless items entity @s container.* *
+# S4 честное решение: развернуть зеркало (как Камертоном) и включить родной фонарь рычагом
+/say TEST S4 solve expect=pass,pass(door gone)
+/setblock 21011 153 21011 celestial:beam_mirror[flipped=true]
+/setblock 21005 154 21011 minecraft:lever[face=floor,facing=east,powered=true]
+wait 120
+/execute unless block 21011 153 21016 celestial:sealed_door
+# S5 реликварий отдаёт награду
+/say TEST S5 reliquary_open expect=pass(items)
+use 21011 153 21018 north
+wait 10
+/execute if items entity @s container.* *
+/gamemode creative
+quit
