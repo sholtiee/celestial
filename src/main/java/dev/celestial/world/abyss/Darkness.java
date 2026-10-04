@@ -47,10 +47,14 @@ public final class Darkness {
 	/** Твари, которых не пускает Оберег: только что появившиеся в радиусе исчезают. */
 	public static final TagKey<net.minecraft.world.entity.EntityType<?>> REPELLED = TagKey.create(Registries.ENTITY_TYPE, Celestial.id("repelled_by_wards"));
 
+	/** Метка «не отгонять»: мобы испытаний и призывы боссов — часть задуманного боя, Оберег их не удаляет. */
+	public static final String NO_REPEL = "celestial_no_repel";
+
 	public static void init() {
 		ServerTickEvents.END_SERVER_TICK.register(Darkness::tick);
 		net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents.ENTITY_LOAD.register((entity, level) -> {
-			if (entity.tickCount == 0 && entity.is(REPELLED) && dev.celestial.starlight.Wards.protects(level, entity.blockPosition())) {
+			if (entity.tickCount == 0 && entity.is(REPELLED) && !entity.entityTags().contains(NO_REPEL)
+				&& dev.celestial.starlight.Wards.protects(level, entity.blockPosition())) {
 				entity.discard();
 			}
 		});

@@ -28,7 +28,7 @@ public final class PortalForcer {
 			for (int dz = -SEARCH_RADIUS; dz <= SEARCH_RADIUS; dz++) {
 				int x = near.getX() + dx, z = near.getZ() + dz;
 				int top = surfaceHeight(level, Heightmap.Types.WORLD_SURFACE, x, z);
-				for (int y = level.getMinY(); y < top; y++) {
+				for (int y = Math.max(level.getMinY(), top - 48); y < top; y++) {  // портал стоит у поверхности: скан всей колонки был в разы дороже
 					pos.set(x, y, z);
 					if (level.getBlockState(pos).is(type.portal().get()) && !level.getBlockState(pos.below()).is(type.portal().get())) {
 						double d = pos.distSqr(near);
@@ -57,7 +57,8 @@ public final class PortalForcer {
 
 	/** В измерении мода — ближайшая подходящая поверхность по спирали, иначе — площадка на запасной высоте. */
 	private static BlockPos targetSpot(PortalType type, ServerLevel level, BlockPos near) {
-		for (int r = 0; r <= 48; r += 4) {
+		// радиус не больше SEARCH_RADIUS: иначе на обратном пути исходный портал не находился и рядом строился второй
+		for (int r = 0; r <= 20; r += 4) {
 			for (int dx = -r; dx <= r; dx += 4) {
 				for (int dz = -r; dz <= r; dz += 4) {
 					if (Math.max(Math.abs(dx), Math.abs(dz)) != r) {

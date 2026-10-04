@@ -59,8 +59,6 @@ public class StormElemental extends StormSpirit {
 		bossEvent.removePlayer(player);
 	}
 
-	@Override
-	public boolean removeWhenFarAway(double distSqr) {
-		return false;
-	}
+	// removeWhenFarAway не переопределяем (было false): естественно появившиеся элементали копились на Грозовом пике навсегда;
+	// призванные в испытаниях защищены setPersistenceRequired.
 }

@@ -1,5 +1,6 @@
 package dev.celestial.block.puzzle;
 
+import dev.celestial.puzzle.Attempts;
 import dev.celestial.puzzle.PuzzleRewards;
 import dev.celestial.puzzle.Riddles;
 import net.minecraft.core.BlockPos;
@@ -50,14 +51,25 @@ public class RunePedestalBlock extends Block {
 		if (state.getValue(SOLVED)) {
 			return InteractionResult.PASS;
 		}
-		if (!stack.is(Riddles.answer(state.getValue(RIDDLE)))) {
-			if (level instanceof ServerLevel server) {
-				server.playSound(null, pos, SoundEvents.NOTE_BLOCK_BASS.value(), SoundSource.BLOCKS, 1.0F, 0.5F);
-				player.sendOverlayMessage(Component.translatable("puzzle.celestial.riddle.wrong"));
-			}
-			return InteractionResult.FAIL;
+		if (stack.isEmpty()) {
+			return InteractionResult.PASS;
 		}
 		if (level instanceof ServerLevel server) {
+			int locked = Attempts.lockedSeconds(server, pos, player);
+			if (locked > 0) {  // после ошибки руны закрыты — перебирать предметы подряд нельзя
+				player.sendOverlayMessage(Component.translatable("puzzle.celestial.locked_wait", locked));
+				return InteractionResult.FAIL;
+			}
+		}
+		if (!stack.is(Riddles.answer(state.getValue(RIDDLE)))) {
+			if (level instanceof ServerLevel server) {
+				Attempts.fail(server, pos, player, Component.translatable("puzzle.celestial.riddle.wrong"));
+				return InteractionResult.FAIL;
+			}
+			return InteractionResult.SUCCESS;
+		}
+		if (level instanceof ServerLevel server) {
+			Attempts.reset(server, pos, player);
 			stack.consume(1, player);
 			server.setBlock(pos, state.setValue(SOLVED, true), Block.UPDATE_ALL);
 			PuzzleRewards.solved(server, pos, player, "riddle");

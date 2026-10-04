@@ -17,8 +17,9 @@ public class TrialGoalBlock extends Block {
 
 	@Override
 	public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
-		if (level instanceof ServerLevel server && entity instanceof Player player && level.getGameTime() % 5 == 0) {
-			for (BlockPos p : BlockPos.betweenClosed(pos.offset(-32, -12, -32), pos.offset(32, 12, 32))) {
+		if (level instanceof ServerLevel server && entity instanceof Player player && level.getGameTime() % 10 == 0) {
+			// контроллер испытания в одной башне с финишем (этаж 21×21): ±16×±10 вместо ±32×±12 — в 6 раз меньше блоков за проход
+			for (BlockPos p : BlockPos.betweenClosed(pos.offset(-16, -10, -16), pos.offset(16, 10, 16))) {
 				BlockEntity be = level.getBlockEntity(p);
 				if (be instanceof TrialControllerBlockEntity trial && trial.isRunning()) {
 					trial.reachGoal(server, player);

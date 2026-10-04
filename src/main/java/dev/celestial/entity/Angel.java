@@ -34,6 +34,36 @@ public class Angel extends WanderingTrader {
 		this.setDropChance(EquipmentSlot.CHEST, 0.0F);
 	}
 
+	/** Как у странствующего торговца, но без зелья невидимости по ночам: Рай живёт по часам Верхнего мира, и ангелы пропадали каждую ночь. */
+	@Override
+	protected void registerGoals() {
+		goalSelector.addGoal(0, new net.minecraft.world.entity.ai.goal.FloatGoal(this));
+		goalSelector.addGoal(1, new net.minecraft.world.entity.ai.goal.TradeWithPlayerGoal(this));
+		goalSelector.addGoal(1, new net.minecraft.world.entity.ai.goal.AvoidEntityGoal<>(this, net.minecraft.world.entity.monster.zombie.Zombie.class, 8.0F, 0.5, 0.5));
+		goalSelector.addGoal(1, new net.minecraft.world.entity.ai.goal.AvoidEntityGoal<>(this, dev.celestial.entity.FallenGuardian.class, 10.0F, 0.5, 0.5));
+		goalSelector.addGoal(1, new net.minecraft.world.entity.ai.goal.PanicGoal(this, 0.5));
+		goalSelector.addGoal(1, new net.minecraft.world.entity.ai.goal.LookAtTradingPlayerGoal(this));
+		goalSelector.addGoal(4, new net.minecraft.world.entity.ai.goal.MoveTowardsRestrictionGoal(this, 0.35));
+		goalSelector.addGoal(8, new net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal(this, 0.35));
+		goalSelector.addGoal(9, new net.minecraft.world.entity.ai.goal.InteractGoal(this, net.minecraft.world.entity.player.Player.class, 3.0F, 1.0F));
+		goalSelector.addGoal(10, new net.minecraft.world.entity.ai.goal.LookAtPlayerGoal(this, Mob.class, 8.0F));
+	}
+
+	/** Ангелы постоянные, а у WanderingTrader нет пополнения сделок: раз в игровые сутки сделки восстанавливаются. */
+	@Override
+	protected void customServerAiStep(ServerLevel level) {
+		super.customServerAiStep(level);
+		long day = level.getOverworldClockTime() / 24000L;
+		if (day != restockDay && !isTrading()) {
+			restockDay = day;
+			for (var offer : getOffers()) {
+				offer.resetUses();
+			}
+		}
+	}
+
+	private long restockDay = -1;
+
 	public static AttributeSupplier.Builder createAttributes() {
 		return Mob.createMobAttributes()
 			.add(Attributes.MAX_HEALTH, 30.0)

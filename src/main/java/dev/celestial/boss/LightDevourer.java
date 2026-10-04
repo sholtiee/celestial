@@ -291,6 +291,9 @@ public class LightDevourer extends Monster {
 		for (int i = 0; i < 3; i++) {
 			Mob mob = (i < 2 ? ModEntities.LIGHT_EATER : ModEntities.SHADOW).create(level, EntitySpawnReason.MOB_SUMMONED);
 			if (mob != null) {
+				mob.addTag(dev.celestial.world.abyss.Darkness.NO_REPEL);
+			}
+			if (mob != null) {
 				BlockPos at = home.offset(random.nextInt(13) - 6, 2, random.nextInt(13) - 6);
 				mob.snapTo(at, random.nextFloat() * 360, 0);
 				level.addFreshEntity(mob);

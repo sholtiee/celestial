@@ -43,9 +43,9 @@ public class GuideToStructureGoal extends Goal {
 	@Override
 	public void tick() {
 		if (--recalc <= 0) {
-			recalc = 200;
+			recalc = 600;  // поиск постройки синхронный и догенерирует чанки — раз в 30 с, а не в 10
 			if (wisp.level() instanceof ServerLevel level) {
-				destination = level.findNearestMapStructure(GUIDE_TARGETS, wisp.blockPosition(), 32, false);
+				destination = level.findNearestMapStructure(GUIDE_TARGETS, wisp.blockPosition(), 24, false);
 			}
 		}
 		if (destination == null) {

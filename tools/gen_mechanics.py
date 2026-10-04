@@ -448,6 +448,8 @@ def main():
     names.update({
         'puzzle.celestial.riddle.solved': ('§aЗагадка разгадана — руны спокойно светятся.', '§aThe riddle is solved - the runes glow calmly.'),
         'puzzle.celestial.riddle.wrong': ('Руны остаются тёмными…', 'The runes stay dark...'),
+        'puzzle.celestial.locked': ('%s Руны закрыты на %s с.', '%s The runes are sealed for %s s.'),
+        'puzzle.celestial.locked_wait': ('Руны ещё остывают: %s с.', 'The runes are still cooling: %s s.'),
         'puzzle.celestial.bells.listen': ('Слушай мелодию и повтори её на колоколах', 'Listen to the melody and repeat it on the bells'),
         'puzzle.celestial.bells.wrong': ('Фальшивая нота! Начни сначала', 'A false note! Start again'),
         'puzzle.celestial.bells.already': ('Колокола уже поют в унисон', 'The bells already sing in unison'),

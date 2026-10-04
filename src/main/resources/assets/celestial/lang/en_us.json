@@ -475,6 +475,8 @@
   "puzzle.celestial.bells.already": "The bells already sing in unison",
   "puzzle.celestial.bells.listen": "Listen to the melody and repeat it on the bells",
   "puzzle.celestial.bells.wrong": "A false note! Start again",
+  "puzzle.celestial.locked": "%s The runes are sealed for %s s.",
+  "puzzle.celestial.locked_wait": "The runes are still cooling: %s s.",
   "puzzle.celestial.riddle.0": "§6The runes read: §fI fall but never break. I fly but have no wings. What am I?",
   "puzzle.celestial.riddle.1": "§6The runes read: §fSofter than down, whiter than snow, it holds those who walk the sky.",
   "puzzle.celestial.riddle.2": "§6The runes read: §fWithout legs I walk, without hands I point, without eyes I know the night.",

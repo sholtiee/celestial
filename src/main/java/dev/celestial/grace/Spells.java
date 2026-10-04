@@ -112,6 +112,8 @@ public final class Spells {
 		String dim = player.level().dimension().identifier().toString();
 		BeaconNetwork.Beacon nearest = CelestialData.beacons(player.level().getServer()).beacons().stream()
 			.filter(b -> b.dimension().equals(dim))
+			// маяк мог быть разрушен взрывом/поршнем (из сети он удаляется только при ломании игроком)
+			.filter(b -> !player.level().isLoaded(b.pos()) || player.level().getBlockState(b.pos()).is(dev.celestial.registry.ModBlocks.SKY_BEACON))
 			.min(Comparator.comparingDouble(b -> b.pos().distSqr(player.blockPosition()))).orElse(null);
 		if (nearest == null) {
 			player.sendOverlayMessage(Component.translatable("spell.celestial.recall.none"));

@@ -1,0 +1,28 @@
+# QA: рунный пьедестал — перебор блокируется (BUG-015). Ожидание: unsolved после «Земля»+«Перо», затем solved после ожидания
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/execute in minecraft:overworld run tp @s 20000 210 20000
+fly
+wait 100
+/fill 19990 199 19990 20030 199 20030 minecraft:smooth_stone
+/fill 19990 200 19990 20030 215 20030 minecraft:air
+/setblock 20005 200 20000 celestial:rune_pedestal[riddle=0]
+/gamemode survival
+/tp @s 20005 200 19998 0 30
+wait 10
+/say TEST RD1 wrong_then_right_immediately expect=pass(unsolved)
+/item replace entity @s weapon.mainhand with minecraft:dirt
+use 20005 200 20000 north
+/item replace entity @s weapon.mainhand with minecraft:feather
+use 20005 200 20000 north
+wait 5
+/execute if block 20005 200 20000 celestial:rune_pedestal[solved=false]
+/say TEST RD2 after_lock expect=pass(solved)
+/tick sprint 500
+wait 40
+use 20005 200 20000 north
+wait 5
+/execute if block 20005 200 20000 celestial:rune_pedestal[solved=true]
+/gamemode creative
+quit

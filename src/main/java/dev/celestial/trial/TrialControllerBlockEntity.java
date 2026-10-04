@@ -163,6 +163,7 @@ public class TrialControllerBlockEntity extends BlockEntity {
 				if (e == null) {
 					continue;
 				}
+				e.addTag(dev.celestial.world.abyss.Darkness.NO_REPEL);  // Оберег рядом не должен стирать мобов волны (иначе волна «проходится» сама)
 				double a = level.getRandom().nextDouble() * Math.PI * 2;
 				double r = 3 + level.getRandom().nextDouble() * (ARENA - 4);
 				BlockPos at = BlockPos.containing(worldPosition.getX() + 0.5 + Math.cos(a) * r, worldPosition.getY() + 1, worldPosition.getZ() + 0.5 + Math.sin(a) * r);

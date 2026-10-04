@@ -475,6 +475,8 @@
   "puzzle.celestial.bells.already": "Колокола уже поют в унисон",
   "puzzle.celestial.bells.listen": "Слушай мелодию и повтори её на колоколах",
   "puzzle.celestial.bells.wrong": "Фальшивая нота! Начни сначала",
+  "puzzle.celestial.locked": "%s Руны закрыты на %s с.",
+  "puzzle.celestial.locked_wait": "Руны ещё остывают: %s с.",
   "puzzle.celestial.riddle.0": "§6Руны гласят: §fПадаю, но не разбиваюсь. Лечу, но крыльев у меня нет. Что я?",
   "puzzle.celestial.riddle.1": "§6Руны гласят: §fМягче пуха, белее снега, держит тех, кто ходит по небу.",
   "puzzle.celestial.riddle.2": "§6Руны гласят: §fБез ног иду, без рук указываю, без глаз знаю, когда ночь.",
