@@ -1,0 +1,359 @@
+# QA: витрина — каждый блок, предмет и сущность мода (автоген tools/qa)
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/gamerule spawn_mobs false
+/time set 6000
+/weather clear
+/tp @s 10000 205 10000
+fly
+wait 120
+/fill 9998 199 9998 10046 199 10040 minecraft:smooth_stone
+/fill 9998 200 9998 10046 212 10040 minecraft:air
+/setblock 10000 199 10000 celestial:golden_grass
+/setblock 10000 200 10000 celestial:abyss_bricks
+/setblock 10003 199 10000 celestial:golden_grass
+/setblock 10003 200 10000 celestial:abyss_rift
+/setblock 10006 199 10000 celestial:golden_grass
+/setblock 10006 200 10000 celestial:abyss_stone
+/setblock 10009 199 10000 celestial:golden_grass
+/setblock 10009 200 10000 celestial:abyssal_obsidian_ore
+/setblock 10012 199 10000 celestial:golden_grass
+/setblock 10012 200 10000 celestial:aether_rose
+/setblock 10015 199 10000 celestial:golden_grass
+/setblock 10015 200 10000 celestial:aurora_crystal
+/setblock 10018 199 10000 celestial:golden_grass
+/setblock 10018 200 10000 celestial:beam_lantern
+/setblock 10021 199 10000 celestial:golden_grass
+/setblock 10021 200 10000 celestial:beam_mirror
+/setblock 10024 199 10000 celestial:golden_grass
+/setblock 10024 200 10000 celestial:beam_prism
+/setblock 10027 199 10000 celestial:golden_grass
+/setblock 10027 200 10000 celestial:bell_altar
+/setblock 10030 199 10000 celestial:golden_grass
+/setblock 10030 200 10000 celestial:blue_filter
+/setblock 10033 199 10000 celestial:golden_grass
+/setblock 10033 200 10000 celestial:brazier
+/setblock 10000 199 10003 celestial:golden_grass
+/setblock 10000 200 10003 celestial:celestial_altar
+/setblock 10003 199 10003 celestial:golden_grass
+/setblock 10003 200 10003 celestial:celestial_forge
+/setblock 10006 199 10003 celestial:golden_grass
+/setblock 10006 200 10003 celestial:cloud
+/setblock 10009 199 10003 celestial:golden_grass
+/setblock 10009 200 10003 celestial:cloud_lift
+/setblock 10012 199 10003 celestial:golden_grass
+/setblock 10012 200 10003 celestial:cloud_moss
+/setblock 10015 199 10003 celestial:golden_grass
+/setblock 10015 200 10003 celestial:cloud_willow_leaves
+/setblock 10018 199 10003 celestial:golden_grass
+/setblock 10018 200 10003 celestial:cloud_willow_sapling
+/setblock 10021 199 10003 celestial:golden_grass
+/setblock 10021 200 10003 celestial:cloudbloom
+/setblock 10024 199 10003 celestial:golden_grass
+/setblock 10024 200 10003 celestial:dawn_poppy
+/setblock 10027 199 10003 celestial:golden_grass
+/setblock 10027 200 10003 celestial:devourer_seal
+/setblock 10030 199 10003 celestial:golden_grass
+/setblock 10030 200 10003 celestial:etherite_block
+/setblock 10033 199 10003 celestial:golden_grass
+/setblock 10033 200 10003 celestial:etherite_ore
+/setblock 10000 199 10006 celestial:golden_grass
+/setblock 10000 200 10006 celestial:frost_ore
+/setblock 10003 199 10006 celestial:golden_grass
+/setblock 10003 200 10006 celestial:frost_stone
+/setblock 10006 199 10006 celestial:golden_grass
+/setblock 10006 200 10006 celestial:frost_stone_bricks
+/setblock 10009 199 10006 celestial:golden_grass
+/setblock 10009 200 10006 celestial:frozen_angel
+/setblock 10012 199 10006 celestial:golden_grass
+/setblock 10012 200 10006 celestial:frozen_portal
+/setblock 10015 199 10006 celestial:golden_grass
+/setblock 10015 200 10006 celestial:gloom_moss
+/setblock 10018 199 10006 celestial:golden_grass
+/setblock 10018 200 10006 celestial:glowshroom
+/setblock 10021 199 10006 celestial:golden_grass
+/setblock 10021 200 10006 celestial:glowshroom_cap
+/setblock 10024 199 10006 celestial:golden_grass
+/setblock 10024 200 10006 celestial:glowshroom_stem
+/setblock 10027 199 10006 celestial:golden_grass
+/setblock 10027 200 10006 celestial:golden_cloud
+/setblock 10030 199 10006 celestial:golden_grass
+/setblock 10030 200 10006 celestial:golden_grass
+/setblock 10033 199 10006 celestial:golden_grass
+/setblock 10033 200 10006 celestial:golden_tuft
+/setblock 10000 199 10009 celestial:golden_grass
+/setblock 10000 200 10009 celestial:green_filter
+/setblock 10003 199 10009 celestial:golden_grass
+/setblock 10003 200 10009 celestial:heaven_dirt
+/setblock 10006 199 10009 celestial:golden_grass
+/setblock 10006 200 10009 celestial:heaven_portal
+/setblock 10009 199 10009 celestial:golden_grass
+/setblock 10009 200 10009 celestial:infusion_altar
+/setblock 10012 199 10009 celestial:golden_grass
+/setblock 10012 200 10009 celestial:light_receiver
+/setblock 10015 199 10009 celestial:golden_grass
+/setblock 10015 200 10009 celestial:lumivine
+/setblock 10018 199 10009 celestial:golden_grass
+/setblock 10018 200 10009 celestial:manna_bush
+/setblock 10021 199 10009 celestial:golden_grass
+/setblock 10021 200 10009 celestial:meteorite
+/setblock 10024 199 10009 celestial:golden_grass
+/setblock 10024 200 10009 celestial:periscope
+/setblock 10027 199 10009 celestial:golden_grass
+/setblock 10027 200 10009 celestial:quest_board
+/setblock 10030 199 10009 celestial:golden_grass
+/setblock 10030 200 10009 celestial:radiant_stone
+/setblock 10033 199 10009 celestial:golden_grass
+/setblock 10033 200 10009 celestial:rain_cloud
+/setblock 10000 199 10012 celestial:golden_grass
+/setblock 10000 200 10012 celestial:red_filter
+/setblock 10003 199 10012 celestial:golden_grass
+/setblock 10003 200 10012 celestial:rune_pedestal
+/setblock 10006 199 10012 celestial:golden_grass
+/setblock 10006 200 10012 celestial:sealed_door
+/setblock 10009 199 10012 celestial:golden_grass
+/setblock 10009 200 10012 celestial:seraph_seal
+/setblock 10012 199 10012 celestial:golden_grass
+/setblock 10012 200 10012 celestial:shadow_crystal
+/setblock 10015 199 10012 celestial:golden_grass
+/setblock 10015 200 10012 celestial:sky_beacon
+/setblock 10018 199 10012 celestial:golden_grass
+/setblock 10018 200 10012 celestial:sky_bell
+/setblock 10021 199 10012 celestial:golden_grass
+/setblock 10021 200 10012 celestial:sky_crystal
+/setblock 10024 199 10012 celestial:golden_grass
+/setblock 10024 200 10012 celestial:sky_crystal_block
+/setblock 10027 199 10012 celestial:golden_grass
+/setblock 10027 200 10012 celestial:sky_lily
+/setblock 10030 199 10012 celestial:golden_grass
+/setblock 10030 200 10012 celestial:skystone
+/setblock 10033 199 10012 celestial:golden_grass
+/setblock 10033 200 10012 celestial:skystone_brick_slab
+/setblock 10000 199 10015 celestial:golden_grass
+/setblock 10000 200 10015 celestial:skystone_brick_stairs
+/setblock 10003 199 10015 celestial:golden_grass
+/setblock 10003 200 10015 celestial:skystone_brick_wall
+/setblock 10006 199 10015 celestial:golden_grass
+/setblock 10006 200 10015 celestial:skystone_bricks
+/setblock 10009 199 10015 celestial:golden_grass
+/setblock 10009 200 10015 celestial:skywood_fence
+/setblock 10012 199 10015 celestial:golden_grass
+/setblock 10012 200 10015 celestial:skywood_fence_gate
+/setblock 10015 199 10015 celestial:golden_grass
+/setblock 10015 200 10015 celestial:skywood_leaves
+/setblock 10018 199 10015 celestial:golden_grass
+/setblock 10018 200 10015 celestial:skywood_log
+/setblock 10021 199 10015 celestial:golden_grass
+/setblock 10021 200 10015 celestial:skywood_planks
+/setblock 10024 199 10015 celestial:golden_grass
+/setblock 10024 200 10015 celestial:skywood_sapling
+/setblock 10027 199 10015 celestial:golden_grass
+/setblock 10027 200 10015 celestial:skywood_slab
+/setblock 10030 199 10015 celestial:golden_grass
+/setblock 10030 200 10015 celestial:skywood_stairs
+/setblock 10033 199 10015 celestial:golden_grass
+/setblock 10033 200 10015 celestial:skywood_wood
+/setblock 10000 199 10018 celestial:golden_grass
+/setblock 10000 200 10018 celestial:star_basin
+/setblock 10003 199 10018 celestial:golden_grass
+/setblock 10003 200 10018 celestial:star_collector
+/setblock 10006 199 10018 celestial:golden_grass
+/setblock 10006 200 10018 celestial:star_tile
+/setblock 10009 199 10018 celestial:golden_grass
+/setblock 10009 200 10018 celestial:starflower
+/setblock 10012 199 10018 celestial:golden_grass
+/setblock 10012 200 10018 celestial:starpine_leaves
+/setblock 10015 199 10018 celestial:golden_grass
+/setblock 10015 200 10018 celestial:starpine_sapling
+/setblock 10018 199 10018 celestial:golden_grass
+/setblock 10018 200 10018 celestial:starquartz_ore
+/setblock 10021 199 10018 celestial:golden_grass
+/setblock 10021 200 10018 celestial:sun_lens
+/setblock 10024 199 10018 celestial:golden_grass
+/setblock 10024 200 10018 celestial:sunbell
+/setblock 10027 199 10018 celestial:golden_grass
+/setblock 10027 200 10018 celestial:tall_golden_grass
+/setblock 10030 199 10018 celestial:golden_grass
+/setblock 10030 200 10018 celestial:telescope
+/setblock 10033 199 10018 celestial:golden_grass
+/setblock 10033 200 10018 celestial:trial_crystal
+/setblock 10000 199 10021 celestial:golden_grass
+/setblock 10000 200 10021 celestial:trial_goal
+/setblock 10003 199 10021 celestial:golden_grass
+/setblock 10003 200 10021 celestial:vanishing_cloud
+/setblock 10006 199 10021 celestial:golden_grass
+/setblock 10006 200 10021 celestial:ward
+/fill 10000 200 10026 10040 204 10026 minecraft:smooth_stone
+/summon minecraft:item_frame 10000 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:abyssal_axe",count:1}}
+/summon minecraft:item_frame 10001 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:abyssal_boots",count:1}}
+/summon minecraft:item_frame 10002 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:abyssal_chestplate",count:1}}
+/summon minecraft:item_frame 10003 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:abyssal_helmet",count:1}}
+/summon minecraft:item_frame 10004 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:abyssal_hoe",count:1}}
+/summon minecraft:item_frame 10005 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:abyssal_ingot",count:1}}
+/summon minecraft:item_frame 10006 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:abyssal_leggings",count:1}}
+/summon minecraft:item_frame 10007 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:abyssal_pickaxe",count:1}}
+/summon minecraft:item_frame 10008 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:abyssal_shard",count:1}}
+/summon minecraft:item_frame 10009 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:abyssal_shovel",count:1}}
+/summon minecraft:item_frame 10010 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:abyssal_sword",count:1}}
+/summon minecraft:item_frame 10011 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:bronze_key",count:1}}
+/summon minecraft:item_frame 10012 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:charged_crystal",count:1}}
+/summon minecraft:item_frame 10013 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:cloud_fluff",count:1}}
+/summon minecraft:item_frame 10014 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:cloud_parachute",count:1}}
+/summon minecraft:item_frame 10015 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:dark_core",count:1}}
+/summon minecraft:item_frame 10016 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:etherite_axe",count:1}}
+/summon minecraft:item_frame 10017 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:etherite_boots",count:1}}
+/summon minecraft:item_frame 10018 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:etherite_chestplate",count:1}}
+/summon minecraft:item_frame 10019 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:etherite_helmet",count:1}}
+/summon minecraft:item_frame 10020 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:etherite_hoe",count:1}}
+/summon minecraft:item_frame 10021 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:etherite_ingot",count:1}}
+/summon minecraft:item_frame 10022 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:etherite_leggings",count:1}}
+/summon minecraft:item_frame 10023 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:etherite_pickaxe",count:1}}
+/summon minecraft:item_frame 10024 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:etherite_shovel",count:1}}
+/summon minecraft:item_frame 10025 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:etherite_sword",count:1}}
+/summon minecraft:item_frame 10026 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:flame_shard",count:1}}
+/summon minecraft:item_frame 10027 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:frost_steel_axe",count:1}}
+/summon minecraft:item_frame 10028 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:frost_steel_boots",count:1}}
+/summon minecraft:item_frame 10029 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:frost_steel_chestplate",count:1}}
+/summon minecraft:item_frame 10030 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:frost_steel_helmet",count:1}}
+/summon minecraft:item_frame 10031 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:frost_steel_ingot",count:1}}
+/summon minecraft:item_frame 10032 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:frost_steel_leggings",count:1}}
+/summon minecraft:item_frame 10033 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:frost_steel_pickaxe",count:1}}
+/summon minecraft:item_frame 10034 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:frost_steel_shovel",count:1}}
+/summon minecraft:item_frame 10035 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:frost_steel_sword",count:1}}
+/summon minecraft:item_frame 10036 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:fur",count:1}}
+/summon minecraft:item_frame 10037 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:fur_boots",count:1}}
+/summon minecraft:item_frame 10038 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:fur_cloak",count:1}}
+/summon minecraft:item_frame 10039 200 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:fur_hood",count:1}}
+/summon minecraft:item_frame 10000 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:fur_leggings",count:1}}
+/summon minecraft:item_frame 10001 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:golden_fleece",count:1}}
+/summon minecraft:item_frame 10002 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:golden_key",count:1}}
+/summon minecraft:item_frame 10003 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:halo",count:1}}
+/summon minecraft:item_frame 10004 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:light_shard",count:1}}
+/summon minecraft:item_frame 10005 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:light_spear",count:1}}
+/summon minecraft:item_frame 10006 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:manna_berries",count:1}}
+/summon minecraft:item_frame 10007 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:music_disc_heavenly_choir",count:1}}
+/summon minecraft:item_frame 10008 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:raw_etherite",count:1}}
+/summon minecraft:item_frame 10009 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:raw_frost_steel",count:1}}
+/summon minecraft:item_frame 10010 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:rune_of_light",count:1}}
+/summon minecraft:item_frame 10011 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:rune_of_sky",count:1}}
+/summon minecraft:item_frame 10012 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:rune_of_stars",count:1}}
+/summon minecraft:item_frame 10013 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:rune_of_wind",count:1}}
+/summon minecraft:item_frame 10014 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:seraph_feather",count:1}}
+/summon minecraft:item_frame 10015 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:seraph_wings",count:1}}
+/summon minecraft:item_frame 10016 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:shadow_essence",count:1}}
+/summon minecraft:item_frame 10017 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:silver_key",count:1}}
+/summon minecraft:item_frame 10018 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:sky_jelly",count:1}}
+/summon minecraft:item_frame 10019 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:star_fragment",count:1}}
+/summon minecraft:item_frame 10020 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:starbow",count:1}}
+/summon minecraft:item_frame 10021 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:starlight_flask",count:1}}
+/summon minecraft:item_frame 10022 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:starquartz",count:1}}
+/summon minecraft:item_frame 10023 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:starsteel_ingot",count:1}}
+/summon minecraft:item_frame 10024 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:tuning_fork",count:1}}
+/summon minecraft:item_frame 10025 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:void_heart",count:1}}
+/summon minecraft:item_frame 10026 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:wanderer_journal",count:1}}
+/summon minecraft:item_frame 10027 201 10025 {Facing:2b,Fixed:1b,Item:{id:"celestial:worm_chitin",count:1}}
+/summon celestial:fallen_guardian 10002 200 10018 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+/summon celestial:storm_spirit 10008 200 10018 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+/summon celestial:winged_serpent 10014 200 10018 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+/summon celestial:cloud_whale 10020 200 10018 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+/summon celestial:light_wisp 10026 200 10018 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+/summon celestial:angel 10032 200 10018 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+/summon celestial:pegasus 10038 200 10018 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+/summon celestial:fallen_seraph 10044 200 10018 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+/summon celestial:cherub 10050 200 10018 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+/summon celestial:golden_ram 10056 200 10018 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+/summon celestial:sky_ray 10002 200 10011 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+/summon celestial:cloud_jelly 10008 200 10011 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+/summon celestial:mimic 10014 200 10011 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+/summon celestial:storm_elemental 10020 200 10011 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+/summon celestial:shadow 10026 200 10011 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+/summon celestial:blind_hunter 10032 200 10011 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+/summon celestial:light_eater 10038 200 10011 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+/summon celestial:deep_worm 10044 200 10011 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+/summon celestial:frost_wraith 10050 200 10011 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+/summon celestial:light_devourer 10056 200 10011 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}
+wait 60
+togglehud
+/tp @s 10016 203 9996 0 30
+wait 40
+shot blocks_r0
+/tp @s 10016 203 10010 180 30
+wait 40
+shot blocks_r0_back
+/tp @s 10016 203 10002 0 30
+wait 40
+shot blocks_r2
+/tp @s 10016 203 10016 180 30
+wait 40
+shot blocks_r2_back
+/tp @s 10016 203 10008 0 30
+wait 40
+shot blocks_r4
+/tp @s 10016 203 10022 180 30
+wait 40
+shot blocks_r4_back
+/tp @s 10016 203 10014 0 30
+wait 40
+shot blocks_r6
+/tp @s 10016 203 10028 180 30
+wait 40
+shot blocks_r6_back
+/tp @s 10020 202 10017 0 0
+wait 40
+shot items
+/tp @s 10008 202 10021 0 0
+wait 40
+shot items_close_l
+/tp @s 10030 202 10021 0 0
+wait 40
+shot items_close_r
+/tp @s 10005 202 10002 0 10
+wait 40
+shot ents_front0
+/tp @s 10005 202 10024 180 10
+wait 40
+shot ents_back0
+/tp @s 10020 202 10002 0 10
+wait 40
+shot ents_front1
+/tp @s 10020 202 10024 180 10
+wait 40
+shot ents_back1
+/tp @s 10035 202 10002 0 10
+wait 40
+shot ents_front2
+/tp @s 10035 202 10024 180 10
+wait 40
+shot ents_back2
+/tp @s 10050 202 10002 0 10
+wait 40
+shot ents_front3
+/tp @s 10050 202 10024 180 10
+wait 40
+shot ents_back3
+/time set 18000
+wait 40
+/tp @s 10016 203 9996 0 30
+wait 40
+shot night_r0
+/tp @s 10016 203 10005 0 30
+wait 40
+shot night_r3
+/tp @s 10016 203 10014 0 30
+wait 40
+shot night_r6
+/tp @s 10005 202 10002 0 10
+wait 40
+shot night_ents0
+/tp @s 10020 202 10002 0 10
+wait 40
+shot night_ents1
+/tp @s 10035 202 10002 0 10
+wait 40
+shot night_ents2
+/tp @s 10050 202 10002 0 10
+wait 40
+shot night_ents3
+togglehud
+quit
