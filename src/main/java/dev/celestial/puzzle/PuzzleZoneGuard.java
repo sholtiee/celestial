@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 /**
  * Охрана нерешённых загадок: загруженные {@link PuzzleZone} собираются по событиям загрузки сущностей блоков,
- * и в их объёме игрок (не в творческом режиме) не может ставить блоки и выливать вёдра.
+ * и в их объёме игрок (не в творческом режиме) не может ставить и ломать блоки и выливать вёдра: ни стройки, ни подкопа.
  */
 public final class PuzzleZoneGuard {
 	private static final Set<BlockEntity> ZONES = Collections.newSetFromMap(new WeakHashMap<>());
@@ -32,6 +32,13 @@ public final class PuzzleZoneGuard {
 		});
 		ServerBlockEntityEvents.BLOCK_ENTITY_UNLOAD.register((be, level) -> ZONES.remove(be));
 		ServerLifecycleEvents.SERVER_STOPPED.register(server -> ZONES.clear());
+		net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents.BEFORE.register((level, player, pos, state, be) -> {
+			if (level instanceof ServerLevel && !player.isCreative() && !player.isSpectator() && guarded(level, pos)) {
+				player.sendOverlayMessage(Component.translatable("puzzle.celestial.zone.no_break"));
+				return false;
+			}
+			return true;
+		});
 		UseBlockCallback.EVENT.register((player, level, hand, hit) -> {
 			if (level instanceof ServerLevel server && !player.isCreative() && !player.isSpectator()) {
 				var item = player.getItemInHand(hand).getItem();

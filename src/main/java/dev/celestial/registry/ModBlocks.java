@@ -269,6 +269,25 @@ public final class ModBlocks {
 	public static final Block ICE_BELL = register("ice_bell", dev.celestial.block.puzzle.ice.IceBellBlock::new,
 		Properties.ofFullCopy(GLACIER_TILE).noOcclusion().sound(SoundType.AMETHYST).lightLevel(s -> 9), 1);
 
+	// Зеркальный лабиринт: древние (неразрушимые, неподвижные, без крафта) зеркало, призма и фильтры, вечный лёд стен, Замок трёх лучей
+	public static final Block ANCIENT_MIRROR = register("ancient_mirror", dev.celestial.block.light.BeamMirrorBlock::new,
+		Properties.of().mapColor(MapColor.ICE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.GLASS).noOcclusion()
+			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> 4), 1);
+	public static final Block ANCIENT_PRISM = register("ancient_prism", dev.celestial.block.light.BeamPrismBlock::new,
+		Properties.ofFullCopy(ANCIENT_MIRROR).sound(SoundType.AMETHYST).lightLevel(s -> 8));
+	public static final Block ANCIENT_RED_FILTER = register("ancient_red_filter",
+		p -> new dev.celestial.block.light.BeamFilterBlock(dev.celestial.light.LightColor.RED, p), Properties.ofFullCopy(ANCIENT_MIRROR));
+	public static final Block ANCIENT_GREEN_FILTER = register("ancient_green_filter",
+		p -> new dev.celestial.block.light.BeamFilterBlock(dev.celestial.light.LightColor.GREEN, p), Properties.ofFullCopy(ANCIENT_MIRROR));
+	public static final Block ANCIENT_BLUE_FILTER = register("ancient_blue_filter",
+		p -> new dev.celestial.block.light.BeamFilterBlock(dev.celestial.light.LightColor.BLUE, p), Properties.ofFullCopy(ANCIENT_MIRROR));
+	public static final Block RIME_ICE = register("rime_ice", HalfTransparentBlock::new,
+		Properties.of().mapColor(MapColor.ICE).strength(1.5F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.GLASS).noOcclusion()
+			.friction(0.98F).lightLevel(s -> 2).isValidSpawn(Blocks::never).isRedstoneConductor(Blocks::never).isSuffocating(Blocks::never), 1);
+	public static final Block BEAM_LOCK = register("beam_lock", dev.celestial.block.puzzle.BeamLockBlock::new,
+		Properties.of().mapColor(MapColor.ICE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST).noOcclusion()
+			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.block.puzzle.BeamLockBlock.SOLVED) ? 15 : 6), 1);
+
 	private ModBlocks() {}
 
 	private static Block flower(String name, net.minecraft.core.Holder<net.minecraft.world.effect.MobEffect> effect, int light) {

@@ -1,0 +1,65 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "celestial:block/beam_lock"
+      }
+    },
+    {
+      "when": {
+        "red": "false"
+      },
+      "apply": {
+        "model": "celestial:block/beam_lock_red"
+      }
+    },
+    {
+      "when": {
+        "red": "true"
+      },
+      "apply": {
+        "model": "celestial:block/beam_lock_red_on"
+      }
+    },
+    {
+      "when": {
+        "green": "false"
+      },
+      "apply": {
+        "model": "celestial:block/beam_lock_green"
+      }
+    },
+    {
+      "when": {
+        "green": "true"
+      },
+      "apply": {
+        "model": "celestial:block/beam_lock_green_on"
+      }
+    },
+    {
+      "when": {
+        "blue": "false"
+      },
+      "apply": {
+        "model": "celestial:block/beam_lock_blue"
+      }
+    },
+    {
+      "when": {
+        "blue": "true"
+      },
+      "apply": {
+        "model": "celestial:block/beam_lock_blue_on"
+      }
+    },
+    {
+      "when": {
+        "solved": "true"
+      },
+      "apply": {
+        "model": "celestial:block/beam_lock_halo"
+      }
+    }
+  ]
+}

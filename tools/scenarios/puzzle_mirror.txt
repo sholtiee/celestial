@@ -1,0 +1,124 @@
+# QA: Зеркальный лабиринт (генерирует tools/gen_frozen_puzzles.py). Обходы: свой фонарь, своё зеркало, ломание, два цвета из трёх
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/gamerule spawn_monsters false
+/execute in minecraft:overworld run tp @s 21000 170 21100
+fly
+wait 100
+/fill 20997 148 21097 21018 149 21123 minecraft:stone
+/fill 20997 150 21097 21018 158 21123 minecraft:air
+/place template celestial:mirror_maze/main 21000 150 21100
+wait 80
+/clear @s
+/effect give @s minecraft:resistance 900 4 true
+/effect give @s minecraft:night_vision 900 0 true
+/tp @s 21007.5 164 21107.5 0 90
+togglehud
+wait 40
+shot maze_start
+togglehud
+# B1 свой фонарь светит прямо в родной красный приёмник: замок не горит
+/say TEST B1 own_lantern expect=pass
+/setblock 21001 152 21102 minecraft:air
+/setblock 21001 151 21102 celestial:beam_lantern[facing=west]
+/setblock 21001 152 21102 minecraft:redstone_block
+wait 40
+/execute if block 21009 151 21116 celestial:beam_lock[red=false]
+/setblock 21001 152 21102 minecraft:air
+/setblock 21001 151 21102 minecraft:air
+# B2 своё зеркало в лабиринте (выживание): не ставится
+/say TEST B2 own_mirror expect=pass
+/gamemode survival
+/give @s celestial:beam_mirror 1
+/tp @s 21001.5 151 21101.5
+wait 5
+use 21001 150 21101 up
+wait 10
+/execute unless block 21001 151 21101 celestial:beam_mirror
+/clear @s
+# B3 сломать древнее зеркало и стену вечного льда (выживание): стоят
+/say TEST B3 break_mirror_and_wall expect=pass,pass
+/tp @s 21001.5 151 21102.5 facing 21002.5 151.5 21102.5
+wait 10
+hold attack 80
+/execute if block 21002 151 21102 celestial:ancient_mirror
+/tp @s 21001.5 151 21102.5 facing 21002.5 152.5 21102.5
+wait 10
+hold attack 120
+/execute if block 21002 152 21102 celestial:rime_ice
+# B4 реликварий заперт до решения
+/say TEST B4 reliquary_sealed expect=pass(no items)
+/tp @s 21003.5 151 21118.5
+wait 5
+use 21001 151 21118 east
+wait 10
+/execute unless items entity @s container.* *
+# F замок дарит камертон
+/say TEST F lock_gives_fork expect=pass
+/tp @s 21007.5 151 21117.5
+wait 5
+use 21009 151 21116 south
+wait 10
+/execute if items entity @s container.* celestial:tuning_fork
+# S честное решение: Камертоном повернуть нужные зеркала (по решателю)
+/say TEST S solve expect=pass,pass,pass(items)
+/tp @s 21001.5 151 21102.5 facing 21002.5 151.5 21102.5
+wait 4
+use 21002 151 21102 west
+wait 6
+/tp @s 21001.5 151 21106.5 facing 21002.5 151.5 21106.5
+wait 4
+use 21002 151 21106 west
+wait 6
+/tp @s 21011.5 151 21109.5 facing 21010.5 151.5 21109.5
+wait 4
+use 21010 151 21109 east
+wait 6
+/tp @s 21005.5 151 21111.5 facing 21004.5 151.5 21111.5
+wait 4
+use 21004 151 21111 east
+wait 6
+/tp @s 21009.5 151 21111.5 facing 21008.5 151.5 21111.5
+wait 4
+use 21008 151 21111 east
+wait 6
+/tp @s 21013.5 151 21112.5 facing 21012.5 151.5 21112.5
+wait 4
+use 21012 151 21112 east
+wait 6
+wait 30
+/say TEST B5 not_all_colors expect=pass(lock unsolved)
+/execute if block 21009 151 21116 celestial:beam_lock[solved=false]
+/tp @s 21009.5 151 21113.5 facing 21008.5 151.5 21113.5
+wait 4
+use 21008 151 21113 east
+wait 6
+wait 40
+/execute if block 21009 151 21116 celestial:beam_lock[solved=true]
+/execute unless block 21002 151 21117 celestial:sealed_door
+/tp @s 21003.5 151 21118.5
+wait 5
+use 21001 151 21118 east
+wait 10
+/execute if items entity @s container.* celestial:frost_steel_ingot
+/gamemode creative
+fly
+/tp @s 21007.5 164 21107.5 0 90
+togglehud
+wait 30
+shot maze_solved
+togglehud
+/tp @s 21003.5 151 21108.5 facing 21004.5 151.5 21109.5
+togglehud
+wait 20
+shot maze_inside
+togglehud
+/tp @s 21007.5 151.5 21118.5 facing 21009.5 151.5 21116.5
+togglehud
+wait 10
+shot maze_lock
+togglehud
+/gamemode creative
+quit

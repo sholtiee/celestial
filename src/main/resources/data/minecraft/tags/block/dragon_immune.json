@@ -5,6 +5,12 @@
     "celestial:glacier_nest",
     "celestial:glacier_pillar",
     "celestial:glacier_rune",
-    "celestial:ice_bell"
+    "celestial:ice_bell",
+    "celestial:ancient_mirror",
+    "celestial:ancient_prism",
+    "celestial:ancient_red_filter",
+    "celestial:ancient_green_filter",
+    "celestial:ancient_blue_filter",
+    "celestial:beam_lock"
   ]
 }

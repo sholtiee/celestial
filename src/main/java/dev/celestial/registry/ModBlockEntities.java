@@ -45,6 +45,10 @@ public final class ModBlockEntities {
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("glacier_hall"),
 		new BlockEntityType<>(dev.celestial.block.puzzle.ice.GlacierHallBlockEntity::new, Set.of(ModBlocks.ICE_BELL)));
 
+	public static final BlockEntityType<dev.celestial.block.puzzle.BeamLockBlockEntity> BEAM_LOCK = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("beam_lock"),
+		new BlockEntityType<>(dev.celestial.block.puzzle.BeamLockBlockEntity::new, Set.of(ModBlocks.BEAM_LOCK)));
+
 	private ModBlockEntities() {}
 
 	public static void init() {
