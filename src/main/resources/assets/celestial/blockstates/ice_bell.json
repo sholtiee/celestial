@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "celestial:block/ice_bell",
+      "y": 0
+    },
+    "facing=east": {
+      "model": "celestial:block/ice_bell",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "celestial:block/ice_bell",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "celestial:block/ice_bell",
+      "y": 270
+    }
+  }
+}

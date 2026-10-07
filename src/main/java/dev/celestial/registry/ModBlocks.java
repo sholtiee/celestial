@@ -256,6 +256,19 @@ public final class ModBlocks {
 		Properties.of().mapColor(MapColor.COLOR_BLACK).noCollision().lightLevel(s -> 8).strength(-1.0F, 3600000.0F).noLootTable()
 			.pushReaction(PushReaction.IMMOVEABLE));
 
+	// Зал скользящего льда (загадка Чертогов): всё неразрушимо и не двигается поршнями — геометрия зала и есть загадка
+	public static final Block GLACIER_TILE = register("glacier_tile", Block::new,
+		Properties.of().mapColor(MapColor.ICE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.GLASS).friction(0.93F)
+			.pushReaction(PushReaction.IMMOVEABLE));
+	public static final Block GLACIER_NEST = register("glacier_nest", dev.celestial.block.puzzle.ice.GlacierNestBlock::new,
+		Properties.ofFullCopy(GLACIER_TILE).lightLevel(s -> s.getValue(dev.celestial.block.puzzle.ice.GlacierNestBlock.OCCUPIED) ? 13 : 5), 1);
+	public static final Block GLACIER_PILLAR = register("glacier_pillar", Block::new,
+		Properties.ofFullCopy(GLACIER_TILE).friction(0.6F).lightLevel(s -> 3));
+	public static final Block GLACIER_RUNE = register("glacier_rune", dev.celestial.block.puzzle.ice.GlacierRuneBlock::new,
+		Properties.ofFullCopy(GLACIER_TILE).friction(0.98F).lightLevel(s -> 7), 1);
+	public static final Block ICE_BELL = register("ice_bell", dev.celestial.block.puzzle.ice.IceBellBlock::new,
+		Properties.ofFullCopy(GLACIER_TILE).noOcclusion().sound(SoundType.AMETHYST).lightLevel(s -> 9), 1);
+
 	private ModBlocks() {}
 
 	private static Block flower(String name, net.minecraft.core.Holder<net.minecraft.world.effect.MobEffect> effect, int light) {

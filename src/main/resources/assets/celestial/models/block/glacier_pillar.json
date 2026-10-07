@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "celestial:block/glacier_pillar_top",
+    "side": "celestial:block/glacier_pillar"
+  }
+}

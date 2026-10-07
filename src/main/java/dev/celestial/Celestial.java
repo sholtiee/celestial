@@ -40,6 +40,8 @@ public class Celestial implements ModInitializer {
 		dev.celestial.world.abyss.Darkness.init();
 		dev.celestial.puzzle.Attempts.init();
 		dev.celestial.trial.TrialGuard.init();
+		dev.celestial.puzzle.PuzzleZoneGuard.init();
+		dev.celestial.block.puzzle.ice.GlacierSlides.init();
 		// статические карты со временем/позициями не должны жить между мирами одиночной игры
 		net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
 			dev.celestial.grace.Grace.clearState();

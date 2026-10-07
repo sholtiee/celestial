@@ -41,6 +41,10 @@ public final class ModBlockEntities {
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("trial_crystal"),
 		new BlockEntityType<>(dev.celestial.trial.TrialControllerBlockEntity::new, Set.of(ModBlocks.TRIAL_CONTROLLER)));
 
+	public static final BlockEntityType<dev.celestial.block.puzzle.ice.GlacierHallBlockEntity> GLACIER_HALL = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("glacier_hall"),
+		new BlockEntityType<>(dev.celestial.block.puzzle.ice.GlacierHallBlockEntity::new, Set.of(ModBlocks.ICE_BELL)));
+
 	private ModBlockEntities() {}
 
 	public static void init() {

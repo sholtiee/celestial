@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "occupied=false": {
+      "model": "celestial:block/glacier_nest"
+    },
+    "occupied=true": {
+      "model": "celestial:block/glacier_nest_lit"
+    }
+  }
+}

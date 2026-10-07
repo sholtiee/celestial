@@ -1,0 +1,253 @@
+# QA: залы скользящего льда (генерирует tools/gen_frozen_puzzles.py). Честно: решения решателя; обход: стройка, поршень, стопор, ломание
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/gamerule spawn_monsters false
+/execute in minecraft:overworld run tp @s 21000 170 21000
+fly
+wait 100
+/fill 20995 147 20995 21039 149 21025 minecraft:stone
+/fill 21040 147 20995 21084 149 21025 minecraft:stone
+/fill 21085 147 20995 21129 149 21025 minecraft:stone
+/fill 20995 150 20995 21039 162 21025 minecraft:air
+/fill 21040 150 20995 21084 162 21025 minecraft:air
+/fill 21085 150 20995 21129 162 21025 minecraft:air
+/place template celestial:glacier_hall/hall_1 21000 150 21000
+/place template celestial:glacier_hall/hall_2 21040 150 21000
+/place template celestial:glacier_hall/hall_3 21080 150 21000
+wait 60
+/clear @s
+/effect give @s minecraft:resistance 900 4 true
+/effect give @s minecraft:saturation 900 1 true
+# B1 своя стройка в зале: камень не ставится
+/say TEST B1 no_build_in_hall expect=pass
+/gamemode survival
+/give @s minecraft:stone 4
+/tp @s 21001.5 151 21007.5
+wait 10
+use 21001 150 21006 up
+wait 10
+/execute unless block 21001 151 21006 minecraft:stone
+/clear @s
+# B2 сломать глыбу в выживании: остаётся
+/say TEST B2 break_glacier expect=pass
+/tp @s 21001.5 151 21004.5 facing 21002.5 151.5 21004.5
+wait 10
+hold attack 80
+/execute if block 21002 151 21004 celestial:glacier_rune
+# B3 поршень толкает глыбу: не двигается
+/say TEST B3 piston expect=pass
+/gamemode creative
+/setblock 21002 151 21005 minecraft:piston[facing=north]
+/setblock 21002 151 21006 minecraft:redstone_block
+wait 10
+/execute if block 21002 151 21004 celestial:glacier_rune
+/setblock 21002 151 21006 minecraft:air
+/setblock 21002 151 21005 minecraft:air
+wait 5
+/gamemode survival
+# B4 толчок не с той стороны (по диагонали): глыба стоит
+/say TEST B4 push_from_diagonal expect=pass
+/tp @s 21001.5 151 21003.5
+wait 5
+use 21002 151 21004 west
+wait 30
+/execute if block 21002 151 21004 celestial:glacier_rune
+# B5 свой блок-стопор на пути: глыба сметает его
+/say TEST B5 foreign_stopper expect=pass,pass
+/gamemode creative
+/setblock 21003 151 21004 minecraft:stone
+/gamemode survival
+/tp @s 21001.5 151 21004.5
+wait 5
+use 21002 151 21004 west
+wait 40
+/execute if block 21004 151 21004 celestial:glacier_rune
+/execute unless block 21003 151 21004 minecraft:stone
+shot ice_after_sweep
+/kill @e[type=item]
+/clear @s
+# R2 колокол с блоком в руке всё равно звонит (охрана зоны не мешает), блок не ставится
+/give @s minecraft:stone 1
+# R колокол возвращает расклад
+/say TEST R bell_reset expect=pass
+/tp @s 21004.5 151 21010.5
+wait 5
+use 21006 151 21009 north
+wait 10
+/execute if block 21002 151 21004 celestial:glacier_rune
+/clear @s
+# B6 реликварий заперт до решения
+/say TEST B6 reliquary_sealed expect=pass(no items)
+/tp @s 21003.5 151 21011.5
+wait 5
+use 21001 151 21011 east
+wait 10
+/execute unless items entity @s container.* *
+# S1 честное решение hall_1
+/say TEST S1 solve_hall_1 expect=pass,pass(items)
+/tp @s 21004.5 151 21008.5 facing 21004.5 151 21001
+togglehud
+wait 10
+shot ice_hall_start
+togglehud
+/tp @s 21001.5 151 21004.5 facing 21005.5 151.3 21004.5
+wait 4
+use 21002 151 21004 west
+togglehud
+wait 5
+shot ice_sliding
+togglehud
+wait 30
+/tp @s 21004.5 151 21005.5 facing 21004.5 151.3 21001.5
+wait 4
+use 21004 151 21004 south
+wait 30
+/tp @s 21006.5 151 21005.5 facing 21006.5 151.3 21001.5
+wait 4
+use 21006 151 21004 south
+wait 30
+/tp @s 21005.5 151 21003.5 facing 21001.5 151.3 21003.5
+wait 4
+use 21004 151 21003 east
+wait 30
+/tp @s 21003.5 151 21002.5 facing 21003.5 151.3 21006.5
+wait 4
+use 21003 151 21003 north
+wait 30
+/tp @s 21002.5 151 21006.5 facing 21006.5 151.3 21006.5
+wait 4
+use 21003 151 21006 west
+wait 30
+/tp @s 21006.5 151 21007.5 facing 21006.5 151.3 21003.5
+wait 4
+use 21006 151 21006 south
+wait 30
+/tp @s 21007.5 151 21001.5 facing 21003.5 151.3 21001.5
+wait 4
+use 21006 151 21001 east
+wait 30
+/tp @s 21007.5 151 21002.5 facing 21003.5 151.3 21002.5
+wait 4
+use 21006 151 21002 east
+wait 30
+wait 20
+/execute unless block 21002 151 21010 celestial:sealed_door
+/tp @s 21003.5 151 21011.5
+wait 5
+use 21001 151 21011 east
+wait 10
+/execute if items entity @s container.* *
+/clear @s
+/tp @s 21004.5 151 21008.5 facing 21004.5 151 21001
+togglehud
+wait 10
+shot ice_hall_solved
+togglehud
+# S2 честное решение hall_2
+/say TEST S2 solve_hall_2 expect=pass,pass(items)
+/tp @s 21045.5 151 21005.5 facing 21045.5 151.3 21001.5
+wait 4
+use 21045 151 21004 south
+wait 30
+/tp @s 21044.5 151 21003.5 facing 21048.5 151.3 21003.5
+wait 4
+use 21045 151 21003 west
+wait 30
+/tp @s 21046.5 151 21002.5 facing 21046.5 151.3 21006.5
+wait 4
+use 21046 151 21003 north
+wait 30
+/tp @s 21041.5 151 21006.5 facing 21045.5 151.3 21006.5
+wait 4
+use 21042 151 21006 west
+wait 30
+/tp @s 21045.5 151 21007.5 facing 21045.5 151.3 21003.5
+wait 4
+use 21045 151 21006 south
+wait 30
+/tp @s 21044.5 151 21003.5 facing 21048.5 151.3 21003.5
+wait 4
+use 21045 151 21003 west
+wait 30
+/tp @s 21046.5 151 21002.5 facing 21046.5 151.3 21006.5
+wait 4
+use 21046 151 21003 north
+wait 30
+/tp @s 21047.5 151 21005.5 facing 21043.5 151.3 21005.5
+wait 4
+use 21046 151 21005 east
+wait 30
+/tp @s 21046.5 151 21002.5 facing 21042.5 151.3 21002.5
+wait 4
+use 21045 151 21002 east
+wait 30
+/tp @s 21044.5 151 21003.5 facing 21044.5 151.3 20999.5
+wait 4
+use 21044 151 21002 south
+wait 30
+wait 20
+/execute unless block 21042 151 21011 celestial:sealed_door
+/tp @s 21043.5 151 21012.5
+wait 5
+use 21041 151 21012 east
+wait 10
+/execute if items entity @s container.* *
+/clear @s
+# S3 честное решение hall_3
+/say TEST S3 solve_hall_3 expect=pass,pass(items)
+/tp @s 21083.5 151 21001.5 facing 21083.5 151.3 21005.5
+wait 4
+use 21083 151 21002 north
+wait 30
+/tp @s 21087.5 151 21002.5 facing 21083.5 151.3 21002.5
+wait 4
+use 21086 151 21002 east
+wait 30
+/tp @s 21081.5 151 21004.5 facing 21085.5 151.3 21004.5
+wait 4
+use 21082 151 21004 west
+wait 30
+/tp @s 21089.5 151 21003.5 facing 21089.5 151.3 21007.5
+wait 4
+use 21089 151 21004 north
+wait 30
+/tp @s 21082.5 151 21008.5 facing 21086.5 151.3 21008.5
+wait 4
+use 21083 151 21008 west
+wait 30
+/tp @s 21084.5 151 21009.5 facing 21084.5 151.3 21005.5
+wait 4
+use 21084 151 21008 south
+wait 30
+/tp @s 21083.5 151 21003.5 facing 21087.5 151.3 21003.5
+wait 4
+use 21084 151 21003 west
+wait 30
+/tp @s 21089.5 151 21002.5 facing 21089.5 151.3 21006.5
+wait 4
+use 21089 151 21003 north
+wait 30
+/tp @s 21081.5 151 21005.5 facing 21085.5 151.3 21005.5
+wait 4
+use 21082 151 21005 west
+wait 30
+/tp @s 21088.5 151 21004.5 facing 21088.5 151.3 21008.5
+wait 4
+use 21088 151 21005 north
+wait 30
+/tp @s 21085.5 151 21003.5 facing 21085.5 151.3 20999.5
+wait 4
+use 21085 151 21002 south
+wait 30
+wait 20
+/execute unless block 21082 151 21012 celestial:sealed_door
+/tp @s 21083.5 151 21013.5
+wait 5
+use 21081 151 21013 east
+wait 10
+/execute if items entity @s container.* *
+/clear @s
+/gamemode creative
+quit

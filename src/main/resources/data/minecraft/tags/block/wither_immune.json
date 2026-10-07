@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "celestial:glacier_tile",
+    "celestial:glacier_nest",
+    "celestial:glacier_pillar",
+    "celestial:glacier_rune",
+    "celestial:ice_bell"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "celestial:block/glacier_nest",
+    "side": "celestial:block/glacier_tile",
+    "bottom": "celestial:block/glacier_tile"
+  }
+}
