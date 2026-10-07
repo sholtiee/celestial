@@ -25,6 +25,11 @@
                 "max_inclusive": 3
               },
               "weight": 80
+            },
+            {
+              "type": "celestial:ice_guardian",
+              "count": 1,
+              "weight": 12
             }
           ],
           "creature": [
@@ -41,6 +46,15 @@
               "type": "minecraft:polar_bear",
               "count": 1,
               "weight": 2
+            },
+            {
+              "type": "celestial:ice_wolf",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 2
+              },
+              "weight": 6
             }
           ]
         }

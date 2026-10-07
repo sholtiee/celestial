@@ -25,6 +25,11 @@
                 "max_inclusive": 3
               },
               "weight": 80
+            },
+            {
+              "type": "celestial:ice_guardian",
+              "count": 1,
+              "weight": 12
             }
           ],
           "creature": [

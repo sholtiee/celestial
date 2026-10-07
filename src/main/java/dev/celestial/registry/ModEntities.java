@@ -88,6 +88,10 @@ public final class ModEntities {
 
 	public static final EntityType<dev.celestial.entity.FrostWraith> FROST_WRAITH = register("frost_wraith",
 		EntityType.Builder.of(dev.celestial.entity.FrostWraith::new, MobCategory.MONSTER).sized(0.7F, 1.8F).eyeHeight(1.5F).clientTrackingRange(8).notInPeaceful());
+	public static final EntityType<dev.celestial.entity.IceGuardian> ICE_GUARDIAN = register("ice_guardian",
+		EntityType.Builder.of(dev.celestial.entity.IceGuardian::new, MobCategory.MONSTER).sized(1.4F, 2.9F).eyeHeight(2.5F).clientTrackingRange(10).notInPeaceful());
+	public static final EntityType<dev.celestial.entity.IceWolf> ICE_WOLF = register("ice_wolf",
+		EntityType.Builder.of(dev.celestial.entity.IceWolf::new, MobCategory.CREATURE).sized(1.1F, 1.3F).eyeHeight(1.15F).clientTrackingRange(10));
 	public static final EntityType<dev.celestial.boss.LightDevourer> LIGHT_DEVOURER = register("light_devourer",
 		EntityType.Builder.of(dev.celestial.boss.LightDevourer::new, MobCategory.MONSTER).fireImmune().sized(5.0F, 2.0F).eyeHeight(1.0F)
 			.clientTrackingRange(16));
@@ -133,6 +137,11 @@ public final class ModEntities {
 		FabricDefaultAttributeRegistry.register(DEEP_WORM, dev.celestial.entity.DeepWorm.createAttributes());
 		FabricDefaultAttributeRegistry.register(LIGHT_DEVOURER, dev.celestial.boss.LightDevourer.createAttributes());
 		FabricDefaultAttributeRegistry.register(FROST_WRAITH, dev.celestial.entity.FrostWraith.createAttributes());
+		FabricDefaultAttributeRegistry.register(ICE_GUARDIAN, dev.celestial.entity.IceGuardian.createAttributes());
+		FabricDefaultAttributeRegistry.register(ICE_WOLF, dev.celestial.entity.IceWolf.createAttributes());
+		SpawnPlacements.register(ICE_GUARDIAN, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+		SpawnPlacements.register(ICE_WOLF, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+			(type, level, reason, pos, random) -> level.getBlockState(pos.below()).isSolid());
 		SpawnPlacements.register(FROST_WRAITH, SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING,
 			(type, level, reason, pos, random) -> level.getBlockState(pos).isAir() && level.getMaxLocalRawBrightness(pos) < 8);
 		SpawnPlacements.register(BLIND_HUNTER, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);

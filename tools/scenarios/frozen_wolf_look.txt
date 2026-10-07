@@ -1,0 +1,31 @@
+# Ледяной волк крупно: сбоку, спереди, под седлом с седоком
+/gamemode creative
+/effect clear @s
+/effect give @s minecraft:night_vision 900 0 true
+/gamerule spawn_monsters false
+/gamerule advance_time false
+/time set 6000
+/execute in celestial:frozen_halls run tp @s 301 150 292 0 12
+fly
+wait 100
+/execute in celestial:frozen_halls run fill 290 149 290 312 149 312 celestial:frost_stone_bricks
+/execute in celestial:frozen_halls run fill 290 150 290 312 160 312 minecraft:air
+/kill @e[type=!minecraft:player,distance=..40]
+/summon celestial:ice_wolf 300 150 300 {NoAI:1b,Rotation:[90f,0f]}
+/summon celestial:ice_wolf 306 150 300 {NoAI:1b,Tame:1b,Rotation:[90f,0f],equipment:{saddle:{id:"minecraft:saddle",count:1}},Tags:["s"]}
+/summon celestial:ice_guardian 296 150 306 {NoAI:1b,Rotation:[0f,0f]}
+/tp @s 300.5 151.2 296 facing 300.5 150.8 300
+togglehud
+wait 30
+shot wolf_side
+/tp @s 297 151.5 300.5 facing 300 150.8 300.5
+wait 10
+shot wolf_front
+/tp @s 306.5 151.5 296 facing 306.5 150.8 300
+wait 10
+shot wolf_saddled
+/tp @s 296.5 152 302 facing 296.5 151.5 306
+wait 10
+shot guardian_front
+togglehud
+quit

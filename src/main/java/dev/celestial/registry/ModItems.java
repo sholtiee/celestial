@@ -69,6 +69,7 @@ public final class ModItems {
 	public static final Item RAW_FROST_STEEL = register("raw_frost_steel", Item::new, new Item.Properties());
 	public static final Item FROST_STEEL_INGOT = register("frost_steel_ingot", Item::new, new Item.Properties());
 	public static final Item FUR = register("fur", Item::new, new Item.Properties());
+	public static final Item ICE_CORE = register("ice_core", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON), "ice_core", 1));
 	public static final Item ABYSSAL_SHARD = register("abyssal_shard", Item::new, lore(new Item.Properties(), "abyssal_shard", 1));
 	public static final Item ABYSSAL_INGOT = register("abyssal_ingot", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON).fireResistant(), "abyssal_ingot", 1));
 	public static final Item RAW_ETHERITE = register("raw_etherite", Item::new, new Item.Properties());

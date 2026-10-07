@@ -66,6 +66,9 @@ public final class Cold {
 				player.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 40, 0, true, false, false));
 			}
 			delta *= 1.0F - insulation(player);
+			if (player.getVehicle() instanceof dev.celestial.entity.IceWolf) {  // густая шерсть ледяного волка греет седока
+				delta *= 0.5F;
+			}
 			if (data.hasSkill(Skill.INNER_FIRE.id)) {
 				delta *= 0.5F;
 			}

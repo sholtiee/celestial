@@ -1,0 +1,84 @@
+# Поведение существ Чертогов: страж бьёт и замедляет, щит режет урон, огонь ранит сильнее, мороз не берёт; волк быстрее на снегу и замораживает воду
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/gamerule advance_time false
+/time set 6000
+/execute in celestial:frozen_halls run tp @s 300 150 285 0 0
+fly
+wait 100
+/execute in celestial:frozen_halls run fill 280 149 280 340 149 330 minecraft:stone
+/execute in celestial:frozen_halls run fill 280 150 280 340 156 330 minecraft:air
+/execute in celestial:frozen_halls run fill 281 149 300 339 149 304 minecraft:snow_block
+/execute in celestial:frozen_halls run fill 290 149 318 330 149 324 minecraft:water
+/execute in celestial:frozen_halls run tp @s 300 150 285 0 0
+wait 80
+/kill @e[type=!minecraft:player,distance=..80]
+# G1 страж: щит режет урон втрое (10 → 3; урон magic — мимо брони)
+/say TEST G1 shield expect=pass
+/summon celestial:ice_guardian 310 150 290 {NoAI:1b,ShieldTicks:600,Tags:["g1"]}
+wait 5
+/damage @e[tag=g1,limit=1] 10 minecraft:magic
+wait 5
+/execute if entity @e[tag=g1,nbt={Health:77.0f}]
+# G2 огонь ×1.6 (10 → 16), мороз не ранит
+/say TEST G2 fire_and_freeze expect=pass,pass
+/summon celestial:ice_guardian 314 150 290 {NoAI:1b,Tags:["g2"]}
+wait 5
+/damage @e[tag=g2,limit=1] 10 minecraft:freeze
+wait 15
+/execute if entity @e[tag=g2,nbt={Health:80.0f}]
+/damage @e[tag=g2,limit=1] 10 minecraft:on_fire
+wait 5
+/execute if entity @e[tag=g2,nbt={Health:64.0f}]
+/kill @e[tag=g1]
+/kill @e[tag=g2]
+# G3 страж нападает: игрок в выживании получает замедление
+/say TEST G3 guardian_attacks expect=pass
+/gamemode survival
+/effect give @s minecraft:resistance 900 4 true
+/summon celestial:ice_guardian 300 150 289
+wait 120
+/execute if entity @p[nbt={active_effects:[{id:"minecraft:slowness"}]}]
+togglehud
+shot guardian_fight
+togglehud
+/kill @e[type=celestial:ice_guardian]
+/effect clear @s minecraft:slowness
+/gamemode creative
+# W1 волк быстрее на снегу: 40 тиков вперёд по снегу и по камню
+/say TEST W1 wolf_speed (сравнить pos в логе)
+/summon celestial:ice_wolf 284 150 302 {Tame:1b,Rotation:[-90f,0f],equipment:{saddle:{id:"minecraft:saddle",count:1}},Tags:["w"]}
+wait 10
+/tp @s 284 150 302 -90 0
+/ride @s mount @e[tag=w,limit=1]
+wait 10
+pos
+hold forward 40
+wait 45
+pos
+/ride @s dismount
+/tp @e[tag=w] 284 150 312 -90 0
+/tp @s 284 150 312 -90 0
+/ride @s mount @e[tag=w,limit=1]
+wait 10
+pos
+hold forward 40
+wait 45
+pos
+# W2 под волком замерзает вода
+/say TEST W2 wolf_freezes_water expect=pass
+/ride @s dismount
+/tp @e[tag=w] 300 150 316 0 0
+/tp @s 300 150 316 0 0
+/ride @s mount @e[tag=w,limit=1]
+wait 10
+hold forward 30
+wait 5
+togglehud
+shot wolf_frost_walk
+togglehud
+/execute in celestial:frozen_halls positioned 300 149 321 if block ~ ~ ~ minecraft:frosted_ice
+pos
+/ride @s dismount
+quit
