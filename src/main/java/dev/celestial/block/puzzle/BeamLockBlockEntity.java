@@ -123,7 +123,7 @@ public class BeamLockBlockEntity extends BlockEntity implements PuzzleZone {
 			server.playSound(null, pos, SoundEvents.BEACON_POWER_SELECT, SoundSource.BLOCKS, 2.0F, 1.3F);
 			server.sendParticles(ParticleTypes.END_ROD, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5, 40, 0.4, 0.8, 0.4, 0.08);
 			Player player = server.getNearestPlayer(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 48, false);
-			PuzzleRewards.solved(server, pos, player, "mirror_maze");
+			PuzzleRewards.solved(server, pos, player, "mirror_maze", 8);
 		}
 	}
 

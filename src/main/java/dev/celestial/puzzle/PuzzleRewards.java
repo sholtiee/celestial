@@ -14,10 +14,18 @@ public final class PuzzleRewards {
 	private PuzzleRewards() {}
 
 	public static void solved(ServerLevel level, BlockPos pos, Player player, String kind) {
+		solved(level, pos, player, kind, 12);
+	}
+
+	/**
+	 * То же, но печати растворяются только в радиусе radius: в постройке из нескольких загадок (Ледяная цитадель)
+	 * решённый зал не должен открывать реликварий соседнего.
+	 */
+	public static void solved(ServerLevel level, BlockPos pos, Player player, String kind, int radius) {
 		level.playSound(null, pos, SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, SoundSource.BLOCKS, 1.0F, 1.2F);
 		level.sendParticles(ParticleTypes.END_ROD, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5, 40, 0.5, 0.6, 0.5, 0.15);
 		// решённая загадка открывает печать-двери поблизости
-		for (BlockPos p : BlockPos.betweenClosed(pos.offset(-12, -6, -12), pos.offset(12, 10, 12))) {
+		for (BlockPos p : BlockPos.betweenClosed(pos.offset(-radius, -6, -radius), pos.offset(radius, 10, radius))) {
 			if (level.getBlockState(p).is(dev.celestial.registry.ModBlocks.SEALED_DOOR)) {
 				dev.celestial.block.puzzle.SealedDoorBlock.dissolve(level, p.immutable());
 			}

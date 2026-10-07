@@ -1,0 +1,197 @@
+# QA: Ледяная цитадель (генерирует tools/gen_frozen_places.py): вид, обходы арены, три зала → Печать открывает арену
+/gamemode spectator
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/gamerule spawn_monsters false
+/weather clear
+/execute in minecraft:overworld run tp @s 23031 190 23031
+wait 120
+/fill 22996 147 22996 23013 149 23066 minecraft:stone
+/fill 23014 147 22996 23031 149 23066 minecraft:stone
+/fill 23032 147 22996 23049 149 23066 minecraft:stone
+/fill 23050 147 22996 23067 149 23066 minecraft:stone
+/fill 22996 150 22996 23013 164 23066 minecraft:air
+/fill 22996 165 22996 23013 179 23066 minecraft:air
+/fill 23014 150 22996 23031 164 23066 minecraft:air
+/fill 23014 165 22996 23031 179 23066 minecraft:air
+/fill 23032 150 22996 23049 164 23066 minecraft:air
+/fill 23032 165 22996 23049 179 23066 minecraft:air
+/fill 23050 150 22996 23067 164 23066 minecraft:air
+/fill 23050 165 22996 23067 179 23066 minecraft:air
+/place template celestial:frozen_citadel/main 23000 150 23000
+wait 100
+/kill @e[type=celestial:ice_guardian]
+/kill @e[type=item]
+togglehud
+/tp @s 23031 195 23095 180 30
+wait 40
+shot citadel_outside
+/tp @s 23031 210 23031 0 90
+wait 30
+shot citadel_top
+/tp @s 23031 153 23060 180 5
+wait 20
+shot citadel_court
+/tp @s 23031 152 23040 180 10
+wait 20
+shot citadel_corridor
+/tp @s 23031 154 23022 180 15
+wait 20
+shot citadel_arena
+togglehud
+/gamemode survival
+/effect give @s minecraft:resistance 900 4 true
+/effect give @s minecraft:saturation 900 1 true
+# A1 вечная кладка арены не ломается (выживание)
+/say TEST A1 break_everfrost expect=pass
+/tp @s 23019.5 151 23024.5 facing 23021.5 151.5 23022.5
+wait 10
+hold attack 100
+/execute if block 23021 151 23022 celestial:everfrost_bricks
+# A2 печать-дверь арены на месте, пока залы не решены
+/say TEST A2 gate_closed expect=pass
+/execute if block 23031 151 23027 celestial:sealed_door
+# S1 hall_1 в цитадели
+/say TEST S1 citadel_hall_1 expect=pass(seal lit=1)
+/tp @s 23004.5 151 23035.5
+wait 4
+use 23005 151 23035 west
+wait 30
+/tp @s 23007.5 151 23036.5
+wait 4
+use 23007 151 23035 south
+wait 30
+/tp @s 23009.5 151 23036.5
+wait 4
+use 23009 151 23035 south
+wait 30
+/tp @s 23008.5 151 23034.5
+wait 4
+use 23007 151 23034 east
+wait 30
+/tp @s 23006.5 151 23033.5
+wait 4
+use 23006 151 23034 north
+wait 30
+/tp @s 23005.5 151 23037.5
+wait 4
+use 23006 151 23037 west
+wait 30
+/tp @s 23009.5 151 23038.5
+wait 4
+use 23009 151 23037 south
+wait 30
+/tp @s 23010.5 151 23032.5
+wait 4
+use 23009 151 23032 east
+wait 30
+/tp @s 23010.5 151 23033.5
+wait 4
+use 23009 151 23033 east
+wait 30
+wait 60
+/execute if block 23031 151 23031 celestial:hall_seal[lit=1]
+# S2 hall_2 в цитадели
+/say TEST S2 citadel_hall_2 expect=pass(seal lit=2)
+/tp @s 23019.5 151 23035.5
+wait 4
+use 23019 151 23034 south
+wait 30
+/tp @s 23018.5 151 23033.5
+wait 4
+use 23019 151 23033 west
+wait 30
+/tp @s 23020.5 151 23032.5
+wait 4
+use 23020 151 23033 north
+wait 30
+/tp @s 23015.5 151 23036.5
+wait 4
+use 23016 151 23036 west
+wait 30
+/tp @s 23019.5 151 23037.5
+wait 4
+use 23019 151 23036 south
+wait 30
+/tp @s 23018.5 151 23033.5
+wait 4
+use 23019 151 23033 west
+wait 30
+/tp @s 23020.5 151 23032.5
+wait 4
+use 23020 151 23033 north
+wait 30
+/tp @s 23021.5 151 23035.5
+wait 4
+use 23020 151 23035 east
+wait 30
+/tp @s 23020.5 151 23032.5
+wait 4
+use 23019 151 23032 east
+wait 30
+/tp @s 23018.5 151 23033.5
+wait 4
+use 23018 151 23032 south
+wait 30
+wait 60
+/execute if block 23031 151 23031 celestial:hall_seal[lit=2]
+/say TEST A3 two_halls_not_enough expect=pass
+/execute if block 23031 151 23027 celestial:sealed_door
+# S3 hall_3 в цитадели
+/say TEST S3 citadel_hall_3 expect=pass(seal lit=3)
+/tp @s 23051.5 151 23030.5
+wait 4
+use 23051 151 23031 north
+wait 30
+/tp @s 23055.5 151 23031.5
+wait 4
+use 23054 151 23031 east
+wait 30
+/tp @s 23049.5 151 23033.5
+wait 4
+use 23050 151 23033 west
+wait 30
+/tp @s 23057.5 151 23032.5
+wait 4
+use 23057 151 23033 north
+wait 30
+/tp @s 23050.5 151 23037.5
+wait 4
+use 23051 151 23037 west
+wait 30
+/tp @s 23052.5 151 23038.5
+wait 4
+use 23052 151 23037 south
+wait 30
+/tp @s 23051.5 151 23032.5
+wait 4
+use 23052 151 23032 west
+wait 30
+/tp @s 23057.5 151 23031.5
+wait 4
+use 23057 151 23032 north
+wait 30
+/tp @s 23049.5 151 23034.5
+wait 4
+use 23050 151 23034 west
+wait 30
+/tp @s 23056.5 151 23033.5
+wait 4
+use 23056 151 23034 north
+wait 30
+/tp @s 23053.5 151 23032.5
+wait 4
+use 23053 151 23031 south
+wait 30
+wait 60
+/execute if block 23031 151 23031 celestial:hall_seal[lit=3]
+/say TEST A4 gate_open expect=pass
+/execute unless block 23031 151 23027 celestial:sealed_door
+/tp @s 23031.5 151 23033.5 facing 23031.5 152 23020
+togglehud
+wait 10
+shot citadel_gate_open
+togglehud
+/gamemode creative
+quit

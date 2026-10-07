@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 4400421,
+    "separation": 7,
+    "spacing": 18
+  },
+  "structures": [
+    {
+      "structure": "celestial:angel_camp",
+      "weight": 1
+    }
+  ]
+}

@@ -99,9 +99,11 @@ def noises():
     for name in ('temperature', 'humidity'):
         write_json(os.path.join(WG, f'density_function/frozen/{name}.json'), noise(name, -8, 2))
     land = add(add(add(grad(30, 110, 1.0, -1.0), mul(noise('continent', -7, 3), 0.9)), mul(noise('rough', -4, 2), 0.12)), -0.22)
-    # ледниковые щиты: плоские плато с отвесными стенами (двумерная маска → вертикальные края)
-    glacier = {'type': 'minecraft:range_choice', 'input': noise('glacier', -6, 2), 'min_inclusive': 0.22, 'max_exclusive': 10.0,
-               'when_in_range': grad(78, 96, 2.0, -2.0), 'when_out_of_range': -1.0}
+    # ледниковые щиты: плато с крутыми, но не отвесными краями. Маска плавная (зажатый шум 0.16..0.34 → 0..1), поэтому у края
+    # ледник ниже и переходит в склон; вершина неровная (свой шум). Раньше range_choice давал вертикальные плоские стены (BUG-040).
+    mask = {'type': 'minecraft:clamp', 'input': mul(add(noise('glacier', -6, 2), -0.16), 5.5), 'min': 0.0, 'max': 1.0}
+    cap = add(grad(76, 100, 2.0, -2.0), mul(noise('glacier_top', -4, 2), 0.45))
+    glacier = add(-1.0, mul(mask, add(cap, 1.0)))
     # трещины ледников: где шум близок к нулю — узкий глубокий разрез
     crevasse = mul({'type': 'minecraft:max', 'left': add(0.045, mul({'type': 'minecraft:abs', 'input': noise('crevasse', -5, 2)}, -1.0)),
                     'right': 0.0}, -45.0)
@@ -113,6 +115,8 @@ def noises():
 
 
 def surface():
+    write_json(os.path.join(WG, 'noise/frozen_ice_veins.json'), {'base_amplitude': 1.0, 'base_octave': -5, 'octave_count': 3})
+
     def block(b):
         return {'type': 'minecraft:block', 'result_state': b}
 
@@ -133,6 +137,18 @@ def surface():
             'then_run': block('minecraft:blue_ice')}},
         {'type': 'minecraft:condition', 'if_true': 'minecraft:on_floor', 'then_run': block('minecraft:snow_block')},
         {'type': 'minecraft:condition', 'if_true': 'minecraft:under_floor', 'then_run': block('minecraft:packed_ice')},
+        # тело ледника (всё выше y=82 — только ледники и шпили): плотный лёд с прожилками синего, без серых полос камня (BUG-040)
+        {'type': 'minecraft:condition', 'if_true': {'type': 'minecraft:y_above', 'anchor': {'absolute': 82}, 'surface_depth_multiplier': 0,
+                                                    'add_stone_depth': False},
+         'then_run': {'type': 'minecraft:sequence', 'sequence': [
+             {'type': 'minecraft:condition', 'if_true': {'type': 'minecraft:noise_threshold', 'noise': c('frozen_ice_veins'),
+                                                         'min_threshold': 0.35, 'max_threshold': 10.0}, 'then_run': block('minecraft:blue_ice')},
+             block('minecraft:packed_ice')]}},
+        # переход к камню ниже — рваный: прослойка плотного льда на разной высоте
+        {'type': 'minecraft:condition', 'if_true': {'type': 'minecraft:y_above', 'anchor': {'absolute': 74}, 'surface_depth_multiplier': 3,
+                                                    'add_stone_depth': True},
+         'then_run': {'type': 'minecraft:condition', 'if_true': {'type': 'minecraft:noise_threshold', 'noise': c('frozen_ice_veins'),
+                                                                  'min_threshold': -0.2, 'max_threshold': 10.0}, 'then_run': block('minecraft:packed_ice')}},
     ]})
     write_json(os.path.join(WG, 'noise_settings/frozen_halls.json'), {
         'debug_functions': [], 'default_block': c('frost_stone'), 'default_fluid': 'minecraft:water', 'disable_mob_generation': False,

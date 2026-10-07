@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "lit=0,open=false": {
+      "model": "celestial:block/hall_seal_0"
+    },
+    "lit=0,open=true": {
+      "model": "celestial:block/hall_seal_0"
+    },
+    "lit=1,open=false": {
+      "model": "celestial:block/hall_seal_1"
+    },
+    "lit=1,open=true": {
+      "model": "celestial:block/hall_seal_1"
+    },
+    "lit=2,open=false": {
+      "model": "celestial:block/hall_seal_2"
+    },
+    "lit=2,open=true": {
+      "model": "celestial:block/hall_seal_2"
+    },
+    "lit=3,open=false": {
+      "model": "celestial:block/hall_seal_3"
+    },
+    "lit=3,open=true": {
+      "model": "celestial:block/hall_seal_3"
+    }
+  }
+}

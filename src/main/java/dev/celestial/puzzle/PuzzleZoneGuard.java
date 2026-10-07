@@ -55,6 +55,17 @@ public final class PuzzleZoneGuard {
 		});
 	}
 
+	/** Загруженные зоны загадок в мире level (для печатей, которые ждут решения нескольких загадок). */
+	public static java.util.List<BlockEntity> zones(Level level) {
+		java.util.List<BlockEntity> out = new java.util.ArrayList<>();
+		for (BlockEntity be : ZONES) {
+			if (!be.isRemoved() && be.getLevel() == level) {
+				out.add(be);
+			}
+		}
+		return out;
+	}
+
 	public static boolean guarded(Level level, BlockPos pos) {
 		for (BlockEntity be : ZONES) {
 			if (!be.isRemoved() && be.getLevel() == level && be instanceof PuzzleZone zone && zone.guards(pos)) {

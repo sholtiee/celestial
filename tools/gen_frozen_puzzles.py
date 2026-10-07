@@ -265,6 +265,12 @@ BRICKS = c('frost_stone_bricks')
 
 
 def hall_template(name, rows):
+    t = build_hall(rows)
+    t.save('glacier_hall/' + name)
+    return t
+
+
+def build_hall(rows):
     """Зал по карте + преддверие с колоколом и запечатанной нишей Реликвария.
 
     Пол зала на y=0, глыбы и проходы на y=1, потолок на y=5. Преддверие примыкает к стороне входа 'E' (низ карты).
@@ -310,7 +316,7 @@ def hall_template(name, rows):
     reliquary(t, rx, 1, rz, 'celestial:chests/glacier_hall')
     for x, y, z in ((rx, 1, rz - 1), (rx + 1, 1, rz - 1), (rx + 1, 1, rz), (rx, 2, rz - 1), (rx + 1, 2, rz - 1), (rx + 1, 2, rz), (rx, 2, rz)):
         t.set(x, y, z, c('sealed_door'))
-    return t.save('glacier_hall/' + name)
+    return t
 
 
 def solutions():
@@ -617,6 +623,10 @@ RECEIVERS = {'X': 'red', 'Y': 'green', 'Z': 'blue'}
 
 
 def maze_template():
+    build_maze().save('mirror_maze/main')
+
+
+def build_maze():
     """Лабиринт 15×15 (пол y=0, стены y=1..3, потолок из вечного льда y=4) + преддверие с Замком и нишей Реликвария."""
     size = len(MAZE)
     depth = size + 5
@@ -665,7 +675,7 @@ def maze_template():
     reliquary(t, rx, 1, rz, 'celestial:chests/mirror_maze')
     for x, y, z in ((rx, 1, rz - 1), (rx + 1, 1, rz - 1), (rx + 1, 1, rz), (rx, 2, rz - 1), (rx + 1, 2, rz - 1), (rx + 1, 2, rz), (rx, 2, rz)):
         t.set(x, y, z, c('sealed_door'))
-    return t.save('mirror_maze/main')
+    return t
 
 
 FACE = {(1, 0): 'east', (-1, 0): 'west', (0, 1): 'south', (0, -1): 'north'}

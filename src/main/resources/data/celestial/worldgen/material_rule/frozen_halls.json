@@ -71,6 +71,63 @@
         "type": "minecraft:block",
         "result_state": "minecraft:packed_ice"
       }
+    },
+    {
+      "type": "minecraft:condition",
+      "if_true": {
+        "type": "minecraft:y_above",
+        "anchor": {
+          "absolute": 82
+        },
+        "surface_depth_multiplier": 0,
+        "add_stone_depth": false
+      },
+      "then_run": {
+        "type": "minecraft:sequence",
+        "sequence": [
+          {
+            "type": "minecraft:condition",
+            "if_true": {
+              "type": "minecraft:noise_threshold",
+              "noise": "celestial:frozen_ice_veins",
+              "min_threshold": 0.35,
+              "max_threshold": 10.0
+            },
+            "then_run": {
+              "type": "minecraft:block",
+              "result_state": "minecraft:blue_ice"
+            }
+          },
+          {
+            "type": "minecraft:block",
+            "result_state": "minecraft:packed_ice"
+          }
+        ]
+      }
+    },
+    {
+      "type": "minecraft:condition",
+      "if_true": {
+        "type": "minecraft:y_above",
+        "anchor": {
+          "absolute": 74
+        },
+        "surface_depth_multiplier": 3,
+        "add_stone_depth": true
+      },
+      "then_run": {
+        "type": "minecraft:condition",
+        "if_true": {
+          "type": "minecraft:noise_threshold",
+          "noise": "celestial:frozen_ice_veins",
+          "min_threshold": -0.2,
+          "max_threshold": 10.0
+        },
+        "then_run": {
+          "type": "minecraft:block",
+          "result_state": "minecraft:packed_ice"
+        }
+      }
     }
   ]
 }

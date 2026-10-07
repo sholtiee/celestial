@@ -288,6 +288,14 @@ public final class ModBlocks {
 		Properties.of().mapColor(MapColor.ICE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST).noOcclusion()
 			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.block.puzzle.BeamLockBlock.SOLVED) ? 15 : 6), 1);
 
+	// Ледяная цитадель: печать трёх залов и вечная кладка арены (неразрушима — к Архонту только через залы)
+	public static final Block HALL_SEAL = register("hall_seal", dev.celestial.block.puzzle.ice.HallSealBlock::new,
+		Properties.of().mapColor(MapColor.ICE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST)
+			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> 4 + s.getValue(dev.celestial.block.puzzle.ice.HallSealBlock.LIT) * 3), 1);
+	public static final Block EVERFROST_BRICKS = register("everfrost_bricks", Block::new,
+		Properties.of().mapColor(MapColor.ICE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.DEEPSLATE_BRICKS)
+			.pushReaction(PushReaction.IMMOVEABLE).friction(0.6F), 1);
+
 	private ModBlocks() {}
 
 	private static Block flower(String name, net.minecraft.core.Holder<net.minecraft.world.effect.MobEffect> effect, int light) {

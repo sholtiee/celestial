@@ -43,6 +43,19 @@ class Template:
                     if x in (x0, x1) or z in (z0, z1):
                         self.set(x, y, z, block, **props)
 
+    def paste(self, other, ox, oy, oz):
+        """Вклеить другой шаблон (блоки вместе с явным воздухом и сущности) со сдвигом."""
+        for (x, y, z), (block, props, nbt) in other.blocks.items():
+            if 0 <= x + ox < self.size[0] and 0 <= y + oy < self.size[1] and 0 <= z + oz < self.size[2]:
+                self.blocks[(x + ox, y + oy, z + oz)] = (block, props, nbt)
+        for e in other.entities:
+            pos = [float(v) for v in e['pos']]
+            bpos = [int(v) for v in e['blockPos']]
+            self.entities.append(Compound({
+                'pos': List[Double]([Double(pos[0] + ox), Double(pos[1] + oy), Double(pos[2] + oz)]),
+                'blockPos': List[Int]([Int(bpos[0] + ox), Int(bpos[1] + oy), Int(bpos[2] + oz)]),
+                'nbt': e['nbt']}))
+
     def entity(self, x, y, z, nbt):
         nbt = dict(nbt)
         self.entities.append(Compound({

@@ -31,6 +31,8 @@ import net.minecraft.world.level.storage.ValueOutput;
  */
 public class GlacierHallBlockEntity extends BlockEntity implements PuzzleZone {
 	private static final int MAX_CELLS = 600;
+	/** Своя печать — в нише у колокола; соседние залы цитадели дальше. */
+	private static final int DOOR_RADIUS = 6;
 
 	private final List<BlockPos> start = new ArrayList<>();
 	private boolean scanned;
@@ -165,7 +167,7 @@ public class GlacierHallBlockEntity extends BlockEntity implements PuzzleZone {
 					level.sendParticles(ParticleTypes.END_ROD, c.getX() + 0.5, c.getY() + 1.2, c.getZ() + 0.5, 16, 0.3, 0.6, 0.3, 0.05);
 				}
 			}
-			PuzzleRewards.solved(level, worldPosition, player, "glacier");
+			PuzzleRewards.solved(level, worldPosition, player, "glacier", DOOR_RADIUS);
 		}
 	}
 

@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 4400419,
+    "separation": 12,
+    "spacing": 30
+  },
+  "structures": [
+    {
+      "structure": "celestial:mirror_maze",
+      "weight": 1
+    }
+  ]
+}

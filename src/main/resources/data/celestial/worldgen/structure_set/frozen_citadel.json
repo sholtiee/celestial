@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 4400417,
+    "separation": 18,
+    "spacing": 44
+  },
+  "structures": [
+    {
+      "structure": "celestial:frozen_citadel",
+      "weight": 1
+    }
+  ]
+}

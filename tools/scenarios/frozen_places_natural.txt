@@ -1,0 +1,27 @@
+# Постройки Чертогов в мире: цитадель на леднике, лабиринт в шпилях, лагерь ангелов (сгенерированы миром, не /place)
+/gamemode spectator
+/effect clear @s
+/effect give @s minecraft:night_vision 9999 0 true
+/gamerule advance_time false
+/time set 6000
+/weather clear
+/execute in celestial:frozen_halls run tp @s 0 160 0
+wait 100
+togglehud
+goto celestial:frozen_citadel 0 30 75 180 30
+wait 260
+shot nat_citadel
+goto celestial:frozen_citadel 0 -20 52 180 5
+wait 60
+shot nat_citadel_gate
+goto celestial:mirror_maze 0 25 25 180 45
+wait 260
+shot nat_maze
+goto celestial:angel_camp 0 10 18 180 30
+wait 260
+shot nat_camp
+goto celestial:angel_camp 0 -6 9 180 15
+wait 40
+shot nat_camp_close
+togglehud
+quit

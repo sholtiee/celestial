@@ -22,3 +22,4 @@ python3 gen_particles.py
 python3 gen_frozen.py
 python3 gen_frozen_puzzles.py
 python3 gen_frozen_mobs.py
+python3 gen_frozen_places.py

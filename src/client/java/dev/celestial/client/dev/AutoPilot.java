@@ -54,11 +54,11 @@ public final class AutoPilot {
 			return;
 		}
 		server.execute(() -> {
-			var level = server.getLevel(dev.celestial.world.HeavenDimension.HEAVEN);
+			var player = server.getPlayerList().getPlayers().getFirst();
+			var level = player.level();  // ищем в измерении, где сейчас игрок
 			var registry = level.registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.STRUCTURE);
 			var holder = registry.getOrThrow(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.STRUCTURE,
 				net.minecraft.resources.Identifier.parse(id)));
-			var player = server.getPlayerList().getPlayers().getFirst();
 			var found = level.getChunkSource().getGenerator().findNearestMapStructure(level,
 				net.minecraft.core.HolderSet.direct(holder), player.blockPosition(), 100, false);
 			if (found == null) {
@@ -70,8 +70,8 @@ public final class AutoPilot {
 			var box = start != null && start.isValid() ? start.getBoundingBox() : new net.minecraft.world.level.levelgen.structure.BoundingBox(at);
 			var center = box.getCenter();
 			Celestial.LOGGER.info("Автопилот: {} в {} (коробка {})", id, center, box);
-			String cmd = String.format(java.util.Locale.ROOT, "execute in celestial:heaven run tp @s %.1f %.1f %.1f %.1f %.1f",
-				center.getX() + dx + 0.5, box.maxY() + dy, center.getZ() + dz + 0.5, yaw, pitch);
+			String cmd = String.format(java.util.Locale.ROOT, "execute in %s run tp @s %.1f %.1f %.1f %.1f %.1f",
+				level.dimension().identifier(), center.getX() + dx + 0.5, box.maxY() + dy, center.getZ() + dz + 0.5, yaw, pitch);
 			server.getCommands().performPrefixedCommand(player.createCommandSourceStack().withPermission(net.minecraft.server.permissions.LevelBasedPermissionSet.OWNER), cmd);
 		});
 	}

@@ -11,6 +11,8 @@
     "celestial:ancient_red_filter",
     "celestial:ancient_green_filter",
     "celestial:ancient_blue_filter",
-    "celestial:beam_lock"
+    "celestial:beam_lock",
+    "celestial:everfrost_bricks",
+    "celestial:hall_seal"
   ]
 }

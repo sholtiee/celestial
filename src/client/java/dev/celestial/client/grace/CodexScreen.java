@@ -22,7 +22,7 @@ public class CodexScreen extends Screen {
 	private static final String[] MOBS = {"fallen_guardian", "storm_spirit", "winged_serpent", "cloud_whale", "light_wisp", "angel", "pegasus",
 		"cherub", "golden_ram", "sky_ray", "cloud_jelly", "mimic", "storm_elemental", "fallen_seraph", "shadow", "blind_hunter", "light_eater", "deep_worm", "light_devourer", "frost_wraith", "ice_guardian", "ice_wolf"};
 	private static final String[] PLACES = {"sky_village", "sky_ruins", "trial_tower", "beam_temple", "cloud_castle", "sky_lighthouse",
-		"airship_wreck", "citadel", "meteor_crater", "observatory", "flame_sanctuary", "void_rift", "abyss_rift", "abyss", "sunken_temple", "devourer_lair"};
+		"airship_wreck", "citadel", "meteor_crater", "observatory", "flame_sanctuary", "void_rift", "abyss_rift", "abyss", "sunken_temple", "devourer_lair", "frozen_citadel", "mirror_maze", "angel_camp"};
 	private static final int W = 340, H = 210;
 	private static final net.minecraft.resources.Identifier BACKGROUND = dev.celestial.Celestial.id("textures/gui/codex.png");
 	private static Tab tab = Tab.SAGA;

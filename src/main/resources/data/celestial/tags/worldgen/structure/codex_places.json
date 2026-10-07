@@ -14,6 +14,9 @@
     "celestial:void_rift",
     "celestial:abyss_rift",
     "celestial:sunken_temple",
-    "celestial:devourer_lair"
+    "celestial:devourer_lair",
+    "celestial:frozen_citadel",
+    "celestial:mirror_maze",
+    "celestial:angel_camp"
   ]
 }

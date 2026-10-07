@@ -1,0 +1,95 @@
+/gamemode spectator
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+fly
+/effect give @s minecraft:night_vision 99999 0 true
+/weather clear
+togglehud
+/execute in celestial:frozen_halls run tp @s 2500 130 0 0 30
+/weather clear
+wait 220
+/tp @s ~ ~ ~ 0 30
+wait 25
+shot frozen0_s
+/tp @s ~ ~ ~ 90 30
+wait 25
+shot frozen0_w
+/tp @s ~ ~ ~ 180 30
+wait 25
+shot frozen0_n
+/tp @s ~ ~ ~ 270 30
+wait 25
+shot frozen0_e
+/execute in celestial:frozen_halls run tp @s -3000 130 2000 0 30
+wait 220
+/tp @s ~ ~ ~ 0 30
+wait 25
+shot frozen1_s
+/tp @s ~ ~ ~ 90 30
+wait 25
+shot frozen1_w
+/tp @s ~ ~ ~ 180 30
+wait 25
+shot frozen1_n
+/tp @s ~ ~ ~ 270 30
+wait 25
+shot frozen1_e
+/execute in celestial:frozen_halls run tp @s 0 130 -3600 0 30
+wait 220
+/tp @s ~ ~ ~ 0 30
+wait 25
+shot frozen2_s
+/tp @s ~ ~ ~ 90 30
+wait 25
+shot frozen2_w
+/tp @s ~ ~ ~ 180 30
+wait 25
+shot frozen2_n
+/tp @s ~ ~ ~ 270 30
+wait 25
+shot frozen2_e
+/execute in celestial:frozen_halls run tp @s 5000 130 5000 0 30
+wait 220
+/tp @s ~ ~ ~ 0 30
+wait 25
+shot frozen3_s
+/tp @s ~ ~ ~ 90 30
+wait 25
+shot frozen3_w
+/tp @s ~ ~ ~ 180 30
+wait 25
+shot frozen3_n
+/tp @s ~ ~ ~ 270 30
+wait 25
+shot frozen3_e
+/execute in minecraft:overworld run tp @s 4000 140 4000 0 30
+wait 220
+/tp @s ~ ~ ~ 0 30
+wait 25
+shot over0_s
+/tp @s ~ ~ ~ 90 30
+wait 25
+shot over0_w
+/tp @s ~ ~ ~ 180 30
+wait 25
+shot over0_n
+/tp @s ~ ~ ~ 270 30
+wait 25
+shot over0_e
+/execute in minecraft:overworld run tp @s -4000 140 4000 0 30
+wait 220
+/tp @s ~ ~ ~ 0 30
+wait 25
+shot over1_s
+/tp @s ~ ~ ~ 90 30
+wait 25
+shot over1_w
+/tp @s ~ ~ ~ 180 30
+wait 25
+shot over1_n
+/tp @s ~ ~ ~ 270 30
+wait 25
+shot over1_e
+togglehud
+quit
