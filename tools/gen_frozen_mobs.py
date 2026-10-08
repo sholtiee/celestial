@@ -7,7 +7,7 @@ from PIL import Image
 
 import mob_textures as M
 from gen_abyss import append_tag
-from gen_assets import c, entity_loot, item_def, model, save_png
+from gen_assets import c, entity_loot, item_def, model, save_png, shapeless
 from gen_story import lang_patch
 from textures import hexrgb, mix, rng_for, shade
 
@@ -199,6 +199,59 @@ def ice_core():
     return img
 
 
+# ---------------------------------------------------------------- горячая еда и значки эффектов
+def hearth_stew():
+    img = Image.new('RGBA', (16, 16), (0, 0, 0, 0))
+    wood = [hexrgb(h) for h in ('#7a5232', '#8e6440', '#a27650')]
+    for y in range(8, 14):  # миска
+        half = 7 - (y - 8) // 2
+        for x in range(8 - half, 8 + half):
+            img.putpixel((x, y), (*wood[(x + y) % 3], 255))
+    for x in range(2, 14):  # похлёбка: морковь, рыба, картофель
+        col = hexrgb('#c96a2a') if x % 4 == 0 else hexrgb('#e8c27a') if x % 4 == 2 else hexrgb('#b8552a')
+        img.putpixel((x, 8), (*col, 255))
+        img.putpixel((x, 7), (*shade(col, 1.1), 255))
+    for i, (x, y) in enumerate(((5, 5), (6, 4), (5, 3), (9, 5), (10, 4), (9, 2))):  # пар
+        img.putpixel((x, y), (235, 240, 245, 200 - i * 20))
+    return img
+
+
+def spiced_cider():
+    img = Image.new('RGBA', (16, 16), (0, 0, 0, 0))
+    glass = hexrgb('#d8eef8')
+    for y in range(5, 15):
+        w = 2 if y < 8 else 4
+        for x in range(8 - w, 8 + w):
+            edge = x in (8 - w, 8 + w - 1) or y == 14
+            col = glass if edge else (hexrgb('#c4561e') if y > 9 else hexrgb('#e08a2a'))
+            img.putpixel((x, y), (*col, 255 if not edge else 220))
+    for y in (3, 4):
+        for x in (7, 8):
+            img.putpixel((x, y), (*hexrgb('#8e6440'), 255))  # пробка
+    img.putpixel((6, 11), (*hexrgb('#5a2a10'), 255))  # палочка корицы
+    img.putpixel((7, 10), (*hexrgb('#5a2a10'), 255))
+    for i, (x, y) in enumerate(((9, 2), (10, 1), (9, 0))):
+        img.putpixel((x, y), (235, 240, 245, 180 - i * 40))
+    return img
+
+
+def effect_icon(colors, shape):
+    img = Image.new('RGBA', (18, 18), (0, 0, 0, 0))
+    for y, row in enumerate(shape):
+        for x, ch in enumerate(row):
+            if ch != '.':
+                img.putpixel((x + 1, y + 1), (*hexrgb(colors[ch]), 255))
+    return img
+
+
+FLAME = ['......1.........', '.....121........', '.....1221.......', '....12321.......', '...1233321......', '...12333321.....',
+         '..1233433321....', '..1234443321....', '..1234443321....', '..1233443321....', '...123333321....', '....1222221.....',
+         '.....11111......', '................', '................', '................']
+STAR = ['.......1........', '.......2........', '......121.......', '......232.......', '..1112343211....', '...12344432.....',
+        '....123432......', '.....23432......', '....2321232.....', '....21...12.....', '...1.......1....', '................',
+        '................', '................', '................', '................']
+
+
 MOBS = {
     'ice_guardian': (ice_guardian, 'Ледяной страж', 'Ice Guardian', '#4a88b8', '#bdf2ff',
                      'голем из вечного льда, страж цитадели. Поднимает ледяной щит (бей после), сотрясает землю — держись на расстоянии. Боится огня.',
@@ -231,6 +284,21 @@ def main():
     append_tag('entity_type', 'minecraft:can_equip_saddle', [c('ice_wolf')])
     append_tag('entity_type', 'minecraft:dismounts_underwater', [c('ice_wolf')])
     append_tag('entity_type', 'minecraft:freeze_immune_entity_types', [c('ice_guardian'), c('ice_wolf')])
+    for name, fn in (('hearth_stew', hearth_stew), ('spiced_cider', spiced_cider)):
+        save_png(fn(), 'item/' + name)
+        model('item/' + name, {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('item/' + name)}})
+        item_def(name, c('item/' + name))
+    save_png(effect_icon({'1': '#8a2a0a', '2': '#d4541a', '3': '#ff9a3a', '4': '#fff0b0'}, FLAME), 'mob_effect/warmed')
+    save_png(effect_icon({'1': '#3a5a9a', '2': '#7fa8e8', '3': '#cfe2ff', '4': '#ffffff'}, STAR), 'mob_effect/starlight')
+    shapeless('hearth_stew', c('hearth_stew'), ['minecraft:bowl', 'minecraft:cooked_cod', 'minecraft:baked_potato', 'minecraft:carrot'], 1, 'misc')
+    shapeless('spiced_cider', c('spiced_cider'), ['minecraft:glass_bottle', 'minecraft:sweet_berries', 'minecraft:sweet_berries', 'minecraft:sugar'], 1, 'misc')
+    names.update({
+        'item.celestial.hearth_stew': ('Похлёбка у очага', 'Hearth Stew'),
+        'item.celestial.hearth_stew.lore1': ('Горячая: +40 тепла и полторы минуты «Согрева».', 'Hot: +40 warmth and a minute and a half of Warmth.'),
+        'item.celestial.spiced_cider': ('Пряный глинтвейн', 'Spiced Cider'),
+        'item.celestial.spiced_cider.lore1': ('Пьётся на ходу: +30 тепла и две минуты «Согрева».', 'Drink on the go: +30 warmth and two minutes of Warmth.'),
+        'effect.celestial.warmed': ('Согрев', 'Warmth'),
+    })
     lang_patch(names)
     print('ok: существа Ледяных Чертогов')
 

@@ -73,7 +73,7 @@ public final class Cold {
 				delta *= 0.5F;
 			}
 		}
-		if (dev.celestial.item.EquipmentEffects.wearsIceCrown(player)) {  // Корона Архонта: холод над носителем не властен
+		if (dev.celestial.item.EquipmentEffects.wearsIceCrown(player) || player.hasEffect(dev.celestial.registry.ModEffects.WARMED)) {  // Корона Архонта: холод над носителем не властен
 			delta = Math.max(delta, 0.0F);
 		}
 		final float change = delta;

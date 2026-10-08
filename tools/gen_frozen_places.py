@@ -301,7 +301,7 @@ def loot():
     write_json(os.path.join(DATA, 'loot_table/chests/angel_camp.json'), {
         'type': 'minecraft:chest', 'random_sequence': c('chests/angel_camp'), 'pools': [
             {'rolls': {'type': 'minecraft:uniform', 'min': 3, 'max': 6}, 'entries': [
-                item(c('fur'), 6, 1, 3), item('minecraft:rabbit_stew', 4), item('minecraft:mushroom_stew', 4),
+                item(c('fur'), 6, 1, 3), item('minecraft:rabbit_stew', 3), item(c('hearth_stew'), 4), item(c('spiced_cider'), 4, 1, 3),
                 item('minecraft:cooked_cod', 5, 2, 5), item('minecraft:bread', 5, 2, 4), item('minecraft:torch', 4, 4, 12),
                 item(c('starlight_flask'), 2), item(c('frost_steel_ingot'), 2, 1, 2), item('minecraft:campfire', 2),
                 item(c('aurora_crystal'), 3, 1, 3)]}]})

@@ -20,6 +20,10 @@ public final class ModEffects {
 	public static final Holder<MobEffect> STARLIGHT = Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, Celestial.id("starlight"),
 		new MobEffect(MobEffectCategory.BENEFICIAL, 0xBFD8FF) {});
 
+	/** Согрев: горячая еда — тепло не тает (Холод Ледяных Чертогов). */
+	public static final Holder<MobEffect> WARMED = Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, Celestial.id("warmed"),
+		new MobEffect(MobEffectCategory.BENEFICIAL, 0xFF9A4A) {});
+
 	private ModEffects() {}
 
 	public static void init() {

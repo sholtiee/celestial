@@ -77,6 +77,13 @@ public final class ModItems {
 	/** Ледяная Корона — награда Акта III: не мёрзнешь, враги рядом коченеют (EquipmentEffects, Cold). */
 	public static final Item ICE_CROWN = register("ice_crown", Item::new, lore(new Item.Properties().humanoidArmor(ICE_CROWN_MATERIAL, ArmorType.HELMET)
 		.rarity(Rarity.EPIC).fireResistant().component(DataComponents.UNBREAKABLE, Unit.INSTANCE), "ice_crown", 2));
+	// Горячая еда Чертогов: тепло +40/+30 и «Согрев»
+	public static final Item HEARTH_STEW = register("hearth_stew", Item::new, lore(new Item.Properties().stacksTo(1).usingConvertsTo(net.minecraft.world.item.Items.BOWL)
+		.food(new net.minecraft.world.food.FoodProperties(9, 0.8F, false), net.minecraft.world.item.component.Consumables.defaultFood()
+			.onConsume(new dev.celestial.world.frozen.WarmConsumeEffect(40.0F, 90)).build()), "hearth_stew", 1));
+	public static final Item SPICED_CIDER = register("spiced_cider", Item::new, lore(new Item.Properties().stacksTo(16).usingConvertsTo(net.minecraft.world.item.Items.GLASS_BOTTLE)
+		.food(new net.minecraft.world.food.FoodProperties(2, 0.2F, true), net.minecraft.world.item.component.Consumables.defaultDrink()
+			.onConsume(new dev.celestial.world.frozen.WarmConsumeEffect(30.0F, 120)).build()), "spiced_cider", 1));
 	public static final Item ICE_CORE = register("ice_core", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON), "ice_core", 1));
 	public static final Item ABYSSAL_SHARD = register("abyssal_shard", Item::new, lore(new Item.Properties(), "abyssal_shard", 1));
 	public static final Item ABYSSAL_INGOT = register("abyssal_ingot", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON).fireResistant(), "abyssal_ingot", 1));

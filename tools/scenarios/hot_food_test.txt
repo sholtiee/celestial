@@ -1,0 +1,45 @@
+# Горячая еда: похлёбка и ванильное рагу поднимают тепло, «Согрев» не даёт ему таять
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/execute in celestial:frozen_halls run tp @s 15 140 15 0 30
+fly
+wait 80
+/execute in celestial:frozen_halls run fill 10 139 10 20 139 20 celestial:frost_stone_bricks
+/execute in celestial:frozen_halls run fill 10 140 10 20 144 20 minecraft:air
+/execute in celestial:frozen_halls run tp @s 15 140 15 0 30
+/weather clear
+/clear @s
+/gamemode survival
+/effect give @s minecraft:resistance 900 4 true
+/effect give @s minecraft:hunger 10 255 true
+wait 400
+# F0 тепло упало
+/celestial status
+/give @s celestial:hearth_stew
+wait 5
+hold use 45
+wait 50
+# F1 после похлёбки: тепло выросло на 40, есть «Согрев»
+/say TEST F1 stew_warms expect=pass
+/celestial status
+/execute if entity @s[nbt={active_effects:[{id:"celestial:warmed"}]}]
+togglehud
+shot hot_food_effect
+togglehud
+wait 300
+# F2 через 15 с под «Согревом» тепло не упало
+/celestial status
+/effect clear @s celestial:warmed
+/effect give @s minecraft:hunger 10 255 true
+wait 220
+/clear @s
+/give @s minecraft:rabbit_stew
+wait 5
+hold use 45
+wait 50
+# F3 ванильное рагу греет
+/say TEST F3 rabbit_stew_warms expect=pass
+/execute if entity @s[nbt={active_effects:[{id:"celestial:warmed"}]}]
+/celestial status
+quit

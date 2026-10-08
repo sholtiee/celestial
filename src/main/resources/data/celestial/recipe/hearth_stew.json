@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:bowl",
+    "minecraft:cooked_cod",
+    "minecraft:baked_potato",
+    "minecraft:carrot"
+  ],
+  "result": {
+    "id": "celestial:hearth_stew"
+  }
+}
