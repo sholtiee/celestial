@@ -1,0 +1,32 @@
+# Свои модели старых существ: Тень, Грозовой дух, Грозовой элементаль (днём и ночью — свечение)
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/gamerule spawn_monsters false
+/time set 6000
+/execute in minecraft:overworld run tp @s 28000 160 27994 0 10
+fly
+wait 80
+/fill 27990 159 27990 28010 159 28010 celestial:skystone_bricks
+/fill 27990 160 27990 28010 172 28010 minecraft:air
+/kill @e[type=!minecraft:player,distance=..40]
+/summon celestial:shadow 27996 160 28000 {NoAI:1b,Rotation:[200f,0f]}
+/summon celestial:storm_spirit 28000 161 28000 {NoAI:1b,Rotation:[180f,0f]}
+/summon celestial:storm_elemental 28005 160 28003 {NoAI:1b,Rotation:[160f,0f]}
+/tp @s 28000.5 162 27993 0 10
+togglehud
+wait 40
+shot heaven_mobs_day
+/time set 18000
+wait 30
+shot heaven_mobs_night
+/time set 6000
+/tp @s 27996.5 161.8 27997 0 10
+wait 10
+shot shadow_close
+/tp @s 28000.5 162 27996.5 0 10
+wait 10
+shot storm_close
+togglehud
+/kill @e[type=!minecraft:player,distance=..40]
+quit

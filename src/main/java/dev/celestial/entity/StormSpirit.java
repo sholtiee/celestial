@@ -55,6 +55,12 @@ public class StormSpirit extends Blaze {
 		return false;
 	}
 
+	/** Дух грозы — дитя дождя: в отличие от ифрита, вода и ливень ему не вредят (иначе на Грозовом пике духи таяли под дождём). */
+	@Override
+	public boolean isSensitiveToWater() {
+		return false;
+	}
+
 	@Override
 	public void thunderHit(ServerLevel level, LightningBolt lightningBolt) {
 		// своя молния духу не вредит

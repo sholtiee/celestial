@@ -50,6 +50,7 @@ public final class CelestialRenderers {
 		AbyssRenderers.init();
 		FrozenRenderers.init();
 		ArchonRenderer.init();
+		HeavenRenderers.init();
 		CelestialParticle.init();
 		net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry.register(
 			dev.celestial.registry.ModBlockEntities.BEAM_SOURCE, ctx -> new BeamRenderer());
@@ -58,7 +59,6 @@ public final class CelestialRenderers {
 		GuardianRenderer.register();
 		EntityRendererRegistry.register(ModEntities.FALLEN_GUARDIAN, GuardianRenderer::new);
 		EntityRendererRegistry.register(ModEntities.ANGEL, AngelRenderer::new);
-		EntityRendererRegistry.register(ModEntities.STORM_SPIRIT, StormSpiritRenderer::new);
 		EntityRendererRegistry.register(ModEntities.FALLEN_SERAPH, SeraphRenderer::new);
 		EntityRendererRegistry.register(ModEntities.SERAPH_CRYSTAL, SeraphRenderer.Crystal::new);
 		EntityRendererRegistry.register(ModEntities.WINGED_SERPENT, ctx -> new PhantomRenderer(ctx) {
@@ -83,19 +83,12 @@ public final class CelestialRenderers {
 				return tex("golden_ram");
 			}
 		});
-		EntityRendererRegistry.register(ModEntities.STORM_ELEMENTAL, ctx -> new StormSpiritRenderer(ctx) {
-			@Override
-			protected void scale(LivingEntityRenderState state, PoseStack poseStack) {
-				poseStack.scale(2.5F, 2.5F, 2.5F);
-			}
-		});
 		EntityRendererRegistry.register(ModEntities.SKY_RAY, ctx -> new SimpleRenderer<>(ctx, new SkyRayModel(ctx.bakeLayer(ModModelLayers.SKY_RAY)),
 			tex("sky_ray"), 1.8F, 1.6F, false));
 		EntityRendererRegistry.register(ModEntities.CLOUD_JELLY, ctx -> new SimpleRenderer<>(ctx, new CloudJellyModel(ctx.bakeLayer(ModModelLayers.CLOUD_JELLY)),
 			tex("cloud_jelly"), 0.6F, 1.4F, true));
 		EntityRendererRegistry.register(ModEntities.MIMIC, MimicRenderer::new);
 		EntityRendererRegistry.register(ModEntities.LIGHT_SPEAR, ctx -> new ThrownItemRenderer<>(ctx, 1.6F, true));
-		EntityRendererRegistry.register(ModEntities.SHADOW, ctx -> new Humanoid<>(ctx, tex("shadow"), 1.0F));
 		EntityRendererRegistry.register(ModEntities.METEOR, ctx -> new ThrownItemRenderer<>(ctx, 3.0F, true));
 	}
 
@@ -154,18 +147,6 @@ public final class CelestialRenderers {
 		@Override
 		protected void scale(AngelState state, PoseStack poseStack) {
 			poseStack.scale(0.95F, 0.95F, 0.95F);
-		}
-	}
-
-	static class StormSpiritRenderer extends BlazeRenderer {
-		// (масштаб переопределяется у Грозового элементаля)
-		StormSpiritRenderer(EntityRendererProvider.Context ctx) {
-			super(ctx);
-		}
-
-		@Override
-		public Identifier getTextureLocation(LivingEntityRenderState state) {
-			return tex("storm_spirit");
 		}
 	}
 

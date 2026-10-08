@@ -49,18 +49,6 @@ SPR = {
 ESSENCE = {'1': '#0d0b14', '2': '#1f1830', '3': '#33284f', '4': '#55457e', '5': '#c9b8ff'}
 
 
-def shadow_texture():
-    # почти чёрная фигура в лохмотьях, светящиеся фиолетовые глаза
-    img = M.humanoid('shadow', skin='#14111c', hair='#0a0810', robe='#1b1726', trim='#2e2540',
-                     eyes='#c9a8ff', limbs='#120f19', hood=True, glow_eyes=True)
-    r = T.rng_for('shadow_wisps')
-    for _ in range(70):  # «дымные» прорехи
-        x, y = r.randrange(0, 64), r.randrange(16, 32)
-        if img.getpixel((x, y))[3]:
-            img.putpixel((x, y), (*T.hexrgb('#3a2f55'), 255))
-    return img
-
-
 def meteorite_texture():
     img = T.noisy('meteorite', [T.hexrgb(h) for h in ('#1d1a22', '#2a2530', '#352d3b', '#4a3c45')], cell=3, grain=0.45)
     r = T.rng_for('meteorite_glow')
@@ -92,7 +80,6 @@ def main():
         'fading.celestial.meteor_landed': ('Метеорит упал у %s %s %s.', 'A meteorite landed near %s %s %s.'),
     }
 
-    save_png(shadow_texture(), 'entity/shadow')
     save_png(M.spawn_egg('#1b1726', '#c9a8ff'), 'item/shadow_spawn_egg')
     model('item/shadow_spawn_egg', {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('item/shadow_spawn_egg')}})
     item_def('shadow_spawn_egg', c('item/shadow_spawn_egg'))

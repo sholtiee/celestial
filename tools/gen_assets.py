@@ -524,7 +524,7 @@ def trade(name, gives, gives_count, wants, wants_count, max_uses=12):
 def gen_mobs():
     textures = {
         'fallen_guardian': M.fallen_guardian(), 'angel': M.angel(), 'fallen_seraph': M.fallen_seraph(),
-        'storm_spirit': M.storm_spirit(), 'winged_serpent': M.winged_serpent(), 'cloud_whale': M.cloud_whale(),
+        'winged_serpent': M.winged_serpent(), 'cloud_whale': M.cloud_whale(),
         'light_wisp': M.light_wisp(), 'pegasus': M.pegasus(), 'pegasus_baby': M.pegasus(baby=True),
         'pegasus_golden': M.pegasus(coat='golden'), 'pegasus_storm': M.pegasus(coat='storm'),
         'angel_keeper': M.angel_profession('keeper'), 'angel_smith': M.angel_profession('smith'),

@@ -173,21 +173,6 @@ def pegasus(baby=False, coat=''):
     return img
 
 
-def storm_spirit():
-    # голова-тучка и молнии-стержни (развёртка ифрита 64×32)
-    img = from_mask('entity/blaze/blaze.png', ['#3c4458', '#4d5770', '#5f6b88', '#7684a4'], 'storm_spirit')
-    r = rng_for('storm_bolts')
-    for y in range(16, 32):
-        for x in range(0, 64):
-            if img.getpixel((x, y))[3]:
-                c = '#bfe9ff' if (x + y // 2) % 4 else '#ffffff'
-                img.putpixel((x, y), (*noise_color(r, hexrgb(c), 0.05), 255))
-    # глаза-разряды на лицевой стороне головы (8,8)-(16,16)
-    for x in (9, 10, 13, 14):
-        img.putpixel((x, 12), (*hexrgb('#e8fbff'), 255))
-    return img
-
-
 def winged_serpent():
     return from_mask('entity/phantom/phantom.png', ['#c79a3a', '#dcb252', '#efcb6e', '#f7e2a0'], 'winged_serpent', stripes=5)
 
