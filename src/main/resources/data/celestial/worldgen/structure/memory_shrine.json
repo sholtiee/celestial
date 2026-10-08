@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:jigsaw",
+  "biomes": "#celestial:has_structure/memory_shrine",
+  "max_distance_from_center": 80,
+  "size": 1,
+  "spawn_overrides": {},
+  "start_height": {
+    "absolute": 120
+  },
+  "start_pool": "celestial:memory_shrine/main",
+  "step": "surface_structures",
+  "terrain_adaptation": "none",
+  "use_expansion_hack": false
+}

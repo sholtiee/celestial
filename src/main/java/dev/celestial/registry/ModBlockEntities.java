@@ -61,6 +61,10 @@ public final class ModBlockEntities {
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("star_lock"),
 		new BlockEntityType<>(dev.celestial.block.puzzle.star.StarLockBlockEntity::new, Set.of(ModBlocks.STAR_LOCK)));
 
+	public static final BlockEntityType<dev.celestial.block.puzzle.memory.MemoryAltarBlockEntity> MEMORY_ALTAR = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("memory_altar"),
+		new BlockEntityType<>(dev.celestial.block.puzzle.memory.MemoryAltarBlockEntity::new, Set.of(ModBlocks.MEMORY_ALTAR)));
+
 	private ModBlockEntities() {}
 
 	public static void init() {

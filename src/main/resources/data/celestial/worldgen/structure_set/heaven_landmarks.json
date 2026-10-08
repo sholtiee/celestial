@@ -37,6 +37,10 @@
     {
       "structure": "celestial:abyss_rift",
       "weight": 3
+    },
+    {
+      "structure": "celestial:memory_shrine",
+      "weight": 3
     }
   ]
 }

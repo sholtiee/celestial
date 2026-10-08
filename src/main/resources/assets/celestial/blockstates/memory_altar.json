@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "solved=false": {
+      "model": "celestial:block/memory_altar"
+    },
+    "solved=true": {
+      "model": "celestial:block/memory_altar_solved"
+    }
+  }
+}

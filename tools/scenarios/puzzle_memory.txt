@@ -1,0 +1,67 @@
+# QA: Плиты памяти (генерирует tools/gen_puzzles_c.py; маршрут — копия Java-ГСЧ)
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/gamerule spawn_monsters false
+/execute in minecraft:overworld run tp @s 26012 175 26012
+fly
+wait 80
+/fill 25998 150 25998 26026 166 26026 minecraft:air
+/place template celestial:memory_shrine/main 26000 150 26000
+wait 40
+/tp @s 26012.5 167 26002 facing 26012 159 26012
+togglehud
+wait 20
+shot memory_shrine
+togglehud
+/gamemode survival
+/effect give @s minecraft:resistance 900 4 true
+/clear @s
+# B1 своя «доска» через яму: камень не ставится
+/say TEST B1 no_bridge expect=pass
+/give @s minecraft:stone 4
+/tp @s 26008.5 159 26011.5 facing 26010.5 158 26011.5
+wait 5
+use 26009 158 26011 east
+wait 5
+/execute unless block 26010 158 26011 minecraft:stone
+/clear @s
+# B2 неверный шаг: плиты уходят из-под ног, игрок в яме
+/say TEST B2 wrong_step expect=pass
+/tp @s 26010.5 159 26010.5
+wait 30
+/execute if entity @s[y=150,dy=7]
+# S показ и честный проход (после блокировки 20 с)
+/tp @s 26011.5 159 26008.5 facing 26011.5 159.5 26006.5
+wait 420
+use 26011 159 26006 south
+wait 10
+togglehud
+/tp @s 26011.5 162 26007.5 facing 26012 158 26012
+wait 20
+shot memory_show
+togglehud
+wait 90
+/say TEST S solve expect=pass,pass(items)
+/tp @s 26013.5 159 26013.5
+wait 8
+/tp @s 26012.5 159 26010.5
+wait 8
+/tp @s 26011.5 159 26013.5
+wait 8
+/tp @s 26012.5 159 26011.5
+wait 8
+/tp @s 26012.5 159 26012.5
+wait 8
+/tp @s 26013.5 159 26013.5
+wait 8
+wait 20
+/execute if block 26011 159 26006 celestial:memory_altar[solved=true]
+/tp @s 26015.5 159 26011.5 facing 26017.5 159.5 26011.5
+wait 5
+use 26017 159 26011 west
+wait 10
+/execute if items entity @s container.* *
+/gamemode creative
+quit

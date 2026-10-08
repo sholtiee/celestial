@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "celestial:block/memory_altar",
+    "side": "celestial:block/radiant_stone",
+    "bottom": "celestial:block/skystone_bricks"
+  }
+}

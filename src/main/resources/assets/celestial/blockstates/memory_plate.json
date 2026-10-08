@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "glow=off": {
+      "model": "celestial:block/memory_plate_off"
+    },
+    "glow=show": {
+      "model": "celestial:block/memory_plate_show"
+    },
+    "glow=good": {
+      "model": "celestial:block/memory_plate_good"
+    },
+    "glow=gone": {
+      "model": "celestial:block/memory_plate_gone"
+    }
+  }
+}

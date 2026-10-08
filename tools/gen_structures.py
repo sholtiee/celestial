@@ -649,7 +649,7 @@ def landmark_sets():
         'placement': {'type': 'minecraft:random_spread', 'salt': 731410, 'separation': 4, 'spacing': 11},
         'structures': [{'structure': c(n), 'weight': w} for n, w in (
             ('sky_village', 4), ('sky_ruins', 4), ('sky_lighthouse', 3), ('airship_wreck', 3), ('beam_temple', 3),
-            ('cloud_castle', 2), ('trial_tower', 2), ('abyss_rift', 3))]})
+            ('cloud_castle', 2), ('trial_tower', 2), ('abyss_rift', 3), ('memory_shrine', 3))]})
     write_json(os.path.join(DATA, 'worldgen/structure_set/citadels.json'), {
         'placement': {'type': 'minecraft:random_spread', 'salt': 731404, 'separation': 18, 'spacing': 48,
                       'exclusion_zone': {'other_set': c('heaven_landmarks'), 'chunk_count': 4}},

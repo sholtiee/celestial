@@ -318,6 +318,15 @@ public final class ModBlocks {
 		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST)
 			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.block.puzzle.star.StarLockBlock.SOLVED) ? 15 : 8), 1);
 
+	// Плиты памяти (Святилище памяти в Раю)
+	public static final Block MEMORY_PLATE = register("memory_plate", dev.celestial.block.puzzle.memory.MemoryPlateBlock::new,
+		Properties.of().mapColor(MapColor.QUARTZ).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST)
+			.pushReaction(PushReaction.IMMOVEABLE).noOcclusion().lightLevel(s -> switch (s.getValue(dev.celestial.block.puzzle.memory.MemoryPlateBlock.GLOW)) {
+				case SHOW -> 14; case GOOD -> 10; case GONE -> 0; default -> 3; }), 1);
+	public static final Block MEMORY_ALTAR = register("memory_altar", dev.celestial.block.puzzle.memory.MemoryAltarBlock::new,
+		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST)
+			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.block.puzzle.memory.MemoryAltarBlock.SOLVED) ? 15 : 7), 1);
+
 	private ModBlocks() {}
 
 	private static Block flower(String name, net.minecraft.core.Holder<net.minecraft.world.effect.MobEffect> effect, int light) {
