@@ -1,0 +1,13 @@
+# S2.6: Темница Стражей находится в Бездне (естественная генерация)
+/gamemode creative
+/execute in celestial:abyss run tp @s 0 100 0
+fly
+wait 60
+/effect give @s minecraft:night_vision 900 0 true
+goto celestial:watchers_prison 16 4 36 180 10
+wait 100
+togglehud
+shot prison_natural
+togglehud
+pos
+quit

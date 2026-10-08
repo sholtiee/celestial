@@ -19,6 +19,7 @@ public final class HeavenRenderers {
 	public static final ModelLayerLocation ANGEL = new ModelLayerLocation(Celestial.id("angel"), "main");
 	public static final ModelLayerLocation ARCHANGEL = new ModelLayerLocation(Celestial.id("archangel"), "main");
 	public static final ModelLayerLocation GATE_CHERUB = new ModelLayerLocation(Celestial.id("gate_cherub"), "main");
+	public static final ModelLayerLocation NEPHILIM = new ModelLayerLocation(Celestial.id("nephilim"), "main");
 	public static final ModelLayerLocation CHERUB = new ModelLayerLocation(Celestial.id("cherub"), "main");
 	public static final ModelLayerLocation SERPENT = new ModelLayerLocation(Celestial.id("winged_serpent"), "main");
 	public static final ModelLayerLocation RAM = new ModelLayerLocation(Celestial.id("golden_ram"), "main");
@@ -32,6 +33,19 @@ public final class HeavenRenderers {
 		ModelLayerRegistry.registerModelLayer(CHERUB, HeavenModels.Cherub::createLayer);
 		ModelLayerRegistry.registerModelLayer(ARCHANGEL, HeavenModels.Archangel::createLayer);
 		ModelLayerRegistry.registerModelLayer(GATE_CHERUB, HeavenModels.GateCherub::createLayer);
+		ModelLayerRegistry.registerModelLayer(NEPHILIM, HeavenModels.Nephilim::createLayer);
+		EntityRendererRegistry.register(ModEntities.NEPHILIM, ctx -> new Renderer<>(ctx, new HeavenModels.Nephilim(ctx.bakeLayer(NEPHILIM)), "nephilim", 1.4F, 1.6F) {
+			@Override
+			public void extractRenderState(dev.celestial.entity.Nephilim entity, HeavenModels.State state, float partialTicks) {
+				super.extractRenderState(entity, state, partialTicks);
+				state.attack = entity.attackProgress(partialTicks);
+				state.flap = entity.slamProgress(partialTicks);
+			}
+		});
+		// узник Темницы — та же модель, что у Ангела, в тёмных лохмотьях без нимба
+		EntityRendererRegistry.register(ModEntities.CHAINED_WATCHER,
+			ctx -> new Renderer<>(ctx, new HeavenModels.Angel(ctx.bakeLayer(ANGEL)), "chained_watcher", 0.5F, 1.0F));
+		EntityRendererRegistry.register(ModEntities.SLING_STONE, ctx -> new net.minecraft.client.renderer.entity.ThrownItemRenderer<>(ctx, 0.8F, true));
 		EntityRendererRegistry.register(ModEntities.GATE_CHERUB, ctx -> new Renderer<>(ctx, new HeavenModels.GateCherub(ctx.bakeLayer(GATE_CHERUB)), "gate_cherub", 1.2F, 1.5F) {
 			@Override
 			public void extractRenderState(dev.celestial.entity.GateCherub entity, HeavenModels.State state, float partialTicks) {

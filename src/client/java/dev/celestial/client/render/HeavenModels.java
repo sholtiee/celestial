@@ -214,6 +214,55 @@ public final class HeavenModels {
 		}
 	}
 
+	// ---------------------------------------------------------------- Нефилим (128×64): великан с дубиной; удар (state.attack) и топот обеими руками (state.flap)
+	public static class Nephilim extends EntityModel<State> {
+		private final ModelPart head;
+		private final ModelPart leftArm;
+		private final ModelPart rightArm;
+		private final ModelPart leftLeg;
+		private final ModelPart rightLeg;
+
+		public Nephilim(ModelPart root) {
+			super(root);
+			this.head = root.getChild("head");
+			this.leftArm = root.getChild("left_arm");
+			this.rightArm = root.getChild("right_arm");
+			this.leftLeg = root.getChild("left_leg");
+			this.rightLeg = root.getChild("right_leg");
+		}
+
+		public static LayerDefinition createLayer() {
+			MeshDefinition mesh = new MeshDefinition();
+			PartDefinition root = mesh.getRoot();
+			root.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4, -8, -4, 8, 8, 8), PartPose.offset(0, -2, -1));
+			root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 16).addBox(-6, -2, -3, 12, 14, 6), PartPose.offset(0, -4, 0));
+			root.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(40, 16).addBox(-1, -2, -2.5F, 5, 16, 5), PartPose.offset(6, -2, 0));
+			PartDefinition right = root.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(40, 16).mirror().addBox(-4, -2, -2.5F, 5, 16, 5), PartPose.offset(-6, -2, 0));
+			right.addOrReplaceChild("club", CubeListBuilder.create().texOffs(92, 16).addBox(-2, -12, -2, 4, 22, 4), PartPose.offset(-1.5F, 13, 0));
+			root.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(64, 16).addBox(-3, 0, -3, 6, 16, 6), PartPose.offset(3, 8, 0));
+			root.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(64, 16).mirror().addBox(-3, 0, -3, 6, 16, 6), PartPose.offset(-3, 8, 0));
+			return LayerDefinition.create(mesh, 128, 64);
+		}
+
+		@Override
+		public void setupAnim(State state) {
+			super.setupAnim(state);
+			float walk = state.walkAnimationPos * 0.5F;
+			float amp = Math.min(1.0F, state.walkAnimationSpeed);
+			head.yRot = state.yRot * Mth.DEG_TO_RAD;
+			head.xRot = state.xRot * Mth.DEG_TO_RAD;
+			leftLeg.xRot = Mth.cos(walk) * 0.9F * amp;
+			rightLeg.xRot = -Mth.cos(walk) * 0.9F * amp;
+			float slam = state.flap;       // 1 → 0: руки вверх, потом вниз
+			float swing = state.attack;    // 1 → 0: взмах дубиной
+			leftArm.xRot = -Mth.cos(walk) * 0.6F * amp - slam * 2.6F + Mth.sin(state.ageInTicks * 0.05F) * 0.04F;
+			rightArm.xRot = Mth.cos(walk) * 0.6F * amp - slam * 2.6F - swing * 1.9F + 0.3F;
+			leftArm.zRot = -0.12F - slam * 0.2F;
+			rightArm.zRot = 0.12F + slam * 0.2F;
+			head.xRot += slam * -0.4F;
+		}
+	}
+
 	// ---------------------------------------------------------------- Херувим (64×32): большая голова, маленькое тельце, трепещущие крылышки, нимб
 	public static class Cherub extends EntityModel<State> {
 		private final ModelPart body;

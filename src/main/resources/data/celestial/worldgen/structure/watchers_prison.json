@@ -1,0 +1,15 @@
+{
+  "type": "celestial:cave_floor",
+  "biomes": "#celestial:has_structure/watchers_prison",
+  "spawn_overrides": {},
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_box",
+  "start_pool": "celestial:watchers_prison/main",
+  "min_y": 30,
+  "max_y": 110,
+  "floor_offset": -1,
+  "clearance": 14,
+  "max_distance_from_center": 80,
+  "footprint": 33,
+  "max_step": 6
+}

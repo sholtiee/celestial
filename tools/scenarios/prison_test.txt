@@ -1,0 +1,77 @@
+# S2.6: Темница Стражей: облик, узники, праща, Нефилим (слаб к камням), лист «Исполины»
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/celestial lore lock all
+/celestial act 1
+/execute in celestial:abyss run tp @s 716 90 710
+wait 80
+/execute in celestial:abyss run fill 699 60 699 733 74 733 minecraft:air
+/execute in celestial:abyss run fill 699 59 699 733 59 733 minecraft:stone
+/kill @e[type=celestial:nephilim]
+/kill @e[type=celestial:chained_watcher]
+/execute in celestial:abyss run place template celestial:watchers_prison/main 700 60 700
+wait 60
+/effect give @s minecraft:night_vision 900 0 true
+/execute in celestial:abyss run tp @s 716.5 63 730 180 8
+wait 30
+togglehud
+shot prison_hall
+/execute in celestial:abyss run tp @s 704.5 62.5 711 180 5
+wait 15
+shot prison_cells
+/execute in celestial:abyss run tp @s 716.5 63 728 180 5
+wait 15
+shot nephilim_front
+/execute at @e[type=celestial:nephilim,limit=1] run tp @s ~-7 ~2 ~ -90 10
+wait 15
+shot nephilim_side
+togglehud
+# узник: беседа открывает лист «Наблюдатели»
+/gamemode survival
+/effect give @s minecraft:resistance 900 4 true
+/execute in celestial:abyss run tp @s 703.5 62 709 180 0
+wait 10
+clearchat
+interact celestial:chained_watcher
+wait 10
+/say TEST P1 watchers_sheet_open expect=0 (лист открыт беседой)
+/celestial lore unlock watchers
+# праща: камень по Нефилиму ×3 против малого
+/clear @s
+/give @s celestial:sling
+/give @s celestial:sling_stone 64
+/item replace entity @s weapon.mainhand with celestial:sling
+/kill @e[type=celestial:nephilim]
+/execute in celestial:abyss run summon celestial:nephilim 716.5 62 720.5 {NoAI:1b}
+/execute in celestial:abyss run tp @s 716.5 62 730 180 -6
+wait 10
+/scoreboard objectives add nhp dummy
+/execute store result score @s nhp run data get entity @e[type=celestial:nephilim,limit=1] Health
+useitem
+wait 20
+useitem
+wait 20
+useitem
+wait 20
+useitem
+wait 20
+wait 20
+/say TEST S1 stones_hurt_nephilim expect=pass
+/execute store result score @e[type=celestial:nephilim,limit=1] nhp run data get entity @e[type=celestial:nephilim,limit=1] Health
+/execute as @e[type=celestial:nephilim,limit=1] if score @s nhp < @p nhp
+/say TEST S2 stones_consumed expect=pass
+/execute unless items entity @s container.* celestial:sling_stone[count=64]
+# бой: Нефилим с ИИ приходит и бьёт; убиваем — лист и Благодать
+/kill @e[type=celestial:nephilim]
+/execute in celestial:abyss run summon celestial:nephilim 716.5 62 724.5
+wait 120
+shot nephilim_fight
+/damage @e[type=celestial:nephilim,limit=1] 400 minecraft:player_attack by @s
+wait 40
+/say TEST N2 nephilim_dead_sheet expect=pass,0
+/execute unless entity @e[type=celestial:nephilim]
+/celestial lore unlock nephilim
+/gamemode creative
+/celestial lore lock all
+quit
