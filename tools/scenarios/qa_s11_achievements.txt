@@ -1,0 +1,90 @@
+# S1.1: «Мастер загадок» (7 видов командой + восьмая «память» честно) и «Испытанный» (heaven_1, волны)
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/gamerule spawn_monsters false
+/execute in minecraft:overworld run tp @s 26012 175 26012
+fly
+wait 80
+/fill 25998 150 25998 26026 166 26026 minecraft:air
+/place template celestial:memory_shrine/main 26000 150 26000
+wait 40
+/tp @s 26012.5 167 26002 facing 26012 159 26012
+togglehud
+wait 20
+shot memory_shrine
+togglehud
+/gamemode survival
+/effect give @s minecraft:resistance 900 4 true
+/clear @s
+/advancement revoke @s only celestial:story/puzzle_master
+/advancement revoke @s only celestial:story/memory_keeper
+/advancement revoke @s only celestial:story/trial_champion
+/celestial codex puzzle_bells
+/celestial codex puzzle_star_tiles
+/celestial codex puzzle_riddle
+/celestial codex puzzle_star_lock
+/celestial codex puzzle_echo
+/celestial codex puzzle_glacier
+/celestial codex puzzle_mirror_maze
+/say TEST M0 no_master_before expect=pass
+/execute unless entity @s[advancements={celestial:story/puzzle_master=true}]
+# S показ и честный проход (после блокировки 20 с)
+/tp @s 26011.5 159 26008.5 facing 26011.5 159.5 26006.5
+wait 420
+use 26011 159 26006 south
+wait 10
+togglehud
+/tp @s 26011.5 162 26007.5 facing 26012 158 26012
+wait 20
+shot memory_show
+togglehud
+wait 90
+/say TEST S solve expect=pass,pass(items)
+/tp @s 26013.5 159 26013.5
+wait 8
+/tp @s 26012.5 159 26010.5
+wait 8
+/tp @s 26011.5 159 26013.5
+wait 8
+/tp @s 26012.5 159 26011.5
+wait 8
+/tp @s 26012.5 159 26012.5
+wait 8
+/tp @s 26013.5 159 26013.5
+wait 8
+wait 20
+/execute if block 26011 159 26006 celestial:memory_altar[solved=true]
+wait 20
+/say TEST M1 memory_keeper expect=pass
+/execute if entity @s[advancements={celestial:story/memory_keeper=true}]
+/say TEST M2 puzzle_master expect=pass
+/execute if entity @s[advancements={celestial:story/puzzle_master=true}]
+# Испытание heaven_1 (волны)
+/gamemode creative
+/execute in celestial:heaven run tp @s 40 190 4
+wait 60
+/execute in celestial:heaven run fill 30 179 -12 50 192 12 minecraft:air
+/execute in celestial:heaven run fill 30 179 -12 50 179 12 celestial:skystone_bricks
+/execute in celestial:heaven run setblock 40 180 0 celestial:trial_crystal[state=idle]{Trial:"heaven_1"}
+/execute in celestial:heaven run tp @s 40 180 2 180 30
+/gamemode survival
+/effect give @s minecraft:resistance 300 4 true
+wait 10
+userel 0 0 -2 up
+wait 100
+/say TEST T1 running expect=pass
+/execute in celestial:heaven if block 40 180 0 celestial:trial_crystal[state=running]
+/kill @e[type=celestial:fallen_guardian]
+wait 120
+/kill @e[type=celestial:fallen_guardian]
+/kill @e[type=celestial:storm_spirit]
+wait 120
+/say TEST T2 done expect=pass
+/execute in celestial:heaven if block 40 180 0 celestial:trial_crystal[state=done]
+/say TEST T3 trial_champion expect=pass
+/execute if entity @s[advancements={celestial:story/trial_champion=true}]
+/gamemode creative
+/kill @e[type=!minecraft:player,distance=..30]
+quit
