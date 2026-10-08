@@ -1,0 +1,33 @@
+# BUG-057 маяки: в список и для переноса — только маяки, которых игрок касался сам
+/gamemode creative
+fly
+/execute in celestial:heaven run tp @s 20 190 4
+wait 60
+/execute in celestial:heaven run fill 10 179 -12 30 192 12 minecraft:air
+/execute in celestial:heaven run fill 10 179 -12 30 179 12 celestial:skystone_bricks
+/execute in celestial:heaven run tp @s 20 180 4 180 30
+wait 20
+/item replace entity @s weapon.mainhand with celestial:sky_beacon
+userel 0 -1 -2 up
+wait 5
+# «чужой» маяк поставлен не игроком (например, другим игроком/командой) и ещё не открыт
+/execute in celestial:heaven run setblock 28 180 -10 celestial:sky_beacon
+/item replace entity @s weapon.mainhand with minecraft:air
+userel 0 0 -2 up
+wait 5
+/say TEST K1 unknown_beacon_travel expect=не перенесло (позиция у своего маяка)
+/celestial beacon 28 180 -10 celestial:heaven
+wait 10
+pos
+# коснуться «чужого» маяка — открыт, теперь переносит
+/execute in celestial:heaven run tp @s 28 181 -8 180 30
+wait 10
+userel 0 -1 -2 up
+wait 5
+/execute in celestial:heaven run tp @s 20 181 4 180 30
+wait 10
+/say TEST K2 known_beacon_travel expect=перенесло к 28 -10
+/celestial beacon 28 180 -10 celestial:heaven
+wait 10
+pos
+quit

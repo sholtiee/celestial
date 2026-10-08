@@ -25,7 +25,8 @@ public final class BeaconTravel {
 			return 0;
 		}
 		boolean known = CelestialData.beacons(player.level().getServer()).beacons().stream()
-			.anyMatch(b -> b.pos().equals(target) && b.dimension().equals(dimension.toString()));
+			.anyMatch(b -> b.pos().equals(target) && b.dimension().equals(dimension.toString()))
+			&& SkyBeaconBlock.known(player, dimension.toString(), target);  // переносит только к открытым самим игроком маякам
 		ServerLevel level = player.level().getServer().getLevel(ResourceKey.create(Registries.DIMENSION, dimension));
 		if (!known || level == null || !level.getBlockState(target).is(ModBlocks.SKY_BEACON)) {
 			player.sendOverlayMessage(Component.translatable("machine.celestial.beacon.lost"));

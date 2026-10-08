@@ -1,0 +1,19 @@
+# BUG-057 испытания: пройденное в мире испытание может начать игрок, у которого его ещё нет
+/gamemode creative
+fly
+/execute in celestial:heaven run tp @s 40 190 4
+wait 60
+/execute in celestial:heaven run fill 30 179 -12 50 192 12 minecraft:air
+/execute in celestial:heaven run fill 30 179 -12 50 179 12 celestial:skystone_bricks
+/execute in celestial:heaven run setblock 40 180 0 celestial:trial_crystal[state=done]{Trial:"heaven_1"}
+/execute in celestial:heaven run tp @s 40 180 2 180 30
+/gamemode survival
+/effect give @s minecraft:resistance 300 4 true
+wait 10
+/say TEST T1 replay_for_new_player expect=pass
+userel 0 0 -2 up
+wait 10
+/execute in celestial:heaven if block 40 180 0 celestial:trial_crystal[state=running]
+/gamemode creative
+/kill @e[type=!minecraft:player,distance=..30]
+quit

@@ -69,7 +69,7 @@ public class CodexScreen extends Screen {
 			case SAGA -> {
 				lines.add(Component.translatable("codex.celestial.saga.act", ClientState.act()));
 				lines.add(Component.translatable("codex.celestial.saga.fading", ClientState.fading()));
-				lines.add(Component.translatable("codex.celestial.saga.stats", d.grace(), d.reputation(), d.trials().size(), d.codex().size()));
+				lines.add(Component.translatable("codex.celestial.saga.stats", d.grace(), d.reputation(), d.trials().size(), d.codex().stream().filter(e -> !e.startsWith("beacon:")).count()));
 				lines.add(Component.empty());
 				lines.add(Component.translatable("codex.celestial.saga.text." + Math.min(ClientState.act(), 3)));
 			}

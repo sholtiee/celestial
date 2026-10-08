@@ -40,6 +40,8 @@ public class TrialControllerBlockEntity extends BlockEntity {
 	private static final int ARENA = 9;
 	private String trialId = "heaven_1";
 	private UUID challenger;
+	/** Испытание уже проходили в этом мире (двери открыты). Его может пройти и другой игрок — награда своя (BUG-057). */
+	private boolean everDone;
 	private int wave = -1;
 	private int ticksLeft;
 	private final List<UUID> spawned = new ArrayList<>();
@@ -62,10 +64,12 @@ public class TrialControllerBlockEntity extends BlockEntity {
 
 	public void start(ServerLevel level, Player player) {
 		TrialDefinition def = definition();
-		if (def == null || getBlockState().getValue(TrialControllerBlock.STATE) == TrialControllerBlock.TrialState.DONE) {
+		boolean done = everDone || getBlockState().getValue(TrialControllerBlock.STATE) == TrialControllerBlock.TrialState.DONE;
+		if (def == null || done && CelestialData.get(player).trials().contains(trialId)) {
 			player.sendOverlayMessage(Component.translatable("trial.celestial.done_already"));
 			return;
 		}
+		everDone = done;
 		if (isRunning()) {
 			player.sendOverlayMessage(Component.translatable("trial.celestial.busy"));
 			return;
@@ -225,6 +229,7 @@ public class TrialControllerBlockEntity extends BlockEntity {
 
 	private void succeed(ServerLevel level, Player player) {
 		TrialDefinition def = definition();
+		everDone = true;
 		level.setBlock(worldPosition, getBlockState().setValue(TrialControllerBlock.STATE, TrialControllerBlock.TrialState.DONE), Block.UPDATE_ALL);
 		level.playSound(null, worldPosition, SoundEvents.TRIAL_SPAWNER_OPEN_SHUTTER, SoundSource.BLOCKS, 1.0F, 1.4F);
 		level.playSound(null, worldPosition, SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -266,7 +271,8 @@ public class TrialControllerBlockEntity extends BlockEntity {
 				e.discard();
 			}
 		}
-		level.setBlock(worldPosition, getBlockState().setValue(TrialControllerBlock.STATE, TrialControllerBlock.TrialState.IDLE), Block.UPDATE_ALL);
+		level.setBlock(worldPosition, getBlockState().setValue(TrialControllerBlock.STATE,
+			everDone ? TrialControllerBlock.TrialState.DONE : TrialControllerBlock.TrialState.IDLE), Block.UPDATE_ALL);
 		level.playSound(null, worldPosition, SoundEvents.TRIAL_SPAWNER_CLOSE_SHUTTER, SoundSource.BLOCKS, 1.0F, 0.8F);
 		cleanup();
 	}
@@ -289,6 +295,7 @@ public class TrialControllerBlockEntity extends BlockEntity {
 	protected void saveAdditional(ValueOutput output) {
 		super.saveAdditional(output);
 		output.putString("Trial", trialId);
+		output.putBoolean("EverDone", everDone);
 		// состояние хода испытания: раньше терялось, блок оставался «идёт», а мобы волны — вечными
 		if (challenger != null) {
 			output.putString("Challenger", challenger.toString());
@@ -302,6 +309,7 @@ public class TrialControllerBlockEntity extends BlockEntity {
 	protected void loadAdditional(ValueInput input) {
 		super.loadAdditional(input);
 		trialId = input.getStringOr("Trial", "heaven_1");
+		everDone = input.getBooleanOr("EverDone", false);
 		String who = input.getStringOr("Challenger", "");
 		challenger = null;
 		spawned.clear();

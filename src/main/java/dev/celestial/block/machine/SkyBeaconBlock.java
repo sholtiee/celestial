@@ -35,7 +35,23 @@ public class SkyBeaconBlock extends Block {
 			String name = stack.has(net.minecraft.core.component.DataComponents.CUSTOM_NAME) ? stack.getHoverName().getString()
 				: "Маяк " + pos.getX() + " " + pos.getZ();
 			CelestialData.updateBeacons(server.getServer(), n -> n.with(new BeaconNetwork.Beacon(level.dimension().identifier().toString(), pos, name)));
+			if (by instanceof net.minecraft.server.level.ServerPlayer player) {
+				discover(player, level.dimension().identifier().toString(), pos);
+			}
 		}
+	}
+
+	/** Ключ «открытого» маяка в записях игрока: в список и для переноса попадают только маяки, которых он касался (BUG-057). */
+	public static String key(String dimension, BlockPos pos) {
+		return "beacon:" + dimension + ":" + pos.getX() + "," + pos.getY() + "," + pos.getZ();
+	}
+
+	public static void discover(net.minecraft.server.level.ServerPlayer player, String dimension, BlockPos pos) {
+		CelestialData.update(player, d -> d.withCodex(key(dimension, pos)));
+	}
+
+	public static boolean known(Player player, String dimension, BlockPos pos) {
+		return CelestialData.get(player).knows(key(dimension, pos));
 	}
 
 	@Override
@@ -54,7 +70,12 @@ public class SkyBeaconBlock extends Block {
 				// маяк из сгенерированной постройки зажигается при первом касании
 				CelestialData.updateBeacons(server.getServer(), n -> n.with(new BeaconNetwork.Beacon(dim, pos, "Маяк " + pos.getX() + " " + pos.getZ())));
 			}
-			List<BeaconNetwork.Beacon> all = CelestialData.beacons(server.getServer()).beacons();
+			if (player instanceof net.minecraft.server.level.ServerPlayer sp) {
+				discover(sp, dim, pos);
+			}
+			// только маяки, которых игрок касался сам: чужие базы в списке не видны
+			List<BeaconNetwork.Beacon> all = CelestialData.beacons(server.getServer()).beacons().stream()
+				.filter(b -> known(player, b.dimension(), b.pos())).toList();
 			player.sendSystemMessage(Component.translatable("machine.celestial.beacon.header").withStyle(ChatFormatting.GOLD));
 			for (int i = 0; i < all.size(); i++) {
 				BeaconNetwork.Beacon b = all.get(i);
