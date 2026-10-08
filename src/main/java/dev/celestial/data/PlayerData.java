@@ -52,6 +52,11 @@ public record PlayerData(int grace, List<String> skills, int reputation, List<St
 		return hasSkill(id) ? this : new PlayerData(grace, append(skills, id), reputation, codex, trials, radiance, quests, fear, warmth, lore);
 	}
 
+	/** Для тестов: забыть все навыки. */
+	public PlayerData withoutSkills() {
+		return new PlayerData(grace, List.of(), reputation, codex, trials, radiance, quests, fear, warmth, lore);
+	}
+
 	public PlayerData withReputation(int value) {
 		return new PlayerData(grace, skills, value, codex, trials, radiance, quests, fear, warmth, lore);
 	}

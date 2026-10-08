@@ -99,6 +99,8 @@ public final class ModEntities {
 		EntityType.Builder.of(dev.celestial.entity.Inia::new, MobCategory.MISC).sized(0.6F, 1.9F).eyeHeight(1.7F).clientTrackingRange(10));
 	public static final EntityType<dev.celestial.entity.Archangel> ARCHANGEL = register("archangel",
 		EntityType.Builder.of(dev.celestial.entity.Archangel::new, MobCategory.MISC).sized(0.8F, 2.4F).eyeHeight(2.1F).clientTrackingRange(12));
+	public static final EntityType<dev.celestial.entity.GateCherub> GATE_CHERUB = register("gate_cherub",
+		EntityType.Builder.of(dev.celestial.entity.GateCherub::new, MobCategory.MISC).fireImmune().sized(1.2F, 3.4F).eyeHeight(3.0F).clientTrackingRange(12));
 	public static final EntityType<dev.celestial.boss.IceSpike> ICE_SPIKE = registerNoEgg("ice_spike",
 		EntityType.Builder.<dev.celestial.boss.IceSpike>of(dev.celestial.boss.IceSpike::new, MobCategory.MISC).noLootTable().sized(1.0F, 2.4F)
 			.clientTrackingRange(8).updateInterval(5));
@@ -152,6 +154,7 @@ public final class ModEntities {
 		FabricDefaultAttributeRegistry.register(FROST_WRAITH, dev.celestial.entity.FrostWraith.createAttributes());
 		FabricDefaultAttributeRegistry.register(FROST_ARCHON, dev.celestial.boss.FrostArchon.createAttributes());
 		FabricDefaultAttributeRegistry.register(INIA, dev.celestial.entity.Inia.createAttributes());
+		FabricDefaultAttributeRegistry.register(GATE_CHERUB, dev.celestial.entity.GateCherub.createAttributes());
 		FabricDefaultAttributeRegistry.register(ARCHANGEL, dev.celestial.entity.Archangel.createAttributes());
 		FabricDefaultAttributeRegistry.register(ICE_GUARDIAN, dev.celestial.entity.IceGuardian.createAttributes());
 		FabricDefaultAttributeRegistry.register(ICE_WOLF, dev.celestial.entity.IceWolf.createAttributes());

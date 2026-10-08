@@ -241,6 +241,9 @@ public class TrialControllerBlockEntity extends BlockEntity {
 		CelestialData.update(player, d -> d.withGrace(d.grace() + def.grace()).withTrial(trialId));
 		if (player instanceof net.minecraft.server.level.ServerPlayer sp) {
 			dev.celestial.story.Story.TRIAL_CHAMPION.grant(sp);
+			if (trialId.equals("eden_gate")) {
+				dev.celestial.lore.Lore.unlock(sp, "flaming_sword");  // прошёл мимо пламенного меча — лист Летописи
+			}
 		}
 		dropReward(level, player);
 		openSeals(level);

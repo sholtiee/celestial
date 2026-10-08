@@ -78,6 +78,11 @@ public final class CelestialCommand {
 				dev.celestial.fading.Meteor.launch(ctx.getSource().getLevel(), target.add(30, 90, 10), target);
 				return 1;
 			})))
+			.then(Commands.literal("forget").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS)).executes(ctx -> {
+				CelestialData.update(ctx.getSource().getPlayerOrException(), PlayerData::withoutSkills);
+				ctx.getSource().sendSuccess(() -> Component.literal("Навыки забыты (для тестов)"), true);
+				return 1;
+			}))
 			.then(Commands.literal("learn")
 				.then(Commands.argument("skill", StringArgumentType.word()).executes(ctx ->
 					dev.celestial.grace.Grace.learn(ctx.getSource().getPlayerOrException(), StringArgumentType.getString(ctx, "skill")) ? 1 : 0)))

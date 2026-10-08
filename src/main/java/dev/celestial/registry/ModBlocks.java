@@ -192,6 +192,9 @@ public final class ModBlocks {
 		Properties.of().mapColor(MapColor.STONE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.STONE).noOcclusion()
 			.pushReaction(PushReaction.IMMOVEABLE), 1);
 	// Сад Начала
+	public static final Block EDEN_WALL = register("eden_wall", Block::new,
+		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST).lightLevel(s -> 4)
+			.pushReaction(PushReaction.IMMOVEABLE));
 	public static final Block LIFE_FRUIT = register("life_fruit", p -> new dev.celestial.block.eden.FruitBlock(p, true),
 		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST).noOcclusion()
 			.lightLevel(s -> s.getValue(dev.celestial.block.eden.FruitBlock.RIPE) ? 9 : 2).pushReaction(PushReaction.IMMOVEABLE), 2);

@@ -1,0 +1,105 @@
+# S2.5: Херувим Восточных врат: меч бьёт на полу и не бьёт, если стоишь выше; не трогает тех, у кого много навыков; испытание eden_gate
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/gamerule advance_time false
+/time set 6000
+/weather clear
+/gamerule natural_health_regeneration false
+/scoreboard objectives add hp0 dummy
+/scoreboard objectives add hp1 dummy
+/execute in minecraft:overworld run tp @s 33020 135 33021
+fly
+wait 60
+/fill 32997 120 32997 33050 134 33050 minecraft:air
+/kill @e[type=celestial:gate_cherub]
+/place template celestial:eden_garden/main 33000 120 33000
+wait 80
+/kill @e[type=!minecraft:player,type=!celestial:gate_cherub,distance=..90]
+/say TEST C0 cherub_present expect=pass
+/execute if entity @e[type=celestial:gate_cherub,distance=..40]
+/tp @s 33026.5 130 33021.5 -90 15
+togglehud
+wait 10
+shot cherub_a
+wait 22
+shot cherub_b
+wait 22
+shot cherub_c
+/tp @s 33034.5 136 33021.5 0 90
+wait 10
+shot cherub_top
+wait 30
+shot cherub_top2
+/tp @s 33030.5 130 33016.5 -60 5
+wait 5
+shot cherub_face_man
+togglehud
+/gamemode survival
+/effect give @s minecraft:resistance 5 0 true
+/effect clear @s minecraft:resistance
+/celestial forget
+/tp @s 33030.5 129 33021.5 -90 0
+# C1: на полу в кругу — удар меча (здоровье падает)
+/execute store result score @s hp0 run data get entity @s Health
+wait 130
+/execute store result score @s hp1 run data get entity @s Health
+/say TEST C1 sword_hits_on_floor expect=pass
+/execute if score @s hp1 < @s hp0
+# C2: стоишь на блоке высотой 1 — меч проходит под ногами
+/effect give @s minecraft:instant_health 1 10 true
+/setblock 33030 129 33022 minecraft:stone
+/tp @s 33030.5 130 33022.5 -90 0
+wait 5
+/execute store result score @s hp0 run data get entity @s Health
+wait 200
+/execute store result score @s hp1 run data get entity @s Health
+/say TEST C2 no_hit_when_raised expect=pass
+/execute if score @s hp1 = @s hp0
+# C3: 8 навыков — меч не трогает, испытание проходится пешком
+/celestial grace 100
+/celestial learn stamina_1
+/celestial learn double_jump
+/celestial learn dash
+/celestial learn light_bolt
+/celestial learn radiance_pool
+/celestial learn vigor
+/celestial learn heavenly_strike
+/celestial learn flash
+/effect give @s minecraft:instant_health 1 10 true
+/tp @s 33027.5 129 33016.5 0 0
+wait 10
+/say TEST T0 trial_starts expect=pass
+use 33029 129 33016 up
+wait 15
+/execute if block 33029 129 33016 celestial:trial_crystal[state=running]
+/execute store result score @s hp0 run data get entity @s Health
+/tp @s 33029.5 129 33019.5 -90 0
+hold forward 1
+wait 5
+/tp @s 33030.5 129 33022.5 -90 0
+wait 12
+/tp @s 33032.5 129 33022.5 -90 0
+wait 12
+/tp @s 33034.5 129 33022.5 -90 0
+wait 12
+/tp @s 33036.5 129 33022.5 -90 0
+wait 12
+/tp @s 33038.5 129 33022.5 -90 0
+wait 12
+/tp @s 33040.5 129 33022.5 -90 0
+wait 12
+/tp @s 33040.5 129 33021.5 -90 0
+wait 10
+/tp @s 33041.5 129 33021.5 -90 0
+wait 30
+/say TEST T1 trial_done_and_sheet_open expect=pass,0
+/execute if block 33029 129 33016 celestial:trial_crystal[state=done]
+/celestial lore unlock flaming_sword
+# C4: стены Херувима неразрушимы и перелезть через них нельзя
+/say TEST W1 walls_are_there expect=pass
+/execute if block 33034 131 33014 celestial:eden_wall
+/gamemode creative
+/celestial lore lock flaming_sword
+/celestial grace -100
+quit

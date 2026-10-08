@@ -104,6 +104,16 @@ def blocks():
     save_png(wafer, 'item/manna')
     model('item/manna', {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('item/manna')}})
     item_def('manna', c('item/manna'))
+    wall = T.bricks('eden_wall', [rgb(h) for h in ('#d8c68a', '#e4d49c', '#cdb877')], '#8a6a24')
+    d = ImageDraw.Draw(wall)
+    for x, y in ((3, 3), (11, 3), (3, 11), (11, 11)):
+        d.rectangle([x, y, x + 1, y + 1], fill=rgb('#fff6d6'))
+    save_png(wall, 'block/eden_wall')
+    model('block/eden_wall', {'parent': 'minecraft:block/cube_all', 'textures': {'all': c('block/eden_wall')}})
+    blockstate('eden_wall', {'variants': {'': {'model': c('block/eden_wall')}}})
+    item_def('eden_wall', c('block/eden_wall'))
+    append_tag('block', 'minecraft:dragon_immune', [c('eden_wall')])
+    append_tag('block', 'minecraft:wither_immune', [c('eden_wall')])
     # значок эффекта «Изгнание»: пламенный меч, повёрнутый остриём вниз
     icon = Image.new('RGBA', (18, 18), (0, 0, 0, 0))
     d = ImageDraw.Draw(icon)
@@ -135,9 +145,9 @@ def garden():
             for x, z in ((i, w), (w, i)):
                 if math.hypot(x - CX, z - CZ) <= 19.5:
                     t.set(x, TOP, z, c('skystone_bricks'))
-    for x in range(30, 37):
-        for z in range(16, 27):
-            if math.hypot(x - 33, (z - 21) * 0.8) <= 3.6 and abs(z - CZ) > 1:
+    for x in range(26, 36):
+        for z in range(4, 13):
+            if math.hypot(x - 30, (z - 8) * 0.8) <= 3.6:
                 t.set(x, TOP, z, 'minecraft:water', level=0)
     # Древо Жизни: толстый ствол, ветви, золотая крона, плоды
     for y in range(TOP + 1, TOP + 13):
@@ -202,11 +212,28 @@ def garden():
         x, z = rng.randrange(2, SIZE - 2), rng.randrange(2, SIZE - 2)
         if t.get(x, TOP, z) == c('golden_grass') and t.get(x, TOP + 1, z) in (None, 'minecraft:air') and math.hypot(x - kx, z - kz) > 5.5:
             t.set(x, TOP + 1, z, c(rng.choice(['sunbell', 'dawn_poppy', 'starflower', 'golden_tuft', 'golden_tuft'])))
-    # восточные врата: проём из светлого камня (Херувим и меч — отдельная задача S2.5)
-    for z in (CZ - 3, CZ + 3):
-        t.fill(39, TOP + 1, z, 39, TOP + 5, z, c('radiant_stone'))
-    t.fill(39, TOP + 6, CZ - 3, 39, TOP + 6, CZ + 3, c('skystone_bricks'))
-    t.fill(38, TOP + 7, CZ - 1, 40, TOP + 7, CZ + 1, c('radiant_stone'))
+    # Восточные врата: двор Херувима. Стены неразрушимы, внутри лезвие метёт круг радиусом 6,5 — обойти его нельзя, только перепрыгнуть в такт
+    hx, hz = 34, 21
+    for x in range(28, 41):
+        for z in range(14, 29):
+            t.set(x, TOP, z, c('skystone_bricks'))
+            r = math.hypot(x - hx, z - hz)
+            if 5.6 <= r <= 6.6 or r <= 1.6:
+                t.set(x, TOP, z, c('radiant_stone'))
+    for x in range(28, 41):
+        for y in range(TOP + 1, TOP + 7):
+            t.set(x, y, 14, c('eden_wall'))
+            t.set(x, y, 28, c('eden_wall'))
+    for z in range(14, 29):
+        for y in range(TOP + 1, TOP + 7):
+            t.set(28, y, z, c('eden_wall'))
+            t.set(40, y, z, c('eden_wall'))
+    t.fill(28, TOP + 1, 19, 28, TOP + 4, 23, 'minecraft:air')  # западный вход
+    t.fill(40, TOP + 1, 19, 40, TOP + 4, 23, 'minecraft:air')  # восточные врата
+    t.fill(40, TOP + 5, 18, 40, TOP + 5, 24, c('radiant_stone'))
+    t.set(41, TOP, hz, c('trial_goal'))
+    t.set(29, TOP + 1, 16, c('trial_crystal'), nbt={'id': c('trial_crystal'), 'Trial': 'eden_gate'}, state='idle')
+    t.entity(hx, TOP + 1, hz, {'id': c('gate_cherub'), 'PersistenceRequired': True})
     fruits = {n: [(x, y, z) for (x, y, z), (b, *_r) in sorted(t.blocks.items()) if b == c(n)] for n in ('life_fruit', 'knowledge_fruit')}
     t.save('eden_garden/main')
     write_json(os.path.join(DATA, 'worldgen/template_pool/eden_garden/main.json'), {'fallback': 'minecraft:empty', 'elements': [
@@ -220,6 +247,125 @@ def garden():
                {'values': [c(b) for b in ('golden_meadows', 'heaven_gardens', 'star_glade', 'cloud_forest')]})
     append_tag('worldgen/structure', 'celestial:codex_places', [c('eden_garden')])
     return fruits
+
+
+# ------------------------------------------------------------------ Херувим Восточных врат: текстура 64×128 по HeavenModels.GateCherub
+def gate_cherub_textures():
+    import mob_textures as M
+    from gen_heaven_mobs import WHITE
+    r = T.rng_for('gate_cherub')
+    img = Image.new('RGBA', (64, 128), (0, 0, 0, 0))
+    glow = Image.new('RGBA', (64, 128), (0, 0, 0, 0))
+
+    def face_man():
+        f = Image.new('RGBA', (10, 10), rgb('#e8c9a5') + (255,))
+        d = ImageDraw.Draw(f)
+        d.rectangle([0, 0, 9, 2], fill=rgb('#6a4a24'))
+        d.rectangle([0, 0, 1, 6], fill=rgb('#6a4a24'))
+        d.rectangle([8, 0, 9, 6], fill=rgb('#6a4a24'))
+        for x in (3, 6):
+            d.point((x, 4), fill=rgb('#2a4a8a'))
+            d.point((x - 1, 4), fill=WHITE)
+        d.line([(4, 7), (5, 7)], fill=rgb('#a86a5a'))
+        return f
+
+    def face_lion():
+        f = Image.new('RGBA', (10, 10), rgb('#d9a441') + (255,))
+        d = ImageDraw.Draw(f)
+        d.rectangle([0, 0, 9, 9], outline=rgb('#8a5a1c'))
+        d.rectangle([1, 1, 8, 1], fill=rgb('#a87028'))
+        for x in (2, 6):
+            d.rectangle([x, 3, x + 1, 4], fill=rgb('#3a2a10'))
+        d.rectangle([4, 5, 5, 6], fill=rgb('#5a3a1a'))
+        d.line([(3, 8), (6, 8)], fill=rgb('#8a5a1c'))
+        return f
+
+    def face_ox():
+        f = Image.new('RGBA', (10, 10), rgb('#7a4a28') + (255,))
+        d = ImageDraw.Draw(f)
+        d.rectangle([0, 0, 1, 2], fill=rgb('#efe7cf'))
+        d.rectangle([8, 0, 9, 2], fill=rgb('#efe7cf'))
+        d.rectangle([2, 6, 7, 9], fill=rgb('#b88a62'))
+        for x in (3, 6):
+            d.point((x, 4), fill=rgb('#1a1008'))
+            d.point((x, 8), fill=rgb('#4a2a14'))
+        return f
+
+    def face_eagle():
+        f = Image.new('RGBA', (10, 10), rgb('#5a3f2a') + (255,))
+        d = ImageDraw.Draw(f)
+        d.rectangle([0, 0, 9, 5], fill=rgb('#f4f0e6'))
+        for x in (2, 7):
+            d.point((x, 3), fill=rgb('#ffcc33'))
+        d.polygon([(4, 4), (5, 4), (6, 7), (4, 9), (3, 7)], fill=rgb('#f0b03a'))
+        return f
+
+    faces = {'front': face_man(), 'right': face_lion(), 'back': face_ox(), 'left': face_eagle()}
+
+    def head(face, x, y, fw, fh):
+        if face in faces:
+            return faces[face].getpixel((x, y))
+        return M.noise_color(r, rgb('#e6c46a'), 0.08)
+
+    def head_glow(face, x, y, fw, fh):
+        if face in faces:
+            px = faces[face].getpixel((x, y))
+            if px[:3] in (rgb('#ffcc33'), rgb('#3a2a10')) and face in ('left', 'right'):
+                return (255, 214, 90, 255)
+        return None
+
+    def body(face, x, y, fw, fh):
+        if y in (3, fh - 3):
+            return rgb('#e0b54a')
+        if face == 'front' and fw // 2 - 1 <= x <= fw // 2:
+            return rgb('#e0b54a')
+        return M.noise_color(r, rgb('#f2ecd6'), 0.05) if x % 3 else M.noise_color(r, rgb('#ddd5ba'), 0.05)
+
+    eyes = {(c0, c1) for c0, c1 in ((3, 3), (7, 6), (4, 9), (8, 11), (2, 13), (6, 15), (9, 5), (5, 12))}
+
+    def wing(face, x, y, fw, fh):
+        if face in ('left', 'right'):
+            if (x, y) in eyes:
+                return rgb('#3a8ae0')  # крылья, «полные очей» (Иез. 1:18)
+            row = y // 3
+            c0 = T.shade(rgb('#f4efe0'), 1.0 - 0.04 * row)
+            return T.shade(c0, 0.88) if y % 3 == 2 else c0
+        return rgb('#cfc7ac')
+
+    def wing_glow(face, x, y, fw, fh):
+        return (120, 190, 255, 255) if face in ('left', 'right') and (x, y) in eyes else None
+
+    def blade(face, x, y, fw, fh):
+        t = (y % 12) / 12
+        base = mix_col(rgb('#ff5a1a'), rgb('#ffe27a'), 0.5 + 0.5 * math.sin(y / 3.0)) if face != 'top' else rgb('#fff6c0')
+        return M.noise_color(r, base, 0.04) if t else rgb('#fff6c0')
+
+    def mix_col(a, b, k):
+        return tuple(int(a[i] * (1 - k) + b[i] * k) for i in range(3))
+
+    M.paint_box(img, 0, 0, 10, 10, 10, head)
+    M.paint_box(glow, 0, 0, 10, 10, 10, head_glow)
+    M.paint_box(img, 0, 20, 12, 24, 8, body)
+    M.paint_box(img, 40, 0, 1, 16, 11, wing)
+    M.paint_box(glow, 40, 0, 1, 16, 11, wing_glow)
+    M.paint_box(img, 50, 36, 3, 65, 4, blade)
+    M.paint_box(glow, 50, 36, 3, 65, 4, lambda f, x, y, fw, fh: (*blade(f, x, y, fw, fh), 255))
+    save_png(img, 'entity/gate_cherub')
+    save_png(glow, 'entity/gate_cherub_glow')
+    save_png(M.spawn_egg('#f2ecd6', '#ff7a2a'), 'item/gate_cherub_spawn_egg')
+    model('item/gate_cherub_spawn_egg', {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('item/gate_cherub_spawn_egg')}})
+    item_def('gate_cherub_spawn_egg', c('item/gate_cherub_spawn_egg'))
+    write_json(os.path.join(DATA, 'loot_table/chests/trial_eden_gate.json'), {
+        'type': 'minecraft:chest', 'random_sequence': c('chests/trial_eden_gate'), 'pools': [
+            {'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': c('fig_leaf'), 'modifier': [
+                {'type': 'minecraft:set_count', 'count': 2}]}]},
+            {'rolls': 2, 'entries': [
+                {'type': 'minecraft:item', 'name': c('starquartz'), 'weight': 5, 'modifier': [
+                    {'type': 'minecraft:set_count', 'count': {'type': 'minecraft:uniform', 'min': 2, 'max': 5}}]},
+                {'type': 'minecraft:item', 'name': c('etherite_ingot'), 'weight': 3, 'modifier': [
+                    {'type': 'minecraft:set_count', 'count': {'type': 'minecraft:uniform', 'min': 1, 'max': 2}}]},
+                {'type': 'minecraft:item', 'name': c('manna'), 'weight': 4, 'modifier': [
+                    {'type': 'minecraft:set_count', 'count': {'type': 'minecraft:uniform', 'min': 2, 'max': 4}}]}]}]})
 
 
 def lang():
@@ -246,6 +392,13 @@ def lang():
         'eden.celestial.leaf.nothing': ('Тебе нечего скрывать.', 'You have nothing to hide.'),
         'eden.celestial.leaf.covered': ('Лист прикрыл тебя: Изгнание снято.', 'The leaf covers you: the Exile is lifted.'),
         'eden.celestial.cold': ('Ангел отводит взгляд: на тебе печать Изгнания.', 'The angel turns away: you bear the mark of Exile.'),
+        'block.celestial.eden_wall': ('Стена Эдема', 'Wall of Eden'),
+        'entity.celestial.gate_cherub': ('Херувим Восточных врат', 'Cherub of the East Gate'),
+        'entity.celestial.gate_cherub.line': ('Херувим молчит. Меч обращается сам, и каждый шаг нужно сделать в такт.', 'The Cherub is silent. The sword turns by itself, and every step must keep its time.'),
+        'entity.celestial.gate_cherub.hit': ('Пламенный меч отбросил тебя. Выжди его оборот и перепрыгни.', 'The flaming sword threw you back. Wait out its turn and leap over it.'),
+        'entity.celestial.gate_cherub.spared': ('Меч не тронул тебя: в тебе достаточно Благодати.', 'The sword spared you: there is Grace enough in you.'),
+        'item.celestial.gate_cherub_spawn_egg': ('Яйцо призыва: Херувим врат', 'Gate Cherub Spawn Egg'),
+        'trial.celestial.name.eden_gate': ('Восточные врата', 'The East Gate'),
         'structure.celestial.eden_garden': ('Сад Начала', 'Garden of the Beginning'),
         'codex.celestial.place.eden_garden': ('поднятый в небо Сад: Древо Жизни, Древо Познания в терновнике, кусты смоковницы. Утром здесь выпадает манна.',
                                               'the Garden raised into the sky: the Tree of Life, the Tree of Knowledge in thorns, fig bushes. Manna falls here at dawn.'),
@@ -318,6 +471,7 @@ def scenario(fruits):
 
 def main():
     blocks()
+    gate_cherub_textures()
     fruits = garden()
     scenario(fruits)
     lang()

@@ -27,6 +27,8 @@ final class TrialDefinitions {
 			List.of(new Spawn(() -> ModEntities.STORM_SPIRIT, 3)),
 			List.of(new Spawn(() -> ModEntities.FALLEN_GUARDIAN, 3), new Spawn(() -> ModEntities.MIMIC, 1)),
 			List.of(new Spawn(() -> ModEntities.STORM_ELEMENTAL, 1))), 3));
+		// Восточные врата Эдема: перепрыгнуть пламенный меч Херувима (entity/GateCherub) и дойти до Финишного кристалла
+		put(map, new TrialDefinition("eden_gate", Type.PARKOUR, 60, List.of(), 3));
 		put(map, new TrialDefinition("cloud_castle", Type.WAVES, 0, List.of(
 			List.of(new Spawn(() -> ModEntities.STORM_SPIRIT, 2), new Spawn(() -> ModEntities.WINGED_SERPENT, 2)),
 			List.of(new Spawn(() -> ModEntities.STORM_ELEMENTAL, 1), new Spawn(() -> ModEntities.STORM_SPIRIT, 2))), 3));

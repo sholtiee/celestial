@@ -169,6 +169,51 @@ public final class HeavenModels {
 		}
 	}
 
+	// ---------------------------------------------------------------- Херувим Восточных врат (64×128): четыре лика на одной голове, четыре крыла, пламенный меч
+	/** Голова — куб с четырьмя разными ликами (человек, лев, телец, орёл); меч лежит низко над полом и вращается вокруг херувима (state.flap — угол, рад). */
+	public static class GateCherub extends EntityModel<State> {
+		private final ModelPart head;
+		private final ModelPart sword;
+		private final ModelPart[] wings = new ModelPart[4];
+
+		public GateCherub(ModelPart root) {
+			super(root);
+			this.head = root.getChild("head");
+			this.sword = root.getChild("sword");
+			for (int i = 0; i < 4; i++) {
+				wings[i] = root.getChild("wing" + i);
+			}
+		}
+
+		public static LayerDefinition createLayer() {
+			MeshDefinition mesh = new MeshDefinition();
+			PartDefinition root = mesh.getRoot();
+			root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 20).addBox(-6, -24, -4, 12, 24, 8), PartPose.offset(0, 24, 0));
+			root.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-5, -10, -5, 10, 10, 10), PartPose.offset(0, 0, 0));
+			// четыре крыла: верхняя пара поднята, нижняя сложена
+			root.addOrReplaceChild("wing0", CubeListBuilder.create().texOffs(40, 0).addBox(0, -2, 0, 1, 16, 11), PartPose.offsetAndRotation(5, 3, 3, 0.2F, 0.6F, -0.35F));
+			root.addOrReplaceChild("wing1", CubeListBuilder.create().texOffs(40, 0).mirror().addBox(-1, -2, 0, 1, 16, 11), PartPose.offsetAndRotation(-5, 3, 3, 0.2F, -0.6F, 0.35F));
+			root.addOrReplaceChild("wing2", CubeListBuilder.create().texOffs(40, 0).addBox(0, -2, 0, 1, 16, 11), PartPose.offsetAndRotation(5, 9, 3, 0.2F, 0.3F, 0.0F));
+			root.addOrReplaceChild("wing3", CubeListBuilder.create().texOffs(40, 0).mirror().addBox(-1, -2, 0, 1, 16, 11), PartPose.offsetAndRotation(-5, 9, 3, 0.2F, -0.3F, 0.0F));
+			// меч: вертикальный брус, положенный набок; вращение по Y вокруг оси херувима. Модель масштабируется ×1,5: лезвие 4…69 пикселей = 0,4…6,5 блока
+			PartDefinition pivot = root.addOrReplaceChild("sword", CubeListBuilder.create(), PartPose.offset(0, 19, 0));
+			pivot.addOrReplaceChild("blade", CubeListBuilder.create().texOffs(50, 36).addBox(-1.5F, 4, -2, 3, 65, 4), PartPose.rotation(-Mth.HALF_PI, 0, 0));
+			return LayerDefinition.create(mesh, 64, 128);
+		}
+
+		@Override
+		public void setupAnim(State state) {
+			super.setupAnim(state);
+			float t = state.ageInTicks;
+			head.yRot = Mth.sin(t * 0.02F) * 0.25F;  // лики медленно «осматривают» врата
+			for (int i = 0; i < 4; i++) {
+				float flap = Mth.sin(t * 0.07F + i) * 0.05F;
+				wings[i].yRot = (i % 2 == 0 ? 1 : -1) * ((i < 2 ? 0.6F : 0.3F) + flap);
+			}
+			sword.yRot = state.flap;
+		}
+	}
+
 	// ---------------------------------------------------------------- Херувим (64×32): большая голова, маленькое тельце, трепещущие крылышки, нимб
 	public static class Cherub extends EntityModel<State> {
 		private final ModelPart body;
