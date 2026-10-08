@@ -89,6 +89,26 @@
           "weight": 1
         }
       ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "celestial:lore_scroll",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_custom_data",
+              "tag": "{sheet:\"azazel\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 3
+        }
+      ]
     }
   ],
   "random_sequence": "celestial:chests/airship_wreck"

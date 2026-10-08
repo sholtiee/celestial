@@ -20,7 +20,7 @@ import net.minecraft.resources.Identifier;
  * записи («Писание», «Апокриф Небес», «Предание»): это дневник пережитого, а не учебник. Состояние (вид, книга, лист) хранится между
  * открытиями Кодекса, как и вкладка.
  */
-final class LorePanel {
+public final class LorePanel {
 	enum View { THREAD, BOOKS, GLOSSARY }
 
 	static View view = View.THREAD;
@@ -55,6 +55,17 @@ final class LorePanel {
 			case "glossary" -> view = View.GLOSSARY;
 			default -> view = View.THREAD;
 		}
+	}
+
+	/** Сервер просит показать лист (после чтения свитка/скрижали): открываем Кодекс на нём без проверки синхронизации данных. */
+	public static void initNetwork() {
+		net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.registerGlobalReceiver(dev.celestial.network.OpenLorePayload.TYPE, (payload, context) ->
+			context.client().execute(() -> {
+				view = View.BOOKS;
+				sheet = payload.sheet();
+				Lore.sheet(payload.sheet()).ifPresent(s -> book = s.book());
+				context.client().gui.setScreen(CodexScreen.onTab("lore"));
+			}));
 	}
 
 	private static Identifier art(String name) {

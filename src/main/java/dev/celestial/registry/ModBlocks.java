@@ -188,6 +188,9 @@ public final class ModBlocks {
 	public static final Block RELIQUARY = registerNoItem("reliquary", dev.celestial.block.puzzle.ReliquaryBlock::new,
 		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST).lightLevel(s -> 7)
 			.pushReaction(PushReaction.IMMOVEABLE));
+	public static final Block LORE_TABLET = register("lore_tablet", dev.celestial.block.lore.LoreTabletBlock::new,
+		Properties.of().mapColor(MapColor.STONE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.STONE).noOcclusion()
+			.pushReaction(PushReaction.IMMOVEABLE), 1);
 	public static final Block BELL_ALTAR = register("bell_altar", dev.celestial.block.puzzle.BellAltarBlock::new,
 		Properties.of().mapColor(MapColor.QUARTZ).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.STONE));
 	public static final Block RUNE_PEDESTAL = register("rune_pedestal", dev.celestial.block.puzzle.RunePedestalBlock::new,

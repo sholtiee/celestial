@@ -18,6 +18,14 @@ public final class ModCreativeTab {
 			.icon(() -> new ItemStack(ModBlocks.GOLDEN_CLOUD))
 			.displayItems((params, output) -> {
 				for (Item item : ModItems.ALL) {
+					if (item == ModItems.LORE_SCROLL) {  // по свитку на каждый лист-«свиток»; пустой свиток — для команд
+						for (var sheet : dev.celestial.lore.Lore.sheets()) {
+							if (sheet.src().equals("scroll")) {
+								output.accept(dev.celestial.item.LoreScrollItem.of(item, sheet.id()));
+							}
+						}
+						continue;
+					}
 					output.accept(new ItemStack(item));
 				}
 			})

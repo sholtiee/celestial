@@ -42,8 +42,8 @@ public class CodexScreen extends Screen {
 	public static CodexScreen onTab(String spec) {
 		String[] parts = spec.strip().split("\\s+");
 		tab = Tab.valueOf(parts[0].toUpperCase(java.util.Locale.ROOT));
-		if (tab == Tab.LORE) {  // codex lore thread | books [N] | sheet <id> | glossary
-			LorePanel.open(parts.length > 1 ? parts[1] : "thread", parts.length > 2 ? parts[2] : null);
+		if (tab == Tab.LORE && parts.length > 1) {  // codex lore thread | books [N] | sheet <id> | glossary
+			LorePanel.open(parts[1], parts.length > 2 ? parts[2] : null);
 		}
 		return new CodexScreen();
 	}

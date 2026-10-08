@@ -1,0 +1,92 @@
+# S2.2: свиток и скрижаль Летописи: чтение открывает лист и показывает его; новый свиток тратится, повторный — нет; пустая скрижаль не ломает; свиток падает из лута галеона
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/time set 6000
+/gamerule advance_time false
+/execute in minecraft:overworld run tp @s 30000 200 30000
+fly
+wait 60
+/fill 29990 199 29990 30010 199 30010 minecraft:stone
+/fill 29990 200 29990 30010 205 30010 minecraft:air
+/celestial lore lock all
+/tp @s 30000.5 200 30000.5 0 0
+/gamemode survival
+/clear @s
+/effect give @s minecraft:resistance 600 4 true
+/give @s celestial:lore_scroll[custom_data={sheet:"azazel"}] 2
+wait 5
+useitem
+wait 20
+shot lore_scroll_read
+closescreen
+/say TEST S1 scroll_consumed_once expect=pass (остался 1 из 2)
+/execute if items entity @s weapon.mainhand celestial:lore_scroll[count=1]
+/say TEST S2 sheet_open expect=0 (лист уже открыт чтением)
+/celestial lore unlock azazel
+useitem
+wait 20
+closescreen
+/say TEST S3 known_scroll_kept expect=pass (повторный свиток не тратится)
+/execute if items entity @s weapon.mainhand celestial:lore_scroll[count=1]
+# пустой свиток
+/clear @s
+/give @s celestial:lore_scroll
+wait 5
+useitem
+wait 10
+/say TEST S4 blank_scroll_kept expect=pass
+/execute if items entity @s weapon.mainhand celestial:lore_scroll
+# скрижаль
+/setblock 30000 200 30003 celestial:lore_tablet[facing=north]{Sheet:"ark"}
+/setblock 30003 200 30003 celestial:lore_tablet[facing=north]
+/tp @s 30000.5 200 30001.5 0 0
+wait 5
+togglehud
+shot lore_tablet_look
+togglehud
+usenear celestial:lore_tablet
+wait 20
+shot lore_tablet_read
+closescreen
+/say TEST T1 tablet_unlocks expect=0 (лист «Ковчег» уже открыт скрижалью)
+/celestial lore unlock ark
+/tp @s 30003.5 200 30001.5 0 0
+wait 5
+/say TEST T2 blank_tablet_no_crash expect=pass
+userel 0 0 2 north
+wait 10
+/execute if block 30003 200 30003 celestial:lore_tablet
+# лут галеона: свиток Азазеля выпадает
+/clear @s
+/celestial lore lock all
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+/loot give @s loot celestial:chests/airship_wreck
+wait 5
+/say TEST P1 scroll_in_loot expect=pass
+/execute if items entity @s container.* celestial:lore_scroll
+/gamemode creative
+/celestial lore lock all
+quit

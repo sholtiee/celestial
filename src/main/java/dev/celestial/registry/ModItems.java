@@ -154,6 +154,9 @@ public final class ModItems {
 	public static final Item FLAME_SHARD = register("flame_shard", Item::new, lore(new Item.Properties().rarity(Rarity.RARE).fireResistant().stacksTo(16), "flame_shard", 1));
 	public static final Item WANDERER_JOURNAL = register("wanderer_journal", dev.celestial.item.WandererJournalItem::new,
 		lore(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON), "wanderer_journal", 1));
+	/** Свиток Летописи: какой лист — в custom_data (LoreScrollItem.of). */
+	public static final Item LORE_SCROLL = register("lore_scroll", dev.celestial.item.LoreScrollItem::new,
+		lore(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON), "lore_scroll", 1));
 	public static final Item LIGHT_SHARD = register("light_shard", Item::new, lore(new Item.Properties().rarity(Rarity.EPIC).stacksTo(16).fireResistant(), "light_shard", 1));
 	public static final Item VOID_HEART = register("void_heart", dev.celestial.item.VoidHeartItem::new, lore(new Item.Properties().rarity(Rarity.EPIC).stacksTo(1), "void_heart", 2));
 

@@ -14,7 +14,7 @@ from PIL import Image, ImageDraw
 
 import lore_data as L
 import textures as T
-from gen_assets import DATA, save_png, write_json
+from gen_assets import ASSETS, DATA, blockstate, c, item_def, model, save_png, write_json
 from gen_story import lang_patch
 
 W, H = 96, 54
@@ -414,6 +414,67 @@ def illustrations():
     save_png(frame(art_locked(T.rng_for('lore_art_locked'))), 'gui/lore/locked')
 
 
+# ------------------------------------------------------------------ свиток и скрижаль
+def scroll_item():
+    """Свиток: скрученный пергамент с деревянными валиками и красной лентой."""
+    img = Image.new('RGBA', (16, 16), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    d.polygon([(2, 11), (11, 2), (14, 5), (5, 14)], fill=rgb('#f1e3b4'), outline=rgb('#6a4b14'))
+    d.line([(4, 10), (10, 4)], fill=rgb('#d8c48a'))
+    d.line([(5, 12), (12, 5)], fill=rgb('#d8c48a'))
+    d.polygon([(10, 1), (13, 1), (15, 4), (12, 4)], fill=rgb('#8a5a24'), outline=rgb('#4a3014'))  # валик сверху
+    d.polygon([(1, 12), (4, 12), (4, 15), (1, 14)], fill=rgb('#8a5a24'), outline=rgb('#4a3014'))  # валик снизу
+    d.line([(7, 7), (9, 9)], fill=rgb('#b8322a'), width=2)  # лента
+    d.point((8, 8), fill=rgb('#ffd24a'))
+    save_png(img, 'item/lore_scroll')
+    model('item/lore_scroll', {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('item/lore_scroll')}})
+    item_def('lore_scroll', c('item/lore_scroll'))
+
+
+def tablet_block():
+    """Скрижаль: тёмная плита на подставке; лицо с высеченными строками и знаком света."""
+    stone = T.noisy('lore_tablet_stone', [rgb(h) for h in ('#4a4f5c', '#565c6a', '#646b7a')], cell=3, grain=0.3).convert('RGBA')
+    save_png(stone, 'block/lore_tablet_stone')
+    face = stone.copy()
+    d = ImageDraw.Draw(face)
+    d.rectangle([0, 0, 15, 15], outline=rgb('#2a2e38'))
+    d.rectangle([1, 1, 14, 14], outline=rgb('#8a8f9c'))
+    for y in (7, 9, 11, 13):  # строки
+        for x in range(3, 13, 2):
+            if (x * 7 + y * 3) % 5:
+                d.point((x, y), fill=rgb('#1c1f26'))
+                d.point((x + 1, y), fill=rgb('#1c1f26'))
+    d.rectangle([7, 2, 8, 5], fill=rgb('#e0b54a'))  # знак света сверху
+    d.rectangle([5, 3, 10, 4], fill=rgb('#e0b54a'))
+    d.point((7, 3), fill=rgb('#fff6d6'))
+    save_png(face, 'block/lore_tablet_face')
+    side = {'texture': '#stone'}
+    model('block/lore_tablet', {'textures': {'stone': c('block/lore_tablet_stone'), 'face': c('block/lore_tablet_face'),
+                                              'particle': c('block/lore_tablet_stone')},
+                                'elements': [
+        {'from': [3, 0, 6], 'to': [13, 2, 10], 'faces': {k: side for k in ('north', 'south', 'east', 'west', 'up', 'down')}},
+        {'from': [4, 2, 7], 'to': [12, 15, 9], 'faces': {'north': {'texture': '#face', 'uv': [4, 1, 12, 14]},
+                                                         'south': {'texture': '#face', 'uv': [4, 1, 12, 14]},
+                                                         'east': side, 'west': side, 'up': side, 'down': side}}]})
+    blockstate('lore_tablet', {'variants': {f'facing={f}': {'model': c('block/lore_tablet'), 'y': y} for f, y in
+                                            (('north', 0), ('east', 90), ('south', 180), ('west', 270))}})
+    item_def('lore_tablet', c('block/lore_tablet'))
+
+
+def loot_scrolls():
+    """Свитки в добыче построек (дописываем пул в готовые таблицы): Азазель — в остове галеона (там пушки и оружие)."""
+    path = os.path.join(DATA, 'loot_table/chests/airship_wreck.json')
+    with open(path, encoding='utf-8') as f:
+        table = json.load(f)
+    if 'celestial:lore_scroll' in json.dumps(table):
+        return
+    table['pools'].append({'rolls': 1, 'entries': [
+        {'type': 'minecraft:item', 'name': c('lore_scroll'), 'weight': 1,
+         'modifier': [{'type': 'minecraft:set_custom_data', 'tag': '{sheet:"azazel"}'}]},
+        {'type': 'minecraft:empty', 'weight': 3}]})
+    write_json(path, table)
+
+
 # ------------------------------------------------------------------ данные и переводы
 def lore_json():
     sheets = [{'id': s['id'], 'book': s['book'], 'node': s['node'], 'art': s['art'], 'src': s['src'],
@@ -467,6 +528,14 @@ def lang():
         'lore.celestial.glossary_added': ('Глоссарий: %s', 'Glossary: %s'),
         'lore.celestial.unknown': ('Нет такого листа: %s', 'No such sheet: %s'),
         'lore.celestial.cmd.unlocked': ('Открыто листов: %s', 'Sheets opened: %s'),
+        'item.celestial.lore_scroll': ('Свиток Летописи', 'Chronicle Scroll'),
+        'item.celestial.lore_scroll.named': ('Свиток: «%s»', 'Scroll: "%s"'),
+        'item.celestial.lore_scroll.lore1': ('ПКМ — прочесть: лист ляжет в твою Летопись.', 'Use to read: the sheet is added to your Chronicle.'),
+        'block.celestial.lore_tablet': ('Скрижаль', 'Tablet'),
+        'block.celestial.lore_tablet.lore1': ('ПКМ — прочесть высеченный лист Летописи.', 'Use to read the Chronicle sheet carved upon it.'),
+        'lore.celestial.scroll.known': ('Этот лист уже в твоей Летописи.', 'This sheet is already in your Chronicle.'),
+        'lore.celestial.scroll.blank': ('Свиток пуст: письмена стёрлись.', 'The scroll is blank: the script has faded.'),
+        'lore.celestial.tablet.blank': ('Письмена на скрижали стёрлись.', 'The script on the tablet has worn away.'),
         'lore.celestial.cmd.gloss': ('Слов добавлено: %s', 'Words added: %s'),
         'lore.celestial.cmd.locked': ('Закрыто листов: %s', 'Sheets sealed: %s'),
     })
@@ -474,6 +543,9 @@ def lang():
 
 
 def main():
+    scroll_item()
+    tablet_block()
+    loot_scrolls()
     lore_json()
     lang()
     illustrations()

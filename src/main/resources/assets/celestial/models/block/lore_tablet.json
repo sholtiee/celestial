@@ -1,0 +1,85 @@
+{
+  "textures": {
+    "stone": "celestial:block/lore_tablet_stone",
+    "face": "celestial:block/lore_tablet_face",
+    "particle": "celestial:block/lore_tablet_stone"
+  },
+  "elements": [
+    {
+      "from": [
+        3,
+        0,
+        6
+      ],
+      "to": [
+        13,
+        2,
+        10
+      ],
+      "faces": {
+        "north": {
+          "texture": "#stone"
+        },
+        "south": {
+          "texture": "#stone"
+        },
+        "east": {
+          "texture": "#stone"
+        },
+        "west": {
+          "texture": "#stone"
+        },
+        "up": {
+          "texture": "#stone"
+        },
+        "down": {
+          "texture": "#stone"
+        }
+      }
+    },
+    {
+      "from": [
+        4,
+        2,
+        7
+      ],
+      "to": [
+        12,
+        15,
+        9
+      ],
+      "faces": {
+        "north": {
+          "texture": "#face",
+          "uv": [
+            4,
+            1,
+            12,
+            14
+          ]
+        },
+        "south": {
+          "texture": "#face",
+          "uv": [
+            4,
+            1,
+            12,
+            14
+          ]
+        },
+        "east": {
+          "texture": "#stone"
+        },
+        "west": {
+          "texture": "#stone"
+        },
+        "up": {
+          "texture": "#stone"
+        },
+        "down": {
+          "texture": "#stone"
+        }
+      }
+    }
+  ]
+}
