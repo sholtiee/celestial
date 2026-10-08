@@ -82,7 +82,13 @@ public class StarBasinBlock extends Block {
 
 	@Override
 	protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effects, boolean precise) {
-		if (!(level instanceof ServerLevel server) || !(entity instanceof ItemEntity item) || state.getValue(LEVEL) == 0 || item.tickCount < 10) {
+		if (!(level instanceof ServerLevel server) || !(entity instanceof ItemEntity item) || item.tickCount < 10) {
+			return;
+		}
+		// состояние берём из мира, а не из аргумента: несколько стопок в один тик видели старый уровень и превращались
+		// за одно деление (лазейка аудита D)
+		state = level.getBlockState(pos);
+		if (!state.is(this) || state.getValue(LEVEL) == 0) {
 			return;
 		}
 		Supplier<Item> result = TRANSFORMS.get(item.getItem().getItem());

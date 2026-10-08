@@ -1,0 +1,28 @@
+# Аудит D: купель — одно деление на одну стопку (две стопки в один тик); Пожиратель без жаровен режет урон стрел, лавы, зелий; Разлом верхом
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/execute in minecraft:overworld run tp @s 27000 160 27000
+fly
+wait 60
+/fill 26990 149 26990 27010 149 27010 minecraft:stone
+/fill 26990 150 26990 27010 160 27010 minecraft:air
+/setblock 27000 150 27000 celestial:star_basin[level=1]
+/summon item 27000.5 151 27000.5 {Item:{id:"minecraft:iron_ingot",count:16},PickupDelay:200}
+/summon item 27000.5 151 27000.5 {Item:{id:"minecraft:iron_ingot",count:16},PickupDelay:200}
+wait 40
+/say TEST D1 basin_one_stack expect=pass,pass
+/execute if entity @e[type=item,nbt={Item:{id:"celestial:starsteel_ingot",count:16}}]
+/execute if entity @e[type=item,nbt={Item:{id:"minecraft:iron_ingot",count:16}}]
+/kill @e[type=item]
+# D2 Пожиратель без горящих жаровен: стрела 100 → ×0.08, лава/огонь, зелье вреда — тоже
+/say TEST D2 devourer_absorbs expect=здоровье > 400 из 420 после 300 номинального урона (см. data get)
+/summon celestial:light_devourer 27000 156 27000 {NoAI:1b,Tags:["d"]}
+wait 5
+/damage @e[tag=d,limit=1] 100 minecraft:arrow
+/damage @e[tag=d,limit=1] 100 minecraft:lava
+/damage @e[tag=d,limit=1] 100 minecraft:magic
+wait 5
+/data get entity @e[tag=d,limit=1] Health
+/kill @e[tag=d]
+quit
