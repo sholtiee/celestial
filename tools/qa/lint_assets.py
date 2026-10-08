@@ -385,7 +385,75 @@ def check_data():
             report('ITEM_UNOBTAINABLE', f'{name}: не упомянут ни в данных, ни в коде кроме регистрации')
 
 
-CHECKS = [check_models, check_textures, check_block_transparency, check_particles_sounds, check_lang, check_data]
+def check_lore():
+    """Летопись (docs/LORE.md): переводы ru/en на всё, паритет ключей и «у каждого листа есть способ открыться» (S6.1).
+
+    Способ открыться ищем в коде и данных: Lore.unlock(..., "id"), свиток {sheet:"id"} в лут-таблицах, `Sheet` скрижали в шаблонах.
+    Листы, которым нужен ещё не написанный движок сцен (Отблески, пролог, видения, беседы), и подвиги из PENDING печатаются отдельно и не считаются находками.
+    """
+    import gzip
+    import sys as _sys
+    _sys.path.insert(0, os.path.join(ROOT, 'tools'))
+    import lore_data as L
+    data = load(os.path.join(D, 'lore/lore.json'))
+    if not data:
+        report('LORE_DATA', 'нет data/celestial/lore/lore.json')
+        return
+    ru = load(os.path.join(A, 'lang/ru_ru.json')) or {}
+    en = load(os.path.join(A, 'lang/en_us.json')) or {}
+    for key in ru:  # одинаковые плейсхолдеры (%s, %d) в обоих языках
+        if key in en and len(re.findall(r'%[sd]', ru[key])) != len(re.findall(r'%[sd]', en[key])):
+            report('LANG_PLACEHOLDERS', f'{key}: число %s/%d в ru и en разное')
+    for key in sorted({k for k in ru if k.startswith('lore.celestial.')} ^ {k for k in en if k.startswith('lore.celestial.')}):
+        report('LORE_LANG_PARITY', f'{key}: есть только в одном языке')
+    for sh in data['sheets']:
+        p = f"lore.celestial.sheet.{sh['id']}"
+        need = ['.title', '.how', '.ref'] + (['.quote'] if sh['has_quote'] else []) + [f'.{k}' for k, f in (('s', 'has_s'), ('a', 'has_a'), ('t', 'has_t')) if sh[f]]
+        for suffix in need:
+            if p + suffix not in ru or p + suffix not in en:
+                report('LORE_LANG_MISSING', f'{p + suffix}')
+        if not (sh['has_s'] or sh['has_a'] or sh['has_t']):
+            report('LORE_EMPTY_SHEET', f"{sh['id']}: ни «Писания», ни «Апокрифа», ни «Предания»")
+        if not os.path.exists(os.path.join(A, f"textures/gui/lore/{sh['art']}.png")):
+            report('LORE_NO_ART', f"{sh['id']}: нет картинки {sh['art']}")
+        for g in sh['gloss']:
+            if g not in data['glossary']:
+                report('LORE_BAD_GLOSSARY', f"{sh['id']}: слово {g} не в Глоссарии")
+    for g in data['glossary']:
+        for suffix in ('', '.who', '.here'):
+            if f'lore.celestial.gloss.{g}{suffix}' not in ru:
+                report('LORE_LANG_MISSING', f'lore.celestial.gloss.{g}{suffix}')
+    json_text = ''
+    for dirpath, _, files in os.walk(D):
+        for f in files:
+            if f.endswith('.json'):
+                with open(os.path.join(dirpath, f), encoding='utf-8') as fh:
+                    json_text += fh.read()
+    nbt_bytes = b''
+    for dirpath, _, files in os.walk(os.path.join(D, 'structure')):
+        for f in files:
+            if f.endswith('.nbt'):
+                with open(os.path.join(dirpath, f), 'rb') as fh:
+                    try:
+                        nbt_bytes += gzip.decompress(fh.read())
+                    except OSError:
+                        pass
+    pending = []
+    for sh in data['sheets']:
+        i = sh['id']
+        found = bool(re.search(rf'unlock\([^)]*"{i}"', ALL_JAVA)) or (sh['src'] == 'scroll' and f'sheet:\\"{i}\\"' in json_text) \
+            or (sh['src'] == 'tablet' and i.encode() in nbt_bytes)
+        if found:
+            continue
+        if sh['src'] in ('glimpse', 'prologue', 'vision', 'conv') or i in getattr(L, 'PENDING', {}):
+            pending.append(f"{i} ({sh['src']}{': ' + L.PENDING[i] if i in getattr(L, 'PENDING', {}) else ''})")
+        else:
+            report('LORE_NO_OPENER', f"{i}: источник «{sh['src']}», но в коде и данных способа открыть нет")
+    if pending:
+        print('Листы Летописи, ждущие движка сцен или своей волны (не находки): ' + ', '.join(pending))
+
+
+CHECKS = [check_models, check_textures, check_block_transparency, check_particles_sounds, check_lang, check_data, check_lore]
 
 
 def main():

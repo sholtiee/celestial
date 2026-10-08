@@ -30,6 +30,9 @@ public final class CodexEvents {
 				return;
 			}
 			for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+				if (player.level().dimension().identifier().getPath().equals("frozen_halls")) {
+					dev.celestial.lore.Lore.unlock(player, "firmament_waters");  // «Воды над твердью»: приход в Ледяные Чертоги
+				}
 				var start = player.level().structureManager().getStructureWithPieceAt(player.blockPosition(), PLACES);
 				if (start.isValid()) {
 					var key = player.level().registryAccess().lookupOrThrow(Registries.STRUCTURE).getKey(start.getStructure());

@@ -37,6 +37,9 @@ NODES = [
     ('revelation', 'Откровение', 'Revelation', 5),
 ]
 
+# Листы, у которых способ открыться появится в своей задаче (lint_assets.check_lore печатает их отдельно): id → где.
+PENDING = {'morning_star': 'S3.7 «Осколки падения»'}
+
 SOURCES = ('prologue', 'glimpse', 'names', 'vision', 'scroll', 'tablet', 'conv', 'deed', 'place')
 
 SHEETS = [
