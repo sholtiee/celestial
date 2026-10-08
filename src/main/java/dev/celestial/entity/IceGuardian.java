@@ -136,7 +136,7 @@ public class IceGuardian extends Monster {
 		slamCooldown = 140 + random.nextInt(60);
 		level.broadcastEntityEvent(this, EVENT_SLAM);
 		slamAnim = 16;
-		level.playSound(null, blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.HOSTILE, 1.6F, 0.4F);
+		level.playSound(null, blockPosition(), dev.celestial.registry.ModSounds.ICE_CRACK, SoundSource.HOSTILE, 2.0F, 0.6F);
 		level.playSound(null, blockPosition(), SoundEvents.GENERIC_EXPLODE.value(), SoundSource.HOSTILE, 0.6F, 1.6F);
 		for (int i = 0; i < 40; i++) {
 			double a = i / 40.0 * Math.PI * 2;
@@ -231,7 +231,7 @@ public class IceGuardian extends Monster {
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return SoundEvents.GLASS_HIT;
+		return dev.celestial.registry.ModSounds.GUARDIAN_CRACK;
 	}
 
 	@Override

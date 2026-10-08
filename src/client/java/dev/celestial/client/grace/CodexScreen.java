@@ -23,6 +23,7 @@ public class CodexScreen extends Screen {
 		"cherub", "golden_ram", "sky_ray", "cloud_jelly", "mimic", "storm_elemental", "fallen_seraph", "shadow", "blind_hunter", "light_eater", "deep_worm", "light_devourer", "frost_wraith", "ice_guardian", "ice_wolf", "frost_archon", "inia"};
 	private static final String[] PLACES = {"sky_village", "sky_ruins", "trial_tower", "beam_temple", "cloud_castle", "sky_lighthouse",
 		"airship_wreck", "citadel", "meteor_crater", "observatory", "flame_sanctuary", "void_rift", "abyss_rift", "abyss", "sunken_temple", "devourer_lair", "frozen_citadel", "mirror_maze", "angel_camp"};
+	private static final String[] PUZZLES = {"bells", "star_tiles", "riddle", "glacier", "mirror_maze"};
 	private static final int W = 340, H = 210;
 	private static final net.minecraft.resources.Identifier BACKGROUND = dev.celestial.Celestial.id("textures/gui/codex.png");
 	private static Tab tab = Tab.SAGA;
@@ -94,6 +95,16 @@ public class CodexScreen extends Screen {
 			case GUIDE -> {
 				for (int i = 1; i <= 13; i++) {
 					lines.add(Component.translatable("codex.celestial.guide." + i));
+				}
+				// загадки: решённые отмечены, у остальных — подсказка, где искать
+				lines.add(Component.empty());
+				lines.add(Component.translatable("codex.celestial.puzzles").withStyle(ChatFormatting.LIGHT_PURPLE));
+				for (String p : PUZZLES) {
+					boolean solved = d.knows("puzzle_" + p);
+					lines.add(Component.literal(solved ? "✦ " : "✧ ").withStyle(solved ? ChatFormatting.GOLD : ChatFormatting.DARK_GRAY)
+						.append(Component.translatable("codex.celestial.puzzle." + p).withStyle(solved ? ChatFormatting.AQUA : ChatFormatting.GRAY))
+						.append(Component.literal(" — ").withStyle(ChatFormatting.DARK_GRAY))
+						.append(Component.translatable("codex.celestial.puzzle." + p + ".hint").withStyle(ChatFormatting.GRAY)));
 				}
 			}
 		}

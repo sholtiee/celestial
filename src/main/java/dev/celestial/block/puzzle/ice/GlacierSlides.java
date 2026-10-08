@@ -97,7 +97,7 @@ public final class GlacierSlides {
 			level.addFreshEntity(display);
 			slide.display = display;
 		}
-		level.playSound(null, from, SoundEvents.GLASS_HIT, SoundSource.BLOCKS, 1.0F, 0.6F);
+		level.playSound(null, from, dev.celestial.registry.ModSounds.GLACIER_SLIDE, SoundSource.BLOCKS, 1.0F, 0.9F + level.getRandom().nextFloat() * 0.2F);
 		ACTIVE.add(slide);
 	}
 

@@ -67,7 +67,7 @@ public class IceWolf extends AbstractHorse {
 			used = true;
 		}
 		if (used) {
-			playSound(SoundEvents.FOX_SCREECH, 1.0F, 0.8F);
+			playSound(dev.celestial.registry.ModSounds.WOLF_HURT, 0.8F, 1.3F);
 		}
 		return used;
 	}
@@ -131,17 +131,17 @@ public class IceWolf extends AbstractHorse {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return random.nextInt(4) == 0 ? SoundEvents.FOX_SCREECH : null;
+		return random.nextInt(4) == 0 ? dev.celestial.registry.ModSounds.WOLF_HOWL : null;
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return SoundEvents.FOX_HURT;
+		return dev.celestial.registry.ModSounds.WOLF_HURT;
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return SoundEvents.FOX_DEATH;
+		return dev.celestial.registry.ModSounds.WOLF_HOWL;
 	}
 
 	@Override

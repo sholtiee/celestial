@@ -805,6 +805,21 @@ def maze():
                                             'A Tuning Fork lies at the foot of the lock. It turns the ancient mirrors.'),
         'puzzle.celestial.beam_lock.solved': ('Три луча сошлись — замок открыт', 'Three beams met — the lock is open'),
         'structure.celestial.mirror_maze': ('Зеркальный лабиринт', 'Mirror Labyrinth'),
+        'codex.celestial.puzzles': ('— Загадки —', '— Puzzles —'),
+        'codex.celestial.puzzle.bells': ('Колокола', 'Bells'),
+        'codex.celestial.puzzle.bells.hint': ('послушай мелодию алтаря и повтори её на колоколах (руины Рая).',
+                                             'listen to the altar\'s melody and repeat it on the bells (Heaven ruins).'),
+        'codex.celestial.puzzle.star_tiles': ('Звёздные плиты', 'Star Tiles'),
+        'codex.celestial.puzzle.star_tiles.hint': ('зажги все плиты: каждая переключает и соседей.', 'light every tile: each one flips its neighbours too.'),
+        'codex.celestial.puzzle.riddle': ('Рунный пьедестал', 'Rune Pedestal'),
+        'codex.celestial.puzzle.riddle.hint': ('прочти загадку пустой рукой; ошибка запирает пьедестал на время.',
+                                              'read the riddle bare-handed; a wrong answer locks the pedestal for a while.'),
+        'codex.celestial.puzzle.glacier': ('Скользящий лёд', 'Sliding Ice'),
+        'codex.celestial.puzzle.glacier.hint': ('толкай глыбы, стоя вплотную: едут до преграды. Колокол вернёт расклад (Ледяная цитадель).',
+                                               'push glaciers from right behind: they slide until they hit something. The bell resets them (Frozen Citadel).'),
+        'codex.celestial.puzzle.mirror_maze': ('Зеркальный лабиринт', 'Mirror Labyrinth'),
+        'codex.celestial.puzzle.mirror_maze.hint': ('Камертоном крути древние зеркала: три цвета должны гореть разом (шпили Чертогов).',
+                                                   'turn the ancient mirrors with a Tuning Fork: three colours must burn at once (the Halls\' spires).'),
     })
 
 

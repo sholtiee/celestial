@@ -221,7 +221,98 @@ def devourer_battle(seed, bars=36, bpm=118):
     return reverb(track, 0.3, 0.7)
 
 
+def frozen_music(seed, sec=120):
+    """Ледяные Чертоги: вой ветра, хрустальные арпеджио (лидийский лад), высокое мерцание и редкий глухой «треск» ледника."""
+    rng = np.random.default_rng(seed)
+    track = np.zeros(int(sec * SR) + SR * 6)
+    t = t_axis(sec)
+    wind = lowpass_fast(rng.standard_normal(len(t)), 900) - lowpass_fast(rng.standard_normal(len(t)), 120)
+    wind *= 0.25 + 0.75 * (0.5 + 0.5 * np.sin(2 * np.pi * t / 17.0 + 1.3)) ** 3
+    place(track, wind * 0.35, 0)
+    scale = [0, 2, 4, 6, 7, 9, 11, 12, 14, 16]  # лидийский от ре
+    root = 62
+    for i in range(int(sec / 12)):
+        chord = [(0, 4, 7), (2, 6, 9), (-3, 2, 7), (-5, 2, 6)][i % 4]
+        for n in chord:
+            place(track, pad(note(root - 12 + n), 14.0, detune=0.005, bright=900) * 0.09, i * 12)
+        for k in range(10):  # арпеджио «сосулек»
+            n = scale[rng.integers(0, len(scale))] + 12
+            place(track, bell(note(root + n), 3.0, 0.07 + 0.03 * rng.random()), i * 12 + 1.0 + k * 1.05 + rng.random() * 0.2)
+    for _ in range(int(sec / 15)):  # далёкий треск ледника
+        tt = t_axis(1.5)
+        crack = lowpass(rng.standard_normal(len(tt)), 700) * np.exp(-tt * 3) * 0.3
+        place(track, crack, rng.random() * sec)
+    shimmer = sum(np.sin(2 * np.pi * note(root + 36 + n) * t + rng.random() * 6) for n in (0, 7, 14)) * 0.012
+    place(track, shimmer * (0.5 + 0.5 * np.sin(2 * np.pi * t / 9.0)), 0)
+    return reverb(track, 0.75, 0.93)
+
+
+def archon_battle(seed, bars=40, bpm=140):
+    """Битва с Морозным Архонтом: стеклянное остинато, тяжёлый пульс, метель-шум, хор-кластеры; с 24-го такта — вдвое плотнее."""
+    rng = np.random.default_rng(seed)
+    beat = 60 / bpm
+    bar = beat * 4
+    track = np.zeros(int(bar * bars * SR + SR * 3))
+    root = 57
+    prog = [(0, 3, 7), (-4, 0, 3), (-2, 2, 5), (-5, -1, 2)]
+    tk = t_axis(0.45)
+    kick = np.sin(2 * np.pi * (45 + 100 * np.exp(-tk * 28)) * tk) * np.exp(-tk * 7)
+    ts = t_axis(0.25)
+    snare = rng.standard_normal(len(ts)) * np.exp(-ts * 16) * 0.5 + np.sin(2 * np.pi * 190 * ts) * np.exp(-ts * 25) * 0.4
+    for b in range(bars):
+        ch = prog[(b // 2) % len(prog)]
+        dense = b >= 24
+        for n in ch:
+            place(track, pad(note(root + n), bar * 1.05, detune=0.008, bright=1600) * 0.14, b * bar)
+        place(track, pad(note(root + ch[0] - 24), bar, detune=0.015, bright=280) * 0.45, b * bar)
+        for st in range(8):  # стеклянное остинато восьмыми
+            n = ch[st % 3] + (12 if st % 4 < 2 else 24)
+            place(track, bell(note(root + n), 0.7, 0.12 if dense else 0.09), b * bar + st * beat / 2)
+        for st in range(4 if not dense else 8):
+            place(track, kick * 0.9, b * bar + st * beat * (1 if not dense else 0.5))
+        place(track, snare * 0.7, b * bar + beat)
+        place(track, snare * 0.7, b * bar + beat * 3)
+        if b % 4 == 3:  # порыв метели на стыке фраз
+            tt = t_axis(bar)
+            gust = lowpass_fast(rng.standard_normal(len(tt)), 1500) * np.sin(np.pi * tt / bar) ** 2 * 0.25
+            place(track, gust, b * bar)
+    return reverb(track, 0.32, 0.72)
+
+
 # ---------------------------------------------------------------- эффекты
+def frozen_sfx():
+    rng = np.random.default_rng(17)
+    out = {}
+    t = t_axis(3.0)  # рёв Архонта: стеклянные обертоны над хриплым шумом
+    glass = sum(np.sin(2 * np.pi * f * (1 - 0.12 * t / 3) * t + rng.random() * 6) * a for f, a in ((180, 1), (271, 0.7), (497, 0.5), (1210, 0.25)))
+    out['archon_roar'] = lowpass(glass * (1 + 0.4 * np.sin(2 * np.pi * 13 * t)) + rng.standard_normal(len(t)) * 0.7, 2600) * \
+        env(len(t), a=0.2, d=0.5, s=0.75, r=1.3)
+    t = t_axis(0.8)  # треск льда
+    clicks = (rng.random(len(t)) < 0.004).astype(float) * rng.standard_normal(len(t))
+    out['ice_crack'] = lowpass(clicks * 6 + rng.standard_normal(len(t)) * 0.3, 3500) * np.exp(-t * 5)
+    t = t_axis(1.0)  # скрежет скользящей глыбы
+    scrape = lowpass(rng.standard_normal(len(t)), 1200) * (0.6 + 0.4 * np.sin(2 * np.pi * 37 * t))
+    out['glacier_slide'] = scrape * env(len(t), a=0.05, d=0.2, s=0.8, r=0.4) + np.sin(2 * np.pi * 95 * t) * np.exp(-t * 3) * 0.3
+    t = t_axis(2.6)  # ледяной колокол: колокол + мерцание
+    out['ice_bell'] = bell(note(86), 2.6, 1.0) + bell(note(93), 2.6, 0.5) + \
+        sum(np.sin(2 * np.pi * note(105 + k) * t) * np.exp(-t * (3 + k)) * 0.05 for k in (0, 4, 7))
+    t = t_axis(0.7)  # шип вырастает из пола
+    out['spike_rise'] = (np.sin(2 * np.pi * (300 + 1600 * t / 0.7) * t) * 0.4 + lowpass(rng.standard_normal(len(t)), 2400) * 0.7) * \
+        np.exp(-t * 4) + (rng.random(len(t)) < 0.01) * rng.standard_normal(len(t)) * 0.8 * np.exp(-t * 6)
+    t = t_axis(2.4)  # вой ледяного волка: глиссандо с вибрато
+    f = 380 + 260 * np.sin(np.pi * np.clip(t / 2.0, 0, 1)) ** 1.5
+    phase = 2 * np.pi * np.cumsum(f * (1 + 0.012 * np.sin(2 * np.pi * 5.5 * t))) / SR
+    out['wolf_howl'] = (np.sin(phase) + 0.3 * np.sin(2 * phase) + 0.1 * np.sin(3 * phase)) * env(len(t), a=0.3, d=0.4, s=0.8, r=0.8)
+    t = t_axis(0.4)
+    f = 900 - 500 * t / 0.4
+    phase = 2 * np.pi * np.cumsum(f) / SR
+    out['wolf_hurt'] = (np.sin(phase) + 0.4 * np.sin(2 * phase)) * np.exp(-t * 7)
+    t = t_axis(0.6)  # треск стража: глухой удар + осколки
+    out['guardian_crack'] = np.sin(2 * np.pi * (70 + 120 * np.exp(-t * 20)) * t) * np.exp(-t * 7) + \
+        lowpass(rng.standard_normal(len(t)), 4000) * np.exp(-t * 12) * 0.6 + sum(bell(note(n), 0.6, 0.15) for n in (96, 101))
+    return {k: reverb(v, 0.25, 0.6) for k, v in out.items()}
+
+
 def sfx():
     rng = np.random.default_rng(7)
     out = {}
@@ -294,10 +385,46 @@ SOUNDS = {  # событие → (файл(ы), категория для суб
     'entity.fallen_seraph.roar': (['sfx/seraph_roar'], 'seraph_roar', False),
     'fading.grow': (['sfx/fading_grow'], 'fading_grow', False),
     'trial.start': (['sfx/trial_start'], 'trial_start', False),
+    'music.frozen': (['music/frozen_1'], None, True),
+    'music.archon_battle': (['music/archon_battle'], None, True),
+    'entity.frost_archon.roar': (['sfx/archon_roar'], 'archon_roar', False),
+    'block.ice.crack': (['sfx/ice_crack'], 'ice_crack', False),
+    'block.glacier.slide': (['sfx/glacier_slide'], 'glacier_slide', False),
+    'block.ice_bell.ring': (['sfx/ice_bell'], 'ice_bell', False),
+    'entity.ice_spike.rise': (['sfx/spike_rise'], 'spike_rise', False),
+    'entity.ice_wolf.howl': (['sfx/wolf_howl'], 'wolf_howl', False),
+    'entity.ice_wolf.hurt': (['sfx/wolf_hurt'], 'wolf_hurt', False),
+    'entity.ice_guardian.crack': (['sfx/guardian_crack'], 'guardian_crack', False),
 }
 
 
+def write_sounds_json():
+    sounds = {}
+    for event, (files, sub, stream) in SOUNDS.items():
+        entry = {'sounds': [{'name': 'celestial:' + f, **({'stream': True} if stream else {})} for f in files]}
+        if sub:
+            entry['subtitle'] = 'subtitles.celestial.' + sub
+        sounds[event] = entry
+    with open(os.path.join(ROOT, 'sounds.json'), 'w', encoding='utf-8') as f:
+        json.dump(sounds, f, ensure_ascii=False, indent=2)
+
+
+def frozen_only():
+    """Только звуки волны 0.4 (python3 gen_sounds.py frozen) — остальные ogg не перекодируются."""
+    print('Ледяные Чертоги…')
+    save('music/frozen_1', frozen_music(8), 3)
+    save('music/archon_battle', archon_battle(9), 3)
+    for k, v in frozen_sfx().items():
+        save('sfx/' + k, v, 5)
+    write_sounds_json()
+    print('ok: звуки Чертогов')
+
+
 def main():
+    import sys
+    if sys.argv[1:] == ['frozen']:
+        frozen_only()
+        return
     print('музыка Рая…')
     save('music/heaven_1', heaven_music(1, [(0, 4, 7, 11), (-3, 0, 4, 7), (-7, -3, 0, 4), (-5, -1, 2, 7)]), 3)
     save('music/heaven_2', heaven_music(2, [(2, 5, 9, 12), (-3, 0, 4, 7), (0, 4, 7, 11), (-5, 2, 5, 9)], bpm=54, root=62), 3)
@@ -311,14 +438,11 @@ def main():
     print('эффекты…')
     for k, v in sfx().items():
         save('sfx/' + k, v, 5)
-    sounds = {}
-    for event, (files, sub, stream) in SOUNDS.items():
-        entry = {'sounds': [{'name': 'celestial:' + f, **({'stream': True} if stream else {})} for f in files]}
-        if sub:
-            entry['subtitle'] = 'subtitles.celestial.' + sub
-        sounds[event] = entry
-    with open(os.path.join(ROOT, 'sounds.json'), 'w', encoding='utf-8') as f:
-        json.dump(sounds, f, ensure_ascii=False, indent=2)
+    save('music/frozen_1', frozen_music(8), 3)
+    save('music/archon_battle', archon_battle(9), 3)
+    for k, v in frozen_sfx().items():
+        save('sfx/' + k, v, 5)
+    write_sounds_json()
     total = sum(os.path.getsize(os.path.join(dp, fn)) for dp, _, fns in os.walk(OUT) for fn in fns)
     print(f'ok: звуки, {len(SOUNDS)} событий, {total // 1024} КБ')
 

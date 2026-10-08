@@ -162,5 +162,85 @@
       }
     ],
     "subtitle": "subtitles.celestial.trial_start"
+  },
+  "music.frozen": {
+    "sounds": [
+      {
+        "name": "celestial:music/frozen_1",
+        "stream": true
+      }
+    ]
+  },
+  "music.archon_battle": {
+    "sounds": [
+      {
+        "name": "celestial:music/archon_battle",
+        "stream": true
+      }
+    ]
+  },
+  "entity.frost_archon.roar": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/archon_roar"
+      }
+    ],
+    "subtitle": "subtitles.celestial.archon_roar"
+  },
+  "block.ice.crack": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/ice_crack"
+      }
+    ],
+    "subtitle": "subtitles.celestial.ice_crack"
+  },
+  "block.glacier.slide": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/glacier_slide"
+      }
+    ],
+    "subtitle": "subtitles.celestial.glacier_slide"
+  },
+  "block.ice_bell.ring": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/ice_bell"
+      }
+    ],
+    "subtitle": "subtitles.celestial.ice_bell"
+  },
+  "entity.ice_spike.rise": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/spike_rise"
+      }
+    ],
+    "subtitle": "subtitles.celestial.spike_rise"
+  },
+  "entity.ice_wolf.howl": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/wolf_howl"
+      }
+    ],
+    "subtitle": "subtitles.celestial.wolf_howl"
+  },
+  "entity.ice_wolf.hurt": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/wolf_hurt"
+      }
+    ],
+    "subtitle": "subtitles.celestial.wolf_hurt"
+  },
+  "entity.ice_guardian.crack": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/guardian_crack"
+      }
+    ],
+    "subtitle": "subtitles.celestial.guardian_crack"
   }
 }

@@ -73,7 +73,10 @@ public final class Cold {
 				delta *= 0.5F;
 			}
 		}
-		if (dev.celestial.item.EquipmentEffects.wearsIceCrown(player) || player.hasEffect(dev.celestial.registry.ModEffects.WARMED)) {  // Корона Архонта: холод над носителем не властен
+		boolean crown = dev.celestial.item.EquipmentEffects.wearsIceCrown(player);
+		if (crown) {  // Корона Архонта: холод над носителем не властен — тепло само возвращается
+			delta = Math.max(delta, 2.0F);
+		} else if (player.hasEffect(dev.celestial.registry.ModEffects.WARMED)) {  // горячая еда: тепло не тает
 			delta = Math.max(delta, 0.0F);
 		}
 		final float change = delta;
@@ -84,7 +87,7 @@ public final class Cold {
 				player.sendOverlayMessage(Component.translatable("frozen.celestial.cold_rising"));
 			}
 		}
-		if (warmth <= 0 && !hasFrostSet(player)) {
+		if (warmth <= 0 && !hasFrostSet(player) && !crown) {
 			player.setTicksFrozen(Math.max(player.getTicksFrozen(), player.getTicksRequiredToFreeze() + 40));
 			// ванильный урон мороза не идёт, если надет любой предмет из #freeze_immune_wearables (вся кожа) — бьём сами
 			if (!player.canFreeze()) {

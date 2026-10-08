@@ -1,0 +1,232 @@
+# Сквозной прогон Акта III (генерирует tools/gen_frozen_places.py). Цитадель ставится /place в Чертогах — в мире её поворот случаен
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/gamerule spawn_monsters false
+/celestial act 2
+/clear @s
+# 1 Ледяные врата в Верхнем мире, зажечь Тёмным Ядром
+/execute in minecraft:overworld run tp @s 93 90 -293
+wait 60
+/execute in minecraft:overworld run fill 96 70 -296 99 74 -296 celestial:frost_stone_bricks
+/execute in minecraft:overworld run fill 97 71 -296 98 73 -296 minecraft:air
+/execute in minecraft:overworld run tp @s 97 71 -292 180 0
+wait 10
+/item replace entity @s weapon.mainhand with celestial:dark_core
+use 97 70 -296 up
+wait 20
+/say TEST A1 gate_lit expect=pass
+/execute in minecraft:overworld if block 97 71 -296 celestial:frozen_portal
+/execute in minecraft:overworld run tp @s 97 71 -296
+wait 160
+pos
+/say TEST A2 in_frozen_halls expect=pass
+/execute in celestial:frozen_halls if entity @s[distance=..100000]
+# 2 цитадель на леднике (фиксированное место)
+/execute in celestial:frozen_halls run tp @s 3031 195 3031
+fly
+wait 160
+/fill 2996 146 2996 3013 149 3066 minecraft:packed_ice
+/fill 3014 146 2996 3031 149 3066 minecraft:packed_ice
+/fill 3032 146 2996 3049 149 3066 minecraft:packed_ice
+/fill 3050 146 2996 3067 149 3066 minecraft:packed_ice
+/place template celestial:frozen_citadel/main 3000 150 3000
+wait 80
+/kill @e[type=celestial:ice_guardian,distance=..100]
+/kill @e[type=celestial:frost_archon]
+/kill @e[type=celestial:inia]
+/weather clear
+togglehud
+/tp @s 3031 190 3100 180 25
+wait 40
+shot act3_citadel
+togglehud
+# 3 выживание в меху: тепло тает, жаровни во дворе греют
+/gamemode survival
+/effect give @s minecraft:resistance 2400 3 true
+/effect give @s minecraft:saturation 2400 1 true
+/effect give @s minecraft:regeneration 2400 1 true
+/item replace entity @s armor.head with celestial:fur_hood
+/item replace entity @s armor.chest with celestial:fur_cloak
+/item replace entity @s armor.legs with celestial:fur_leggings
+/item replace entity @s armor.feet with celestial:fur_boots
+/tp @s 3031.5 151 3058.5 180 0
+wait 40
+/celestial status
+# зал 1
+/say TEST H1 hall_1 expect=pass
+/tp @s 3004.5 151 3035.5
+wait 4
+use 3005 151 3035 west
+wait 30
+/tp @s 3007.5 151 3036.5
+wait 4
+use 3007 151 3035 south
+wait 30
+/tp @s 3009.5 151 3036.5
+wait 4
+use 3009 151 3035 south
+wait 30
+/tp @s 3008.5 151 3034.5
+wait 4
+use 3007 151 3034 east
+wait 30
+/tp @s 3006.5 151 3033.5
+wait 4
+use 3006 151 3034 north
+wait 30
+/tp @s 3005.5 151 3037.5
+wait 4
+use 3006 151 3037 west
+wait 30
+/tp @s 3009.5 151 3038.5
+wait 4
+use 3009 151 3037 south
+wait 30
+/tp @s 3010.5 151 3032.5
+wait 4
+use 3009 151 3032 east
+wait 30
+/tp @s 3010.5 151 3033.5
+wait 4
+use 3009 151 3033 east
+wait 30
+wait 50
+/execute if block 3031 151 3031 celestial:hall_seal[lit=1]
+# зал 2
+/say TEST H2 hall_2 expect=pass
+/tp @s 3019.5 151 3035.5
+wait 4
+use 3019 151 3034 south
+wait 30
+/tp @s 3018.5 151 3033.5
+wait 4
+use 3019 151 3033 west
+wait 30
+/tp @s 3020.5 151 3032.5
+wait 4
+use 3020 151 3033 north
+wait 30
+/tp @s 3015.5 151 3036.5
+wait 4
+use 3016 151 3036 west
+wait 30
+/tp @s 3019.5 151 3037.5
+wait 4
+use 3019 151 3036 south
+wait 30
+/tp @s 3018.5 151 3033.5
+wait 4
+use 3019 151 3033 west
+wait 30
+/tp @s 3020.5 151 3032.5
+wait 4
+use 3020 151 3033 north
+wait 30
+/tp @s 3021.5 151 3035.5
+wait 4
+use 3020 151 3035 east
+wait 30
+/tp @s 3020.5 151 3032.5
+wait 4
+use 3019 151 3032 east
+wait 30
+/tp @s 3018.5 151 3033.5
+wait 4
+use 3018 151 3032 south
+wait 30
+wait 50
+/execute if block 3031 151 3031 celestial:hall_seal[lit=2]
+# зал 3
+/say TEST H3 hall_3 expect=pass
+/tp @s 3051.5 151 3030.5
+wait 4
+use 3051 151 3031 north
+wait 30
+/tp @s 3055.5 151 3031.5
+wait 4
+use 3054 151 3031 east
+wait 30
+/tp @s 3049.5 151 3033.5
+wait 4
+use 3050 151 3033 west
+wait 30
+/tp @s 3057.5 151 3032.5
+wait 4
+use 3057 151 3033 north
+wait 30
+/tp @s 3050.5 151 3037.5
+wait 4
+use 3051 151 3037 west
+wait 30
+/tp @s 3052.5 151 3038.5
+wait 4
+use 3052 151 3037 south
+wait 30
+/tp @s 3051.5 151 3032.5
+wait 4
+use 3052 151 3032 west
+wait 30
+/tp @s 3057.5 151 3031.5
+wait 4
+use 3057 151 3032 north
+wait 30
+/tp @s 3049.5 151 3034.5
+wait 4
+use 3050 151 3034 west
+wait 30
+/tp @s 3056.5 151 3033.5
+wait 4
+use 3056 151 3034 north
+wait 30
+/tp @s 3053.5 151 3032.5
+wait 4
+use 3053 151 3031 south
+wait 30
+wait 50
+/execute if block 3031 151 3031 celestial:hall_seal[lit=3]
+/say TEST A3 arena_open expect=pass
+/execute unless block 3031 151 3027 celestial:sealed_door
+/celestial status
+# 4 арена: пробуждение, бой, победа
+/tp @s 3031.5 151 3026.5 180 0
+hold forward 20
+wait 30
+/tp @s 3031.5 151 3020.5 180 0
+wait 40
+/say TEST A4 archon_awake expect=pass
+/execute if entity @e[type=celestial:frost_archon]
+togglehud
+/tp @s 3031.5 151 3022.5 facing 3031.5 155 3014.5
+wait 20
+shot act3_fight
+togglehud
+/damage @e[type=celestial:frost_archon,limit=1] 200 minecraft:magic by @p
+wait 100
+/damage @e[type=celestial:frost_archon,limit=1] 200 minecraft:magic by @p
+wait 100
+/kill @e[tag=celestial_archon_summon]
+/damage @e[type=celestial:frost_archon,limit=1] 400 minecraft:magic by @p
+wait 80
+/say TEST A5 act3_done expect=pass,pass,pass
+/execute if items entity @s container.* celestial:ice_crown
+/execute if entity @e[type=celestial:inia]
+/execute unless entity @e[type=celestial:frost_archon]
+/celestial status
+# 5 Корона: тепло больше не тает
+/item replace entity @s armor.head with celestial:ice_crown
+/clear @s celestial:ice_crown
+/celestial status
+wait 300
+/celestial status
+/tp @s 3031.5 151 3007.5 180 0
+wait 10
+interact celestial:inia
+wait 10
+togglehud
+wait 5
+shot act3_inia
+togglehud
+/gamemode creative
+quit

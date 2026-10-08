@@ -7,7 +7,7 @@ import os
 
 import textures as T
 from gen_abyss import append_tag
-from gen_assets import DATA, c, save_png, self_drop, simple_cube, write_json, blockstate, model, item_def
+from gen_assets import ASSETS, DATA, c, save_png, self_drop, simple_cube, write_json, blockstate, model, item_def
 from gen_story import lang_patch
 
 WG = os.path.join(DATA, 'worldgen')
@@ -26,14 +26,23 @@ def blocks():
             ore.putpixel((x + dx, y + dy), (*T.hexrgb(['#dff6ff', '#9fdcff', '#5fb8f0', '#ffffff', '#bfe9ff'][i]), 255))
     save_png(ore, 'block/frost_ore')
     from PIL import Image
-    crystal = Image.new('RGBA', (16, 16), (0, 0, 0, 0))
-    for cx, h, w, cols in ((7, 13, 2, ('#d6fff0', '#5ff0b8', '#2fb58a')), (3, 8, 1, ('#ffe0f6', '#ff8ad8', '#c04a9a')),
-                           (11, 10, 1, ('#e0ecff', '#7fb0ff', '#3a6ad0'))):
-        for y in range(16 - h, 16):
-            half = max(0, int(w * (y - (16 - h)) / h + 0.5))
-            for x in range(cx - half, cx + half + 1):
-                col = cols[0] if x == cx - half else cols[2] if x == cx + half else cols[1]
-                crystal.putpixel((x, y), (*T.hexrgb(col), 255))
+    import json
+    # кристалл сияния мерцает: 8 кадров, по граням пробегает блик (анимированная текстура .mcmeta)
+    frames = 8
+    crystal = Image.new('RGBA', (16, 16 * frames), (0, 0, 0, 0))
+    for fr in range(frames):
+        for ci, (cx, h, w, cols) in enumerate(((7, 13, 2, ('#d6fff0', '#5ff0b8', '#2fb58a')), (3, 8, 1, ('#ffe0f6', '#ff8ad8', '#c04a9a')),
+                                               (11, 10, 1, ('#e0ecff', '#7fb0ff', '#3a6ad0')))):
+            glint = (fr * 2 + ci * 5) % 16  # высота блика бежит вверх, у каждого кристалла своя фаза
+            for y in range(16 - h, 16):
+                half = max(0, int(w * (y - (16 - h)) / h + 0.5))
+                for x in range(cx - half, cx + half + 1):
+                    col = T.hexrgb(cols[0] if x == cx - half else cols[2] if x == cx + half else cols[1])
+                    if abs((15 - y) - glint) <= 0:
+                        col = T.mix(col, (255, 255, 255), 0.6)
+                    crystal.putpixel((x, y + fr * 16), (*col, 255))
+    with open(os.path.join(ASSETS, 'textures/block/aurora_crystal.png.mcmeta'), 'w') as f:
+        json.dump({'animation': {'frametime': 4, 'interpolate': True}}, f)
     save_png(crystal, 'block/aurora_crystal')
     for n in ('frost_stone', 'frost_stone_bricks', 'frost_ore'):
         simple_cube(n)
@@ -41,7 +50,7 @@ def blocks():
     model('block/aurora_crystal', {'parent': 'minecraft:block/cross', 'textures': {'cross': c('block/aurora_crystal')}})
     rot = {'up': {}, 'down': {'x': 180}, 'north': {'x': 90}, 'south': {'x': 90, 'y': 180}, 'east': {'x': 90, 'y': 90}, 'west': {'x': 90, 'y': 270}}
     blockstate('aurora_crystal', {'variants': {f'facing={f}': {'model': c('block/aurora_crystal'), **v} for f, v in rot.items()}})
-    model('item/aurora_crystal', {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('block/aurora_crystal')}})
+    model('item/aurora_crystal', {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('block/aurora_crystal')}})  # анимируется вместе с блоком
     item_def('aurora_crystal', c('item/aurora_crystal'))
     self_drop('aurora_crystal')
     append_tag('block', 'minecraft:mineable/pickaxe', [c(n) for n in ('frost_stone', 'frost_stone_bricks', 'frost_ore', 'aurora_crystal')])
@@ -54,7 +63,7 @@ def dimension():
         'ambient_light': 0.05,
         'attributes': {
             'minecraft:audio/background_music': {'default': {'max_delay': 9000, 'min_delay': 2400, 'replace_current_music': True,
-                                                             'sound': 'minecraft:music.overworld.frozen_peaks'}},
+                                                             'sound': 'celestial:music.frozen'}},
             'minecraft:gameplay/bed_rule': {'can_set_spawn': 'always', 'can_sleep': 'when_dark',
                                             'error_message': {'translate': 'block.minecraft.bed.no_sleep'}},
             'minecraft:gameplay/respawn_anchor_works': False,

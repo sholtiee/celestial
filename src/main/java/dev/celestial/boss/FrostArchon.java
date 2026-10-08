@@ -351,7 +351,7 @@ public class FrostArchon extends Monster {
 			}
 		}
 		prisons.add(new Prison(victim, blocks, c, new int[] {PRISON_TIME}));
-		level.playSound(null, c, SoundEvents.GLASS_PLACE, SoundSource.HOSTILE, 2.0F, 0.5F);
+		level.playSound(null, c, dev.celestial.registry.ModSounds.ICE_CRACK, SoundSource.HOSTILE, 2.0F, 0.7F);
 		victim.sendSystemMessage(Component.translatable("boss.celestial.frost_archon.prison"));
 		victim.connection.send(new net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket(0, 30, 10));
 		victim.connection.send(new net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket(Component.empty()));
@@ -404,7 +404,7 @@ public class FrostArchon extends Monster {
 	}
 
 	private void onPhase(ServerLevel level, int phase) {
-		playSound(SoundEvents.ENDER_DRAGON_GROWL, 3.0F, 1.4F);
+		playSound(dev.celestial.registry.ModSounds.ARCHON_ROAR, 3.0F, 1.0F);
 		cast(30);
 		bossEvent.setCreateWorldFog(phase >= 2);
 		bossEvent.setColor(phase == 3 ? BossEvent.BossBarColor.WHITE : BossEvent.BossBarColor.BLUE);

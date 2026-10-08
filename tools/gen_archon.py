@@ -335,6 +335,14 @@ def main():
     names = story()
     names.update({
         'entity.celestial.frost_archon': ('Морозный Архонт', 'Frost Archon'),
+        'subtitles.celestial.archon_roar': ('Рёв Морозного Архонта', 'Frost Archon roars'),
+        'subtitles.celestial.ice_crack': ('Трещит лёд', 'Ice cracks'),
+        'subtitles.celestial.glacier_slide': ('Скользит глыба', 'Glacier slides'),
+        'subtitles.celestial.ice_bell': ('Звенит ледяной колокол', 'Ice bell rings'),
+        'subtitles.celestial.spike_rise': ('Из пола вырастает шип', 'Ice spike erupts'),
+        'subtitles.celestial.wolf_howl': ('Воет ледяной волк', 'Ice wolf howls'),
+        'subtitles.celestial.wolf_hurt': ('Ледяной волк скулит', 'Ice wolf whimpers'),
+        'subtitles.celestial.guardian_crack': ('Трещит Ледяной страж', 'Ice Guardian cracks'),
         'entity.celestial.inia': ('Иния', 'Inia'),
         'entity.celestial.ice_spike': ('Ледяной шип', 'Ice Spike'),
         'entity.celestial.frost_shard': ('Ледяной осколок', 'Frost Shard'),

@@ -29,6 +29,15 @@ public final class ModSounds {
 	public static final SoundEvent LIGHT_EATER_FEED = register("entity.light_eater.feed");
 	public static final SoundEvent WORM_BITE = register("entity.deep_worm.bite");
 	public static final net.minecraft.core.Holder<SoundEvent> MUSIC_ARCHON_BATTLE = registerHolder("music.archon_battle");
+	public static final net.minecraft.core.Holder<SoundEvent> MUSIC_FROZEN = registerHolder("music.frozen");
+	public static final SoundEvent ARCHON_ROAR = register("entity.frost_archon.roar");
+	public static final SoundEvent ICE_CRACK = register("block.ice.crack");
+	public static final SoundEvent GLACIER_SLIDE = register("block.glacier.slide");
+	public static final SoundEvent ICE_BELL = register("block.ice_bell.ring");
+	public static final SoundEvent SPIKE_RISE = register("entity.ice_spike.rise");
+	public static final SoundEvent WOLF_HOWL = register("entity.ice_wolf.howl");
+	public static final SoundEvent WOLF_HURT = register("entity.ice_wolf.hurt");
+	public static final SoundEvent GUARDIAN_CRACK = register("entity.ice_guardian.crack");
 
 	private ModSounds() {}
 

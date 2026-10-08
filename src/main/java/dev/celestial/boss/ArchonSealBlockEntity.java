@@ -60,7 +60,7 @@ public class ArchonSealBlockEntity extends BlockEntity {
 			level.sendParticles(ParticleTypes.END_ROD, pos.getX() + 0.5, pos.getY() + 1 + i * 0.4, pos.getZ() + 0.5, 2, 0.2, 0.2, 0.2, 0.02);
 		}
 		level.sendParticles(ParticleTypes.SNOWFLAKE, pos.getX() + 0.5, pos.getY() + 3, pos.getZ() + 0.5, 400, 8, 3, 8, 0.25);
-		level.playSound(null, pos, SoundEvents.ENDER_DRAGON_GROWL, SoundSource.HOSTILE, 4.0F, 1.5F);
+		level.playSound(null, pos, dev.celestial.registry.ModSounds.ARCHON_ROAR, SoundSource.HOSTILE, 4.0F, 1.0F);
 		level.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.HOSTILE, 4.0F, 0.4F);
 		for (ServerPlayer p : level.getPlayers(p -> p.distanceToSqr(Vec3.atCenterOf(pos)) < 48 * 48)) {
 			p.sendSystemMessage(Component.translatable("boss.celestial.frost_archon.awaken"));

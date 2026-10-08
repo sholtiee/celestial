@@ -197,7 +197,7 @@ public class GlacierHallBlockEntity extends BlockEntity implements PuzzleZone {
 	/** Ледяной колокол: вернуть глыбы на стартовые места. */
 	public void ring(ServerLevel level, Player player) {
 		Set<BlockPos> region = cells(level);
-		level.playSound(null, worldPosition, SoundEvents.BELL_BLOCK, SoundSource.BLOCKS, 1.5F, 1.6F);
+		level.playSound(null, worldPosition, dev.celestial.registry.ModSounds.ICE_BELL, SoundSource.BLOCKS, 1.5F, 1.0F);
 		if (solved) {
 			player.sendOverlayMessage(Component.translatable("puzzle.celestial.glacier.solved"));
 			return;

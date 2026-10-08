@@ -79,7 +79,7 @@ public class IceSpike extends Entity {
 				}
 			}
 			if (age == WARN) {
-				level.playSound(null, blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.HOSTILE, 1.4F, 0.6F);
+				level.playSound(null, blockPosition(), dev.celestial.registry.ModSounds.SPIKE_RISE, SoundSource.HOSTILE, 1.4F, 0.9F + random.nextFloat() * 0.2F);
 				level.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.PACKED_ICE.defaultBlockState()),
 					getX(), getY() + 0.2, getZ(), 30, 0.5, 0.2, 0.5, 0.2);
 				strike(level);

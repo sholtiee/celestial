@@ -6,7 +6,7 @@
         "max_delay": 9000,
         "min_delay": 2400,
         "replace_current_music": true,
-        "sound": "minecraft:music.overworld.frozen_peaks"
+        "sound": "celestial:music.frozen"
       }
     },
     "minecraft:gameplay/bed_rule": {

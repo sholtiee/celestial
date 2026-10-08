@@ -385,6 +385,64 @@ def citadel_scenario():
         f.write('\n'.join(out) + '\n')
 
 
+def act3_scenario():
+    """Сквозной прогон Акта III: врата из Верхнего мира → Чертоги → цитадель (три зала) → арена → Архонт → Корона, Иния, act=3."""
+    from ice_solver import Hall, DIR_NAMES
+    X, Y0, Z = 3000, 150, 3000
+    y = Y0 + 1
+    out = ['# Сквозной прогон Акта III (генерирует tools/gen_frozen_places.py). Цитадель ставится /place в Чертогах — в мире её поворот случаен',
+           '/gamemode creative', '/effect clear @s', '/gamerule advance_time false', '/time set 6000', '/gamerule spawn_monsters false',
+           '/celestial act 2', '/clear @s',
+           '# 1 Ледяные врата в Верхнем мире, зажечь Тёмным Ядром',
+           '/execute in minecraft:overworld run tp @s 93 90 -293', 'wait 60',
+           '/execute in minecraft:overworld run fill 96 70 -296 99 74 -296 celestial:frost_stone_bricks',
+           '/execute in minecraft:overworld run fill 97 71 -296 98 73 -296 minecraft:air',
+           '/execute in minecraft:overworld run tp @s 97 71 -292 180 0', 'wait 10',
+           '/item replace entity @s weapon.mainhand with celestial:dark_core', 'use 97 70 -296 up', 'wait 20',
+           '/say TEST A1 gate_lit expect=pass', '/execute in minecraft:overworld if block 97 71 -296 celestial:frozen_portal',
+           '/execute in minecraft:overworld run tp @s 97 71 -296', 'wait 160', 'pos',
+           '/say TEST A2 in_frozen_halls expect=pass', '/execute in celestial:frozen_halls if entity @s[distance=..100000]',
+           '# 2 цитадель на леднике (фиксированное место)',
+           f'/execute in celestial:frozen_halls run tp @s {X + 31} {Y0 + 45} {Z + 31}', 'fly', 'wait 160',
+           *[f'/fill {X - 4 + i * 18} {Y0 - 4} {Z - 4} {X + 13 + i * 18} {Y0 - 1} {Z + 66} minecraft:packed_ice' for i in range(4)],
+           f'/place template celestial:frozen_citadel/main {X} {Y0} {Z}', 'wait 80',
+           f'/kill @e[type=celestial:ice_guardian,distance=..100]', '/kill @e[type=celestial:frost_archon]', '/kill @e[type=celestial:inia]',
+           '/weather clear', 'togglehud', f'/tp @s {X + 31} {Y0 + 40} {Z + 100} 180 25', 'wait 40', 'shot act3_citadel', 'togglehud',
+           '# 3 выживание в меху: тепло тает, жаровни во дворе греют',
+           '/gamemode survival', '/effect give @s minecraft:resistance 2400 3 true', '/effect give @s minecraft:saturation 2400 1 true',
+           '/effect give @s minecraft:regeneration 2400 1 true',
+           '/item replace entity @s armor.head with celestial:fur_hood', '/item replace entity @s armor.chest with celestial:fur_cloak',
+           '/item replace entity @s armor.legs with celestial:fur_leggings', '/item replace entity @s armor.feet with celestial:fur_boots',
+           f'/tp @s {X + 31.5} {y} {Z + 58.5} 180 0', 'wait 40', '/celestial status']
+    halls = [('hall_1', 3), ('hall_2', 14), ('hall_3', 48)]
+    for i, (name, ox) in enumerate(halls):
+        rows = HALLS[name][0]
+        oz = 43 - (len(rows) + 3)
+        out += [f'# зал {i + 1}', f'/say TEST H{i + 1} {name} expect=pass']
+        for (gx, gz), d, (sx, sz) in Hall(rows).solve():
+            out += [f'/tp @s {X + ox + sx + 0.5} {y} {Z + oz + sz + 0.5}', 'wait 4',
+                    f'use {X + ox + gx} {y} {Z + oz + gz} {OPPOSITE[DIR_NAMES[d]]}', 'wait 30']
+        out += ['wait 50', f'/execute if block {X + 31} {y} {Z + 31} celestial:hall_seal[lit={i + 1}]']
+    out += ['/say TEST A3 arena_open expect=pass', f'/execute unless block {X + 31} {y} {Z + 27} celestial:sealed_door', '/celestial status',
+            '# 4 арена: пробуждение, бой, победа',
+            f'/tp @s {X + 31.5} {y} {Z + 26.5} 180 0', 'hold forward 20', 'wait 30', f'/tp @s {X + 31.5} {y} {Z + 20.5} 180 0', 'wait 40',
+            '/say TEST A4 archon_awake expect=pass', '/execute if entity @e[type=celestial:frost_archon]',
+            'togglehud', f'/tp @s {X + 31.5} {y} {Z + 22.5} facing {X + 31.5} {y + 4} {Z + 14.5}', 'wait 20', 'shot act3_fight', 'togglehud',
+            '/damage @e[type=celestial:frost_archon,limit=1] 200 minecraft:magic by @p', 'wait 100',
+            '/damage @e[type=celestial:frost_archon,limit=1] 200 minecraft:magic by @p', 'wait 100',
+            '/kill @e[tag=celestial_archon_summon]',
+            '/damage @e[type=celestial:frost_archon,limit=1] 400 minecraft:magic by @p', 'wait 80',
+            '/say TEST A5 act3_done expect=pass,pass,pass', '/execute if items entity @s container.* celestial:ice_crown',
+            '/execute if entity @e[type=celestial:inia]', '/execute unless entity @e[type=celestial:frost_archon]', '/celestial status',
+            '# 5 Корона: тепло больше не тает',
+            '/item replace entity @s armor.head with celestial:ice_crown', '/clear @s celestial:ice_crown', '/celestial status', 'wait 300',
+            '/celestial status',
+            f'/tp @s {X + 31.5} {y} {Z + 7.5} 180 0', 'wait 10', 'interact celestial:inia', 'wait 10',
+            'togglehud', 'wait 5', 'shot act3_inia', 'togglehud', '/gamemode creative', 'quit']
+    with open(os.path.join(os.path.dirname(__file__), 'scenarios', 'act3_playthrough.txt'), 'w', encoding='utf-8') as f:
+        f.write('\n'.join(out) + '\n')
+
+
 def main():
     blocks()
     n = citadel()
@@ -393,6 +451,7 @@ def main():
     structures()
     lang()
     citadel_scenario()
+    act3_scenario()
     print('Постройки Чертогов: цитадель', n, 'блоков, лабиринт, лагерь')
 
 
