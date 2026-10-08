@@ -119,7 +119,7 @@ gen_story → gen_grace → gen_fading → gen_places → gen_boss → … → g
   иначе «Feature order cycle». `environment_scan.max_steps` ≤ 32. Feature — record + MapCodec в `BuiltInRegistries.FEATURE_TYPE`.
 - Окрашивание: `BlockColorRegistry.register(List.of(BlockTintSources.grass()), block)`.
 - Время: `level.getOverworldClockTime()`; скорость часов — `ServerClockManager.setRate`; команда `/time of minecraft:overworld query time`.
-- Скорость игрока с сервера: `player.needsSync = true` (hurtMarked нет). `randomTeleport(x,y,z,particles, state -> false)`.
+- Скорость игрока с сервера: после `push()`/`setDeltaMovement` нужен `player.syncVelocity = true` (самому игроку скорость уходит только по нему; его ставит и `hurtServer`, поэтому толчок после урона работал; без урона — нет). `needsSync` — для остальных сущностей. `randomTeleport(x,y,z,particles, state -> false)`.
 - GUI: `Screen.extractRenderState(GuiGraphicsExtractor, mx, my, a)`, `graphics.text/fill/centeredText`; HUD:
   `HudElementRegistry.attachElementAfter`; скрыт ли HUD — `mc.gui.hud.isHidden()`; клавиши — скан-коды SDL
   (V=25, B=5, G=10, K=14, W=26, space=44), `KeyMappingHelper.registerKeyMapping`, `KeyMapping.Category(Identifier)`.

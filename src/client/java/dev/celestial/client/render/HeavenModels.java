@@ -263,6 +263,44 @@ public final class HeavenModels {
 		}
 	}
 
+	// ---------------------------------------------------------------- Голубь (32×32): белое тельце, головка с клювом, быстро машущие крылья
+	public static class Dove extends EntityModel<State> {
+		private final ModelPart body;
+		private final ModelPart leftWing;
+		private final ModelPart rightWing;
+		private final ModelPart head;
+
+		public Dove(ModelPart root) {
+			super(root);
+			this.body = root.getChild("body");
+			this.head = body.getChild("head");
+			this.leftWing = body.getChild("left_wing");
+			this.rightWing = body.getChild("right_wing");
+		}
+
+		public static LayerDefinition createLayer() {
+			MeshDefinition mesh = new MeshDefinition();
+			PartDefinition root = mesh.getRoot();
+			PartDefinition body = root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-1.5F, -1.5F, -3.5F, 3, 3, 7), PartPose.offset(0, 21, 0));
+			PartDefinition head = body.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 10).addBox(-1.5F, -2.5F, -2.5F, 3, 3, 3), PartPose.offset(0, -0.5F, -3.5F));
+			head.addOrReplaceChild("beak", CubeListBuilder.create().texOffs(12, 10).addBox(-0.5F, -1, -3.5F, 1, 1, 1), PartPose.ZERO);
+			body.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(0, 16).addBox(-1.5F, -0.5F, 0, 3, 1, 4), PartPose.offset(0, 0, 3.5F));
+			body.addOrReplaceChild("left_wing", CubeListBuilder.create().texOffs(0, 22).addBox(0, -0.5F, -2, 6, 1, 5), PartPose.offset(1.5F, -1, 0));
+			body.addOrReplaceChild("right_wing", CubeListBuilder.create().texOffs(0, 22).mirror().addBox(-6, -0.5F, -2, 6, 1, 5), PartPose.offset(-1.5F, -1, 0));
+			return LayerDefinition.create(mesh, 32, 32);
+		}
+
+		@Override
+		public void setupAnim(State state) {
+			super.setupAnim(state);
+			float flap = Mth.sin(state.ageInTicks * 1.1F) * 0.8F;
+			leftWing.zRot = flap;
+			rightWing.zRot = -flap;
+			head.xRot = state.xRot * Mth.DEG_TO_RAD * 0.5F;
+			body.xRot = 0.15F;
+		}
+	}
+
 	// ---------------------------------------------------------------- Херувим (64×32): большая голова, маленькое тельце, трепещущие крылышки, нимб
 	public static class Cherub extends EntityModel<State> {
 		private final ModelPart body;

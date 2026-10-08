@@ -20,6 +20,7 @@ public final class HeavenRenderers {
 	public static final ModelLayerLocation ARCHANGEL = new ModelLayerLocation(Celestial.id("archangel"), "main");
 	public static final ModelLayerLocation GATE_CHERUB = new ModelLayerLocation(Celestial.id("gate_cherub"), "main");
 	public static final ModelLayerLocation NEPHILIM = new ModelLayerLocation(Celestial.id("nephilim"), "main");
+	public static final ModelLayerLocation DOVE = new ModelLayerLocation(Celestial.id("dove"), "main");
 	public static final ModelLayerLocation CHERUB = new ModelLayerLocation(Celestial.id("cherub"), "main");
 	public static final ModelLayerLocation SERPENT = new ModelLayerLocation(Celestial.id("winged_serpent"), "main");
 	public static final ModelLayerLocation RAM = new ModelLayerLocation(Celestial.id("golden_ram"), "main");
@@ -34,6 +35,8 @@ public final class HeavenRenderers {
 		ModelLayerRegistry.registerModelLayer(ARCHANGEL, HeavenModels.Archangel::createLayer);
 		ModelLayerRegistry.registerModelLayer(GATE_CHERUB, HeavenModels.GateCherub::createLayer);
 		ModelLayerRegistry.registerModelLayer(NEPHILIM, HeavenModels.Nephilim::createLayer);
+		ModelLayerRegistry.registerModelLayer(DOVE, HeavenModels.Dove::createLayer);
+		EntityRendererRegistry.register(ModEntities.DOVE, ctx -> new Renderer<>(ctx, new HeavenModels.Dove(ctx.bakeLayer(DOVE)), "dove", 0.2F, 1.4F));
 		EntityRendererRegistry.register(ModEntities.NEPHILIM, ctx -> new Renderer<>(ctx, new HeavenModels.Nephilim(ctx.bakeLayer(NEPHILIM)), "nephilim", 1.4F, 1.6F) {
 			@Override
 			public void extractRenderState(dev.celestial.entity.Nephilim entity, HeavenModels.State state, float partialTicks) {

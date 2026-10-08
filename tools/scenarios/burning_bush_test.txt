@@ -1,0 +1,49 @@
+# S2.7: Неопалимая купина: сама греет, в обуви отталкивает, босому даёт полное тепло
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/time set 6000
+/gamerule advance_time false
+/weather clear
+/execute in celestial:frozen_halls run fill 20 119 20 60 119 60 celestial:frost_stone_bricks
+/execute in celestial:frozen_halls run fill 20 120 20 60 126 60 minecraft:air
+/execute in celestial:frozen_halls run tp @s 25 120 25 0 20
+wait 80
+/clear @s
+/gamemode survival
+/effect give @s minecraft:resistance 900 4 true
+wait 500
+/say TEST H0 cold_before: тепло ниже 100
+/celestial status
+/execute in celestial:frozen_halls run setblock 45 120 45 celestial:burning_bush
+/execute in celestial:frozen_halls run tp @s 45.5 120 47.5 180 10
+wait 160
+/say TEST H1 bush_warms: тепло выросло
+/celestial status
+togglehud
+shot bush_look
+togglehud
+/item replace entity @s armor.feet with minecraft:leather_boots
+/tp @s 45.5 120 47.5 180 10
+wait 5
+/say TEST H2 shoes_push: позиция до
+/data get entity @s equipment.feet
+/data get entity @s Pos
+usenear celestial:burning_bush
+wait 3
+/data get entity @s Pos
+wait 6
+/data get entity @s Pos
+/item replace entity @s armor.feet with minecraft:air
+/execute in celestial:frozen_halls run tp @s 25 120 25
+/effect clear @s
+wait 400
+/say TEST H3 cold_again: тепло ниже 100
+/celestial status
+/execute in celestial:frozen_halls run tp @s 45.5 120 47.5 180 10
+usenear celestial:burning_bush
+wait 3
+/say TEST H3 barefoot_warm: тепло 100
+/celestial status
+/gamemode creative
+quit

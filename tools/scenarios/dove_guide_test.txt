@@ -1,0 +1,26 @@
+# S2.7: голубь-проводник летит к ближайшей постройке в Чертогах (смотри позиции в логе: голубь ближе к постройке, чем игрок)
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/time set 6000
+/gamerule advance_time false
+/execute in celestial:frozen_halls run tp @s 0 140 0
+fly
+wait 60
+goto celestial:burning_bush_shrine 70 12 0 90 0
+wait 40
+pos
+/give @s celestial:olive_branch
+/item replace entity @s weapon.mainhand with celestial:olive_branch
+wait 5
+useitem
+wait 30
+/data get entity @e[type=celestial:dove,limit=1,sort=nearest] Pos
+wait 200
+/data get entity @e[type=celestial:dove,limit=1,sort=nearest] Pos
+pos
+togglehud
+shot dove_guide
+togglehud
+/kill @e[type=celestial:dove]
+quit

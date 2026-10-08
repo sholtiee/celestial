@@ -160,6 +160,9 @@ public final class ModItems {
 	/** Лист смоковницы: снимает «Изгнание»; лежа в инвентаре, принимает его вместо тебя при поедании плода Познания. */
 	public static final Item FIG_LEAF = register("fig_leaf", dev.celestial.item.FigLeafItem::new,
 		lore(new Item.Properties().stacksTo(16), "fig_leaf", 2));
+	/** Масличная ветвь: призывает голубя-проводника (Быт. 8:11). */
+	public static final Item OLIVE_BRANCH = register("olive_branch", dev.celestial.item.OliveBranchItem::new,
+		lore(new Item.Properties().durability(6).rarity(Rarity.RARE), "olive_branch", 2));
 	/** Праща и камни для неё (Нефилим слаб к пращам: урон по крупным ×3). */
 	public static final Item SLING = register("sling", dev.celestial.item.SlingItem::new,
 		lore(new Item.Properties().durability(250).rarity(Rarity.UNCOMMON), "sling", 2));

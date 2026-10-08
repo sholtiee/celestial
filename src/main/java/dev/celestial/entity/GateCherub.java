@@ -99,7 +99,7 @@ public class GateCherub extends PathfinderMob {
 			}
 			p.hurtServer(level, damageSources().magic(), 4.0F);
 			Vec3 away = new Vec3(dx, 0, dz).normalize();
-			p.setDeltaMovement(away.x * 0.9, 0.45, away.z * 0.9);
+			p.push(away.x * 0.9, 0.45, away.z * 0.9);
 			p.needsSync = true;
 			level.playSound(null, p.blockPosition(), SoundEvents.FIRECHARGE_USE, SoundSource.HOSTILE, 1.0F, 0.8F);
 			level.sendParticles(ParticleTypes.FLAME, p.getX(), p.getY() + 0.5, p.getZ(), 20, 0.3, 0.3, 0.3, 0.05);

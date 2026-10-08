@@ -101,6 +101,8 @@ public final class ModEntities {
 		EntityType.Builder.of(dev.celestial.entity.Archangel::new, MobCategory.MISC).sized(0.8F, 2.4F).eyeHeight(2.1F).clientTrackingRange(12));
 	public static final EntityType<dev.celestial.entity.GateCherub> GATE_CHERUB = register("gate_cherub",
 		EntityType.Builder.of(dev.celestial.entity.GateCherub::new, MobCategory.MISC).fireImmune().sized(1.2F, 3.4F).eyeHeight(3.0F).clientTrackingRange(12));
+	public static final EntityType<dev.celestial.entity.Dove> DOVE = register("dove",
+		EntityType.Builder.of(dev.celestial.entity.Dove::new, MobCategory.MISC).sized(0.4F, 0.4F).eyeHeight(0.3F).clientTrackingRange(10));
 	public static final EntityType<dev.celestial.entity.Nephilim> NEPHILIM = register("nephilim",
 		EntityType.Builder.of(dev.celestial.entity.Nephilim::new, MobCategory.MONSTER).sized(1.8F, 4.0F).eyeHeight(3.5F).clientTrackingRange(12).notInPeaceful());
 	public static final EntityType<dev.celestial.entity.ChainedWatcher> CHAINED_WATCHER = register("chained_watcher",
@@ -162,6 +164,7 @@ public final class ModEntities {
 		FabricDefaultAttributeRegistry.register(FROST_ARCHON, dev.celestial.boss.FrostArchon.createAttributes());
 		FabricDefaultAttributeRegistry.register(INIA, dev.celestial.entity.Inia.createAttributes());
 		FabricDefaultAttributeRegistry.register(GATE_CHERUB, dev.celestial.entity.GateCherub.createAttributes());
+		FabricDefaultAttributeRegistry.register(DOVE, dev.celestial.entity.Dove.createAttributes());
 		FabricDefaultAttributeRegistry.register(NEPHILIM, dev.celestial.entity.Nephilim.createAttributes());
 		FabricDefaultAttributeRegistry.register(CHAINED_WATCHER, dev.celestial.entity.ChainedWatcher.createAttributes());
 		FabricDefaultAttributeRegistry.register(ARCHANGEL, dev.celestial.entity.Archangel.createAttributes());

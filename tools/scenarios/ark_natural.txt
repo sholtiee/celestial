@@ -1,0 +1,20 @@
+# S2.7: Ковчег во льдах и купина находятся в Ледяных Чертогах (естественная генерация)
+/gamemode creative
+/weather clear
+/time set 6000
+/gamerule advance_time false
+/execute in celestial:frozen_halls run tp @s 0 140 0
+fly
+wait 60
+goto celestial:frozen_ark 30 22 -34 0 25
+wait 120
+togglehud
+shot ark_natural
+togglehud
+pos
+goto celestial:burning_bush_shrine 0 6 10 180 25
+wait 60
+togglehud
+shot shrine_natural
+togglehud
+quit

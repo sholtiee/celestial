@@ -191,6 +191,10 @@ public final class ModBlocks {
 	public static final Block LORE_TABLET = register("lore_tablet", dev.celestial.block.lore.LoreTabletBlock::new,
 		Properties.of().mapColor(MapColor.STONE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.STONE).noOcclusion()
 			.pushReaction(PushReaction.IMMOVEABLE), 1);
+	// Ледяные Чертоги: Неопалимая купина
+	public static final Block BURNING_BUSH = register("burning_bush", dev.celestial.block.BurningBushBlock::new,
+		Properties.of().mapColor(MapColor.PLANT).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.GRASS).lightLevel(s -> 15).noOcclusion()
+			.pushReaction(PushReaction.IMMOVEABLE), 2);
 	// Сад Начала
 	public static final Block EDEN_WALL = register("eden_wall", Block::new,
 		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST).lightLevel(s -> 4)

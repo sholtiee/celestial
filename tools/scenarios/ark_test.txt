@@ -1,0 +1,92 @@
+# S2.7: Ковчег во льдах, голубь-проводник, Масличная ветвь, Неопалимая купина
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/time set 6000
+/gamerule advance_time false
+/weather clear
+/celestial lore lock all
+/execute in minecraft:overworld run tp @s 34030 150 33970
+fly
+wait 60
+/fill 33997 120 33997 34065 150 34025 minecraft:air
+/kill @e[type=!minecraft:player,distance=..120]
+/place template celestial:frozen_ark/main 34000 120 34000
+wait 80
+/tp @s 34030 134 33976 0 25
+togglehud
+wait 20
+shot ark_outside
+/tp @s 34010 136 34009 -90 35
+wait 15
+shot ark_deck_stern
+/tp @s 34010 131 34010 0 5
+wait 15
+shot ark_cages
+/tp @s 34036 130 34010 90 10
+wait 15
+shot ark_cabin
+/tp @s 34008.5 131 34010.5 90 5
+wait 15
+shot ark_dovecote
+togglehud
+# скрижаль Сима открывает лист «Ковчег»
+/gamemode survival
+/effect give @s minecraft:resistance 900 4 true
+/tp @s 34036.5 129 34007.5 90 0
+wait 10
+usenear celestial:lore_tablet
+wait 15
+closescreen
+/say TEST T1 tablet_opens_ark expect=0
+/celestial lore unlock ark
+# сундук Ковчега: ветвь выпадает (вываливаем лут сундука 20 раз)
+/clear @s
+/loot give @s loot celestial:chests/frozen_ark
+/loot give @s loot celestial:chests/frozen_ark
+/loot give @s loot celestial:chests/frozen_ark
+/loot give @s loot celestial:chests/frozen_ark
+/loot give @s loot celestial:chests/frozen_ark
+/loot give @s loot celestial:chests/frozen_ark
+/loot give @s loot celestial:chests/frozen_ark
+/loot give @s loot celestial:chests/frozen_ark
+/loot give @s loot celestial:chests/frozen_ark
+/loot give @s loot celestial:chests/frozen_ark
+/loot give @s loot celestial:chests/frozen_ark
+/loot give @s loot celestial:chests/frozen_ark
+/loot give @s loot celestial:chests/frozen_ark
+/loot give @s loot celestial:chests/frozen_ark
+/loot give @s loot celestial:chests/frozen_ark
+/loot give @s loot celestial:chests/frozen_ark
+/loot give @s loot celestial:chests/frozen_ark
+/loot give @s loot celestial:chests/frozen_ark
+/loot give @s loot celestial:chests/frozen_ark
+/loot give @s loot celestial:chests/frozen_ark
+/say TEST L1 branch_in_ark_loot expect=pass
+/execute if items entity @s container.* celestial:olive_branch
+# ветвь призывает голубя
+/clear @s
+/give @s celestial:olive_branch
+/item replace entity @s weapon.mainhand with celestial:olive_branch
+/tp @s 34030.5 129 34010.5 0 0
+/kill @e[type=celestial:dove,distance=..80]
+wait 5
+useitem
+wait 20
+useitem
+wait 10
+/scoreboard objectives add doves dummy
+/execute store result score @s doves if entity @e[type=celestial:dove,distance=..60,nbt={}]
+/say TEST B1 one_dove_per_wanderer expect=pass
+/execute if score @s doves matches 1
+/say TEST B2 branch_wears_once expect=pass
+/execute if items entity @s weapon.mainhand celestial:olive_branch[damage=1]
+/say TEST B3 dove_sheet expect=0
+/celestial lore unlock dove
+togglehud
+shot dove_summoned
+togglehud
+/kill @e[type=celestial:dove]
+/gamemode creative
+/celestial lore lock all
+quit

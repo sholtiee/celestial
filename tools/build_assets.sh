@@ -30,6 +30,7 @@ python3 gen_archangels.py
 python3 gen_lore.py
 python3 gen_eden.py
 python3 gen_prison.py
+python3 gen_ark.py
 python3 gen_achievements.py
 python3 gen_animated.py
 python3 gen_tags_lang.py

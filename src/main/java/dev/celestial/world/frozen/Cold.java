@@ -129,6 +129,7 @@ public final class Cold {
 			BlockState s = level.getBlockState(p);
 			if (s.is(BlockTags.FIRE) || s.is(net.minecraft.world.level.block.Blocks.LAVA) || s.is(net.minecraft.world.level.block.Blocks.MAGMA_BLOCK)
 				|| s.getBlock() instanceof CampfireBlock && s.getValue(CampfireBlock.LIT)
+				|| s.getBlock() instanceof dev.celestial.block.BurningBushBlock
 				|| s.getBlock() instanceof dev.celestial.boss.BrazierBlock && s.getValue(dev.celestial.boss.BrazierBlock.LIT)) {
 				return true;
 			}
