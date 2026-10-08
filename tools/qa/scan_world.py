@@ -10,7 +10,7 @@
   PLANT_FLOATING     растение/цветок/саженец без опоры снизу
   VOID_FLUID         текущая вода/лава у дна мира (водопад в пустоту)
   STRUCTURE_OVERLAP  bbox двух разных построек пересекаются
-  FEATURE_CHUNK_CUT  столб фичи обрывается ровно по границе чанка
+  FEATURE_CHUNK_CUT  стенка (≥3 столбцов подряд) фичи обрывается ровно по границе чанка
   ICE_CHUNK_GRID     Чертоги: подземный объём чанка — синий лёд, у соседа камень (шов по сетке чанков)
   TERRAIN_FLOATING   Чертоги: связный кусок снега/льда/морозного камня в воздухе, ни разу не касается земли (BUG-063)
 """
@@ -329,7 +329,9 @@ def check_chunk_cuts(w, dim, out):
             counts = (a == f).sum(axis=0)
             for z, x in zip(*np.nonzero(counts)):
                 cols[(cx * 16 + int(x), cz * 16 + int(z), NAMES[f])] = int(counts[z, x])
-    flagged = set()
+    # «обрыв» — столбец полон, а за швом пусто. Одиночный такой столбец — естественный изгиб оболочки жеоды (у шва столбцы сужаются 7,5,2,0),
+    # а настоящий срез чанка даёт стенку: ≥3 столбцов подряд вдоль шва (BUG-005, ложные срабатывания 2026-10-09).
+    cliffs = set()
     for (x, z, n), cnt in cols.items():
         if cnt < 4:
             continue
@@ -337,12 +339,22 @@ def check_chunk_cuts(w, dim, out):
             nx, nz = x + dx, z + dz
             if (nx >> 4, nz >> 4) == (x >> 4, z >> 4) or not w.loaded(nx, nz):
                 continue
-            inner = cols.get((x - dx, z - dz, n), 0)
-            if cols.get((nx, nz, n), 0) == 0 and inner >= cnt * 0.8:
-                key = (x >> 4, z >> 4, n)
-                if key not in flagged:
-                    flagged.add(key)
-                    out['FEATURE_CHUNK_CUT'].append(f'{dim} {x},{z}: {n.split(":")[1]} столб {cnt} обрывается на границе чанка')
+            if cols.get((nx, nz, n), 0) == 0 and cols.get((x - dx, z - dz, n), 0) >= cnt * 0.8:
+                cliffs.add((x, z, dx, dz, n))
+    flagged = set()
+    for (x, z, dx, dz, n) in cliffs:
+        px, pz = (0, 1) if dx else (1, 0)  # вдоль шва
+        run = 1
+        for sign in (1, -1):
+            step = 1
+            while (x + px * step * sign, z + pz * step * sign, dx, dz, n) in cliffs:
+                run += 1
+                step += 1
+        if run >= 3:
+            key = (x >> 4, z >> 4, n)
+            if key not in flagged:
+                flagged.add(key)
+                out['FEATURE_CHUNK_CUT'].append(f'{dim} {x},{z}: {n.split(":")[1]} стенка из {run} столбцов обрывается на границе чанка')
 
 
 def main():
