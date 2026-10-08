@@ -12,6 +12,7 @@
   STRUCTURE_OVERLAP  bbox двух разных построек пересекаются
   FEATURE_CHUNK_CUT  столб фичи обрывается ровно по границе чанка
   ICE_CHUNK_GRID     Чертоги: подземный объём чанка — синий лёд, у соседа камень (шов по сетке чанков)
+  TERRAIN_FLOATING   Чертоги: связный кусок снега/льда/морозного камня в воздухе, ни разу не касается земли (BUG-063)
 """
 import io
 import math
@@ -283,6 +284,41 @@ def check_ice_grid(w, dim, out):
                 break
 
 
+FLOAT_BLOCKS = ('minecraft:snow_block', 'minecraft:packed_ice', 'minecraft:ice', 'minecraft:blue_ice', 'celestial:frost_stone',
+                'minecraft:powder_snow')
+
+
+def check_floating_terrain(w, dim, out):
+    """Компоненты рельефа (6-связность) выше y=70, которые не опираются ни на что ниже себя и не касаются других твёрдых блоков."""
+    names = set(FLOAT_BLOCKS)
+    cells = {p for p in w.find(FLOAT_BLOCKS) if p[1] > 70}
+    seen = set()
+    for start in cells:
+        if start in seen:
+            continue
+        comp, queue, grounded = [], deque([start]), False
+        seen.add(start)
+        while queue:  # компонент целиком, иначе остаток большого куска выглядел бы отдельным висящим
+            p = queue.popleft()
+            comp.append(p)
+            for n in neighbors6(p):
+                if n in cells:
+                    if n not in seen:
+                        seen.add(n)
+                        queue.append(n)
+                elif not w.loaded(n[0], n[2]):
+                    grounded = True  # уходит в незагруженный чанк — не судим
+                else:
+                    b = w.get(*n)
+                    if n[1] <= 70 and b not in AIRS:
+                        grounded = True  # основание рельефа ниже среза сканера
+                    elif b not in AIRS and b not in names and not b.endswith('snow') and 'aurora' not in b:
+                        grounded = True  # касается постройки, камня и т.п.
+        if not grounded and 20 <= len(comp) < 4000 and min(p[1] for p in comp) > 72:  # <20 — одиночные льдинки, >4000 — материк
+            lo = min(comp, key=lambda q: q[1])
+            out['TERRAIN_FLOATING'].append(f'{dim} {lo[0]} {lo[1]} {lo[2]}: висит {len(comp)} блоков рельефа')
+
+
 def check_chunk_cuts(w, dim, out):
     """Блоки-фичи мода, у которых соседний столб за границей чанка пуст, а внутри чанка — полон."""
     feature = {'celestial:sky_crystal', 'celestial:sky_crystal_block', 'celestial:radiant_stone', 'celestial:aurora_crystal',
@@ -329,6 +365,7 @@ def main():
             check_void_fluids(w, dim, out)
         if dim == 'celestial/frozen_halls':
             check_ice_grid(w, dim, out)
+            check_floating_terrain(w, dim, out)
         check_structures(w, dim, out)
         check_chunk_cuts(w, dim, out)
     total = 0
