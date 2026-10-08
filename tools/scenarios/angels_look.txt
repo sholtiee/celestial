@@ -1,0 +1,37 @@
+# Свои модели Ангела (4 профессии) и Херувима: днём, ночью (нимб светится), вблизи
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/gamerule spawn_monsters false
+/time set 6000
+/execute in minecraft:overworld run tp @s 28000 160 27994 0 10
+fly
+wait 80
+/fill 27990 159 27990 28010 159 28010 celestial:skystone_bricks
+/fill 27990 160 27990 28010 172 28010 minecraft:air
+/kill @e[type=!minecraft:player,distance=..40]
+/summon celestial:angel 27996 160 28000 {NoAI:1b,Profession:0,Rotation:[200f,0f]}
+/summon celestial:angel 27998.5 160 28000 {NoAI:1b,Profession:1,Rotation:[190f,0f]}
+/summon celestial:angel 28001.5 160 28000 {NoAI:1b,Profession:2,Rotation:[170f,0f]}
+/summon celestial:angel 28004 160 28000 {NoAI:1b,Profession:3,Rotation:[160f,0f]}
+/summon celestial:cherub 28000 161 27997.5 {NoAI:1b,Rotation:[180f,0f]}
+/tp @s 28000.5 161.6 27993 0 8
+togglehud
+wait 40
+shot angels_day
+/time set 18000
+wait 30
+shot angels_night
+/time set 6000
+/tp @s 27997.5 161.5 27996.5 15 5
+wait 10
+shot angel_close
+/tp @s 28000.5 161 27996 0 15
+wait 10
+shot cherub_close
+/tp @s 28002 162 28004 160 15
+wait 10
+shot angels_back
+togglehud
+/kill @e[type=!minecraft:player,distance=..40]
+quit

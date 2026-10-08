@@ -16,12 +16,31 @@ import net.minecraft.world.entity.Mob;
 public final class HeavenRenderers {
 	public static final ModelLayerLocation SHADOW = new ModelLayerLocation(Celestial.id("shadow"), "main");
 	public static final ModelLayerLocation STORM = new ModelLayerLocation(Celestial.id("storm_spirit"), "main");
+	public static final ModelLayerLocation ANGEL = new ModelLayerLocation(Celestial.id("angel"), "main");
+	public static final ModelLayerLocation CHERUB = new ModelLayerLocation(Celestial.id("cherub"), "main");
 
 	private HeavenRenderers() {}
 
 	public static void init() {
 		ModelLayerRegistry.registerModelLayer(SHADOW, HeavenModels.Shadow::createLayer);
 		ModelLayerRegistry.registerModelLayer(STORM, HeavenModels.Storm::createLayer);
+		ModelLayerRegistry.registerModelLayer(ANGEL, HeavenModels.Angel::createLayer);
+		ModelLayerRegistry.registerModelLayer(CHERUB, HeavenModels.Cherub::createLayer);
+		// у ангела четыре профессии — четыре текстуры (одеяние, отделка, рукава)
+		EntityRendererRegistry.register(ModEntities.ANGEL, ctx -> new Renderer<>(ctx, new HeavenModels.Angel(ctx.bakeLayer(ANGEL)), "angel", 0.5F, 0.95F) {
+			@Override
+			public Identifier getTextureLocation(HeavenModels.State state) {
+				return Celestial.id("textures/entity/angel_" + dev.celestial.entity.Angel.PROFESSIONS[Math.floorMod(state.variant, 4)] + ".png");
+			}
+
+			@Override
+			public void extractRenderState(dev.celestial.entity.Angel entity, HeavenModels.State state, float partialTicks) {
+				super.extractRenderState(entity, state, partialTicks);
+				state.variant = entity.getProfession();
+			}
+		});
+		EntityRendererRegistry.register(ModEntities.CHERUB,
+			ctx -> new Renderer<>(ctx, new HeavenModels.Cherub(ctx.bakeLayer(CHERUB)), "cherub", 0.3F, 1.0F));
 		EntityRendererRegistry.register(ModEntities.SHADOW,
 			ctx -> new Renderer<>(ctx, new HeavenModels.Shadow(ctx.bakeLayer(SHADOW)), "shadow", 0.4F, 1.0F));
 		EntityRendererRegistry.register(ModEntities.STORM_SPIRIT,

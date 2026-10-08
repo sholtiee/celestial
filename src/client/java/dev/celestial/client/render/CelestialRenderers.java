@@ -58,7 +58,6 @@ public final class CelestialRenderers {
 			riftType(), ctx -> new net.minecraft.client.renderer.blockentity.TheEndPortalRenderer());
 		GuardianRenderer.register();
 		EntityRendererRegistry.register(ModEntities.FALLEN_GUARDIAN, GuardianRenderer::new);
-		EntityRendererRegistry.register(ModEntities.ANGEL, AngelRenderer::new);
 		EntityRendererRegistry.register(ModEntities.FALLEN_SERAPH, SeraphRenderer::new);
 		EntityRendererRegistry.register(ModEntities.SERAPH_CRYSTAL, SeraphRenderer.Crystal::new);
 		EntityRendererRegistry.register(ModEntities.WINGED_SERPENT, ctx -> new PhantomRenderer(ctx) {
@@ -71,12 +70,6 @@ public final class CelestialRenderers {
 		EntityRendererRegistry.register(ModEntities.LIGHT_WISP, LightWispRenderer::new);
 		EntityRendererRegistry.register(ModEntities.PEGASUS, PegasusRenderer::new);
 		EntityRendererRegistry.register(ModEntities.STAR_ARROW, StarArrowRenderer::new);
-		EntityRendererRegistry.register(ModEntities.CHERUB, ctx -> new net.minecraft.client.renderer.entity.AllayRenderer(ctx) {
-			@Override
-			public Identifier getTextureLocation(net.minecraft.client.renderer.entity.state.AllayRenderState state) {
-				return tex("cherub");
-			}
-		});
 		EntityRendererRegistry.register(ModEntities.GOLDEN_RAM, ctx -> new net.minecraft.client.renderer.entity.SheepRenderer(ctx) {
 			@Override
 			public Identifier getTextureLocation(net.minecraft.client.renderer.entity.state.SheepRenderState state) {
@@ -119,36 +112,6 @@ public final class CelestialRenderers {
 		}
 	}
 
-	public static class AngelState extends HumanoidRenderState {
-		public int profession;
-	}
-
-	static class AngelRenderer extends HumanoidMobRenderer<dev.celestial.entity.Angel, AngelState, HumanoidModel<AngelState>> {
-		AngelRenderer(EntityRendererProvider.Context ctx) {
-			super(ctx, new HumanoidModel<>(ctx.bakeLayer(ModModelLayers.HUMANOID)), 0.5F);
-		}
-
-		@Override
-		public Identifier getTextureLocation(AngelState state) {
-			return tex("angel_" + dev.celestial.entity.Angel.PROFESSIONS[Math.floorMod(state.profession, 4)]);
-		}
-
-		@Override
-		public AngelState createRenderState() {
-			return new AngelState();
-		}
-
-		@Override
-		public void extractRenderState(dev.celestial.entity.Angel entity, AngelState state, float partialTicks) {
-			super.extractRenderState(entity, state, partialTicks);
-			state.profession = entity.getProfession();
-		}
-
-		@Override
-		protected void scale(AngelState state, PoseStack poseStack) {
-			poseStack.scale(0.95F, 0.95F, 0.95F);
-		}
-	}
 
 	static class CloudWhaleRenderer extends MobRenderer<CloudWhale, LivingEntityRenderState, CloudWhaleModel> {
 		CloudWhaleRenderer(EntityRendererProvider.Context ctx) {

@@ -19,6 +19,124 @@ public final class HeavenModels {
 
 	public static class State extends LivingEntityRenderState {
 		public float attack;
+		public int variant;
+	}
+
+	/** Нимб из четырёх светящихся планок над головой (у ангела и херувима); u — столбец развёртки: планки (u,0), бока (u,4). */
+	static void halo(PartDefinition head, float y, float r, int u) {
+		head.addOrReplaceChild("halo_front", CubeListBuilder.create().texOffs(u, 0).addBox(-r, 0, -0.5F, r * 2, 1, 1), PartPose.offset(0, y, -r));
+		head.addOrReplaceChild("halo_back", CubeListBuilder.create().texOffs(u, 0).addBox(-r, 0, -0.5F, r * 2, 1, 1), PartPose.offset(0, y, r));
+		head.addOrReplaceChild("halo_left", CubeListBuilder.create().texOffs(u, 4).addBox(-0.5F, 0, -r + 1, 1, 1, r * 2 - 2), PartPose.offset(r - 0.5F, y, 0));
+		head.addOrReplaceChild("halo_right", CubeListBuilder.create().texOffs(u, 4).addBox(-0.5F, 0, -r + 1, 1, 1, r * 2 - 2), PartPose.offset(-r + 0.5F, y, 0));
+	}
+
+	// ---------------------------------------------------------------- Ангел (64×64): одеяние до земли, рукава, большие крылья, нимб
+	public static class Angel extends EntityModel<State> {
+		private final ModelPart body;
+		private final ModelPart head;
+		private final ModelPart skirt;
+		private final ModelPart leftArm;
+		private final ModelPart rightArm;
+		private final ModelPart leftWing;
+		private final ModelPart rightWing;
+
+		public Angel(ModelPart root) {
+			super(root);
+			this.body = root.getChild("body");
+			this.head = root.getChild("head");
+			this.skirt = root.getChild("skirt");
+			this.leftArm = body.getChild("left_arm");
+			this.rightArm = body.getChild("right_arm");
+			this.leftWing = body.getChild("left_wing");
+			this.rightWing = body.getChild("right_wing");
+		}
+
+		public static LayerDefinition createLayer() {
+			MeshDefinition mesh = new MeshDefinition();
+			PartDefinition root = mesh.getRoot();
+			PartDefinition head = root.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4, -8, -4, 8, 8, 8), PartPose.offset(0, 0, 0));
+			halo(head, -12, 4.5F, 32);
+			PartDefinition body = root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(16, 16).addBox(-4, 0, -2, 8, 10, 4), PartPose.ZERO);
+			body.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(40, 16).addBox(-1, -1, -1.5F, 3, 11, 3), PartPose.offset(5, 1, 0));
+			body.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(40, 16).mirror().addBox(-2, -1, -1.5F, 3, 11, 3), PartPose.offset(-5, 1, 0));
+			body.addOrReplaceChild("left_wing", CubeListBuilder.create().texOffs(32, 32).addBox(0, -2, 0, 1, 16, 10),
+				PartPose.offsetAndRotation(1.5F, 1, 2, 0.25F, 0.5F, 0));
+			body.addOrReplaceChild("right_wing", CubeListBuilder.create().texOffs(32, 32).mirror().addBox(-1, -2, 0, 1, 16, 10),
+				PartPose.offsetAndRotation(-1.5F, 1, 2, 0.25F, -0.5F, 0));
+			root.addOrReplaceChild("skirt", CubeListBuilder.create().texOffs(0, 32).addBox(-5, 0, -3, 10, 14, 6), PartPose.offset(0, 10, 0));
+			return LayerDefinition.create(mesh, 64, 64);
+		}
+
+		@Override
+		public void setupAnim(State state) {
+			super.setupAnim(state);
+			float t = state.ageInTicks;
+			float walk = state.walkAnimationPos * 0.6F;
+			float amp = Math.min(1.0F, state.walkAnimationSpeed);
+			head.yRot = state.yRot * Mth.DEG_TO_RAD;
+			head.xRot = state.xRot * Mth.DEG_TO_RAD;
+			leftArm.xRot = Mth.cos(walk) * 0.5F * amp + Mth.sin(t * 0.06F) * 0.05F;
+			rightArm.xRot = -Mth.cos(walk) * 0.5F * amp - Mth.sin(t * 0.06F) * 0.05F;
+			leftArm.zRot = -0.08F;
+			rightArm.zRot = 0.08F;
+			skirt.xRot = Mth.sin(walk) * 0.08F * amp;
+			skirt.zRot = Mth.cos(walk) * 0.04F * amp;
+			// крылья сложены и чуть подрагивают; на ходу приоткрываются
+			float open = 0.5F + amp * 0.35F + Mth.sin(t * 0.08F) * 0.06F;
+			leftWing.yRot = open;
+			rightWing.yRot = -open;
+			leftWing.zRot = -0.05F - amp * 0.1F;
+			rightWing.zRot = 0.05F + amp * 0.1F;
+		}
+	}
+
+	// ---------------------------------------------------------------- Херувим (64×32): большая голова, маленькое тельце, трепещущие крылышки, нимб
+	public static class Cherub extends EntityModel<State> {
+		private final ModelPart body;
+		private final ModelPart head;
+		private final ModelPart leftWing;
+		private final ModelPart rightWing;
+		private final ModelPart leftArm;
+		private final ModelPart rightArm;
+
+		public Cherub(ModelPart root) {
+			super(root);
+			this.body = root.getChild("body");
+			this.head = body.getChild("head");
+			this.leftWing = body.getChild("left_wing");
+			this.rightWing = body.getChild("right_wing");
+			this.leftArm = body.getChild("left_arm");
+			this.rightArm = body.getChild("right_arm");
+		}
+
+		public static LayerDefinition createLayer() {
+			MeshDefinition mesh = new MeshDefinition();
+			PartDefinition root = mesh.getRoot();
+			PartDefinition body = root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 16).addBox(-2, 0, -1.5F, 4, 5, 3), PartPose.offset(0, 16, 0));
+			PartDefinition head = body.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-3, -6, -3, 6, 6, 6), PartPose.ZERO);
+			halo(head, -9.5F, 3.5F, 48);
+			body.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(14, 16).addBox(0, 0, -1, 1, 4, 2), PartPose.offset(2, 0.5F, 0));
+			body.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(14, 16).mirror().addBox(-1, 0, -1, 1, 4, 2), PartPose.offset(-2, 0.5F, 0));
+			body.addOrReplaceChild("left_wing", CubeListBuilder.create().texOffs(24, 0).addBox(0, -3, 0, 0, 6, 8), PartPose.offset(0.5F, 1, 1.5F));
+			body.addOrReplaceChild("right_wing", CubeListBuilder.create().texOffs(24, 0).mirror().addBox(0, -3, 0, 0, 6, 8), PartPose.offset(-0.5F, 1, 1.5F));
+			body.addOrReplaceChild("legs", CubeListBuilder.create().texOffs(20, 16).addBox(-1.5F, 5, -1, 3, 2, 2), PartPose.ZERO);
+			return LayerDefinition.create(mesh, 64, 32);
+		}
+
+		@Override
+		public void setupAnim(State state) {
+			super.setupAnim(state);
+			float t = state.ageInTicks;
+			body.y = 16 + Mth.sin(t * 0.15F) * 1.0F;  // парит
+			head.yRot = state.yRot * Mth.DEG_TO_RAD;
+			head.xRot = state.xRot * Mth.DEG_TO_RAD;
+			float flap = Mth.sin(t * 1.4F) * 0.6F;  // часто-часто машет крылышками
+			leftWing.yRot = 0.6F + flap;
+			rightWing.yRot = -0.6F - flap;
+			leftArm.zRot = -0.3F - Mth.sin(t * 0.2F) * 0.15F;
+			rightArm.zRot = 0.3F + Mth.sin(t * 0.2F) * 0.15F;
+			body.xRot = 0.1F + Math.min(1.0F, state.walkAnimationSpeed) * 0.4F;
+		}
 	}
 
 	// ---------------------------------------------------------------- Тень (64×64): капюшон, длинные когтистые руки, хвосты дыма вместо ног

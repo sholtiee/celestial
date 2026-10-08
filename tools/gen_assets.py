@@ -523,13 +523,11 @@ def trade(name, gives, gives_count, wants, wants_count, max_uses=12):
 
 def gen_mobs():
     textures = {
-        'fallen_guardian': M.fallen_guardian(), 'angel': M.angel(), 'fallen_seraph': M.fallen_seraph(),
+        'fallen_guardian': M.fallen_guardian(), 'fallen_seraph': M.fallen_seraph(),
         'winged_serpent': M.winged_serpent(), 'cloud_whale': M.cloud_whale(),
         'light_wisp': M.light_wisp(), 'pegasus': M.pegasus(), 'pegasus_baby': M.pegasus(baby=True),
         'pegasus_golden': M.pegasus(coat='golden'), 'pegasus_storm': M.pegasus(coat='storm'),
-        'angel_keeper': M.angel_profession('keeper'), 'angel_smith': M.angel_profession('smith'),
-        'angel_astronomer': M.angel_profession('astronomer'), 'angel_gardener': M.angel_profession('gardener'),
-        'cherub': M.cherub(), 'golden_ram': M.golden_ram(), 'sky_ray': M.sky_ray(), 'cloud_jelly': M.cloud_jelly(), 'mimic': M.mimic(),
+        'golden_ram': M.golden_ram(), 'sky_ray': M.sky_ray(), 'cloud_jelly': M.cloud_jelly(), 'mimic': M.mimic(),
     }
     for k, img in textures.items():
         save_png(img, 'entity/' + k)

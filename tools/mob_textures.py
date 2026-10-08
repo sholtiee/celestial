@@ -105,11 +105,6 @@ def fallen_guardian():
     return img
 
 
-def angel():
-    return humanoid('angel', skin='#f3d6bd', hair='#f4d27a', robe='#f7f4ec', trim='#e3b54a',
-                    eyes='#3a8fd8', limbs='#ffffff')
-
-
 def fallen_seraph():
     img = humanoid('fallen_seraph', skin='#d9c7b0', hair='#1f1a24', robe='#2a2230', trim='#d4a531',
                    eyes='#ff3b3b', limbs='#3a2f42', hood=False, glow_eyes=True)
@@ -249,10 +244,6 @@ def spawn_egg(base, spots):
 
 
 # ---------------------------------------------------------------- существа 0.2
-def cherub():
-    return from_mask('entity/allay/allay.png', ['#fff1d6', '#ffe6b8', '#ffd78f', '#fff8e8'], 'cherub')
-
-
 def golden_ram():
     img = from_mask('entity/sheep/sheep.png', ['#e8d6b0', '#f0e2c2', '#f7ecd5', '#fff6e6'], 'golden_ram')
     # золотые рога-завитки на голове (лицевая сторона головы овцы — 8×6 начиная с (8,8))
@@ -328,7 +319,3 @@ ANGEL_ROBES = {  # профессия: (одеяние, отделка, рука
     'gardener': ('#cfe6a8', '#7d8f3a', '#e8f2d0'),
 }
 
-
-def angel_profession(name):
-    robe, trim, sleeve = ANGEL_ROBES[name]
-    return humanoid('angel_' + name, skin='#f3d6bd', hair='#f4d27a', robe=robe, trim=trim, eyes='#3a8fd8', limbs=sleeve)
