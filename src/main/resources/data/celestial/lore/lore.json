@@ -1,0 +1,359 @@
+{
+  "books": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "nodes": [
+    {
+      "id": "light",
+      "act": 0
+    },
+    {
+      "id": "morning",
+      "act": 0
+    },
+    {
+      "id": "eden",
+      "act": 0
+    },
+    {
+      "id": "exile",
+      "act": 1
+    },
+    {
+      "id": "brothers",
+      "act": 0
+    },
+    {
+      "id": "watchers",
+      "act": 2
+    },
+    {
+      "id": "flood",
+      "act": 3
+    },
+    {
+      "id": "babel",
+      "act": 4
+    },
+    {
+      "id": "prophets",
+      "act": 0
+    },
+    {
+      "id": "revelation",
+      "act": 5
+    }
+  ],
+  "sheets": [
+    {
+      "id": "light",
+      "book": 1,
+      "node": "light",
+      "art": "light",
+      "src": "prologue",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": [
+        "grace"
+      ]
+    },
+    {
+      "id": "eden",
+      "book": 1,
+      "node": "eden",
+      "art": "garden",
+      "src": "prologue",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": [
+        "eden"
+      ]
+    },
+    {
+      "id": "names",
+      "book": 1,
+      "node": "eden",
+      "art": "names",
+      "src": "names",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": []
+    },
+    {
+      "id": "tree_life",
+      "book": 1,
+      "node": "eden",
+      "art": "tree_life",
+      "src": "vision",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": []
+    },
+    {
+      "id": "fruit",
+      "book": 1,
+      "node": "eden",
+      "art": "fruit",
+      "src": "glimpse",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": []
+    },
+    {
+      "id": "exile",
+      "book": 1,
+      "node": "exile",
+      "art": "exile",
+      "src": "glimpse",
+      "has_quote": false,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": [
+        "fading"
+      ]
+    },
+    {
+      "id": "flaming_sword",
+      "book": 1,
+      "node": "exile",
+      "art": "sword",
+      "src": "deed",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": [
+        "cherub"
+      ]
+    },
+    {
+      "id": "cain_abel",
+      "book": 1,
+      "node": "brothers",
+      "art": "altars",
+      "src": "glimpse",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": []
+    },
+    {
+      "id": "mark",
+      "book": 1,
+      "node": "brothers",
+      "art": "mark",
+      "src": "conv",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": []
+    },
+    {
+      "id": "watchers",
+      "book": 2,
+      "node": "watchers",
+      "art": "watchers",
+      "src": "conv",
+      "has_quote": true,
+      "has_s": false,
+      "has_a": true,
+      "has_t": true,
+      "gloss": [
+        "watcher"
+      ]
+    },
+    {
+      "id": "azazel",
+      "book": 2,
+      "node": "watchers",
+      "art": "forge",
+      "src": "scroll",
+      "has_quote": false,
+      "has_s": false,
+      "has_a": true,
+      "has_t": true,
+      "gloss": []
+    },
+    {
+      "id": "nephilim",
+      "book": 2,
+      "node": "watchers",
+      "art": "giant",
+      "src": "deed",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": [
+        "nephilim"
+      ]
+    },
+    {
+      "id": "enoch",
+      "book": 2,
+      "node": "watchers",
+      "art": "enoch",
+      "src": "conv",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": true,
+      "gloss": [
+        "metatron"
+      ]
+    },
+    {
+      "id": "chains",
+      "book": 2,
+      "node": "watchers",
+      "art": "chains",
+      "src": "glimpse",
+      "has_quote": false,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": []
+    },
+    {
+      "id": "abaddon",
+      "book": 2,
+      "node": "watchers",
+      "art": "abyss",
+      "src": "deed",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": [
+        "abyss"
+      ]
+    },
+    {
+      "id": "morning_star",
+      "book": 2,
+      "node": "morning",
+      "art": "star_fall",
+      "src": "deed",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": []
+    },
+    {
+      "id": "firmament_waters",
+      "book": 3,
+      "node": "flood",
+      "art": "waters",
+      "src": "place",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": [
+        "firmament"
+      ]
+    },
+    {
+      "id": "flood",
+      "book": 3,
+      "node": "flood",
+      "art": "flood",
+      "src": "glimpse",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": []
+    },
+    {
+      "id": "ark",
+      "book": 3,
+      "node": "flood",
+      "art": "ark",
+      "src": "tablet",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": [
+        "ark"
+      ]
+    },
+    {
+      "id": "dove",
+      "book": 3,
+      "node": "flood",
+      "art": "dove",
+      "src": "deed",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": []
+    },
+    {
+      "id": "rainbow",
+      "book": 3,
+      "node": "flood",
+      "art": "rainbow",
+      "src": "glimpse",
+      "has_quote": false,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": [
+        "covenant"
+      ]
+    },
+    {
+      "id": "archons",
+      "book": 3,
+      "node": "flood",
+      "art": "archon",
+      "src": "deed",
+      "has_quote": false,
+      "has_s": false,
+      "has_a": true,
+      "has_t": true,
+      "gloss": [
+        "archon"
+      ]
+    }
+  ],
+  "glossary": [
+    "abaddon",
+    "abyss",
+    "archon",
+    "ark",
+    "cherub",
+    "covenant",
+    "eden",
+    "fading",
+    "firmament",
+    "grace",
+    "metatron",
+    "nephilim",
+    "seraph",
+    "watcher"
+  ]
+}

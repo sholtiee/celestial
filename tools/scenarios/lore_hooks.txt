@@ -1,0 +1,74 @@
+# S2.1: подвиги открывают листы Летописи: Пожиратель Света → «Аваддон», Морозный Архонт → «Правители сфер», Серафим → слово «Серафим». Проверка: после победы /celestial lore unlock даёт «Открыто листов: 0»
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/time set 6000
+/gamerule advance_time false
+/celestial lore lock all
+# Серафим
+goto celestial:citadel 0 -20 -8 0 5
+wait 120
+/gamemode survival
+/effect give @s minecraft:resistance 9000 4 true
+/effect give @s minecraft:saturation 9000 4 true
+/execute at @s run fill ~-3 ~-1 ~2 ~3 ~-1 ~12 celestial:skystone_bricks
+/execute at @s run setblock ~ ~ ~8 celestial:seraph_seal
+wait 60
+/damage @e[type=celestial:fallen_seraph,limit=1] 400 minecraft:player_attack by @s
+wait 10
+/damage @e[type=celestial:fallen_seraph,limit=1] 400 minecraft:player_attack by @s
+wait 10
+wait 60
+/say TEST H1 seraph_gloss expect=0 (слово уже открыто победой)
+/celestial lore gloss seraph
+# Пожиратель Света
+/gamemode creative
+/celestial act 1
+/execute in celestial:abyss run tp @s 600 80 600
+wait 80
+/execute in celestial:abyss run place template celestial:devourer_lair/main 584 60 584
+wait 40
+/kill @e[type=!minecraft:player,distance=..80]
+/execute in celestial:abyss run tp @s 600 62 608 180 -15
+/gamemode survival
+/effect give @s minecraft:resistance 900 4 true
+wait 60
+/damage @e[type=celestial:light_devourer,limit=1] 6000 minecraft:player_attack by @s
+wait 60
+/say TEST H2 abaddon expect=0 (лист уже открыт победой)
+/celestial lore unlock abaddon
+codex lore sheet abaddon
+wait 10
+shot lore_hook_abaddon
+closescreen
+# Морозный Архонт
+/gamemode spectator
+/effect clear @s
+/execute in minecraft:overworld run tp @s 23031 190 23031
+wait 120
+/place template celestial:frozen_citadel/main 23000 150 23000
+wait 80
+/kill @e[type=!minecraft:player,distance=..120]
+/kill @e[type=celestial:frost_archon]
+/kill @e[type=celestial:inia]
+/celestial act 2
+/clear @s
+/tp @s 23031.5 151 23026.5 180 0
+/gamemode survival
+/effect give @s minecraft:resistance 1200 4 true
+/effect give @s minecraft:saturation 1200 1 true
+hold forward 25
+wait 30
+/tp @s 23031.5 151 23020.5 180 0
+wait 60
+/damage @e[type=celestial:frost_archon,limit=1] 800 minecraft:magic by @p
+wait 80
+/say TEST H3 archons expect=0 (лист уже открыт победой)
+/celestial lore unlock archons
+codex lore sheet archons
+wait 10
+shot lore_hook_archons
+closescreen
+/celestial lore lock all
+/gamemode creative
+quit

@@ -97,6 +97,14 @@ public final class CelestialCommand {
 				.then(Commands.literal("turnin").then(Commands.argument("board", net.minecraft.commands.arguments.coordinates.BlockPosArgument.blockPos())
 					.executes(ctx -> dev.celestial.quest.Quests.turnIn(ctx.getSource().getPlayerOrException(),
 						net.minecraft.commands.arguments.coordinates.BlockPosArgument.getBlockPos(ctx, "board"))))))
+			.then(Commands.literal("lore").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+				.then(Commands.literal("unlock").then(Commands.argument("sheet", StringArgumentType.word()).executes(ctx -> loreChange(ctx, true))))
+				.then(Commands.literal("lock").then(Commands.argument("sheet", StringArgumentType.word()).executes(ctx -> loreChange(ctx, false))))
+				.then(Commands.literal("gloss").then(Commands.argument("word", StringArgumentType.word()).executes(ctx -> {
+					boolean added = dev.celestial.lore.Lore.addGlossary(ctx.getSource().getPlayerOrException(), StringArgumentType.getString(ctx, "word"), true);
+					ctx.getSource().sendSuccess(() -> Component.translatable("lore.celestial.cmd.gloss", added ? 1 : 0), true);
+					return added ? 1 : 0;
+				}))))
 			.then(Commands.literal("codex").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
 				.then(Commands.argument("entry", StringArgumentType.greedyString()).executes(ctx -> {
 					String entry = StringArgumentType.getString(ctx, "entry");
@@ -104,5 +112,24 @@ public final class CelestialCommand {
 					ctx.getSource().sendSuccess(() -> Component.literal("Кодекс: + " + entry), true);
 					return 1;
 				}))));
+	}
+
+	/** /celestial lore unlock|lock <лист|all> — открыть или закрыть лист Летописи (для тестов). */
+	private static int loreChange(com.mojang.brigadier.context.CommandContext<net.minecraft.commands.CommandSourceStack> ctx, boolean open)
+		throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+		ServerPlayer player = ctx.getSource().getPlayerOrException();
+		String id = StringArgumentType.getString(ctx, "sheet");
+		java.util.List<String> ids = id.equals("all") ? dev.celestial.lore.Lore.sheets().stream().map(dev.celestial.lore.Lore.Sheet::id).toList() : java.util.List.of(id);
+		if (!id.equals("all") && dev.celestial.lore.Lore.sheet(id).isEmpty()) {
+			ctx.getSource().sendFailure(Component.translatable("lore.celestial.unknown", id));
+			return 0;
+		}
+		int changed = 0;
+		for (String sheet : ids) {
+			changed += (open ? dev.celestial.lore.Lore.unlock(player, sheet) : dev.celestial.lore.Lore.lock(player, sheet)) ? 1 : 0;
+		}
+		final int count = changed;
+		ctx.getSource().sendSuccess(() -> Component.translatable(open ? "lore.celestial.cmd.unlocked" : "lore.celestial.cmd.locked", count), true);
+		return count;
 	}
 }

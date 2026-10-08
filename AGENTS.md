@@ -47,6 +47,7 @@ Fabric-мод **Celestial** для Minecraft **26.3**: измерение Рая
 | `trial/` | движок испытаний (`TrialDefinitions` — список испытаний) |
 | `quest/` | поручения ангелов |
 | `story/` | `Story` (главы = достижения), `StoryEvents`, `Finale` |
+| `lore/` | `Lore` — Летопись Небес (листы, книги, «Нить», Глоссарий; данные из `tools/lore_data.py` через `data/celestial/lore/lore.json`); вкладка — `client/grace/LorePanel` |
 | `command/` | `/celestial status|fading|act|grace|codex|learn|meteor|beacon|quest` |
 | `client/` | рендеры (`render/`), HUD и Кодекс (`grace/`), автопилот (`dev/AutoPilot`), миксины (`mixin/`) |
 
@@ -70,6 +71,9 @@ gen_story → gen_grace → gen_fading → gen_places → gen_boss → … → g
   запись в `TrialDefinitions` + лут `chests/trial_<id>`. Печати `sealed_door` в радиусе 10 открываются после успеха.
 - **Измерение**: запись в `world/dim/CelestialDimensions` (+ `PortalTypes`, если портал-рамка) и генератор по образцу gen_world.py.
 - **Навык/заклинание**: `grace/Skill`, `grace/Spell` + логика в `Spells`, переводы в gen_grace.py.
+- **Лист Летописи / слово Глоссария**: запись в `tools/lore_data.py` (`SHEETS`/`GLOSSARY`; эпиграф — только если точность цитаты Синодального перевода и KJV гарантирована,
+  иначе `quote=None` и только ссылка), мотив картинки в `gen_lore.ART`, `bash tools/build_assets.sh`; открыть из кода — `Lore.unlock(player, id)` / `Lore.addGlossary`;
+  вручную — `/celestial lore unlock|lock <id|all>`. Лист пишется как «дневник пережитого» (LORE §0): 1–3 короткие записи, не стена текста.
 - **Звук**: синтез в gen_sounds.py (`SOUNDS`), событие в `ModSounds`, субтитр в gen_boss.py.
 
 ## 6. Проверка (обязательна перед коммитом)

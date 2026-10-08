@@ -104,6 +104,7 @@ public final class StoryEvents {
 	public static void onSeraphDefeated(ServerLevel level, LivingEntity seraph, DamageSource source) {
 		level.getPlayers(p -> p.distanceToSqr(seraph) < 96 * 96).forEach(p -> {
 			Story.SERAPH.grant(p);
+			dev.celestial.lore.Lore.addGlossary(p, "seraph", true);
 			p.sendSystemMessage(Component.translatable("story.celestial.seraph_defeated"));
 			// Осколок Света нельзя потерять: Печать будит Серафима один раз, а без осколка закрыты и финал, и всё дальше.
 			// Выдаём каждому участнику прямо в инвентарь; если места нет — предмет лежит вечно.
@@ -126,6 +127,7 @@ public final class StoryEvents {
 		level.addFreshEntity(core);
 		for (ServerPlayer p : level.getPlayers(p -> p.distanceToSqr(boss) < 96 * 96)) {
 			dev.celestial.data.CelestialData.update(p, d -> d.withGrace(d.grace() + 6));
+			dev.celestial.lore.Lore.unlock(p, "abaddon");
 			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket(20, 100, 40));
 			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket(Component.translatable("story.celestial.act2.title")));
 			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket(Component.translatable("story.celestial.act2.subtitle")));
@@ -174,6 +176,7 @@ public final class StoryEvents {
 				}
 			}
 			dev.celestial.data.CelestialData.update(p, d -> d.withGrace(d.grace() + 6));
+			dev.celestial.lore.Lore.unlock(p, "archons");
 			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket(20, 100, 40));
 			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket(Component.translatable("story.celestial.act3.title")));
 			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket(Component.translatable("story.celestial.act3.subtitle")));

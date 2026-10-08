@@ -201,7 +201,7 @@ public final class AutoPilot {
 			}
 			waitTicks = 5;
 		} else if (step.startsWith("codex ")) {
-			// codex saga|grace|bestiary|places|guide — открыть вкладку Кодекса
+			// codex saga|grace|bestiary|places|guide|lore [thread|books N|sheet id|glossary] — открыть вкладку Кодекса
 			mc.gui.setScreen(dev.celestial.client.grace.CodexScreen.onTab(step.substring(6).strip()));
 			waitTicks = 5;
 		} else if (step.startsWith("press ")) {

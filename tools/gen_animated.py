@@ -146,15 +146,23 @@ def guide(d, img):  # знак вопроса на свитке
     d.point([(8, 11)], fill=DARK)
 
 
+def lore(d, img):  # перо над свитком: Летопись
+    d.rectangle([2, 10, 13, 14], fill=CREAM, outline=DARK)
+    d.line([(4, 12), (11, 12)], fill='#b9a779')
+    d.polygon([(12, 1), (14, 2), (9, 9), (7, 10), (7, 8)], fill=CYAN, outline=DARK)
+    d.line([(7, 10), (4, 13)], fill=DARK)
+    d.line([(11, 3), (8, 8)], fill='#ffffff')
+
+
 def icons():
-    for name, fn in (('saga', saga), ('grace', grace), ('bestiary', bestiary), ('places', places), ('guide', guide)):
+    for name, fn in (('saga', saga), ('grace', grace), ('bestiary', bestiary), ('places', places), ('guide', guide), ('lore', lore)):
         icon(fn, name)
 
 
 def main():
     blocks()
     icons()
-    print('ok: анимированные текстуры (6) и иконки вкладок Кодекса (5)')
+    print('ok: анимированные текстуры (6) и иконки вкладок Кодекса (6)')
 
 
 if __name__ == '__main__':

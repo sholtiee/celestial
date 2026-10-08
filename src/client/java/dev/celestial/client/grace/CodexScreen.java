@@ -17,7 +17,7 @@ import net.minecraft.util.FormattedCharSequence;
 
 /** Кодекс Небес: Сага, Благодать (дерево навыков), Бестиарий, Места, Справочник. */
 public class CodexScreen extends Screen {
-	private enum Tab { SAGA, GRACE, BESTIARY, PLACES, GUIDE }
+	private enum Tab { SAGA, GRACE, BESTIARY, PLACES, GUIDE, LORE }
 
 	private static final String[] MOBS = {"fallen_guardian", "storm_spirit", "winged_serpent", "cloud_whale", "light_wisp", "angel", "pegasus",
 		"cherub", "golden_ram", "sky_ray", "cloud_jelly", "mimic", "storm_elemental", "fallen_seraph", "shadow", "blind_hunter", "light_eater", "deep_worm", "light_devourer", "frost_wraith", "ice_guardian", "ice_wolf", "frost_archon", "inia"};
@@ -31,14 +31,20 @@ public class CodexScreen extends Screen {
 	private final List<Button> tabButtons = new ArrayList<>();
 	private int scroll;
 	private int maxScroll;
+	/** Область прокручиваемого текста: x, y, ширина (по умолчанию — вся страница; Летопись сужает её рядом с картинкой). */
+	private int[] textArea = new int[3];
 
 	public CodexScreen() {
 		super(Component.translatable("codex.celestial.title"));
 	}
 
 	/** Открыть Кодекс сразу на вкладке (для автопилота и предметов). */
-	public static CodexScreen onTab(String name) {
-		tab = Tab.valueOf(name.toUpperCase(java.util.Locale.ROOT));
+	public static CodexScreen onTab(String spec) {
+		String[] parts = spec.strip().split("\\s+");
+		tab = Tab.valueOf(parts[0].toUpperCase(java.util.Locale.ROOT));
+		if (tab == Tab.LORE) {  // codex lore thread | books [N] | sheet <id> | glossary
+			LorePanel.open(parts.length > 1 ? parts[1] : "thread", parts.length > 2 ? parts[2] : null);
+		}
 		return new CodexScreen();
 	}
 
@@ -63,6 +69,7 @@ public class CodexScreen extends Screen {
 		clearWidgets();
 		lines.clear();
 		tabButtons.clear();
+		textArea = new int[] {left() + 8, top() + 32, W - 16};
 		int x = left() + 6;
 		for (Tab t : Tab.values()) {
 			// вкладка — иконка; у открытой рядом ещё и название (иконки рисуем в extractRenderState)
@@ -88,6 +95,7 @@ public class CodexScreen extends Screen {
 				lines.add(Component.translatable("codex.celestial.saga.text." + Math.min(ClientState.act(), 3)));
 			}
 			case GRACE -> buildGrace(d);
+			case LORE -> textArea = LorePanel.build(left(), top(), W, d, lines, this::addRenderableWidget, this::init);
 			case BESTIARY -> {
 				for (String m : MOBS) {
 					boolean known = d.knows("mob:" + m);
@@ -179,7 +187,10 @@ public class CodexScreen extends Screen {
 				graphics.fill(b.getX() + 2, b.getY() + 19, b.getX() + b.getWidth() - 2, b.getY() + 20, 0xFFC9A23A);
 			}
 		}
-		int y = top() + 32;
+		if (tab == Tab.LORE) {
+			LorePanel.render(graphics, font, left(), top(), W, GraceClient.data());
+		}
+		int y = textArea[1];
 		if (tab == Tab.GRACE) {
 			for (Skill.Branch b : Skill.Branch.values()) {
 				graphics.text(font, Component.translatable("codex.celestial.branch." + b.name().toLowerCase()).withStyle(ChatFormatting.AQUA),
@@ -189,13 +200,13 @@ public class CodexScreen extends Screen {
 		// длинные вкладки (бестиарий, справочник) прокручиваются колесом мыши
 		List<FormattedCharSequence> rows = new ArrayList<>();
 		for (Component line : lines) {
-			rows.addAll(font.split(line, W - 16));
+			rows.addAll(font.split(line, textArea[2]));
 		}
 		int visible = (top() + H - 12 - y) / 10;
 		maxScroll = Math.max(0, rows.size() - visible);
 		scroll = Math.min(scroll, maxScroll);
 		for (int i = scroll; i < rows.size() && i < scroll + visible; i++) {
-			graphics.text(font, rows.get(i), left() + 8, y, 0xFFFFFFFF);
+			graphics.text(font, rows.get(i), textArea[0], y, 0xFFFFFFFF);
 			y += 10;
 		}
 		if (maxScroll > 0) {  // полоса прокрутки у правого края

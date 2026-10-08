@@ -1,0 +1,51 @@
+# S2.1: Летопись — каркас: лист открывается командой и подвигом, лента «Нить», книги, лист, Глоссарий
+/gamemode creative
+/effect clear @s
+/celestial lore lock all
+/say TEST L0 unknown_sheet_fails expect=fail
+/celestial lore unlock no_such_sheet
+/celestial lore unlock light
+/celestial lore unlock eden
+/celestial lore unlock fruit
+/celestial lore unlock flaming_sword
+/celestial lore unlock cain_abel
+/celestial lore unlock morning_star
+/celestial lore unlock flood
+/celestial lore gloss seraph
+wait 10
+codex lore thread
+wait 10
+shot lore_thread
+codex lore books 1
+wait 10
+shot lore_books
+codex lore sheet flaming_sword
+wait 10
+shot lore_sheet_sword
+codex lore sheet morning_star
+wait 10
+shot lore_sheet_star
+codex lore glossary
+wait 10
+shot lore_glossary
+codex lore books 4
+wait 10
+shot lore_book_soon
+closescreen
+/celestial lore lock all
+/say TEST L1 unlock_all expect=22
+/celestial lore unlock all
+/say TEST L2 unlock_all_again expect=0
+/celestial lore unlock all
+codex lore thread
+wait 10
+shot lore_thread_full
+codex lore books 2
+wait 10
+shot lore_books_full
+codex lore sheet archons
+wait 10
+shot lore_sheet_archons
+closescreen
+/celestial lore lock all
+quit
