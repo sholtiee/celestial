@@ -28,6 +28,7 @@ public class CodexScreen extends Screen {
 	private static final net.minecraft.resources.Identifier BACKGROUND = dev.celestial.Celestial.id("textures/gui/codex.png");
 	private static Tab tab = Tab.SAGA;
 	private final List<Component> lines = new ArrayList<>();
+	private final List<Button> tabButtons = new ArrayList<>();
 	private int scroll;
 	private int maxScroll;
 
@@ -39,6 +40,14 @@ public class CodexScreen extends Screen {
 	public static CodexScreen onTab(String name) {
 		tab = Tab.valueOf(name.toUpperCase(java.util.Locale.ROOT));
 		return new CodexScreen();
+	}
+
+	private static Component tabLabel(Tab t) {
+		return Component.translatable("codex.celestial.tab." + t.name().toLowerCase());
+	}
+
+	private static net.minecraft.resources.Identifier tabIcon(Tab t) {
+		return dev.celestial.Celestial.id("textures/gui/codex_tab_" + t.name().toLowerCase() + ".png");
 	}
 
 	private int left() {
@@ -53,16 +62,21 @@ public class CodexScreen extends Screen {
 	protected void init() {
 		clearWidgets();
 		lines.clear();
+		tabButtons.clear();
 		int x = left() + 6;
 		for (Tab t : Tab.values()) {
-			Component label = Component.translatable("codex.celestial.tab." + t.name().toLowerCase());
-			Button b = Button.builder(t == tab ? label.copy().withStyle(ChatFormatting.GOLD) : label, btn -> {
+			// вкладка — иконка; у открытой рядом ещё и название (иконки рисуем в extractRenderState)
+			Component label = tabLabel(t);
+			int w = t == tab ? 26 + font.width(label) : 24;
+			Button b = Button.builder(Component.empty(), btn -> {
 				tab = t;
 				scroll = 0;
 				init();
-			}).bounds(x, top() + 6, 64, 18).build();
+			}).bounds(x, top() + 4, w, 20).build();
+			b.setTooltip(Tooltip.create(label));
 			addRenderableWidget(b);
-			x += 66;
+			tabButtons.add(b);
+			x += w + 2;
 		}
 		PlayerData d = GraceClient.data();
 		switch (tab) {
@@ -156,6 +170,15 @@ public class CodexScreen extends Screen {
 	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
 		graphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, BACKGROUND, left(), top(), 0.0F, 0.0F, W, H, 512, 256);
 		super.extractRenderState(graphics, mouseX, mouseY, a);
+		Tab[] tabs = Tab.values();
+		for (int i = 0; i < tabs.length && i < tabButtons.size(); i++) {
+			Button b = tabButtons.get(i);
+			graphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, tabIcon(tabs[i]), b.getX() + 4, b.getY() + 2, 0.0F, 0.0F, 16, 16, 16, 16);
+			if (tabs[i] == tab) {
+				graphics.text(font, tabLabel(tabs[i]).copy().withStyle(ChatFormatting.GOLD), b.getX() + 22, b.getY() + 6, 0xFFFFFFFF);
+				graphics.fill(b.getX() + 2, b.getY() + 19, b.getX() + b.getWidth() - 2, b.getY() + 20, 0xFFC9A23A);
+			}
+		}
 		int y = top() + 32;
 		if (tab == Tab.GRACE) {
 			for (Skill.Branch b : Skill.Branch.values()) {

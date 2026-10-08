@@ -52,7 +52,7 @@ Fabric-мод **Celestial** для Minecraft **26.3**: измерение Рая
 
 ## 5. Ресурсы генерируются — руками JSON не править
 `tools/build_assets.sh` запускает по порядку: gen_assets → gen_flora → gen_mechanics → gen_world → gen_structures →
-gen_story → gen_grace → gen_fading → gen_places → gen_boss. Повторный запуск без изменений не даёт диффа.
+gen_story → gen_grace → gen_fading → gen_places → gen_boss → … → gen_achievements → gen_animated (анимированные `.mcmeta`-текстуры и иконки вкладок Кодекса; идёт последним среди графики и берёт готовые статичные текстуры первым кадром). Повторный запуск без изменений не даёт диффа.
 - `gen_assets.py` — база: блоки, предметы, мобы (текстуры через `mob_textures.py`, `textures.py`), лут, рецепты.
   **Перезаписывает** lang-файлы; все остальные скрипты дописывают переводы через `gen_story.lang_patch({ключ: (ru, en)})`.
 - `gen_world.py` — измерение Рая (тип, шумы, биомы, фичи). `gen_structures.py` — постройки Рая (класс `Template` → .nbt).

@@ -27,4 +27,5 @@ python3 gen_frozen_places.py
 python3 gen_puzzles_c.py
 python3 gen_heaven_mobs.py
 python3 gen_achievements.py
+python3 gen_animated.py
 python3 gen_tags_lang.py

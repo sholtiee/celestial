@@ -1,0 +1,45 @@
+# S1.5: иконки вкладок Кодекса и анимированные текстуры (звёздная купель, кристаллы): два кадра витрины с паузой — блик/мерцание должны отличаться
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/gamerule spawn_monsters false
+/execute in minecraft:overworld run tp @s 29000 200 29000
+fly
+wait 80
+/fill 28990 199 28990 29010 199 29010 minecraft:stone
+/fill 28990 200 28990 29010 206 29010 minecraft:air
+/setblock 28998 200 28996 celestial:sky_crystal_block
+/setblock 28999 200 28996 celestial:sky_crystal_block
+/setblock 29000 200 28996 celestial:sky_crystal_block
+/setblock 29001 200 28996 celestial:sky_crystal[facing=up]
+/setblock 29002 200 28996 celestial:shadow_crystal[facing=up]
+/setblock 29003 200 28996 celestial:star_basin[level=3]
+/setblock 29004 200 28996 celestial:ward[crystal=true,lit=true]
+/setblock 29005 200 28996 celestial:trial_crystal[state=running]
+/tp @s 29001.5 200.8 28999.0 180 20
+togglehud
+wait 20
+shot anim_a
+wait 7
+shot anim_b
+wait 5
+shot anim_c
+togglehud
+codex saga
+wait 10
+shot codex_tab_saga
+codex grace
+wait 10
+shot codex_tab_grace
+codex bestiary
+wait 10
+shot codex_tab_bestiary
+codex places
+wait 10
+shot codex_tab_places
+codex guide
+wait 10
+shot codex_tab_guide
+closescreen
+quit
