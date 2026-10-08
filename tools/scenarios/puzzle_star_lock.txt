@@ -1,0 +1,90 @@
+# QA: Звёздный кодовый замок в обсерватории (генерирует tools/gen_puzzles_c.py; комбинация считается копией Java-ГСЧ)
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/gamerule spawn_monsters false
+/execute in minecraft:overworld run tp @s 25009 180 25009
+fly
+wait 80
+/fill 24998 147 24998 25020 149 25020 minecraft:stone
+/fill 24998 150 24998 25020 172 25020 minecraft:air
+/place template celestial:observatory/main 25000 150 25000
+wait 60
+/kill @e[type=celestial:fallen_guardian]
+# F фрески проявились (замок осмотрелся при загрузке)
+/say TEST F frescoes_revealed expect=pass,pass
+/execute if block 25006 156 25003 celestial:star_fresco[hidden=false,symbol=3]
+/execute if block 25002 156 25010 celestial:star_fresco[hidden=false,symbol=0]
+/tp @s 25009.5 152 25009.5 facing 25006.5 156.5 25003.5
+togglehud
+wait 20
+shot star_fresco
+togglehud
+/gamemode survival
+/effect give @s minecraft:resistance 600 4 true
+/clear @s
+/tp @s 25009.5 161 25014.5 facing 25009.5 161 25012.5
+wait 10
+# B1 неверная сверка: стражи и блокировка, реликварий заперт
+/say TEST B1 wrong_combo expect=pass,pass(no items)
+use 25009 161 25012 up
+wait 10
+/execute if entity @e[type=celestial:fallen_guardian,distance=..10]
+/kill @e[type=celestial:fallen_guardian]
+/tp @s 25012.5 161 25010.5 facing 25013.5 162.5 25009.5
+wait 5
+use 25013 162 25009 south
+wait 10
+/execute unless items entity @s container.* *
+# B2 повторная сверка сразу: замок ещё «остывает», стражей нет
+/say TEST B2 lockout expect=pass(no guardians)
+/tp @s 25009.5 161 25014.5 facing 25009.5 161 25012.5
+wait 5
+use 25009 161 25012 up
+wait 10
+/execute unless entity @e[type=celestial:fallen_guardian,distance=..10]
+# S честно: повернуть диски на созвездия фресок, переждать блокировку, сверить
+/say TEST S solve expect=pass,pass(items)
+use 25006 161 25013 up
+wait 3
+use 25006 161 25013 up
+wait 3
+use 25008 161 25013 up
+wait 3
+use 25008 161 25013 up
+wait 3
+use 25008 161 25013 up
+wait 3
+use 25008 161 25013 up
+wait 3
+use 25008 161 25013 up
+wait 3
+use 25012 161 25013 up
+wait 3
+use 25012 161 25013 up
+wait 3
+use 25012 161 25013 up
+wait 3
+use 25012 161 25013 up
+wait 3
+use 25012 161 25013 up
+wait 3
+use 25012 161 25013 up
+wait 3
+wait 800
+use 25009 161 25012 up
+wait 20
+/execute if block 25009 161 25012 celestial:star_lock[solved=true]
+/tp @s 25012.5 161 25010.5 facing 25013.5 162.5 25009.5
+wait 5
+use 25013 162 25009 south
+wait 10
+/execute if items entity @s container.* celestial:rune_of_stars
+/tp @s 25009.5 162.5 25015.5 facing 25009.5 161 25011
+togglehud
+wait 10
+shot star_lock_solved
+togglehud
+/gamemode creative
+quit

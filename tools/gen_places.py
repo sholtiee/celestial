@@ -74,6 +74,18 @@ def observatory():
     reliquary(t, 3, 1, 9, 'celestial:chests/observatory')
     t.fill(5, 1, 8, 5, 2, 10, C('sealed_door'))
     t.set(cx + 4, 1, cz, MC('cartography_table'))
+    # звёздный кодовый замок под куполом: четыре диска (оправы четырёх цветов) и печать «сверить»
+    for i, x in enumerate((6, 8, 10, 12)):
+        t.set(x, 11, 13, C('star_disc'), color=i, symbol=(i * 3 + 1) % 8)
+    t.set(cx, 11, 12, C('star_lock'), solved=False, nbt={'id': C('star_lock')})
+    # награда — реликварий на постаменте в клетке из печатей (выше y=11: плитки первого этажа её не откроют)
+    t.set(13, 11, 9, MC('chiseled_stone_bricks'))
+    reliquary(t, 13, 12, 9, 'celestial:chests/observatory_stars')
+    for x, y, z in ((12, 12, 9), (14, 12, 9), (13, 12, 8), (13, 12, 10), (13, 13, 9)):
+        t.set(x, y, z, C('sealed_door'))
+    # фрески-подсказки по стенам первого этажа (цвет рамки = цвет диска); созвездия на них проявит сам замок
+    for col, (x, z) in enumerate(((6, 3), (16, 8), (12, 15), (2, 10))):
+        t.set(x, 6, z, C('star_fresco'), color=col, symbol=0, hidden=True)
     return t.save('observatory/main')
 
 
@@ -191,6 +203,10 @@ def loot():
         p(1, [(C('telescope'), 1, 1, 1)]),
         p((3, 5), [(C('star_fragment'), 6, 1, 3), (C('starquartz'), 8, 3, 8), (MC('spyglass'), 3, 1, 1), (C('rune_of_stars'), 3, 1, 1),
                    (MC('compass'), 3, 1, 1), (MC('amethyst_shard'), 5, 2, 6), (C('radiant_stone'), 4, 2, 6)])])
+    table('observatory_stars', [
+        p(1, [(C('rune_of_stars'), 1, 1, 1)]),
+        p((3, 5), [(C('star_fragment'), 6, 2, 4), (C('starquartz'), 6, 4, 10), (MC('diamond'), 3, 1, 3), (C('starlight_flask'), 3, 1, 2),
+                   (C('etherite_ingot'), 4, 1, 3), (MC('experience_bottle'), 4, 2, 6)])])
     table('trial_flame_sanctuary', [
         p(1, [(C('flame_shard'), 1, 1, 1)]),
         p((2, 4), [(MC('blaze_rod'), 6, 2, 5), (MC('gold_ingot'), 6, 3, 8), (MC('ancient_debris'), 1, 1, 1), (MC('magma_cream'), 4, 2, 4)])])

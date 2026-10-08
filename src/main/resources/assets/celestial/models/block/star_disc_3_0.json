@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "celestial:block/star_disc_3_0",
+    "bottom": "celestial:block/everfrost_bricks",
+    "side": "celestial:block/star_disc_3_0"
+  }
+}

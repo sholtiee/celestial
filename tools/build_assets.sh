@@ -24,4 +24,5 @@ python3 gen_frozen_puzzles.py
 python3 gen_frozen_mobs.py
 python3 gen_archon.py
 python3 gen_frozen_places.py
+python3 gen_puzzles_c.py
 python3 gen_tags_lang.py

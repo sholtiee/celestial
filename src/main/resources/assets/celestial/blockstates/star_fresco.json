@@ -1,0 +1,196 @@
+{
+  "variants": {
+    "color=0,hidden=false,symbol=0": {
+      "model": "celestial:block/star_fresco_0_0"
+    },
+    "color=0,hidden=true,symbol=0": {
+      "model": "celestial:block/star_fresco_0_hidden"
+    },
+    "color=0,hidden=false,symbol=1": {
+      "model": "celestial:block/star_fresco_0_1"
+    },
+    "color=0,hidden=true,symbol=1": {
+      "model": "celestial:block/star_fresco_0_hidden"
+    },
+    "color=0,hidden=false,symbol=2": {
+      "model": "celestial:block/star_fresco_0_2"
+    },
+    "color=0,hidden=true,symbol=2": {
+      "model": "celestial:block/star_fresco_0_hidden"
+    },
+    "color=0,hidden=false,symbol=3": {
+      "model": "celestial:block/star_fresco_0_3"
+    },
+    "color=0,hidden=true,symbol=3": {
+      "model": "celestial:block/star_fresco_0_hidden"
+    },
+    "color=0,hidden=false,symbol=4": {
+      "model": "celestial:block/star_fresco_0_4"
+    },
+    "color=0,hidden=true,symbol=4": {
+      "model": "celestial:block/star_fresco_0_hidden"
+    },
+    "color=0,hidden=false,symbol=5": {
+      "model": "celestial:block/star_fresco_0_5"
+    },
+    "color=0,hidden=true,symbol=5": {
+      "model": "celestial:block/star_fresco_0_hidden"
+    },
+    "color=0,hidden=false,symbol=6": {
+      "model": "celestial:block/star_fresco_0_6"
+    },
+    "color=0,hidden=true,symbol=6": {
+      "model": "celestial:block/star_fresco_0_hidden"
+    },
+    "color=0,hidden=false,symbol=7": {
+      "model": "celestial:block/star_fresco_0_7"
+    },
+    "color=0,hidden=true,symbol=7": {
+      "model": "celestial:block/star_fresco_0_hidden"
+    },
+    "color=1,hidden=false,symbol=0": {
+      "model": "celestial:block/star_fresco_1_0"
+    },
+    "color=1,hidden=true,symbol=0": {
+      "model": "celestial:block/star_fresco_1_hidden"
+    },
+    "color=1,hidden=false,symbol=1": {
+      "model": "celestial:block/star_fresco_1_1"
+    },
+    "color=1,hidden=true,symbol=1": {
+      "model": "celestial:block/star_fresco_1_hidden"
+    },
+    "color=1,hidden=false,symbol=2": {
+      "model": "celestial:block/star_fresco_1_2"
+    },
+    "color=1,hidden=true,symbol=2": {
+      "model": "celestial:block/star_fresco_1_hidden"
+    },
+    "color=1,hidden=false,symbol=3": {
+      "model": "celestial:block/star_fresco_1_3"
+    },
+    "color=1,hidden=true,symbol=3": {
+      "model": "celestial:block/star_fresco_1_hidden"
+    },
+    "color=1,hidden=false,symbol=4": {
+      "model": "celestial:block/star_fresco_1_4"
+    },
+    "color=1,hidden=true,symbol=4": {
+      "model": "celestial:block/star_fresco_1_hidden"
+    },
+    "color=1,hidden=false,symbol=5": {
+      "model": "celestial:block/star_fresco_1_5"
+    },
+    "color=1,hidden=true,symbol=5": {
+      "model": "celestial:block/star_fresco_1_hidden"
+    },
+    "color=1,hidden=false,symbol=6": {
+      "model": "celestial:block/star_fresco_1_6"
+    },
+    "color=1,hidden=true,symbol=6": {
+      "model": "celestial:block/star_fresco_1_hidden"
+    },
+    "color=1,hidden=false,symbol=7": {
+      "model": "celestial:block/star_fresco_1_7"
+    },
+    "color=1,hidden=true,symbol=7": {
+      "model": "celestial:block/star_fresco_1_hidden"
+    },
+    "color=2,hidden=false,symbol=0": {
+      "model": "celestial:block/star_fresco_2_0"
+    },
+    "color=2,hidden=true,symbol=0": {
+      "model": "celestial:block/star_fresco_2_hidden"
+    },
+    "color=2,hidden=false,symbol=1": {
+      "model": "celestial:block/star_fresco_2_1"
+    },
+    "color=2,hidden=true,symbol=1": {
+      "model": "celestial:block/star_fresco_2_hidden"
+    },
+    "color=2,hidden=false,symbol=2": {
+      "model": "celestial:block/star_fresco_2_2"
+    },
+    "color=2,hidden=true,symbol=2": {
+      "model": "celestial:block/star_fresco_2_hidden"
+    },
+    "color=2,hidden=false,symbol=3": {
+      "model": "celestial:block/star_fresco_2_3"
+    },
+    "color=2,hidden=true,symbol=3": {
+      "model": "celestial:block/star_fresco_2_hidden"
+    },
+    "color=2,hidden=false,symbol=4": {
+      "model": "celestial:block/star_fresco_2_4"
+    },
+    "color=2,hidden=true,symbol=4": {
+      "model": "celestial:block/star_fresco_2_hidden"
+    },
+    "color=2,hidden=false,symbol=5": {
+      "model": "celestial:block/star_fresco_2_5"
+    },
+    "color=2,hidden=true,symbol=5": {
+      "model": "celestial:block/star_fresco_2_hidden"
+    },
+    "color=2,hidden=false,symbol=6": {
+      "model": "celestial:block/star_fresco_2_6"
+    },
+    "color=2,hidden=true,symbol=6": {
+      "model": "celestial:block/star_fresco_2_hidden"
+    },
+    "color=2,hidden=false,symbol=7": {
+      "model": "celestial:block/star_fresco_2_7"
+    },
+    "color=2,hidden=true,symbol=7": {
+      "model": "celestial:block/star_fresco_2_hidden"
+    },
+    "color=3,hidden=false,symbol=0": {
+      "model": "celestial:block/star_fresco_3_0"
+    },
+    "color=3,hidden=true,symbol=0": {
+      "model": "celestial:block/star_fresco_3_hidden"
+    },
+    "color=3,hidden=false,symbol=1": {
+      "model": "celestial:block/star_fresco_3_1"
+    },
+    "color=3,hidden=true,symbol=1": {
+      "model": "celestial:block/star_fresco_3_hidden"
+    },
+    "color=3,hidden=false,symbol=2": {
+      "model": "celestial:block/star_fresco_3_2"
+    },
+    "color=3,hidden=true,symbol=2": {
+      "model": "celestial:block/star_fresco_3_hidden"
+    },
+    "color=3,hidden=false,symbol=3": {
+      "model": "celestial:block/star_fresco_3_3"
+    },
+    "color=3,hidden=true,symbol=3": {
+      "model": "celestial:block/star_fresco_3_hidden"
+    },
+    "color=3,hidden=false,symbol=4": {
+      "model": "celestial:block/star_fresco_3_4"
+    },
+    "color=3,hidden=true,symbol=4": {
+      "model": "celestial:block/star_fresco_3_hidden"
+    },
+    "color=3,hidden=false,symbol=5": {
+      "model": "celestial:block/star_fresco_3_5"
+    },
+    "color=3,hidden=true,symbol=5": {
+      "model": "celestial:block/star_fresco_3_hidden"
+    },
+    "color=3,hidden=false,symbol=6": {
+      "model": "celestial:block/star_fresco_3_6"
+    },
+    "color=3,hidden=true,symbol=6": {
+      "model": "celestial:block/star_fresco_3_hidden"
+    },
+    "color=3,hidden=false,symbol=7": {
+      "model": "celestial:block/star_fresco_3_7"
+    },
+    "color=3,hidden=true,symbol=7": {
+      "model": "celestial:block/star_fresco_3_hidden"
+    }
+  }
+}

@@ -57,6 +57,10 @@ public final class ModBlockEntities {
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("archon_seal"),
 		new BlockEntityType<>(dev.celestial.boss.ArchonSealBlockEntity::new, Set.of(ModBlocks.ARCHON_SEAL)));
 
+	public static final BlockEntityType<dev.celestial.block.puzzle.star.StarLockBlockEntity> STAR_LOCK = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("star_lock"),
+		new BlockEntityType<>(dev.celestial.block.puzzle.star.StarLockBlockEntity::new, Set.of(ModBlocks.STAR_LOCK)));
+
 	private ModBlockEntities() {}
 
 	public static void init() {

@@ -307,6 +307,17 @@ public final class ModBlocks {
 		Properties.of().mapColor(MapColor.ICE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.GLASS).noOcclusion()
 			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> 9).isSuffocating(Blocks::never));
 
+	// Звёздный кодовый замок (обсерватория): диски, фрески-подсказки, печать «сверить» — всё неразрушимо
+	public static final Block STAR_DISC = register("star_disc", dev.celestial.block.puzzle.star.StarDiscBlock::new,
+		Properties.of().mapColor(MapColor.COLOR_BLUE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST)
+			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> 6), 1);
+	public static final Block STAR_FRESCO = register("star_fresco", dev.celestial.block.puzzle.star.StarFrescoBlock::new,
+		Properties.of().mapColor(MapColor.COLOR_BLUE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.STONE)
+			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.block.puzzle.star.StarFrescoBlock.HIDDEN) ? 2 : 7));
+	public static final Block STAR_LOCK = register("star_lock", dev.celestial.block.puzzle.star.StarLockBlock::new,
+		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST)
+			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.block.puzzle.star.StarLockBlock.SOLVED) ? 15 : 8), 1);
+
 	private ModBlocks() {}
 
 	private static Block flower(String name, net.minecraft.core.Holder<net.minecraft.world.effect.MobEffect> effect, int light) {

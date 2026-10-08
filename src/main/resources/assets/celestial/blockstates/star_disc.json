@@ -1,0 +1,100 @@
+{
+  "variants": {
+    "color=0,symbol=0": {
+      "model": "celestial:block/star_disc_0_0"
+    },
+    "color=0,symbol=1": {
+      "model": "celestial:block/star_disc_0_1"
+    },
+    "color=0,symbol=2": {
+      "model": "celestial:block/star_disc_0_2"
+    },
+    "color=0,symbol=3": {
+      "model": "celestial:block/star_disc_0_3"
+    },
+    "color=0,symbol=4": {
+      "model": "celestial:block/star_disc_0_4"
+    },
+    "color=0,symbol=5": {
+      "model": "celestial:block/star_disc_0_5"
+    },
+    "color=0,symbol=6": {
+      "model": "celestial:block/star_disc_0_6"
+    },
+    "color=0,symbol=7": {
+      "model": "celestial:block/star_disc_0_7"
+    },
+    "color=1,symbol=0": {
+      "model": "celestial:block/star_disc_1_0"
+    },
+    "color=1,symbol=1": {
+      "model": "celestial:block/star_disc_1_1"
+    },
+    "color=1,symbol=2": {
+      "model": "celestial:block/star_disc_1_2"
+    },
+    "color=1,symbol=3": {
+      "model": "celestial:block/star_disc_1_3"
+    },
+    "color=1,symbol=4": {
+      "model": "celestial:block/star_disc_1_4"
+    },
+    "color=1,symbol=5": {
+      "model": "celestial:block/star_disc_1_5"
+    },
+    "color=1,symbol=6": {
+      "model": "celestial:block/star_disc_1_6"
+    },
+    "color=1,symbol=7": {
+      "model": "celestial:block/star_disc_1_7"
+    },
+    "color=2,symbol=0": {
+      "model": "celestial:block/star_disc_2_0"
+    },
+    "color=2,symbol=1": {
+      "model": "celestial:block/star_disc_2_1"
+    },
+    "color=2,symbol=2": {
+      "model": "celestial:block/star_disc_2_2"
+    },
+    "color=2,symbol=3": {
+      "model": "celestial:block/star_disc_2_3"
+    },
+    "color=2,symbol=4": {
+      "model": "celestial:block/star_disc_2_4"
+    },
+    "color=2,symbol=5": {
+      "model": "celestial:block/star_disc_2_5"
+    },
+    "color=2,symbol=6": {
+      "model": "celestial:block/star_disc_2_6"
+    },
+    "color=2,symbol=7": {
+      "model": "celestial:block/star_disc_2_7"
+    },
+    "color=3,symbol=0": {
+      "model": "celestial:block/star_disc_3_0"
+    },
+    "color=3,symbol=1": {
+      "model": "celestial:block/star_disc_3_1"
+    },
+    "color=3,symbol=2": {
+      "model": "celestial:block/star_disc_3_2"
+    },
+    "color=3,symbol=3": {
+      "model": "celestial:block/star_disc_3_3"
+    },
+    "color=3,symbol=4": {
+      "model": "celestial:block/star_disc_3_4"
+    },
+    "color=3,symbol=5": {
+      "model": "celestial:block/star_disc_3_5"
+    },
+    "color=3,symbol=6": {
+      "model": "celestial:block/star_disc_3_6"
+    },
+    "color=3,symbol=7": {
+      "model": "celestial:block/star_disc_3_7"
+    }
+  }
+}

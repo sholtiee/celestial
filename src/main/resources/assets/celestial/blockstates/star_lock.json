@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "solved=false": {
+      "model": "celestial:block/star_lock"
+    },
+    "solved=true": {
+      "model": "celestial:block/star_lock_solved"
+    }
+  }
+}
