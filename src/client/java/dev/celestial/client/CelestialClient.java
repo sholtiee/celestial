@@ -8,6 +8,7 @@ public class CelestialClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		ClientState.init();
+		CameraShake.init();
 		// трава Рая окрашивается цветом травы биома (золото на лугах, серый на Грозовом пике и т. д.)
 		net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry.register(
 			java.util.List.of(heavenTint(net.minecraft.client.color.block.BlockTintSources.grassBlock())), dev.celestial.registry.ModBlocks.GOLDEN_GRASS);

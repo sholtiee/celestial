@@ -83,6 +83,15 @@ def main():
         'subtitles.celestial.hunter_screech': ('Слепой охотник визжит', 'Blind Hunter shrieks'),
         'subtitles.celestial.light_eater_feed': ('Светоед глотает свет', 'Light Eater devours light'),
         'subtitles.celestial.worm_bite': ('Глубинный червь кусает', 'Deep Worm bites'),
+        # постановка битв (boss/BossIntro): титр при пробуждении и названия фаз
+        'boss.celestial.phase': ('Фаза %s', 'Phase %s'),
+        'boss.celestial.fallen_seraph.subtitle': ('Былой страж Небесного Престола', 'Once the Warden of the Heavenly Throne'),
+        'boss.celestial.fallen_seraph.phase2.title': ('Дождь копий', 'Rain of Spears'),
+        'boss.celestial.fallen_seraph.phase3.title': ('Ярость падшего', 'Wrath of the Fallen'),
+        'boss.celestial.light_devourer.phase2.title': ('Голод тьмы', 'Hunger of the Dark'),
+        'boss.celestial.light_devourer.phase3.title': ('Ни искры света', 'Not a Spark Left'),
+        'boss.celestial.frost_archon.phase2.title': ('Метель', 'Blizzard'),
+        'boss.celestial.frost_archon.phase3.title': ('Ледяная тюрьма', 'Ice Prison'),
     })
     print('ok: Серафим и звуки')
 

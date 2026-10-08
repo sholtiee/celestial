@@ -6,9 +6,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
-import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
-import net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -65,9 +62,7 @@ public class ArchonSealBlockEntity extends BlockEntity {
 		for (ServerPlayer p : level.getPlayers(p -> p.distanceToSqr(Vec3.atCenterOf(pos)) < 48 * 48)) {
 			p.sendSystemMessage(Component.translatable("boss.celestial.frost_archon.awaken"));
 			p.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 25, 0, false, false));
-			p.connection.send(new ClientboundSetTitlesAnimationPacket(10, 70, 20));
-			p.connection.send(new ClientboundSetTitleTextPacket(Component.translatable("entity.celestial.frost_archon").withStyle(ChatFormatting.AQUA)));
-			p.connection.send(new ClientboundSetSubtitleTextPacket(Component.translatable("boss.celestial.frost_archon.subtitle")));
 		}
+		BossIntro.awaken(level, pos, "frost_archon", ChatFormatting.AQUA, 48);
 	}
 }

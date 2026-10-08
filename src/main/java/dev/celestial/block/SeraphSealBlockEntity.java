@@ -53,5 +53,6 @@ public class SeraphSealBlockEntity extends BlockEntity {
 		for (ServerPlayer p : level.getPlayers(p -> p.distanceToSqr(net.minecraft.world.phys.Vec3.atCenterOf(pos)) < 64 * 64)) {
 			p.sendSystemMessage(Component.translatable("boss.celestial.fallen_seraph.awaken"));
 		}
+		dev.celestial.boss.BossIntro.awaken(level, pos, "fallen_seraph", net.minecraft.ChatFormatting.GOLD, 64);
 	}
 }

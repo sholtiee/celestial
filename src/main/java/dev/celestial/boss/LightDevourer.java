@@ -307,6 +307,8 @@ public class LightDevourer extends Monster {
 		for (ServerPlayer p : bossEvent.getPlayers()) {
 			p.sendSystemMessage(Component.translatable("boss.celestial.light_devourer.phase" + phase));
 		}
+		BossIntro.phase(bossEvent.getPlayers(), "light_devourer", phase,
+			phase == 3 ? net.minecraft.ChatFormatting.DARK_RED : net.minecraft.ChatFormatting.DARK_PURPLE);
 		if (phase == 3) {
 			for (BlockPos b : braziers) {
 				if (isLit(level, b)) {

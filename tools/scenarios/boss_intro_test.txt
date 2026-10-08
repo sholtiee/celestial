@@ -1,0 +1,68 @@
+# Постановка битв (BossIntro): титр с именем и тряска при пробуждении, «Фаза II/III» с названием фазы — у Серафима, Пожирателя и Архонта
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 30000 160 30000 0 10
+fly
+wait 80
+/kill @e[type=!minecraft:player,distance=..120]
+/fill 29980 159 29980 30020 159 30030 celestial:skystone_bricks
+/fill 29980 160 29980 30020 174 30030 minecraft:air
+/effect give @s minecraft:resistance 900 4 true
+/effect give @s minecraft:saturation 900 4 true
+# --- Серафим
+/setblock 30000 160 30010 celestial:seraph_seal
+/tp @s 30000.5 160 30001 0 -10
+/gamemode survival
+wait 30
+shot intro_seraph_awaken
+wait 100
+/damage @e[type=celestial:fallen_seraph,limit=1] 150 minecraft:generic_kill
+wait 15
+shot intro_seraph_phase2
+wait 80
+/damage @e[type=celestial:fallen_seraph,limit=1] 140 minecraft:generic_kill
+wait 15
+shot intro_seraph_phase3
+/gamemode creative
+/kill @e[type=celestial:fallen_seraph]
+/kill @e[type=!minecraft:player,distance=..120]
+wait 100
+# --- Пожиратель
+/setblock 30000 160 30010 minecraft:air
+/setblock 30000 160 30020 celestial:devourer_seal
+/tp @s 30000.5 160 30012 0 -20
+/gamemode survival
+wait 30
+shot intro_devourer_awaken
+wait 100
+/data get entity @e[type=celestial:light_devourer,limit=1] Health
+/damage @e[type=celestial:light_devourer,limit=1] 170 minecraft:generic_kill
+wait 15
+shot intro_devourer_phase2
+wait 80
+/damage @e[type=celestial:light_devourer,limit=1] 130 minecraft:generic_kill
+wait 15
+shot intro_devourer_phase3
+/gamemode creative
+/kill @e[type=celestial:light_devourer]
+/kill @e[type=!minecraft:player,distance=..120]
+wait 100
+# --- Архонт
+/setblock 30000 160 30020 minecraft:air
+/setblock 30000 160 30010 celestial:archon_seal
+/tp @s 30000.5 160 30003 0 -10
+/gamemode survival
+wait 30
+shot intro_archon_awaken
+wait 100
+/data get entity @e[type=celestial:frost_archon,limit=1] Health
+/damage @e[type=celestial:frost_archon,limit=1] 200 minecraft:generic_kill
+wait 15
+shot intro_archon_phase2
+/gamemode creative
+/kill @e[type=celestial:frost_archon]
+/kill @e[type=!minecraft:player,distance=..120]
+quit

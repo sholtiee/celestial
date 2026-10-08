@@ -1,5 +1,6 @@
 package dev.celestial.boss;
 
+import net.minecraft.ChatFormatting;
 import dev.celestial.data.CelestialData;
 import dev.celestial.registry.ModBlocks;
 import dev.celestial.registry.ModEntities;
@@ -411,6 +412,7 @@ public class FrostArchon extends Monster {
 		for (ServerPlayer p : bossEvent.getPlayers()) {
 			p.sendSystemMessage(Component.translatable("boss.celestial.frost_archon.phase" + phase));
 		}
+		BossIntro.phase(bossEvent.getPlayers(), "frost_archon", phase, phase == 3 ? ChatFormatting.WHITE : ChatFormatting.AQUA);
 		if (phase == 2) {
 			summon(level);
 		}

@@ -17,6 +17,7 @@ public final class CelestialNetwork {
 
 	public static void init() {
 		PayloadTypeRegistry.clientboundPlay().register(WorldStatePayload.TYPE, WorldStatePayload.CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(ShakePayload.TYPE, ShakePayload.CODEC);
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
 			server.execute(() -> sendWorld(handler.player, CelestialData.world(server))));
 		// правило меняют командой /gamerule, событий у него нет — сверяем раз в 2 с и рассылаем, если изменилось (BUG-037)

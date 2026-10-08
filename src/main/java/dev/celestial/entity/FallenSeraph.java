@@ -260,9 +260,18 @@ public class FallenSeraph extends Monster {
 		for (ServerPlayer p : bossEvent.getPlayers()) {
 			p.sendSystemMessage(line);
 		}
+		applyPhaseLook();
+		dev.celestial.boss.BossIntro.phase(bossEvent.getPlayers(), "fallen_seraph", phase,
+			phase == 3 ? net.minecraft.ChatFormatting.RED : net.minecraft.ChatFormatting.GOLD);
 		if (home.equals(BlockPos.ZERO)) {
 			home = blockPosition();
 		}
+	}
+
+	/** Вид полосы по фазе: золотая → белая (взмыл в небо) → красная и тёмный экран (ярость). */
+	private void applyPhaseLook() {
+		bossEvent.setColor(phase == 1 ? BossEvent.BossBarColor.YELLOW : phase == 2 ? BossEvent.BossBarColor.WHITE : BossEvent.BossBarColor.RED);
+		bossEvent.setDarkenScreen(phase == 3);
 	}
 
 	/** Рывок к цели. */
@@ -387,6 +396,7 @@ public class FallenSeraph extends Monster {
 		home = input.read("Home", BlockPos.CODEC).orElse(BlockPos.ZERO);
 		crystalsSpawned = input.getBooleanOr("CrystalsSpawned", false);
 		phase = input.getIntOr("Phase", 1);
+		applyPhaseLook();
 		crystals.clear();
 		crystals.addAll(input.read("Crystals", net.minecraft.core.UUIDUtil.CODEC.listOf()).orElse(java.util.List.of()));
 	}

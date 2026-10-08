@@ -3,7 +3,8 @@
 	"package": "dev.celestial.client.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"client": [
-		"BossMusicMixin"
+		"BossMusicMixin",
+		"CameraShakeMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

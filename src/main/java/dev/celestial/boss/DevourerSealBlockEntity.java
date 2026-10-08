@@ -50,11 +50,7 @@ public class DevourerSealBlockEntity extends BlockEntity {
 		level.playSound(null, pos, dev.celestial.registry.ModSounds.DEVOURER_ROAR, SoundSource.HOSTILE, 4.0F, 1.0F);
 		for (ServerPlayer p : level.getPlayers(p -> p.distanceToSqr(net.minecraft.world.phys.Vec3.atCenterOf(pos)) < 64 * 64)) {
 			p.sendSystemMessage(Component.translatable("boss.celestial.light_devourer.awaken"));
-			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket(10, 60, 20));
-			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket(
-				Component.translatable("entity.celestial.light_devourer").withStyle(net.minecraft.ChatFormatting.DARK_PURPLE)));
-			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket(
-				Component.translatable("boss.celestial.light_devourer.subtitle")));
 		}
+		BossIntro.awaken(level, pos, "light_devourer", net.minecraft.ChatFormatting.DARK_PURPLE, 64);
 	}
 }
