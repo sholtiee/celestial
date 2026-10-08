@@ -1,0 +1,34 @@
+{
+  "criteria": {
+    "items": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "celestial:golden_fleece"
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:golden_fleece"
+    },
+    "title": {
+      "translate": "advancements.celestial.golden_fleece.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.golden_fleece.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "items"
+    ]
+  ],
+  "parent": "celestial:story/gates_of_heaven"
+}

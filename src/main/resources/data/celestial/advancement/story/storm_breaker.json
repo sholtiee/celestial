@@ -1,0 +1,36 @@
+{
+  "criteria": {
+    "kill": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "celestial:storm_elemental"
+          }
+        }
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:charged_crystal"
+    },
+    "title": {
+      "translate": "advancements.celestial.storm_breaker.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.storm_breaker.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "kill"
+    ]
+  ],
+  "parent": "celestial:story/gates_of_heaven"
+}

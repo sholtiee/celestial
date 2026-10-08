@@ -1,0 +1,43 @@
+{
+  "criteria": {
+    "items": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "celestial:etherite_helmet"
+          },
+          {
+            "items": "celestial:etherite_chestplate"
+          },
+          {
+            "items": "celestial:etherite_leggings"
+          },
+          {
+            "items": "celestial:etherite_boots"
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:etherite_chestplate"
+    },
+    "title": {
+      "translate": "advancements.celestial.clad_in_ether.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.clad_in_ether.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "items"
+    ]
+  ],
+  "parent": "celestial:story/heavenly_metal"
+}

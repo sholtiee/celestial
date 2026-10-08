@@ -1,0 +1,42 @@
+# Новые достижения (gen_achievements.py): предметы, убийства, еда. Загадки — сценарий puzzle_memory.txt
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/advancement revoke @s from celestial:story/root
+/execute in minecraft:overworld run tp @s 28000 160 27994 0 10
+fly
+wait 60
+/fill 27990 159 27990 28010 159 28010 celestial:skystone_bricks
+/kill @e[type=!minecraft:player,distance=..40]
+/gamemode survival
+/effect give @s minecraft:resistance 600 4 true
+/clear @s
+/give @s celestial:etherite_ingot
+/give @s celestial:etherite_helmet
+/give @s celestial:etherite_chestplate
+/give @s celestial:etherite_leggings
+/give @s celestial:etherite_boots
+/give @s celestial:golden_fleece
+/give @s celestial:fur_hood
+/give @s celestial:fur_cloak
+/give @s celestial:fur_leggings
+/give @s celestial:fur_boots
+wait 10
+/summon celestial:shadow 28000 160 27998 {NoAI:1b}
+/summon celestial:winged_serpent 28002 162 27998 {NoAI:1b}
+wait 5
+/damage @e[type=celestial:shadow,limit=1] 200 minecraft:player_attack by @s
+/damage @e[type=celestial:winged_serpent,limit=1] 200 minecraft:player_attack by @s
+wait 10
+/clear @s
+/effect give @s minecraft:hunger 10 255 true
+wait 220
+/give @s celestial:spiced_cider
+wait 5
+/data get entity @s foodLevel
+hold use 50
+wait 60
+/data get entity @s SelectedItem
+/data get entity @s foodLevel
+/advancement grant @s only celestial:story/beneath_the_clouds
+quit

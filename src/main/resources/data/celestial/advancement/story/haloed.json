@@ -1,0 +1,34 @@
+{
+  "criteria": {
+    "items": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "celestial:halo"
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:halo"
+    },
+    "title": {
+      "translate": "advancements.celestial.haloed.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.haloed.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "items"
+    ]
+  ],
+  "parent": "celestial:story/fall_of_the_seraph"
+}

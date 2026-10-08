@@ -1,0 +1,34 @@
+{
+  "criteria": {
+    "items": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "celestial:abyssal_ingot"
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:abyssal_ingot"
+    },
+    "title": {
+      "translate": "advancements.celestial.abyssal_smith.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.abyssal_smith.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "items"
+    ]
+  ],
+  "parent": "celestial:story/beneath_the_clouds"
+}

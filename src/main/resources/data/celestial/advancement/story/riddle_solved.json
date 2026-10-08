@@ -1,0 +1,27 @@
+{
+  "criteria": {
+    "granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:rune_of_stars"
+    },
+    "title": {
+      "translate": "advancements.celestial.riddle_solved.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.riddle_solved.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "granted"
+    ]
+  ],
+  "parent": "celestial:story/gates_of_heaven"
+}

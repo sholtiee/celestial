@@ -1,0 +1,41 @@
+{
+  "criteria": {
+    "spiced_cider": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "celestial:spiced_cider"
+        }
+      }
+    },
+    "hearth_stew": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "celestial:hearth_stew"
+        }
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:spiced_cider"
+    },
+    "title": {
+      "translate": "advancements.celestial.warm_heart.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.warm_heart.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "spiced_cider",
+      "hearth_stew"
+    ]
+  ],
+  "parent": "celestial:story/frozen_wings"
+}

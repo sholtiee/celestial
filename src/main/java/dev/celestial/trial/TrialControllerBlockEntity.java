@@ -236,6 +236,9 @@ public class TrialControllerBlockEntity extends BlockEntity {
 		level.sendParticles(ParticleTypes.END_ROD, worldPosition.getX() + 0.5, worldPosition.getY() + 1.5, worldPosition.getZ() + 0.5, 80, 1, 1, 1, 0.2);
 		player.sendSystemMessage(Component.translatable("trial.celestial.success", Component.translatable("trial.celestial.name." + trialId), def.grace()));
 		CelestialData.update(player, d -> d.withGrace(d.grace() + def.grace()).withTrial(trialId));
+		if (player instanceof net.minecraft.server.level.ServerPlayer sp) {
+			dev.celestial.story.Story.TRIAL_CHAMPION.grant(sp);
+		}
 		dropReward(level, player);
 		openSeals(level);
 		cleanup();

@@ -1,0 +1,27 @@
+{
+  "criteria": {
+    "granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:cloud_fluff"
+    },
+    "title": {
+      "translate": "advancements.celestial.memory_keeper.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.memory_keeper.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "granted"
+    ]
+  ],
+  "parent": "celestial:story/gates_of_heaven"
+}

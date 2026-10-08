@@ -1,0 +1,43 @@
+{
+  "criteria": {
+    "items": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "celestial:fur_hood"
+          },
+          {
+            "items": "celestial:fur_cloak"
+          },
+          {
+            "items": "celestial:fur_leggings"
+          },
+          {
+            "items": "celestial:fur_boots"
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:fur_cloak"
+    },
+    "title": {
+      "translate": "advancements.celestial.fur_clad.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.fur_clad.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "items"
+    ]
+  ],
+  "parent": "celestial:story/frozen_wings"
+}

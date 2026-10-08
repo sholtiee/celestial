@@ -18,7 +18,20 @@ public enum Story {
 	FROZEN("frozen_wings"),
 	ARCHON("crown_of_frost"),
 	GLACIER_MASTER("glacier_master"),
-	THREE_BEAMS("three_beams");
+	THREE_BEAMS("three_beams"),
+	BELL_RINGER("bell_ringer"),
+	STAR_WALKER("star_walker"),
+	RIDDLE("riddle_solved"),
+	STAR_LOCK("star_lock"),
+	MEMORY("memory_keeper"),
+	ECHO("echo_listener"),
+	PUZZLE_MASTER("puzzle_master"),
+	TRIAL_CHAMPION("trial_champion");
+
+	/** Вид загадки (как в PuzzleRewards.solved) → достижение; все восемь вместе дают «Мастера загадок». */
+	public static final java.util.Map<String, Story> PUZZLES = java.util.Map.of(
+		"bells", BELL_RINGER, "star_tiles", STAR_WALKER, "riddle", RIDDLE, "star_lock", STAR_LOCK,
+		"memory", MEMORY, "echo", ECHO, "glacier", GLACIER_MASTER, "mirror_maze", THREE_BEAMS);
 
 	public final Identifier id;
 

@@ -1,0 +1,27 @@
+{
+  "criteria": {
+    "granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:halo"
+    },
+    "title": {
+      "translate": "advancements.celestial.trial_champion.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.trial_champion.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "granted"
+    ]
+  ],
+  "parent": "celestial:story/gates_of_heaven"
+}

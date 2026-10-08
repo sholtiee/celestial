@@ -1,0 +1,36 @@
+{
+  "criteria": {
+    "kill": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "celestial:blind_hunter"
+          }
+        }
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:worm_chitin"
+    },
+    "title": {
+      "translate": "advancements.celestial.hunter_blinded.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.hunter_blinded.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "kill"
+    ]
+  ],
+  "parent": "celestial:story/beneath_the_clouds"
+}

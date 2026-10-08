@@ -1,0 +1,36 @@
+{
+  "criteria": {
+    "kill": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "celestial:winged_serpent"
+          }
+        }
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:seraph_feather"
+    },
+    "title": {
+      "translate": "advancements.celestial.serpent_slayer.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.serpent_slayer.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "kill"
+    ]
+  ],
+  "parent": "celestial:story/gates_of_heaven"
+}

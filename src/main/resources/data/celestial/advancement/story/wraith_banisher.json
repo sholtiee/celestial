@@ -1,0 +1,36 @@
+{
+  "criteria": {
+    "kill": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "celestial:frost_wraith"
+          }
+        }
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:ice_shard"
+    },
+    "title": {
+      "translate": "advancements.celestial.wraith_banisher.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.wraith_banisher.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "kill"
+    ]
+  ],
+  "parent": "celestial:story/frozen_wings"
+}

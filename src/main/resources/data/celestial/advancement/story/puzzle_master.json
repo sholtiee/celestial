@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:tuning_fork"
+    },
+    "title": {
+      "translate": "advancements.celestial.puzzle_master.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.puzzle_master.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "granted"
+    ]
+  ],
+  "parent": "celestial:story/light_returns",
+  "rewards": {
+    "experience": 500
+  }
+}
