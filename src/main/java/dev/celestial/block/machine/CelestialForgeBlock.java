@@ -80,7 +80,8 @@ public class CelestialForgeBlock extends Block implements BeamPowered {
 				player.sendOverlayMessage(Component.translatable("machine.celestial.forge.cost_repair"));
 				return InteractionResult.FAIL;
 			}
-			stack.setDamageValue(0);
+			// кварц восстанавливает четверть прочности (раньше — всю: крылья на 640 чинились за один кварц, BUG-059)
+			stack.setDamageValue(Math.max(0, stack.getDamageValue() - Math.max(1, stack.getMaxDamage() / 4)));
 			done(server, pos, player);
 			return InteractionResult.SUCCESS;
 		}

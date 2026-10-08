@@ -143,6 +143,7 @@ MESSAGES = {
     'quest.celestial.turn_in': ('[Сдать]', '[Turn in]'),
     'quest.celestial.taken': ('Поручение принято', 'Quest accepted'),
     'quest.celestial.done_today': ('Это поручение уже выполнено сегодня', 'You already completed this quest today'),
+    'quest.celestial.explore_here': ('Ты уже здесь — это поручение берут на другой доске, вдали от цели', 'You are already here: take this errand from another board, away from its goal'),
     'quest.celestial.too_many': ('Не больше трёх поручений одновременно', 'No more than three quests at once'),
     'quest.celestial.nothing': ('Нечего сдавать', 'Nothing to turn in'),
     'quest.celestial.done': ('✦ Поручение выполнено!', '✦ Quest complete!'),

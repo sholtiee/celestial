@@ -1,0 +1,317 @@
+# Интерлюдия 0.4.x: BUG-059 (кузня чинит четверть за кварц), BUG-060 (молнии духов не поджигают), BUG-037 (правило Угасания доходит до клиента)
+/gamemode creative
+/effect clear @s
+fly
+/execute in celestial:heaven run tp @s 6 190 2 180 30
+wait 80
+/execute in celestial:heaven run fill -2 179 -12 26 192 12 minecraft:air
+/execute in celestial:heaven run fill -2 179 -12 26 179 12 celestial:skystone_bricks
+/execute in celestial:heaven run tp @s 6 180 2 180 30
+wait 30
+/execute in celestial:heaven run setblock 6 186 0 celestial:sun_lens[facing=down]
+/execute in celestial:heaven run setblock 6 180 0 celestial:celestial_forge
+/execute in celestial:heaven run setblock 6 180 1 celestial:radiant_stone
+/execute in celestial:heaven run setblock 6 180 -1 celestial:radiant_stone
+/execute in celestial:heaven run setblock 7 180 0 celestial:radiant_stone
+/execute in celestial:heaven run setblock 5 180 0 celestial:radiant_stone
+wait 40
+/gamemode survival
+/clear @s
+/item replace entity @s weapon.mainhand with celestial:seraph_wings[minecraft:damage=600]
+/give @s celestial:starquartz 1
+# R1 одна перековка — минус четверть износа (600 → 440), а не ноль
+/say TEST R1 forge_quarter expect=pass,pass
+userel 0 0 -2 up
+wait 5
+/execute if items entity @s weapon.mainhand celestial:seraph_wings[minecraft:damage=440]
+/execute unless items entity @s container.* celestial:starquartz
+/gamemode creative
+# L1 дух бьёт молнией по метке рядом с деревом — пожара нет
+/say TEST L1 storm_no_fire expect=fail(no fire blocks)
+/execute in celestial:heaven run fill 10 180 -10 24 186 4 minecraft:air
+/execute in celestial:heaven run fill 10 180 -10 24 180 4 minecraft:oak_leaves[persistent=true]
+/execute in celestial:heaven run fill 10 181 -10 24 181 4 minecraft:short_grass
+/gamemode survival
+/effect give @s minecraft:resistance 600 4 true
+/execute in celestial:heaven run tp @s 17 181 -3
+/summon celestial:storm_spirit 17 184 2
+/say TEST L0 lightning_seen expect=хотя бы одна «пройдена»
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+wait 3
+/execute if entity @e[type=minecraft:lightning_bolt]
+/execute in celestial:heaven run fill 8 178 -12 26 190 6 minecraft:air replace minecraft:fire
+/kill @e[type=celestial:storm_spirit]
+/gamemode creative
+# G1 правило Угасания: клиент узнаёт сразу (Кодекс показывает 0 при выключенном правиле)
+/celestial fading 3
+/gamerule celestial:fading false
+wait 60
+codex saga
+wait 10
+shot codex_fading_off
+closescreen
+/gamerule celestial:fading true
+wait 60
+codex saga
+wait 10
+shot codex_fading_on
+closescreen
+/celestial fading 0
+quit

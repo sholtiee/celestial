@@ -10,12 +10,27 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 
 public final class CelestialNetwork {
+	/** Последнее разосланное значение правила celestial:fading (null — ещё не знаем). */
+	private static Boolean lastFadingRule;
+
 	private CelestialNetwork() {}
 
 	public static void init() {
 		PayloadTypeRegistry.clientboundPlay().register(WorldStatePayload.TYPE, WorldStatePayload.CODEC);
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
 			server.execute(() -> sendWorld(handler.player, CelestialData.world(server))));
+		// правило меняют командой /gamerule, событий у него нет — сверяем раз в 2 с и рассылаем, если изменилось (BUG-037)
+		net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents.END_SERVER_TICK.register(server -> {
+			if (server.getTickCount() % 40 != 0) {
+				return;
+			}
+			boolean now = server.overworld().getGameRules().get(ModGameRules.FADING);
+			if (lastFadingRule != null && lastFadingRule != now) {
+				broadcastWorld(server, CelestialData.world(server));
+			}
+			lastFadingRule = now;
+		});
+		net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPED.register(server -> lastFadingRule = null);
 	}
 
 	public static void sendWorld(ServerPlayer player, WorldState state) {

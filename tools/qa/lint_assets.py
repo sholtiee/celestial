@@ -323,6 +323,15 @@ def check_lang():
     for name in registered_items():
         if f'item.{NS}.{name}' not in keys and name not in blocks_with_item:
             report('LANG_NAME_MISSING', f'item.{NS}.{name}')
+    # теги предметов мода: перевод tag.item.<ns>.<путь> (его показывают EMI/REI и Fabric предупреждает при запуске, BUG-038)
+    tag_dir = os.path.join(D, 'tags/item')
+    if os.path.isdir(tag_dir):
+        for dp, _, files in os.walk(tag_dir):
+            for f in files:
+                if f.endswith('.json'):
+                    path = os.path.relpath(os.path.join(dp, f), tag_dir)[:-5].replace(os.sep, '.')
+                    if f'tag.item.{NS}.{path}' not in keys:
+                        report('LANG_TAG_MISSING', f'tag.item.{NS}.{path}')
     # литералы translatable("...") в коде
     for path, src in SOURCES:
         for k in re.findall(r'translatable\("([a-z0-9_.]+)"\)', src):

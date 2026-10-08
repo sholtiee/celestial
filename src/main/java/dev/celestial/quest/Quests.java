@@ -167,6 +167,11 @@ public final class Quests {
 			player.sendOverlayMessage(Component.translatable("quest.celestial.done_today"));
 			return 0;
 		}
+		// «исследуй X» с доски, стоящей внутри X, засчитывалось сразу — перья серафима за каждый день без шага (BUG-062)
+		if (offers.get(index).type() == Quest.Type.EXPLORE && inside(player, offers.get(index).target())) {
+			player.sendOverlayMessage(Component.translatable("quest.celestial.explore_here"));
+			return 0;
+		}
 		if (mine.size() >= MAX_ACTIVE) {
 			player.sendOverlayMessage(Component.translatable("quest.celestial.too_many"));
 			return 0;

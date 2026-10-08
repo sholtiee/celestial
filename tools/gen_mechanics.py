@@ -172,7 +172,7 @@ def machines(names):
                                                'The forge is incomplete: place 4 Radiant Stone around the core'),
         'machine.celestial.forge.no_light': ('Нет света! Направь в машину луч Солнечной линзы (у кузни — сверху)', 'No light! Aim a Sun Lens beam at the machine (from above for the forge)'),
         'machine.celestial.forge.cost_upgrade': ('Нужно 2 эфиритовых слитка и звёздный кварц', 'Requires 2 etherite ingots and a starquartz'),
-        'machine.celestial.forge.cost_repair': ('Для перековки нужен звёздный кварц', 'Reforging requires a starquartz'),
+        'machine.celestial.forge.cost_repair': ('Для перековки нужен звёздный кварц (кварц — четверть прочности)', 'Reforging requires a starquartz (each restores a quarter of durability)'),
         'machine.celestial.forge.hint': ('Кузня принимает алмазное снаряжение (улучшение) и повреждённые вещи Рая (перековка)',
                                          'The forge takes diamond gear (upgrade) and damaged Heaven gear (reforge)'),
         'machine.celestial.forge.done': ('✦ Кузня сделала своё дело', '✦ The forge has done its work'),

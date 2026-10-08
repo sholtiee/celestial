@@ -129,8 +129,14 @@ public class StormSpirit extends Blaze {
 			} else if (cooldown <= 0 && marked != null) {
 				LightningBolt bolt = EntityTypes.LIGHTNING_BOLT.create(level, EntitySpawnReason.TRIGGERED);
 				if (bolt != null) {
+					// молния только видимая: настоящая поджигала леса Рая (BUG-060); урон наносим сами тем, кто стоит на метке
 					bolt.snapTo(Vec3.atBottomCenterOf(marked));
+					bolt.setVisualOnly(true);
 					level.addFreshEntity(bolt);
+					for (net.minecraft.world.entity.LivingEntity e : level.getEntitiesOfClass(net.minecraft.world.entity.LivingEntity.class,
+						new net.minecraft.world.phys.AABB(marked).inflate(1.5, 2.0, 1.5), e -> e != spirit && !(e instanceof StormSpirit))) {
+						e.hurtServer(level, spirit.damageSources().lightningBolt(), 5.0F);
+					}
 				}
 				cooldown = 70 + spirit.getRandom().nextInt(40);
 				marked = null;
