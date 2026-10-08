@@ -1,0 +1,37 @@
+# QA: можно ли подняться по лестнице Башни с 3-го этажа на 4-й, когда печать растворена (X=27500, Y0=150)
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/gamerule spawn_monsters false
+/execute in minecraft:overworld run tp @s 27510 200 27510
+fly
+wait 80
+/fill 27498 147 27498 27523 149 27523 minecraft:stone
+/fill 27498 150 27498 27523 200 27523 minecraft:air
+/place template celestial:trial_tower/main 27500 150 27500
+wait 80
+/kill @e[type=!minecraft:player,distance=..60]
+# 3-й этаж: пол y0=19 -> y=169, стоять на y=170. Лестница x=17, z=3..5. Печать (x16..18,z2..6,y=176) растворяем вручную.
+/say TEST C0 seal_present expect=pass
+/execute if block 27517 176 27504 celestial:sealed_door
+/fill 27516 176 27502 27518 176 27506 minecraft:air
+/tp @s 27517.5 170 27502.5 0 0
+/gamemode survival
+/effect give @s minecraft:resistance 600 4 true
+wait 10
+hold forward 200
+hold jump 200
+wait 220
+pos
+/say TEST C1 reached_floor4 expect=pass
+/execute if entity @s[y=176,dy=6]
+shot tower_climb
+/gamemode creative
+/tp @s 27513.5 172 27504.5 -90 10
+wait 20
+togglehud
+shot tower_stairs_side
+togglehud
+/gamemode creative
+quit

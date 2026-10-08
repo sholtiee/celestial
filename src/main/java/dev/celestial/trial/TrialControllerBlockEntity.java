@@ -208,6 +208,9 @@ public class TrialControllerBlockEntity extends BlockEntity {
 		for (BlockPos p : BlockPos.betweenClosed(BlockPos.containing(box.minX, box.minY, box.minZ), BlockPos.containing(box.maxX, box.maxY, box.maxZ))) {
 			BlockState s = level.getBlockState(p);
 			String path = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(s.getBlock()).getPath();
+			if (s.is(dev.celestial.registry.ModBlocks.STAR_LOCK) && s.getValue(dev.celestial.block.puzzle.star.StarLockBlock.SOLVED)) {
+				return true;  // звёздный замок решён (башня Рая, 4-й этаж)
+			}
 			boolean puzzle = path.equals("light_receiver") || path.equals("bell_altar") || path.equals("star_tile") || path.equals("rune_pedestal");
 			// приёмники света считаются только родные (sealed): свой приёмник в арене испытание не проходит
 			if (path.equals("light_receiver") && !s.getValue(dev.celestial.block.light.LightReceiverBlock.SEALED)) {

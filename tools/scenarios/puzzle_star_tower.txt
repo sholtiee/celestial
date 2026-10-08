@@ -1,0 +1,91 @@
+# QA: Звёздный кодовый замок на 4-м этаже Башни Испытаний (генерирует tools/gen_puzzles_c.py: tower_scenario)
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/gamerule spawn_monsters false
+/execute in minecraft:overworld run tp @s 27030 200 27030
+fly
+wait 80
+/fill 27018 147 27018 27043 149 27043 minecraft:stone
+/fill 27018 150 27018 27043 200 27043 minecraft:air
+/place template celestial:trial_tower/main 27020 150 27020
+wait 80
+/kill @e[type=!minecraft:player,distance=..60]
+# F фрески проявились, каждая показывает созвездие своего цвета
+/say TEST F frescoes_revealed expect=pass,pass,pass,pass
+/execute if block 27026 181 27021 celestial:star_fresco[hidden=false,symbol=6]
+/execute if block 27039 181 27028 celestial:star_fresco[hidden=false,symbol=7]
+/execute if block 27034 181 27039 celestial:star_fresco[hidden=false,symbol=2]
+/execute if block 27021 181 27032 celestial:star_fresco[hidden=false,symbol=3]
+/tp @s 27030.5 177 27036.5 facing 27026.5 181.5 27021.5
+togglehud
+wait 20
+shot tower_star_fresco
+/tp @s 27030.5 177 27022.5 facing 27030.5 177 27035
+wait 20
+shot tower_star_lock
+togglehud
+/gamemode survival
+/effect give @s minecraft:resistance 900 4 true
+/effect give @s minecraft:saturation 900 4 true
+/clear @s
+/tp @s 27030.5 177 27033.5 facing 27030.5 177 27030
+wait 10
+# K запускаем испытание: печать лестницы на месте
+/say TEST K start expect=pass,pass
+use 27030 177 27030 up
+wait 20
+/execute if block 27030 177 27030 celestial:trial_crystal[state=running]
+/execute if block 27037 183 27024 celestial:sealed_door
+/tp @s 27030.5 177 27036.5 facing 27030.5 177 27035
+wait 5
+# B1 неверная сверка: стражи, испытание не засчитано
+/say TEST B1 wrong_combo expect=pass,pass
+use 27030 177 27034 up
+wait 10
+/execute if entity @e[type=celestial:fallen_guardian,distance=..12]
+/execute if block 27030 177 27030 celestial:trial_crystal[state=running]
+/kill @e[type=celestial:fallen_guardian]
+# B2 повторная сверка сразу: блокировка, стражей нет
+/say TEST B2 lockout expect=pass
+use 27030 177 27034 up
+wait 10
+/execute unless entity @e[type=celestial:fallen_guardian,distance=..12]
+# S честно: повернуть диски на созвездия фресок, переждать блокировку, сверить
+/say TEST S solve expect=pass,pass,pass
+use 27027 177 27035 up
+wait 3
+use 27027 177 27035 up
+wait 3
+use 27027 177 27035 up
+wait 3
+use 27027 177 27035 up
+wait 3
+use 27027 177 27035 up
+wait 3
+use 27029 177 27035 up
+wait 3
+use 27029 177 27035 up
+wait 3
+use 27029 177 27035 up
+wait 3
+use 27031 177 27035 up
+wait 3
+use 27031 177 27035 up
+wait 3
+use 27031 177 27035 up
+wait 3
+use 27033 177 27035 up
+wait 3
+wait 800
+use 27030 177 27034 up
+wait 40
+/execute if block 27030 177 27034 celestial:star_lock[solved=true]
+/execute if block 27030 177 27030 celestial:trial_crystal[state=done]
+/execute unless block 27037 183 27024 celestial:sealed_door
+togglehud
+shot tower_star_solved
+togglehud
+/gamemode creative
+quit

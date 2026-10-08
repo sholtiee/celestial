@@ -561,6 +561,11 @@ def trial_tower():
         trial = f'heaven_{f + 1}'
         t.set(c0, y0 + 1, c0, C('trial_crystal'), nbt={'id': C('trial_crystal'), 'Trial': trial}, state='idle')
         decorate_floor(t, f + 1, y0, rng)
+    # печати над лестницами ставим после всех этажей: пол следующего этажа (и пропасти 2-го и 5-го) лежит на том же уровне и стирал их,
+    # из-за чего лестницы вели в потолок или были открыты с самого начала
+    sx = TOWER - 4
+    for f in range(floors - 1):
+        t.fill(sx - 1, base + f * FLOOR_H + FLOOR_H, 2, sx + 1, base + f * FLOOR_H + FLOOR_H, 6, C('sealed_door'))
     # вход на первом этаже и крыша с сундуком наград
     t.fill(c0 - 1, base + 1, 1, c0 + 1, base + 3, 1, 'minecraft:air')
     roof = base + floors * FLOOR_H
@@ -613,9 +618,13 @@ def decorate_floor(t, n, y0, rng):
         t.set(c0 - 4, y0 + 1, TOWER - 3, C('light_receiver'), color='white', powered=False, sealed=True)
         chest(t, 3, y0 + 1, TOWER - 4, 'celestial:chests/trial_tools', facing='east')
     if n == 4:
-        t.set(c0, y0 + 1, c0 + 4, C('bell_altar'), nbt={'id': C('bell_altar')}, solved=False)
-        for i, (x, z) in enumerate(((c0 - 6, c0 - 6), (c0 + 6, c0 - 6), (c0 - 6, c0 + 6), (c0 + 6, c0 + 6), (c0, c0 - 7))):
-            t.set(x, y0 + 1, z, C('sky_bell'), note=i)
+        # звёздный кодовый замок (PUZZLES C.1): четыре диска с оправами четырёх цветов, печать «сверить» и фрески-подсказки на стенах.
+        # Замок стоит далеко от печатей лестницы (NE-угол), чтобы PuzzleRewards.solved не растворил их раньше победы в испытании.
+        for i, x in enumerate((c0 - 3, c0 - 1, c0 + 1, c0 + 3)):
+            t.set(x, y0 + 1, c0 + 5, C('star_disc'), color=i, symbol=(i * 3 + 1) % 8)
+        t.set(c0, y0 + 1, c0 + 4, C('star_lock'), solved=False, nbt={'id': C('star_lock')})
+        for col, (x, z) in enumerate(((6, 1), (TOWER - 2, 8), (14, TOWER - 2), (1, 12))):
+            t.set(x, y0 + 5, z, C('star_fresco'), color=col, symbol=0, hidden=True)
 
 
 # ================================================================ JSON: пулы, структуры, наборы

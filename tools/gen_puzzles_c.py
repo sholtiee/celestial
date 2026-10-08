@@ -526,6 +526,68 @@ def scenario():
     return targets
 
 
+def tower_scenario():
+    """Сценарий для замка на 4-м этаже Башни Испытаний (gen_structures.decorate_floor, n == 4): координаты замка — из шаблона."""
+    import os
+    c0, y0 = 10, 5 + 3 * 7  # TOWER // 2 и пол 4-го этажа
+    starts = [(i * 3 + 1) % 8 for i in range(4)]
+    for X in range(27000, 27200, 20):  # позиция башни: стартовый расклад дисков не должен совпасть с комбинацией
+        Y0, Z = 150, X
+        y = Y0 + y0 + 1
+        lock = (X + c0, y, Z + c0 + 4)
+        targets = lock_targets(*lock)
+        if all(t != st for t, st in zip(targets, starts)):
+            break
+    else:
+        raise AssertionError('не нашлось позиции башни с неугаданной комбинацией')
+    crystal = (X + c0, y, Z + c0)
+    seal = (X + 17, Y0 + y0 + 7, Z + 4)
+    out = ['# QA: Звёздный кодовый замок на 4-м этаже Башни Испытаний (генерирует tools/gen_puzzles_c.py: tower_scenario)',
+           '/gamemode creative', '/effect clear @s', '/gamerule advance_time false', '/time set 6000', '/gamerule spawn_monsters false',
+           f'/execute in minecraft:overworld run tp @s {X + 10} {Y0 + 50} {Z + 10}', 'fly', 'wait 80',
+           f'/fill {X - 2} {Y0 - 3} {Z - 2} {X + 23} {Y0 - 1} {Z + 23} minecraft:stone',
+           f'/fill {X - 2} {Y0} {Z - 2} {X + 23} {Y0 + 50} {Z + 23} minecraft:air',
+           f'/place template celestial:trial_tower/main {X} {Y0} {Z}', 'wait 80', '/kill @e[type=!minecraft:player,distance=..60]',
+           '# F фрески проявились, каждая показывает созвездие своего цвета',
+           '/say TEST F frescoes_revealed expect=pass,pass,pass,pass']
+    for col, (fx, fz) in enumerate(((6, 1), (19, 8), (14, 19), (1, 12))):
+        out.append(f'/execute if block {X + fx} {y + 4} {Z + fz} celestial:star_fresco[hidden=false,symbol={targets[col]}]')
+    out += [f'/tp @s {X + c0 + 0.5} {y} {Z + c0 + 6.5} facing {X + 6.5} {y + 4.5} {Z + 1.5}', 'togglehud', 'wait 20', 'shot tower_star_fresco',
+            f'/tp @s {X + c0 + 0.5} {y} {Z + 2.5} facing {X + c0 + 0.5} {y} {Z + c0 + 5}', 'wait 20', 'shot tower_star_lock', 'togglehud',
+            '/gamemode survival', '/effect give @s minecraft:resistance 900 4 true', '/effect give @s minecraft:saturation 900 4 true', '/clear @s',
+            f'/tp @s {X + c0 + 0.5} {y} {Z + c0 + 3.5} facing {X + c0 + 0.5} {y} {Z + c0}', 'wait 10',
+            '# K запускаем испытание: печать лестницы на месте',
+            '/say TEST K start expect=pass,pass',
+            f'use {crystal[0]} {crystal[1]} {crystal[2]} up', 'wait 20',
+            f'/execute if block {crystal[0]} {crystal[1]} {crystal[2]} celestial:trial_crystal[state=running]',
+            f'/execute if block {seal[0]} {seal[1]} {seal[2]} celestial:sealed_door',
+            f'/tp @s {X + c0 + 0.5} {y} {Z + c0 + 6.5} facing {X + c0 + 0.5} {y} {Z + c0 + 5}', 'wait 5',
+            '# B1 неверная сверка: стражи, испытание не засчитано',
+            '/say TEST B1 wrong_combo expect=pass,pass',
+            f'use {lock[0]} {lock[1]} {lock[2]} up', 'wait 10',
+            f'/execute if entity @e[type=celestial:fallen_guardian,distance=..12]',
+            f'/execute if block {crystal[0]} {crystal[1]} {crystal[2]} celestial:trial_crystal[state=running]',
+            '/kill @e[type=celestial:fallen_guardian]',
+            '# B2 повторная сверка сразу: блокировка, стражей нет',
+            '/say TEST B2 lockout expect=pass',
+            f'use {lock[0]} {lock[1]} {lock[2]} up', 'wait 10',
+            f'/execute unless entity @e[type=celestial:fallen_guardian,distance=..12]',
+            '# S честно: повернуть диски на созвездия фресок, переждать блокировку, сверить',
+            '/say TEST S solve expect=pass,pass,pass']
+    for i, dx in enumerate((-3, -1, 1, 3)):
+        for _ in range((targets[i] - starts[i]) % 8):
+            out += [f'use {X + c0 + dx} {y} {Z + c0 + 5} up', 'wait 3']
+    out += ['wait 800', f'use {lock[0]} {lock[1]} {lock[2]} up', 'wait 40',
+            f'/execute if block {lock[0]} {lock[1]} {lock[2]} celestial:star_lock[solved=true]',
+            f'/execute if block {crystal[0]} {crystal[1]} {crystal[2]} celestial:trial_crystal[state=done]',
+            f'/execute unless block {seal[0]} {seal[1]} {seal[2]} celestial:sealed_door',
+            'togglehud', 'shot tower_star_solved', 'togglehud',
+            '/gamemode creative', 'quit']
+    with open(os.path.join(os.path.dirname(__file__), 'scenarios', 'puzzle_star_tower.txt'), 'w', encoding='utf-8') as f:
+        f.write('\n'.join(out) + '\n')
+    return targets
+
+
 def memory_route(X, Y0, Z):
     """Копия MemoryAltarBlockEntity.route для неповёрнутого шаблона в (X, Y0, Z)."""
     ax, ay, az = X + ALTAR[0], Y0 + ALTAR[1], Z + ALTAR[2]
@@ -595,6 +657,7 @@ def main():
     echo_sanctum()
     print('порядок эха:', echo_scenario())
     print('комбинация тестового замка:', scenario())
+    print('комбинация замка башни:', tower_scenario())
     print('ok: головоломки C (звёздный замок)')
 
 
