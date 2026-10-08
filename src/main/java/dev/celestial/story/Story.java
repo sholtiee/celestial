@@ -26,7 +26,13 @@ public enum Story {
 	MEMORY("memory_keeper"),
 	ECHO("echo_listener"),
 	PUZZLE_MASTER("puzzle_master"),
-	TRIAL_CHAMPION("trial_champion");
+	TRIAL_CHAMPION("trial_champion"),
+	SERAPH_FLAWLESS("seraph_flawless"),
+	SERAPH_SWIFT("seraph_swift"),
+	DEVOURER_FLAWLESS("devourer_flawless"),
+	DEVOURER_SWIFT("devourer_swift"),
+	ARCHON_FLAWLESS("archon_flawless"),
+	ARCHON_SWIFT("archon_swift");
 
 	/** Вид загадки (как в PuzzleRewards.solved) → достижение; все восемь вместе дают «Мастера загадок». */
 	public static final java.util.Map<String, Story> PUZZLES = java.util.Map.of(

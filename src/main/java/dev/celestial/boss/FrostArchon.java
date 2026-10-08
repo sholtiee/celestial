@@ -48,6 +48,10 @@ import net.minecraft.world.phys.Vec3;
  * Ранят его только игроки (прочее — ×0.1): арену не обойти лавой и ловушками.
  */
 public class FrostArchon extends Monster {
+	/** «Быстрее метели»: победа не дольше 8 минут от начала боя. */
+	private static final int SWIFT_TICKS = 8 * 60 * 20;
+	/** Учёт боя для достижений «без урона» и «быстро». */
+	private final BossRecord record = new BossRecord();
 	private static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(FrostArchon.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Integer> CAST = SynchedEntityData.defineId(FrostArchon.class, EntityDataSerializers.INT);
 	public static final String SUMMON_TAG = "celestial_archon_summon";
@@ -117,6 +121,7 @@ public class FrostArchon extends Monster {
 	@Override
 	protected void customServerAiStep(ServerLevel level) {
 		super.customServerAiStep(level);
+		record.tick(level, bossEvent.getPlayers());
 		clock++;
 		if (home.equals(BlockPos.ZERO)) {
 			home = blockPosition().below(3);
@@ -426,6 +431,8 @@ public class FrostArchon extends Monster {
 		if (!(source.getEntity() instanceof Player) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
 			amount *= 0.1F;  // только руками героев: лава, кактусы и чужие мобы почти не ранят
 		}
+		// до super: смертельный удар вызывает die() прямо внутри hurtServer, и последний ударивший должен уже быть записан
+		record.dealt(source);
 		return super.hurtServer(level, source, amount);
 	}
 
@@ -444,6 +451,7 @@ public class FrostArchon extends Monster {
 			level.sendParticles(ParticleTypes.END_ROD, getX(), getY(0.5), getZ(), 300, 3, 3, 3, 0.4);
 			level.sendParticles(ParticleTypes.SNOWFLAKE, getX(), getY(0.5), getZ(), 400, 6, 4, 6, 0.3);
 			dev.celestial.story.StoryEvents.onArchonDefeated(level, this, home);
+			record.finish(level, bossEvent.getPlayers(), dev.celestial.story.Story.ARCHON_FLAWLESS, dev.celestial.story.Story.ARCHON_SWIFT, SWIFT_TICKS);
 		}
 	}
 
@@ -502,6 +510,7 @@ public class FrostArchon extends Monster {
 		super.addAdditionalSaveData(output);
 		output.store("Home", BlockPos.CODEC, home);
 		output.putInt("Phase", phase());
+		record.save(output);
 	}
 
 	@Override
@@ -511,6 +520,7 @@ public class FrostArchon extends Monster {
 		int phase = input.getIntOr("Phase", 1);
 		entityData.set(PHASE, phase);
 		bossEvent.setCreateWorldFog(phase >= 2);
+		record.load(input);
 	}
 
 	@Override

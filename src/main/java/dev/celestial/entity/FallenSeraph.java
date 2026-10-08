@@ -42,9 +42,13 @@ import net.minecraft.world.phys.Vec3;
  * Фаза 3: призывает падших стражей и бьёт молниями, копья падают чаще.
  */
 public class FallenSeraph extends Monster {
+	/** «Быстрее света»: победа не дольше 5 минут от начала боя. */
+	private static final int SWIFT_TICKS = 5 * 60 * 20;
 	private final ServerBossEvent bossEvent = new ServerBossEvent(java.util.UUID.randomUUID(),
 		Component.translatable("entity.celestial.fallen_seraph"), BossEvent.BossBarColor.YELLOW, BossEvent.BossBarOverlay.NOTCHED_10);
 	private BlockPos home = BlockPos.ZERO;
+	/** Учёт боя для достижений «без урона» и «быстро». */
+	private final dev.celestial.boss.BossRecord record = new dev.celestial.boss.BossRecord();
 	private int attackClock;
 	private int phase = 1;
 	/** Кристаллы света арены (появляются во 2-й фазе). Пока живы — лечат и ослабляют урон по Серафиму. */
@@ -117,6 +121,7 @@ public class FallenSeraph extends Monster {
 	@Override
 	protected void customServerAiStep(ServerLevel level) {
 		super.customServerAiStep(level);
+		record.tick(level, bossEvent.getPlayers());
 		bossEvent.setProgress(getHealth() / getMaxHealth());
 		int newPhase = getHealth() > getMaxHealth() * 0.66F ? 1 : getHealth() > getMaxHealth() * 0.33F ? 2 : 3;
 		if (newPhase != phase) {
@@ -332,6 +337,8 @@ public class FallenSeraph extends Monster {
 		if (source.getDirectEntity() instanceof LightSpear spear && spear.isBossSpear() || source.is(net.minecraft.tags.DamageTypeTags.IS_FALL)) {
 			return false;
 		}
+		// до super: смертельный удар вызывает die() прямо внутри hurtServer, и последний ударивший должен уже быть записан
+		record.dealt(source);
 		return super.hurtServer(level, source, amount);
 	}
 
@@ -373,6 +380,7 @@ public class FallenSeraph extends Monster {
 			level.sendParticles(ParticleTypes.END_ROD, getX(), getY(1.0), getZ(), 200, 1.5, 2.0, 1.5, 0.4);
 			level.playSound(null, blockPosition(), SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, SoundSource.HOSTILE, 2.0F, 1.0F);
 			dev.celestial.story.StoryEvents.onSeraphDefeated(level, this, source);
+			record.finish(level, bossEvent.getPlayers(), dev.celestial.story.Story.SERAPH_FLAWLESS, dev.celestial.story.Story.SERAPH_SWIFT, SWIFT_TICKS);
 			for (java.util.UUID id : crystals) {
 				if (level.getEntity(id) instanceof SeraphCrystal crystal) {
 					crystal.discard();
@@ -388,6 +396,7 @@ public class FallenSeraph extends Monster {
 		output.putBoolean("CrystalsSpawned", crystalsSpawned);
 		output.putInt("Phase", phase);  // без фазы после перезахода реплики и эффекты фаз повторялись
 		output.store("Crystals", net.minecraft.core.UUIDUtil.CODEC.listOf(), crystals);
+		record.save(output);
 	}
 
 	@Override
@@ -397,6 +406,7 @@ public class FallenSeraph extends Monster {
 		crystalsSpawned = input.getBooleanOr("CrystalsSpawned", false);
 		phase = input.getIntOr("Phase", 1);
 		applyPhaseLook();
+		record.load(input);
 		crystals.clear();
 		crystals.addAll(input.read("Crystals", net.minecraft.core.UUIDUtil.CODEC.listOf()).orElse(java.util.List.of()));
 	}

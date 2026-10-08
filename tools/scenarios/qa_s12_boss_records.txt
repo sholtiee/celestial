@@ -1,0 +1,92 @@
+# S1.2: достижения за боссов. Серафим: (1) ранен + дольше 5 мин -> ничего; (2) быстро и чисто -> оба. Пожиратель и Архонт: быстро и чисто -> оба.
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/time set 6000
+/gamerule advance_time false
+/advancement revoke @s only celestial:story/seraph_flawless
+/advancement revoke @s only celestial:story/seraph_swift
+/advancement revoke @s only celestial:story/devourer_flawless
+/advancement revoke @s only celestial:story/devourer_swift
+/advancement revoke @s only celestial:story/archon_flawless
+/advancement revoke @s only celestial:story/archon_swift
+goto celestial:citadel 0 -20 -8 0 5
+wait 120
+/gamemode survival
+/effect give @s minecraft:resistance 9000 4 true
+/effect give @s minecraft:saturation 9000 4 true
+/execute at @s run fill ~-3 ~-1 ~2 ~3 ~-1 ~12 celestial:skystone_bricks
+# Серафим 1: игрок ранен, бой дольше 5 минут
+/execute at @s run setblock ~ ~ ~8 celestial:seraph_seal
+wait 60
+/effect clear @s minecraft:resistance
+/damage @s 2 minecraft:generic
+wait 5
+/effect give @s minecraft:resistance 9000 4 true
+wait 6050
+/damage @e[type=celestial:fallen_seraph,limit=1] 400 minecraft:player_attack by @s
+wait 10
+/damage @e[type=celestial:fallen_seraph,limit=1] 400 minecraft:player_attack by @s
+wait 60
+/say TEST A1 seraph_slow_hurt_none expect=pass,pass,pass
+/execute unless entity @e[type=celestial:fallen_seraph]
+/execute unless entity @s[advancements={celestial:story/seraph_flawless=true}]
+/execute unless entity @s[advancements={celestial:story/seraph_swift=true}]
+# Серафим 2: быстро и без урона
+/kill @e[type=!minecraft:player,distance=..60]
+/execute at @s run setblock ~ ~ ~8 celestial:seraph_seal
+wait 60
+/damage @e[type=celestial:fallen_seraph,limit=1] 400 minecraft:player_attack by @s
+wait 10
+/damage @e[type=celestial:fallen_seraph,limit=1] 400 minecraft:player_attack by @s
+wait 60
+/say TEST A2 seraph_fast_clean expect=pass,pass,pass
+/execute unless entity @e[type=celestial:fallen_seraph]
+/execute if entity @s[advancements={celestial:story/seraph_flawless=true}]
+/execute if entity @s[advancements={celestial:story/seraph_swift=true}]
+# Пожиратель Света (быстро и чисто)
+/gamemode creative
+/celestial act 1
+/execute in celestial:abyss run tp @s 600 80 600
+wait 80
+/execute in celestial:abyss run place template celestial:devourer_lair/main 584 60 584
+wait 40
+/kill @e[type=!minecraft:player,distance=..80]
+/execute in celestial:abyss run tp @s 600 62 608 180 -15
+/gamemode survival
+/effect give @s minecraft:resistance 900 4 true
+wait 60
+/damage @e[type=celestial:light_devourer,limit=1] 6000 minecraft:player_attack by @s
+wait 60
+/say TEST B1 devourer_fast_clean expect=pass,pass,pass
+/execute unless entity @e[type=celestial:light_devourer]
+/execute if entity @s[advancements={celestial:story/devourer_flawless=true}]
+/execute if entity @s[advancements={celestial:story/devourer_swift=true}]
+# Морозный Архонт (быстро и чисто); шапка — как в boss_archon_test
+/gamemode spectator
+/effect clear @s
+/execute in minecraft:overworld run tp @s 23031 190 23031
+wait 120
+/place template celestial:frozen_citadel/main 23000 150 23000
+wait 80
+/kill @e[type=!minecraft:player,distance=..120]
+/kill @e[type=celestial:frost_archon]
+/kill @e[type=celestial:inia]
+/celestial act 2
+/clear @s
+/tp @s 23031.5 151 23026.5 180 0
+/gamemode survival
+/effect give @s minecraft:resistance 1200 4 true
+/effect give @s minecraft:saturation 1200 1 true
+hold forward 25
+wait 30
+/tp @s 23031.5 151 23020.5 180 0
+wait 60
+/damage @e[type=celestial:frost_archon,limit=1] 800 minecraft:magic by @p
+wait 80
+/say TEST C1 archon_fast_clean expect=pass,pass,pass
+/execute unless entity @e[type=celestial:frost_archon]
+/execute if entity @s[advancements={celestial:story/archon_flawless=true}]
+/execute if entity @s[advancements={celestial:story/archon_swift=true}]
+/gamemode creative
+quit

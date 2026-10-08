@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:dark_core"
+    },
+    "title": {
+      "translate": "advancements.celestial.devourer_flawless.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.devourer_flawless.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "granted"
+    ]
+  ],
+  "parent": "celestial:story/heart_of_darkness",
+  "rewards": {
+    "experience": 500
+  }
+}

@@ -43,6 +43,10 @@ import org.jspecify.annotations.Nullable;
  * Фазы: 1 — пике на игроков; 2 — дыхание тьмы и призыв Светоедов; 3 — гасит всё и затягивает игроков в пасть.
  */
 public class LightDevourer extends Monster {
+	/** «Быстрее тьмы»: победа не дольше 7 минут от начала боя (жаровни зажигать тоже время). */
+	private static final int SWIFT_TICKS = 7 * 60 * 20;
+	/** Учёт боя для достижений «без урона» и «быстро». */
+	private final BossRecord record = new BossRecord();
 	private enum Mode { CIRCLE, SWOOP, EXTINGUISH, PULL }
 
 	private static final EntityDataAccessor<Integer> LIT_BRAZIERS = SynchedEntityData.defineId(LightDevourer.class, EntityDataSerializers.INT);
@@ -102,6 +106,7 @@ public class LightDevourer extends Monster {
 	@Override
 	protected void customServerAiStep(ServerLevel level) {
 		super.customServerAiStep(level);
+		record.tick(level, bossEvent.getPlayers());
 		clock++;
 		modeTicks++;
 		if (absorbMessageCooldown > 0) {
@@ -328,6 +333,8 @@ public class LightDevourer extends Monster {
 				absorbMessageCooldown = 60;
 			}
 		}
+		// до super: смертельный удар вызывает die() прямо внутри hurtServer, и последний ударивший должен уже быть записан
+		record.dealt(source);
 		return super.hurtServer(level, source, amount);
 	}
 
@@ -342,6 +349,7 @@ public class LightDevourer extends Monster {
 				}
 			}
 			dev.celestial.story.StoryEvents.onDevourerDefeated(level, this);
+			record.finish(level, bossEvent.getPlayers(), dev.celestial.story.Story.DEVOURER_FLAWLESS, dev.celestial.story.Story.DEVOURER_SWIFT, SWIFT_TICKS);
 		}
 	}
 
@@ -381,6 +389,7 @@ public class LightDevourer extends Monster {
 		super.addAdditionalSaveData(output);
 		output.store("Home", BlockPos.CODEC, home);
 		output.putInt("Phase", phase);  // без фазы после перезахода «входил» в фазу заново и гасил все жаровни
+		record.save(output);
 	}
 
 	@Override
@@ -388,6 +397,7 @@ public class LightDevourer extends Monster {
 		super.readAdditionalSaveData(input);
 		home = input.read("Home", BlockPos.CODEC).orElse(BlockPos.ZERO);
 		phase = input.getIntOr("Phase", 1);
+		record.load(input);
 	}
 
 	@Override

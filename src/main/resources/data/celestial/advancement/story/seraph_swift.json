@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:light_shard"
+    },
+    "title": {
+      "translate": "advancements.celestial.seraph_swift.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.seraph_swift.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "granted"
+    ]
+  ],
+  "parent": "celestial:story/fall_of_the_seraph",
+  "rewards": {
+    "experience": 500
+  }
+}

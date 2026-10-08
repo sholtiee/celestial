@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:ice_crown"
+    },
+    "title": {
+      "translate": "advancements.celestial.archon_flawless.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.archon_flawless.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "granted"
+    ]
+  ],
+  "parent": "celestial:story/crown_of_frost",
+  "rewards": {
+    "experience": 500
+  }
+}

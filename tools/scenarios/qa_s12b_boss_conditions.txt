@@ -1,0 +1,45 @@
+# S1.2б: условия по отдельности. (а) ранен, но быстро -> только «Быстрее света»; (б) без урона, но дольше 5 мин -> только «Без единой царапины»
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/time set 6000
+/gamerule advance_time false
+/advancement revoke @s only celestial:story/seraph_flawless
+/advancement revoke @s only celestial:story/seraph_swift
+goto celestial:citadel 0 -20 -8 0 5
+wait 120
+/gamemode survival
+/effect give @s minecraft:resistance 9000 4 true
+/effect give @s minecraft:saturation 9000 4 true
+/execute at @s run fill ~-3 ~-1 ~2 ~3 ~-1 ~12 celestial:skystone_bricks
+/execute at @s run setblock ~ ~ ~8 celestial:seraph_seal
+wait 60
+/effect clear @s minecraft:resistance
+/damage @s 2 minecraft:generic
+wait 5
+/effect give @s minecraft:resistance 9000 4 true
+/damage @e[type=celestial:fallen_seraph,limit=1] 400 minecraft:player_attack by @s
+wait 10
+/damage @e[type=celestial:fallen_seraph,limit=1] 400 minecraft:player_attack by @s
+wait 10
+wait 60
+/say TEST D1 hurt_but_fast expect=pass,pass,pass
+/execute unless entity @e[type=celestial:fallen_seraph]
+/execute unless entity @s[advancements={celestial:story/seraph_flawless=true}]
+/execute if entity @s[advancements={celestial:story/seraph_swift=true}]
+/advancement revoke @s only celestial:story/seraph_flawless
+/advancement revoke @s only celestial:story/seraph_swift
+/kill @e[type=!minecraft:player,distance=..60]
+/execute at @s run setblock ~ ~ ~8 celestial:seraph_seal
+wait 6100
+/damage @e[type=celestial:fallen_seraph,limit=1] 400 minecraft:player_attack by @s
+wait 10
+/damage @e[type=celestial:fallen_seraph,limit=1] 400 minecraft:player_attack by @s
+wait 10
+wait 60
+/say TEST D2 clean_but_slow expect=pass,pass,pass
+/execute unless entity @e[type=celestial:fallen_seraph]
+/execute if entity @s[advancements={celestial:story/seraph_flawless=true}]
+/execute unless entity @s[advancements={celestial:story/seraph_swift=true}]
+/gamemode creative
+quit
