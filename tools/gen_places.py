@@ -157,6 +157,18 @@ def jigsaw(name, biomes, height, project=True, step='surface_structures', adapta
     write_json(os.path.join(DATA, 'tags/worldgen/biome/has_structure', name + '.json'), {'values': biomes})
 
 
+def floor_place(name, biomes, min_y, max_y, clearance, footprint, step, offset=0, adaptation='none'):
+    """Постройка типа celestial:cave_floor: пол ищется по углам и центру площади (Ад, Энд, Бездна)."""
+    write_json(os.path.join(DATA, 'worldgen/template_pool', name + '/main.json'), {'fallback': 'minecraft:empty', 'elements': [
+        {'weight': 1, 'element': {'element_type': 'minecraft:single_pool_element', 'location': c(name + '/main'),
+                                  'processors': 'minecraft:empty', 'projection': 'rigid'}}]})
+    write_json(os.path.join(DATA, 'worldgen/structure', name + '.json'), {
+        'type': c('cave_floor'), 'biomes': '#' + c('has_structure/' + name), 'spawn_overrides': {}, 'step': 'surface_structures',
+        'terrain_adaptation': adaptation, 'start_pool': c(name + '/main'), 'min_y': min_y, 'max_y': max_y, 'floor_offset': offset,
+        'clearance': clearance, 'max_distance_from_center': 80, 'footprint': footprint, 'max_step': step})
+    write_json(os.path.join(DATA, 'tags/worldgen/biome/has_structure', name + '.json'), {'values': biomes})
+
+
 def structure_set(name, spacing, separation, salt):
     write_json(os.path.join(DATA, 'worldgen/structure_set', name + '.json'), {
         'placement': {'type': 'minecraft:random_spread', 'salt': salt, 'separation': separation, 'spacing': spacing},
@@ -297,9 +309,12 @@ def main():
     overworld = [MC(b) for b in ('plains', 'sunflower_plains', 'savanna', 'savanna_plateau', 'meadow', 'badlands', 'wooded_badlands',
                                  'desert', 'snowy_plains', 'windswept_hills', 'cherry_grove', 'forest', 'birch_forest')]
     jigsaw('observatory', overworld, 0)
-    jigsaw('flame_sanctuary', [MC(b) for b in ('nether_wastes', 'basalt_deltas', 'crimson_forest', 'soul_sand_valley')], 28,
-           project=False, adaptation='none')
-    jigsaw('void_rift', [MC('end_highlands'), MC('end_midlands')], 0, adaptation='none')
+    # Ад и Энд — тип celestial:cave_floor: пол ищется по всей площади (раньше святилище стояло на y=28 в толще незерака,
+    # а разлом свешивался с края острова в пустоту — BUG-053)
+    floor_place('flame_sanctuary', [MC(b) for b in ('nether_wastes', 'basalt_deltas', 'crimson_forest', 'soul_sand_valley')],
+                min_y=32, max_y=100, clearance=18, footprint=23, step=5, offset=-1, adaptation='beard_box')
+    floor_place('void_rift', [MC('end_highlands'), MC('end_midlands')], min_y=40, max_y=120, clearance=14, footprint=17, step=4,
+                offset=-1, adaptation='beard_thin')
     structure_set('observatory', 32, 10, 9120341)
     structure_set('flame_sanctuary', 22, 8, 9120342)
     structure_set('void_rift', 20, 6, 9120343)

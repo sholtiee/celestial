@@ -8,6 +8,8 @@
   "min_y": 30,
   "max_y": 110,
   "floor_offset": -2,
-  "clearance": 10,
-  "max_distance_from_center": 80
+  "clearance": 12,
+  "max_distance_from_center": 80,
+  "footprint": 23,
+  "max_step": 6
 }

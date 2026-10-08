@@ -1,0 +1,27 @@
+# BUG-052/053: постройки на полу — Логово и Затонувший храм в Бездне, Пылающее святилище в Аду, Разлом Пустоты в Энде (новые чанки далеко)
+/gamemode spectator
+/effect give @s minecraft:night_vision 9999 0 true
+togglehud
+/execute in celestial:abyss run tp @s 9000 90 9000
+wait 120
+goto celestial:devourer_lair 0 -8 40 180 15
+wait 260
+shot floor_lair
+goto celestial:devourer_lair 0 -14 0 180 10
+wait 60
+shot floor_lair_in
+goto celestial:sunken_temple 0 -2 28 180 15
+wait 260
+shot floor_temple
+/execute in minecraft:the_nether run tp @s 9000 70 9000
+wait 120
+goto celestial:flame_sanctuary 0 -4 30 180 15
+wait 260
+shot floor_flame
+/execute in minecraft:the_end run tp @s 9000 90 9000
+wait 120
+goto celestial:void_rift 0 2 26 180 25
+wait 260
+shot floor_void
+togglehud
+quit
