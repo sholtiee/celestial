@@ -168,10 +168,6 @@ def pegasus(baby=False, coat=''):
     return img
 
 
-def winged_serpent():
-    return from_mask('entity/phantom/phantom.png', ['#c79a3a', '#dcb252', '#efcb6e', '#f7e2a0'], 'winged_serpent', stripes=5)
-
-
 def cloud_whale():
     img = Image.new('RGBA', (256, 128), (0, 0, 0, 0))
     r = rng_for('cloud_whale')
@@ -244,14 +240,6 @@ def spawn_egg(base, spots):
 
 
 # ---------------------------------------------------------------- существа 0.2
-def golden_ram():
-    img = from_mask('entity/sheep/sheep.png', ['#e8d6b0', '#f0e2c2', '#f7ecd5', '#fff6e6'], 'golden_ram')
-    # золотые рога-завитки на голове (лицевая сторона головы овцы — 8×6 начиная с (8,8))
-    for x, y in ((8, 8), (9, 8), (14, 8), (15, 8), (8, 9), (15, 9)):
-        img.putpixel((x, y), (*hexrgb('#d9a62e'), 255))
-    return img
-
-
 def sky_ray():
     img = Image.new('RGBA', (128, 64), (0, 0, 0, 0))
     r = rng_for('sky_ray')

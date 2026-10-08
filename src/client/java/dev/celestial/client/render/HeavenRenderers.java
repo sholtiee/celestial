@@ -18,6 +18,8 @@ public final class HeavenRenderers {
 	public static final ModelLayerLocation STORM = new ModelLayerLocation(Celestial.id("storm_spirit"), "main");
 	public static final ModelLayerLocation ANGEL = new ModelLayerLocation(Celestial.id("angel"), "main");
 	public static final ModelLayerLocation CHERUB = new ModelLayerLocation(Celestial.id("cherub"), "main");
+	public static final ModelLayerLocation SERPENT = new ModelLayerLocation(Celestial.id("winged_serpent"), "main");
+	public static final ModelLayerLocation RAM = new ModelLayerLocation(Celestial.id("golden_ram"), "main");
 
 	private HeavenRenderers() {}
 
@@ -41,6 +43,37 @@ public final class HeavenRenderers {
 		});
 		EntityRendererRegistry.register(ModEntities.CHERUB,
 			ctx -> new Renderer<>(ctx, new HeavenModels.Cherub(ctx.bakeLayer(CHERUB)), "cherub", 0.3F, 1.0F));
+		ModelLayerRegistry.registerModelLayer(SERPENT, HeavenModels.Serpent::createLayer);
+		ModelLayerRegistry.registerModelLayer(RAM, HeavenModels.Ram::createLayer);
+		EntityRendererRegistry.register(ModEntities.WINGED_SERPENT, ctx -> new Renderer<>(ctx, new HeavenModels.Serpent(ctx.bakeLayer(SERPENT)), "winged_serpent", 0.6F, 1.0F) {
+			@Override
+			public void extractRenderState(dev.celestial.entity.WingedSerpent entity, HeavenModels.State state, float partialTicks) {
+				super.extractRenderState(entity, state, partialTicks);
+				state.flap = entity.getUniqueFlapTickOffset() + state.ageInTicks;
+			}
+
+			@Override
+			protected void setupRotations(HeavenModels.State state, PoseStack poseStack, float bodyRot, float entityScale) {
+				super.setupRotations(state, poseStack, bodyRot, entityScale);
+				poseStack.rotateDegrees(com.mojang.math.Axis.XP, state.xRot);  // пикирует носом вниз, как фантом
+			}
+		});
+		EntityRendererRegistry.register(ModEntities.GOLDEN_RAM, ctx -> new Renderer<>(ctx, new HeavenModels.Ram(ctx.bakeLayer(RAM)), "golden_ram", 0.7F, 1.0F) {
+			@Override
+			public void extractRenderState(dev.celestial.entity.GoldenRam entity, HeavenModels.State state, float partialTicks) {
+				super.extractRenderState(entity, state, partialTicks);
+				state.eatPos = entity.getHeadEatPositionScale(partialTicks);
+				state.eatAngle = entity.getHeadEatAngleScale(partialTicks);
+				state.sheared = entity.isSheared();
+			}
+
+			@Override
+			protected void scale(HeavenModels.State state, PoseStack poseStack) {
+				if (state.isBaby) {
+					poseStack.scale(0.55F, 0.55F, 0.55F);
+				}
+			}
+		});
 		EntityRendererRegistry.register(ModEntities.SHADOW,
 			ctx -> new Renderer<>(ctx, new HeavenModels.Shadow(ctx.bakeLayer(SHADOW)), "shadow", 0.4F, 1.0F));
 		EntityRendererRegistry.register(ModEntities.STORM_SPIRIT,

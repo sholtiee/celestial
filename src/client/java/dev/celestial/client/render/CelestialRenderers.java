@@ -19,12 +19,10 @@ import net.minecraft.client.renderer.entity.state.ArrowRenderState;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.entity.PhantomRenderer;
 import net.minecraft.client.renderer.entity.layers.SimpleEquipmentLayer;
 import net.minecraft.client.renderer.entity.state.EquineRenderState;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
-import net.minecraft.client.renderer.entity.state.PhantomRenderState;
 import net.minecraft.client.model.animal.equine.EquineSaddleModel;
 import net.minecraft.client.resources.model.EquipmentClientInfo;
 import net.minecraft.core.BlockPos;
@@ -60,22 +58,10 @@ public final class CelestialRenderers {
 		EntityRendererRegistry.register(ModEntities.FALLEN_GUARDIAN, GuardianRenderer::new);
 		EntityRendererRegistry.register(ModEntities.FALLEN_SERAPH, SeraphRenderer::new);
 		EntityRendererRegistry.register(ModEntities.SERAPH_CRYSTAL, SeraphRenderer.Crystal::new);
-		EntityRendererRegistry.register(ModEntities.WINGED_SERPENT, ctx -> new PhantomRenderer(ctx) {
-			@Override
-			public Identifier getTextureLocation(PhantomRenderState state) {
-				return tex("winged_serpent");
-			}
-		});
 		EntityRendererRegistry.register(ModEntities.CLOUD_WHALE, CloudWhaleRenderer::new);
 		EntityRendererRegistry.register(ModEntities.LIGHT_WISP, LightWispRenderer::new);
 		EntityRendererRegistry.register(ModEntities.PEGASUS, PegasusRenderer::new);
 		EntityRendererRegistry.register(ModEntities.STAR_ARROW, StarArrowRenderer::new);
-		EntityRendererRegistry.register(ModEntities.GOLDEN_RAM, ctx -> new net.minecraft.client.renderer.entity.SheepRenderer(ctx) {
-			@Override
-			public Identifier getTextureLocation(net.minecraft.client.renderer.entity.state.SheepRenderState state) {
-				return tex("golden_ram");
-			}
-		});
 		EntityRendererRegistry.register(ModEntities.SKY_RAY, ctx -> new SimpleRenderer<>(ctx, new SkyRayModel(ctx.bakeLayer(ModModelLayers.SKY_RAY)),
 			tex("sky_ray"), 1.8F, 1.6F, false));
 		EntityRendererRegistry.register(ModEntities.CLOUD_JELLY, ctx -> new SimpleRenderer<>(ctx, new CloudJellyModel(ctx.bakeLayer(ModModelLayers.CLOUD_JELLY)),

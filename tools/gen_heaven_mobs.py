@@ -2,6 +2,7 @@
 
 Партия A: Тень (дым и тьма, светящиеся глаза), Грозовой дух и Грозовой элементаль (грозовое ядро, облака, молнии).
 Партия B: Ангел (четыре профессии: одеяние, отделка, рукава, свой знак) и Херувим.
+Партия C: Крылатый змей (золотая чешуя, перьевые крылья, гребень) и Златорунный баран (руно, рога-завитки, копыта).
 """
 from PIL import Image
 
@@ -256,6 +257,154 @@ def cherub():
     return img, glow
 
 
+def serpent():
+    img = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
+    glow = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
+    r = rng_for('winged_serpent_model')
+    gold = [hexrgb(h) for h in ('#c79a3a', '#d4a843', '#dcb252', '#b88a2e')]
+    belly = hexrgb('#f3e2a6')
+    spine = hexrgb('#7a3f1e')
+    eye = (255, 90, 40)
+
+    def scales(face, x, y, fw, fh):
+        if face == 'bottom':
+            return M.noise_color(r, belly, 0.04) if x % 2 or y % 3 else shade(belly, 0.9)
+        if face == 'top' and fw // 2 - 1 <= x <= fw // 2 - (fw % 2 == 0) + 0 and y % 2 == 0:
+            return spine  # гребень-полоса по хребту
+        c = pick(r, gold)
+        if (x + (y // 2) * 2) % 4 == 0 and y % 2 == 0:
+            c = shade(c, 0.78)  # рисунок чешуи «ромбами»
+        if face in ('left', 'right') and y == fh - 1:
+            c = mix(c, belly, 0.6)
+        return c
+
+    def head(face, x, y, fw, fh):
+        if face == 'front':
+            if y == fh - 1:
+                return hexrgb('#f7f0da') if x % 2 == 0 else hexrgb('#5a2a10')  # клыки
+            if y == 0 and x in (1, 4):
+                return hexrgb('#3a1a0a')  # ноздри
+        if face in ('left', 'right') and y == 1 and x in (fw - 2, fw - 3):
+            return eye
+        return scales(face, x, y, fw, fh)
+
+    def jaw(face, x, y, fw, fh):
+        if face == 'top':
+            return hexrgb('#b8404a')  # пасть
+        return scales(face, x, y, fw, fh)
+
+    def horn(face, x, y, fw, fh):
+        return mix(hexrgb('#f7f0da'), hexrgb('#a08060'), (x if face in ('top', 'bottom') else 0) / 4)
+
+    def feather(face, x, y, fw, fh, tip=False):
+        if face in ('top', 'bottom'):
+            base = mix(hexrgb('#fff3c8'), hexrgb('#e8b44a'), x / fw * (1.0 if tip else 0.5) + (0.5 if tip else 0))
+            if x % 2 == 1:
+                base = shade(base, 0.9)  # стержни перьев
+            if tip and y >= fh - (x % 3) - 1:
+                return None  # зубчатые кончики маховых
+            if face == 'bottom':
+                base = shade(base, 0.85)
+            return base
+        return hexrgb('#d9b45e')
+
+    def fin(face, x, y, fw, fh):
+        if (y - x // 2) in (0, fh - 1) or (x + y) % 3 == 0:
+            return hexrgb('#e8b44a')
+        return (*hexrgb('#ffe9a8'), 200)
+
+    M.paint_box(img, 0, 0, 6, 5, 8, scales)
+    M.paint_box(img, 0, 16, 6, 4, 6, head)
+    M.paint_box(img, 24, 16, 5, 1, 5, jaw)
+    M.paint_box(img, 44, 16, 1, 1, 4, horn)
+    M.paint_box(img, 46, 28, 0, 3, 6, fin)
+    M.paint_box(img, 0, 28, 5, 4, 7, scales)
+    M.paint_box(img, 24, 28, 4, 3, 7, scales)
+    M.paint_box(img, 0, 40, 3, 3, 6, scales)
+    M.paint_box(img, 18, 40, 2, 2, 6, scales)
+    M.paint_box(img, 34, 40, 0, 5, 6, fin)
+    M.paint_box(img, 28, 0, 10, 1, 7, feather)
+    M.paint_box(img, 28, 8, 10, 1, 6, lambda f, x, y, fw, fh: feather(f, x, y, fw, fh, True))
+    M.paint_box(glow, 0, 16, 6, 4, 6, lambda f, x, y, fw, fh: (*eye, 255) if f in ('left', 'right') and y == 1 and x in (fw - 2, fw - 3) else None)
+    # искры по хребту — змей мерцает в сумерках
+    for u, v, w, h, d in ((0, 0, 6, 5, 8), (0, 28, 5, 4, 7), (24, 28, 4, 3, 7), (0, 40, 3, 3, 6)):
+        M.paint_box(glow, u, v, w, h, d, lambda f, x, y, fw, fh: (255, 214, 120, 255) if f == 'top' and x == fw // 2 and y % 2 == 0 else None)
+    return img, glow
+
+
+def ram():
+    img = Image.new('RGBA', (128, 64), (0, 0, 0, 0))
+    glow = Image.new('RGBA', (128, 64), (0, 0, 0, 0))
+    r = rng_for('golden_ram_model')
+    wool = [hexrgb(h) for h in ('#f2c94c', '#f5d061', '#efc445', '#f8d870')]
+    hide = hexrgb('#d8c49a')
+    face_c = hexrgb('#efe2c4')
+    horn_c = [hexrgb(h) for h in ('#d9a62e', '#c18f22', '#e9bd4a')]
+    hoof = hexrgb('#b58320')
+
+    def fleece(face, x, y, fw, fh):
+        c = pick(r, wool)
+        if (x + 2 * y) % 4 == 0 or (2 * x + y) % 5 == 0:
+            c = shade(c, 0.94)  # мягкие завитки руна
+        if (x * 7 + y * 3) % 29 == 0:
+            c = hexrgb('#fff4c0')  # блёстки
+        return c
+
+    def body(face, x, y, fw, fh):
+        return M.noise_color(r, hide, 0.05)
+
+    def head(face, x, y, fw, fh):
+        if face == 'front':
+            if y == 2 and x in (0, 5):
+                return hexrgb('#2a1a0a')  # глаза по бокам морды
+            return M.noise_color(r, face_c, 0.03)
+        if face in ('left', 'right') and y == 2 and x == fw - 2:
+            return hexrgb('#2a1a0a')
+        if face == 'top':
+            return pick(r, wool)
+        return M.noise_color(r, face_c, 0.04)
+
+    def snout(face, x, y, fw, fh):
+        if face == 'front' and y == 0 and x in (0, 3):
+            return hexrgb('#6a4a3a')
+        if face == 'front' and y == 2:
+            return hexrgb('#c9a08a')
+        return M.noise_color(r, face_c, 0.03)
+
+    def horn(face, x, y, fw, fh):
+        c = pick(r, horn_c)
+        if (y + x) % 3 == 0:
+            c = shade(c, 0.75)  # кольца рога
+        return c
+
+    def leg(face, x, y, fw, fh):
+        if face == 'bottom' or (face != 'top' and y >= fh - 2):
+            return hoof  # золотые копыта
+        if face != 'top' and y < 4:
+            return pick(r, wool)
+        return M.noise_color(r, face_c, 0.04)
+
+    def tail(face, x, y, fw, fh):
+        return pick(r, wool)
+
+    M.paint_box(img, 0, 0, 10, 8, 14, body)
+    M.paint_box(img, 0, 22, 12, 10, 16, fleece)
+    M.paint_box(img, 56, 0, 6, 6, 8, head)
+    M.paint_box(img, 84, 0, 4, 3, 3, snout)
+    M.paint_box(img, 56, 16, 3, 10, 3, leg)
+    M.paint_box(img, 72, 16, 3, 3, 5, horn)
+    M.paint_box(img, 88, 16, 3, 5, 3, horn)
+    M.paint_box(img, 100, 16, 2, 2, 3, horn)
+    M.paint_box(img, 56, 32, 7, 3, 6, fleece)
+    M.paint_box(img, 84, 32, 3, 5, 2, tail)
+    M.paint_box(img, 96, 32, 3, 1, 2, lambda f, x, y, fw, fh: shade(face_c, 0.9))
+    # мерцают блёстки руна и кольца рогов
+    M.paint_box(glow, 0, 22, 12, 10, 16, lambda f, x, y, fw, fh: (255, 240, 170, 255) if (x * 7 + y * 3) % 29 == 0 else None)
+    for u, v, w, h, d in ((72, 16, 3, 3, 5), (88, 16, 3, 5, 3), (100, 16, 2, 2, 3)):
+        M.paint_box(glow, u, v, w, h, d, lambda f, x, y, fw, fh: (255, 215, 110, 255) if (x + y) % 5 == 0 else None)
+    return img, glow
+
+
 def main():
     for name, (tex, glow) in (('shadow', shadow()),
                               ('storm_spirit', storm('storm_spirit', ('#2a3248', '#323c56', '#3a4664'), '#bfe9ff')),
@@ -268,10 +417,13 @@ def main():
         if prof == 'keeper':
             save_png(tex, 'entity/angel')
             save_png(glow, 'entity/angel_glow')
+    for name, (tex, glow) in (('winged_serpent', serpent()), ('golden_ram', ram())):
+        save_png(tex, 'entity/' + name)
+        save_png(glow, 'entity/' + name + '_glow')
     tex, glow = cherub()
     save_png(tex, 'entity/cherub')
     save_png(glow, 'entity/cherub_glow')
-    print('ok: модели существ, партии A и B')
+    print('ok: модели существ, партии A, B и C')
 
 
 if __name__ == '__main__':
