@@ -73,6 +73,9 @@ public final class Cold {
 				delta *= 0.5F;
 			}
 		}
+		if (dev.celestial.item.EquipmentEffects.wearsIceCrown(player)) {  // Корона Архонта: холод над носителем не властен
+			delta = Math.max(delta, 0.0F);
+		}
 		final float change = delta;
 		float warmth = CelestialData.update(player, d -> d.withWarmth(d.warmth() + change)).warmth();
 		if (warmth < 30) {

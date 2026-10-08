@@ -1,0 +1,96 @@
+# Морозный Архонт: пробуждение, три фазы, ледяная тюрьма (побег изнутри), победа → Корона, Иния, act=3
+/gamemode spectator
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/gamerule spawn_monsters false
+/weather clear
+/execute in minecraft:overworld run tp @s 23031 190 23031
+wait 120
+/place template celestial:frozen_citadel/main 23000 150 23000
+wait 80
+/kill @e[type=!minecraft:player,distance=..120]
+/kill @e[type=celestial:frost_archon]
+/kill @e[type=celestial:inia]
+/celestial act 2
+/clear @s
+/tp @s 23031.5 151 23026.5 180 0
+/gamemode survival
+/effect give @s minecraft:resistance 1200 3 true
+/effect give @s minecraft:regeneration 1200 2 true
+/effect give @s minecraft:saturation 1200 1 true
+/effect give @s minecraft:night_vision 1200 0 true
+# W пробуждение: подходим к печати
+/say TEST W awaken expect=pass
+hold forward 25
+wait 30
+/tp @s 23031.5 151 23020.5 180 0
+wait 40
+/execute if entity @e[type=celestial:frost_archon]
+togglehud
+shot archon_awaken
+togglehud
+wait 60
+/tp @s 23031.5 151 23021.5 facing 23031.5 154 23014.5
+wait 30
+togglehud
+shot archon_phase1
+togglehud
+wait 80
+togglehud
+shot archon_spikes
+togglehud
+# P2 урон до 2-й фазы (метель, призыв)
+/say TEST P2 phase2 expect=pass
+/damage @e[type=celestial:frost_archon,limit=1] 200 minecraft:magic by @p
+wait 80
+/execute if entity @e[tag=celestial_archon_summon]
+togglehud
+shot archon_phase2
+togglehud
+# P3 урон до 3-й фазы, ждём ледяную тюрьму
+/say TEST P3 prison expect=pass,pass,pass,pass(escaped)
+/damage @e[type=celestial:frost_archon,limit=1] 200 minecraft:magic by @p
+/kill @e[tag=celestial_archon_summon]
+/tp @s 23031.5 151 23019.5 facing 23031.5 154 23014.5
+wait 75
+/execute at @p if block ~1 ~ ~ celestial:archon_ice
+/execute at @p if block ~-1 ~ ~ celestial:archon_ice
+togglehud
+shot archon_prison
+togglehud
+/tp @s ~ ~ ~ 90 10
+hold attack 25
+wait 40
+/execute at @p unless block ~-1 ~ ~ celestial:archon_ice
+/execute at @p unless block ~-1 ~1 ~ celestial:archon_ice
+# K победа
+/say TEST K victory expect=pass,pass,pass,pass
+/damage @e[type=celestial:frost_archon,limit=1] 400 minecraft:magic by @p
+wait 60
+/execute if items entity @s container.* celestial:ice_crown
+/execute if entity @e[type=celestial:inia]
+/execute unless entity @e[type=celestial:frost_archon]
+/execute in minecraft:overworld unless block 23031 152 23003 celestial:inia_ice
+/celestial status
+togglehud
+shot archon_victory
+togglehud
+# I Иния говорит и благословляет
+/tp @s 23031.5 151 23007.5 180 0
+wait 10
+interact celestial:inia
+wait 10
+/item replace entity @s armor.head with celestial:ice_crown
+/gamemode creative
+/tp @s 23031.5 152 23009.5 0 15
+camera front
+togglehud
+wait 10
+shot crown_worn
+camera first
+/tp @s 23031.5 152 23008 180 5
+wait 10
+shot inia_free
+togglehud
+quit

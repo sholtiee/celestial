@@ -296,6 +296,17 @@ public final class ModBlocks {
 		Properties.of().mapColor(MapColor.ICE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.DEEPSLATE_BRICKS)
 			.pushReaction(PushReaction.IMMOVEABLE).friction(0.6F), 1);
 
+	// Арена Архонта
+	public static final Block ARCHON_SEAL = register("archon_seal", dev.celestial.boss.ArchonSealBlock::new,
+		Properties.of().mapColor(MapColor.ICE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST)
+			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.boss.ArchonSealBlock.AWAKENED) ? 3 : 12));
+	public static final Block ARCHON_ICE = registerNoItem("archon_ice", dev.celestial.boss.ArchonIceBlock::new,
+		Properties.of().mapColor(MapColor.ICE).strength(0.35F).noLootTable().sound(SoundType.GLASS).noOcclusion().friction(0.98F)
+			.isValidSpawn(Blocks::never).isRedstoneConductor(Blocks::never).isSuffocating(Blocks::never).pushReaction(PushReaction.IMMOVEABLE));
+	public static final Block INIA_ICE = register("inia_ice", dev.celestial.boss.IniaIceBlock::new,
+		Properties.of().mapColor(MapColor.ICE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.GLASS).noOcclusion()
+			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> 9).isSuffocating(Blocks::never));
+
 	private ModBlocks() {}
 
 	private static Block flower(String name, net.minecraft.core.Holder<net.minecraft.world.effect.MobEffect> effect, int light) {

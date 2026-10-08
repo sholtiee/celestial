@@ -1,0 +1,36 @@
+{
+  "criteria": {
+    "tamed": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "celestial:ice_wolf"
+          }
+        }
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:ice_wolf_spawn_egg"
+    },
+    "title": {
+      "translate": "advancements.celestial.wolf_rider.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.wolf_rider.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "tamed"
+    ]
+  ],
+  "parent": "celestial:story/frozen_wings"
+}

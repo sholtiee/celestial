@@ -1,0 +1,43 @@
+{
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "celestial:frost_archon"
+          }
+        }
+      }
+    },
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:ice_crown"
+    },
+    "title": {
+      "translate": "advancements.celestial.crown_of_frost.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.crown_of_frost.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "killed",
+      "impossible"
+    ]
+  ],
+  "parent": "celestial:story/frozen_wings",
+  "rewards": {
+    "experience": 500
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "criteria": {
+    "armor": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "celestial:frost_steel_chestplate"
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:frost_steel_chestplate"
+    },
+    "title": {
+      "translate": "advancements.celestial.frost_forged.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.frost_forged.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "armor"
+    ]
+  ],
+  "parent": "celestial:story/frozen_wings"
+}

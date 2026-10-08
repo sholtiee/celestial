@@ -53,6 +53,10 @@ public final class ModBlockEntities {
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("hall_seal"),
 		new BlockEntityType<>(dev.celestial.block.puzzle.ice.HallSealBlock.Entity::new, Set.of(ModBlocks.HALL_SEAL)));
 
+	public static final BlockEntityType<dev.celestial.boss.ArchonSealBlockEntity> ARCHON_SEAL = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("archon_seal"),
+		new BlockEntityType<>(dev.celestial.boss.ArchonSealBlockEntity::new, Set.of(ModBlocks.ARCHON_SEAL)));
+
 	private ModBlockEntities() {}
 
 	public static void init() {

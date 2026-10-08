@@ -30,6 +30,7 @@ public final class StoryEvents {
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> server.execute(() -> {
 			giveJournalOnce(handler.player);
 			Finale.ensureBlessing(handler.player);
+			syncActs(handler.player);
 		}));
 		net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
 			Finale.ensureBlessing(newPlayer);
@@ -124,7 +125,6 @@ public final class StoryEvents {
 		core.setUnlimitedLifetime();
 		level.addFreshEntity(core);
 		for (ServerPlayer p : level.getPlayers(p -> p.distanceToSqr(boss) < 96 * 96)) {
-			Story.DEVOURER.grant(p);
 			dev.celestial.data.CelestialData.update(p, d -> d.withGrace(d.grace() + 6));
 			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket(20, 100, 40));
 			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket(Component.translatable("story.celestial.act2.title")));
@@ -138,6 +138,85 @@ public final class StoryEvents {
 			dev.celestial.data.CelestialData.updateWorld(server, w -> w.withAct(2).withFlag("act2_done"));
 			dev.celestial.fading.Fading.weaken(server, 1);
 		}
+		server.getPlayerList().getPlayers().forEach(StoryEvents::syncActs);
+	}
+
+	/**
+	 * Главы пройденных актов — каждому игроку мира, даже если его не было рядом или он был не в сети (BUG-034):
+	 * акт хранится в WorldState, при входе недостающие главы выдаются.
+	 */
+	public static void syncActs(ServerPlayer player) {
+		var world = dev.celestial.data.CelestialData.world(player.level().getServer());
+		if (world.act() >= 1) {
+			Story.FINALE.grant(player);
+		}
+		if (world.act() >= 2) {
+			Story.DEVOURER.grant(player);
+		}
+		if (world.act() >= 3) {
+			Story.ARCHON.grant(player);
+		}
+	}
+
+	/**
+	 * Акт III пройден: Морозный Архонт пал. Каждый участник получает Ледяную Корону (в инвентарь), лёд Инии раскалывается,
+	 * титры, act = 3, Угасание отступает ещё на ступень, остальным игрокам мира глава выдаётся сразу (и при входе).
+	 */
+	public static void onArchonDefeated(ServerLevel level, LivingEntity boss, net.minecraft.core.BlockPos home) {
+		freeInia(level, home);
+		for (ServerPlayer p : level.getPlayers(p -> p.distanceToSqr(boss) < 96 * 96)) {
+			ItemStack crown = new ItemStack(ModItems.ICE_CROWN);
+			if (!p.getInventory().add(crown)) {
+				ItemEntity drop = p.spawnAtLocation(level, crown);
+				if (drop != null) {
+					drop.setUnlimitedLifetime();
+					drop.setGlowingTag(true);
+				}
+			}
+			dev.celestial.data.CelestialData.update(p, d -> d.withGrace(d.grace() + 6));
+			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket(20, 100, 40));
+			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket(Component.translatable("story.celestial.act3.title")));
+			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket(Component.translatable("story.celestial.act3.subtitle")));
+			for (int i = 1; i <= 3; i++) {
+				p.sendSystemMessage(Component.translatable("story.celestial.act3." + i));
+			}
+		}
+		var server = level.getServer();
+		if (dev.celestial.data.CelestialData.world(server).act() < 3) {
+			dev.celestial.data.CelestialData.updateWorld(server, w -> w.withAct(3).withFlag("act3_done"));
+			dev.celestial.fading.Fading.weaken(server, 1);
+		}
+		server.getPlayerList().getPlayers().forEach(StoryEvents::syncActs);
+	}
+
+	/** Лёд Инии в нише арены раскалывается: на месте нижней половины появляется Иния. */
+	private static void freeInia(ServerLevel level, net.minecraft.core.BlockPos home) {
+		// сначала раскалываем весь лёд, потом выпускаем Инию: иначе она появлялась внутри ещё целой верхней половины
+		java.util.List<net.minecraft.core.BlockPos> lowers = new java.util.ArrayList<>();
+		java.util.List<net.minecraft.core.BlockPos> ice = new java.util.ArrayList<>();
+		for (net.minecraft.core.BlockPos p : net.minecraft.core.BlockPos.betweenClosed(home.offset(-20, -3, -20), home.offset(20, 8, 20))) {
+			var state = level.getBlockState(p);
+			if (state.is(dev.celestial.registry.ModBlocks.INIA_ICE)) {
+				ice.add(p.immutable());
+				if (state.getValue(dev.celestial.boss.IniaIceBlock.HALF) == net.minecraft.world.level.block.state.properties.DoubleBlockHalf.LOWER) {
+					lowers.add(p.immutable());
+				}
+			}
+		}
+		for (net.minecraft.core.BlockPos p : ice) {
+			level.setBlock(p, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(), 3);
+			level.sendParticles(new net.minecraft.core.particles.BlockParticleOption(ParticleTypes.BLOCK,
+				net.minecraft.world.level.block.Blocks.PACKED_ICE.defaultBlockState()), p.getX() + 0.5, p.getY() + 0.5, p.getZ() + 0.5, 40, 0.4, 0.5, 0.4, 0.15);
+		}
+		for (net.minecraft.core.BlockPos p : lowers) {
+			var inia = dev.celestial.registry.ModEntities.INIA.create(level, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
+			if (inia != null) {
+				inia.snapTo(p.getX() + 0.5, p.getY(), p.getZ() + 0.5, 180, 0);
+				level.addFreshEntity(inia);
+			}
+			level.playSound(null, p, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 3.0F, 0.8F);
+			level.playSound(null, p, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.BLOCKS, 3.0F, 1.2F);
+		}
 	}
 
 	/** Финал: все три осколка на алтаре. */
@@ -149,7 +228,6 @@ public final class StoryEvents {
 		}
 		level.sendParticles(ParticleTypes.FIREWORK, altar.getX() + 0.5, altar.getY() + 3, altar.getZ() + 0.5, 200, 2.0, 2.0, 2.0, 0.3);
 		for (ServerPlayer p : level.getPlayers(p -> p.distanceToSqr(net.minecraft.world.phys.Vec3.atCenterOf(altar)) < 96 * 96)) {
-			Story.FINALE.grant(p);
 			Finale.play(p);
 			dev.celestial.data.CelestialData.update(p, d -> d.withGrace(d.grace() + 5));
 		}
@@ -159,5 +237,6 @@ public final class StoryEvents {
 			dev.celestial.data.CelestialData.updateWorld(server, w -> w.withAct(1).withFlag("act1_done"));
 			dev.celestial.fading.Fading.weaken(server, 2);
 		}
+		server.getPlayerList().getPlayers().forEach(StoryEvents::syncActs);
 	}
 }

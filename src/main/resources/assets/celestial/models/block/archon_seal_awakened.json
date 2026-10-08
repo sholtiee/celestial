@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "celestial:block/archon_seal_awakened",
+    "side": "celestial:block/everfrost_bricks",
+    "bottom": "celestial:block/everfrost_bricks"
+  }
+}

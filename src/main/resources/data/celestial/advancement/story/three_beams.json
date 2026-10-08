@@ -1,0 +1,27 @@
+{
+  "criteria": {
+    "solved": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:beam_lock"
+    },
+    "title": {
+      "translate": "advancements.celestial.three_beams.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.three_beams.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "solved"
+    ]
+  ],
+  "parent": "celestial:story/frozen_wings"
+}

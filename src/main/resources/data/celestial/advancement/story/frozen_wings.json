@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "entered": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "celestial:frozen_halls"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:frost_stone_bricks"
+    },
+    "title": {
+      "translate": "advancements.celestial.frozen_wings.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.frozen_wings.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "entered"
+    ]
+  ],
+  "parent": "celestial:story/heart_of_darkness"
+}

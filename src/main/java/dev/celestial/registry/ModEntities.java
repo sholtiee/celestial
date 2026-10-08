@@ -92,6 +92,17 @@ public final class ModEntities {
 		EntityType.Builder.of(dev.celestial.entity.IceGuardian::new, MobCategory.MONSTER).sized(1.4F, 2.9F).eyeHeight(2.5F).clientTrackingRange(10).notInPeaceful());
 	public static final EntityType<dev.celestial.entity.IceWolf> ICE_WOLF = register("ice_wolf",
 		EntityType.Builder.of(dev.celestial.entity.IceWolf::new, MobCategory.CREATURE).sized(1.1F, 1.3F).eyeHeight(1.15F).clientTrackingRange(10));
+	public static final EntityType<dev.celestial.boss.FrostArchon> FROST_ARCHON = register("frost_archon",
+		EntityType.Builder.of(dev.celestial.boss.FrostArchon::new, MobCategory.MONSTER).fireImmune().sized(1.8F, 4.8F).eyeHeight(4.2F)
+			.clientTrackingRange(16));
+	public static final EntityType<dev.celestial.entity.Inia> INIA = register("inia",
+		EntityType.Builder.of(dev.celestial.entity.Inia::new, MobCategory.MISC).sized(0.6F, 1.9F).eyeHeight(1.7F).clientTrackingRange(10));
+	public static final EntityType<dev.celestial.boss.IceSpike> ICE_SPIKE = registerNoEgg("ice_spike",
+		EntityType.Builder.<dev.celestial.boss.IceSpike>of(dev.celestial.boss.IceSpike::new, MobCategory.MISC).noLootTable().sized(1.0F, 2.4F)
+			.clientTrackingRange(8).updateInterval(5));
+	public static final EntityType<dev.celestial.boss.FrostShard> FROST_SHARD = registerNoEgg("frost_shard",
+		EntityType.Builder.<dev.celestial.boss.FrostShard>of(dev.celestial.boss.FrostShard::new, MobCategory.MISC).noLootTable().sized(0.3F, 0.3F)
+			.clientTrackingRange(6).updateInterval(2));
 	public static final EntityType<dev.celestial.boss.LightDevourer> LIGHT_DEVOURER = register("light_devourer",
 		EntityType.Builder.of(dev.celestial.boss.LightDevourer::new, MobCategory.MONSTER).fireImmune().sized(5.0F, 2.0F).eyeHeight(1.0F)
 			.clientTrackingRange(16));
@@ -137,6 +148,8 @@ public final class ModEntities {
 		FabricDefaultAttributeRegistry.register(DEEP_WORM, dev.celestial.entity.DeepWorm.createAttributes());
 		FabricDefaultAttributeRegistry.register(LIGHT_DEVOURER, dev.celestial.boss.LightDevourer.createAttributes());
 		FabricDefaultAttributeRegistry.register(FROST_WRAITH, dev.celestial.entity.FrostWraith.createAttributes());
+		FabricDefaultAttributeRegistry.register(FROST_ARCHON, dev.celestial.boss.FrostArchon.createAttributes());
+		FabricDefaultAttributeRegistry.register(INIA, dev.celestial.entity.Inia.createAttributes());
 		FabricDefaultAttributeRegistry.register(ICE_GUARDIAN, dev.celestial.entity.IceGuardian.createAttributes());
 		FabricDefaultAttributeRegistry.register(ICE_WOLF, dev.celestial.entity.IceWolf.createAttributes());
 		SpawnPlacements.register(ICE_GUARDIAN, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);

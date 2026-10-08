@@ -49,6 +49,7 @@ public final class CelestialRenderers {
 		ModModelLayers.init();
 		AbyssRenderers.init();
 		FrozenRenderers.init();
+		ArchonRenderer.init();
 		CelestialParticle.init();
 		net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry.register(
 			dev.celestial.registry.ModBlockEntities.BEAM_SOURCE, ctx -> new BeamRenderer());

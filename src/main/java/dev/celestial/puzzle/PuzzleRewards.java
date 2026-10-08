@@ -30,6 +30,13 @@ public final class PuzzleRewards {
 				dev.celestial.block.puzzle.SealedDoorBlock.dissolve(level, p.immutable());
 			}
 		}
+		if (player instanceof net.minecraft.server.level.ServerPlayer sp) {
+			if (kind.equals("glacier")) {
+				dev.celestial.story.Story.GLACIER_MASTER.grant(sp);
+			} else if (kind.equals("mirror_maze")) {
+				dev.celestial.story.Story.THREE_BEAMS.grant(sp);
+			}
+		}
 		if (player != null) {
 			player.sendOverlayMessage(Component.translatable("puzzle.celestial.solved"));
 			CelestialData.update(player, d -> d.withGrace(d.grace() + 1).withCodex("puzzle_" + kind));

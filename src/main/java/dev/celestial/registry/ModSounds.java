@@ -28,6 +28,7 @@ public final class ModSounds {
 	public static final SoundEvent HUNTER_SCREECH = register("entity.blind_hunter.screech");
 	public static final SoundEvent LIGHT_EATER_FEED = register("entity.light_eater.feed");
 	public static final SoundEvent WORM_BITE = register("entity.deep_worm.bite");
+	public static final net.minecraft.core.Holder<SoundEvent> MUSIC_ARCHON_BATTLE = registerHolder("music.archon_battle");
 
 	private ModSounds() {}
 

@@ -54,6 +54,7 @@ public final class EquipmentEffects {
 			if (everySecond) {
 				haloEffects(player);
 				etheriteSet(player);
+				iceCrown(player);
 			}
 		}
 	}
@@ -64,6 +65,25 @@ public final class EquipmentEffects {
 		}
 		refresh(player, MobEffects.REGENERATION, 0, 60);
 		refresh(player, MobEffects.NIGHT_VISION, 0, 300);
+	}
+
+	/** Ледяная Корона: враги в 5 блоках коченеют (замедление, иней по краям), сам носитель не мёрзнет (см. Cold). */
+	private static void iceCrown(ServerPlayer player) {
+		if (!player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.ICE_CROWN)) {
+			return;
+		}
+		for (net.minecraft.world.entity.monster.Enemy enemy : player.level().getEntitiesOfClass(net.minecraft.world.entity.monster.Monster.class,
+			player.getBoundingBox().inflate(5.0), m -> m.isAlive() && m.canFreeze())) {
+			var mob = (net.minecraft.world.entity.LivingEntity) enemy;
+			mob.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 40, 1), player);
+			mob.setTicksFrozen(Math.min(mob.getTicksRequiredToFreeze(), mob.getTicksFrozen() + 30));
+		}
+		player.level().sendParticles(net.minecraft.core.particles.ParticleTypes.SNOWFLAKE, player.getX(), player.getY() + 2.1, player.getZ(),
+			3, 0.3, 0.05, 0.3, 0.01);
+	}
+
+	public static boolean wearsIceCrown(ServerPlayer player) {
+		return player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.ICE_CROWN);
 	}
 
 	private static void refresh(ServerPlayer player, Holder<MobEffect> effect, int amplifier, int duration) {

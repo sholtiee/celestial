@@ -14,7 +14,11 @@ public enum Story {
 	SERAPH("fall_of_the_seraph"),
 	FINALE("light_returns"),
 	ABYSS("beneath_the_clouds"),
-	DEVOURER("heart_of_darkness");
+	DEVOURER("heart_of_darkness"),
+	FROZEN("frozen_wings"),
+	ARCHON("crown_of_frost"),
+	GLACIER_MASTER("glacier_master"),
+	THREE_BEAMS("three_beams");
 
 	public final Identifier id;
 

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "celestial:block/inia_ice_lower"
+    },
+    "half=upper": {
+      "model": "celestial:block/inia_ice_upper"
+    }
+  }
+}

@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class BossMusicMixin {
 	private static final Music SERAPH_BATTLE = new Music(ModSounds.MUSIC_SERAPH_BATTLE, 0, 0, true);
 	private static final Music DEVOURER_BATTLE = new Music(ModSounds.MUSIC_DEVOURER_BATTLE, 0, 0, true);
+	private static final Music ARCHON_BATTLE = new Music(ModSounds.MUSIC_ARCHON_BATTLE, 0, 0, true);
 
 	@Inject(method = "getSituationalMusic", at = @At("HEAD"), cancellable = true)
 	private void celestial$bossMusic(CallbackInfoReturnable<Music> cir) {
@@ -23,7 +24,9 @@ public abstract class BossMusicMixin {
 			// тема по ближайшему боссу мода
 			boolean devourer = !mc.player.level().getEntitiesOfClass(dev.celestial.boss.LightDevourer.class,
 				mc.player.getBoundingBox().inflate(80)).isEmpty();
-			cir.setReturnValue(devourer ? DEVOURER_BATTLE : SERAPH_BATTLE);
+			boolean archon = !mc.player.level().getEntitiesOfClass(dev.celestial.boss.FrostArchon.class,
+				mc.player.getBoundingBox().inflate(80)).isEmpty();
+			cir.setReturnValue(archon ? ARCHON_BATTLE : devourer ? DEVOURER_BATTLE : SERAPH_BATTLE);
 		}
 	}
 }

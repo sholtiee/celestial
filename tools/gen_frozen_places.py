@@ -118,17 +118,16 @@ def arena(t):
                 elif d < inner:
                     t.set(x, y, z, AIR)
     for i in range(6):  # колонны из ледяных колонн по кругу
-        a = i / 6 * math.tau + math.pi / 6
+        a = i / 6 * math.tau  # 0°, 60° … — ни одна колонна не загораживает нишу Инии (север) и вход (юг)
         x, z = round(ax + math.cos(a) * 9), round(az + math.sin(a) * 9)
         t.fill(x, 1, z, x, 9, z, c('glacier_pillar'))
         t.set(x, 10, z, EV)
         t.set(x, 9, z + (1 if z < az else -1), c('aurora_crystal'), facing='down')
     # ниша Инии у северной стены: пьедестал и ангел во льду
     t.fill(ax - 2, 1, az - ARENA_R + 1, ax + 2, 1, az - ARENA_R + 3, EV)
-    t.set(ax, 2, az - ARENA_R + 2, c('frozen_angel'))
-    t.set(ax, 3, az - ARENA_R + 2, c('frozen_angel'))
-    # место печати Архонта в центре (шаг босса поставит сюда печать-триггер)
-    t.set(ax, 1, az, BR)
+    t.set(ax, 2, az - ARENA_R + 2, c('inia_ice'), half='lower')
+    t.set(ax, 3, az - ARENA_R + 2, c('inia_ice'), half='upper')
+    t.set(ax, 0, az, c('archon_seal'), awakened=False, nbt={'id': c('archon_seal')})  # печать в полу центра арены будит Архонта
     for x in range(ax - 5, ax + 6):  # замок купола
         for z in range(az - 5, az + 6):
             if math.hypot(x - ax, z - az) <= 5:

@@ -1,0 +1,32 @@
+# Морозный Архонт и Иния крупно (модели, свечение, осколки, плащ)
+/gamemode creative
+/effect clear @s
+/effect give @s minecraft:night_vision 900 0 true
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 23200 160 23200
+fly
+wait 80
+/fill 23190 159 23190 23210 159 23210 celestial:everfrost_bricks
+/fill 23190 160 23190 23210 170 23210 minecraft:air
+/kill @e[type=!minecraft:player,distance=..40]
+/kill @e[type=celestial:frost_archon]
+/summon celestial:frost_archon 23200 160 23200 {NoAI:1b,Rotation:[180f,0f],NoGravity:1b}
+/summon celestial:inia 23205 160 23200 {NoAI:1b,Rotation:[180f,0f]}
+togglehud
+/tp @s 23200.5 163 23193 facing 23200.5 163 23200
+wait 30
+shot archon_front
+/tp @s 23194 162 23200.5 facing 23200 162 23200.5
+wait 10
+shot archon_side
+/tp @s 23205.5 161.5 23197.5 facing 23205.5 161.2 23200.5
+wait 10
+shot inia_front
+/tp @s 23208 161.5 23203 facing 23205.5 161 23200.5
+wait 10
+shot inia_back
+togglehud
+/kill @e[type=celestial:frost_archon]
+/kill @e[type=celestial:inia]
+quit
