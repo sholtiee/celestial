@@ -28,7 +28,8 @@ public class SeraphSealBlockEntity extends BlockEntity {
 		if (level.getGameTime() % 20 != 0 || !(level instanceof ServerLevel serverLevel)) {
 			return;
 		}
-		Player player = level.getNearestPlayer(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, WAKE_RADIUS, p -> !p.isSpectator());
+		Player player = level.getNearestPlayer(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, WAKE_RADIUS,
+			p -> !p.isSpectator() && !((Player) p).isCreative());  // как у Печати Пожирателя: строителя в творческом не будит (BUG-035)
 		if (player == null) {
 			if (level.getRandom().nextInt(3) == 0) {
 				serverLevel.sendParticles(ParticleTypes.END_ROD, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5, 3, 0.2, 0.3, 0.2, 0.01);

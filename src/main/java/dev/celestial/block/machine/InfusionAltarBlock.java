@@ -53,6 +53,7 @@ public class InfusionAltarBlock extends Block implements BeamPowered {
 			return InteractionResult.FAIL;
 		}
 		var registry = server.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+		boolean anyMaxed = false;
 		for (String id : runeItem.enchantments()) {
 			Holder<Enchantment> ench = registry.getOrThrow(ResourceKey.create(Registries.ENCHANTMENT, Celestial.id(id)));
 			if (!ench.value().canEnchant(gear)) {
@@ -60,8 +61,8 @@ public class InfusionAltarBlock extends Block implements BeamPowered {
 			}
 			int current = EnchantmentHelper.getItemEnchantmentLevel(ench, gear);
 			if (current >= ench.value().getMaxLevel()) {
-				player.sendOverlayMessage(Component.translatable("machine.celestial.infusion.max"));
-				return InteractionResult.FAIL;
+				anyMaxed = true;  // эта руна уже на максимуме — пробуем следующее зачарование руны (раньше попытка обрывалась, BUG-035)
+				continue;
 			}
 			gear.enchant(ench, current + 1);
 			rune.consume(1, player);
@@ -73,7 +74,7 @@ public class InfusionAltarBlock extends Block implements BeamPowered {
 			player.sendOverlayMessage(Component.translatable("machine.celestial.infusion.done", ench.value().description()));
 			return InteractionResult.SUCCESS;
 		}
-		player.sendOverlayMessage(Component.translatable("machine.celestial.infusion.unsuitable"));
+		player.sendOverlayMessage(Component.translatable(anyMaxed ? "machine.celestial.infusion.max" : "machine.celestial.infusion.unsuitable"));
 		return InteractionResult.FAIL;
 	}
 }

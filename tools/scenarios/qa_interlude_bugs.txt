@@ -25,7 +25,31 @@ userel 0 0 -2 up
 wait 5
 /execute if items entity @s weapon.mainhand celestial:seraph_wings[minecraft:damage=440]
 /execute unless items entity @s container.* celestial:starquartz
+# A1 руна света на мече, где «Сияние» уже на максимуме: ложится второе зачарование руны (раньше — отказ)
+/say TEST A1 infusion_next_enchant expect=pass
 /gamemode creative
+/execute in celestial:heaven run setblock 12 186 0 celestial:sun_lens[facing=down]
+/execute in celestial:heaven run setblock 12 180 0 celestial:infusion_altar
+wait 30
+/gamemode survival
+/execute in celestial:heaven run tp @s 12 180 2 180 30
+/clear @s
+/xp add @s 10 levels
+/item replace entity @s weapon.mainhand with minecraft:diamond_sword[minecraft:enchantments={"celestial:radiance":3}]
+/item replace entity @s weapon.offhand with celestial:rune_of_light
+wait 10
+userel 0 0 -2 up
+wait 5
+/execute if items entity @s weapon.mainhand minecraft:diamond_sword[minecraft:enchantments~[{enchantments:"celestial:grace_strike"}]]
+# S1 печать Серафима не будит творческого
+/say TEST S1 seraph_seal_creative expect=pass
+/gamemode creative
+/execute in celestial:heaven run setblock 2 180 -8 celestial:seraph_seal
+/execute in celestial:heaven run tp @s 2 181 -5
+wait 60
+/execute in celestial:heaven if block 2 180 -8 celestial:seraph_seal[awakened=false]
+/execute in celestial:heaven run setblock 2 180 -8 minecraft:air
+/kill @e[type=celestial:fallen_seraph]
 # L1 дух бьёт молнией по метке рядом с деревом — пожара нет
 /say TEST L1 storm_no_fire expect=fail(no fire blocks)
 /execute in celestial:heaven run fill 10 180 -10 24 186 4 minecraft:air
