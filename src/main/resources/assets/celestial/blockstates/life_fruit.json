@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "ripe=true": {
+      "model": "celestial:block/life_fruit"
+    },
+    "ripe=false": {
+      "model": "celestial:block/life_fruit_unripe"
+    }
+  }
+}

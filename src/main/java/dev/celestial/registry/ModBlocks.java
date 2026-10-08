@@ -191,6 +191,19 @@ public final class ModBlocks {
 	public static final Block LORE_TABLET = register("lore_tablet", dev.celestial.block.lore.LoreTabletBlock::new,
 		Properties.of().mapColor(MapColor.STONE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.STONE).noOcclusion()
 			.pushReaction(PushReaction.IMMOVEABLE), 1);
+	// Сад Начала
+	public static final Block LIFE_FRUIT = register("life_fruit", p -> new dev.celestial.block.eden.FruitBlock(p, true),
+		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST).noOcclusion()
+			.lightLevel(s -> s.getValue(dev.celestial.block.eden.FruitBlock.RIPE) ? 9 : 2).pushReaction(PushReaction.IMMOVEABLE), 2);
+	public static final Block KNOWLEDGE_FRUIT = register("knowledge_fruit", p -> new dev.celestial.block.eden.FruitBlock(p, false),
+		Properties.of().mapColor(MapColor.CRIMSON_NYLIUM).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.WART_BLOCK).noOcclusion()
+			.pushReaction(PushReaction.IMMOVEABLE), 2);
+	public static final Block FIG_BUSH = register("fig_bush", net.minecraft.world.level.block.BushBlock::new,
+		Properties.of().mapColor(MapColor.PLANT).noCollision().instabreak().sound(SoundType.GRASS)
+			.offsetType(net.minecraft.world.level.block.state.BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.POPPED));
+	public static final Block MANNA_DEW = register("manna_dew", dev.celestial.block.eden.MannaDewBlock::new,
+		Properties.of().mapColor(MapColor.SNOW).noCollision().instabreak().sound(SoundType.MOSS_CARPET).lightLevel(s -> 4).randomTicks()
+			.pushReaction(PushReaction.POPPED), 1);
 	public static final Block BELL_ALTAR = register("bell_altar", dev.celestial.block.puzzle.BellAltarBlock::new,
 		Properties.of().mapColor(MapColor.QUARTZ).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.STONE));
 	public static final Block RUNE_PEDESTAL = register("rune_pedestal", dev.celestial.block.puzzle.RunePedestalBlock::new,

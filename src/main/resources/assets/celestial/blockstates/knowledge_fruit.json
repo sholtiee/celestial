@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "ripe=true": {
+      "model": "celestial:block/knowledge_fruit"
+    },
+    "ripe=false": {
+      "model": "celestial:block/knowledge_fruit_unripe"
+    }
+  }
+}

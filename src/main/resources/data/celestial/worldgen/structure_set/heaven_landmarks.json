@@ -41,6 +41,10 @@
     {
       "structure": "celestial:memory_shrine",
       "weight": 3
+    },
+    {
+      "structure": "celestial:eden_garden",
+      "weight": 3
     }
   ]
 }

@@ -1,0 +1,28 @@
+{
+  "textures": {
+    "dew": "celestial:block/manna_dew",
+    "particle": "celestial:block/manna_dew"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        0.5,
+        16
+      ],
+      "faces": {
+        "up": {
+          "texture": "#dew"
+        },
+        "down": {
+          "texture": "#dew"
+        }
+      }
+    }
+  ]
+}

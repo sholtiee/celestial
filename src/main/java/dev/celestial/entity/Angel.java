@@ -122,6 +122,18 @@ public class Angel extends WanderingTrader {
 		super.setTradingPlayer(player);
 	}
 
+	/** Изгнанные (плод Познания) для ангелов — чужие: торговли нет, пока не снято «Изгнание». */
+	@Override
+	public net.minecraft.world.InteractionResult mobInteract(net.minecraft.world.entity.player.Player player, net.minecraft.world.InteractionHand hand) {
+		if (dev.celestial.eden.Exile.isExiled(player)) {
+			if (!level().isClientSide()) {
+				player.sendOverlayMessage(net.minecraft.network.chat.Component.translatable("eden.celestial.cold"));
+			}
+			return net.minecraft.world.InteractionResult.CONSUME;
+		}
+		return super.mobInteract(player, hand);
+	}
+
 	@Override
 	public boolean removeWhenFarAway(double distSqr) {
 		return false;

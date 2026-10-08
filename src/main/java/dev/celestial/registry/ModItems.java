@@ -157,6 +157,12 @@ public final class ModItems {
 	/** Свиток Летописи: какой лист — в custom_data (LoreScrollItem.of). */
 	public static final Item LORE_SCROLL = register("lore_scroll", dev.celestial.item.LoreScrollItem::new,
 		lore(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON), "lore_scroll", 1));
+	/** Лист смоковницы: снимает «Изгнание»; лежа в инвентаре, принимает его вместо тебя при поедании плода Познания. */
+	public static final Item FIG_LEAF = register("fig_leaf", dev.celestial.item.FigLeafItem::new,
+		lore(new Item.Properties().stacksTo(16), "fig_leaf", 2));
+	/** Манна: утренняя роса Рая, сытная и лёгкая. */
+	public static final Item MANNA = register("manna", Item::new, new Item.Properties().food(
+		new FoodProperties.Builder().nutrition(5).saturationModifier(0.5F).build()));
 	public static final Item LIGHT_SHARD = register("light_shard", Item::new, lore(new Item.Properties().rarity(Rarity.EPIC).stacksTo(16).fireResistant(), "light_shard", 1));
 	public static final Item VOID_HEART = register("void_heart", dev.celestial.item.VoidHeartItem::new, lore(new Item.Properties().rarity(Rarity.EPIC).stacksTo(1), "void_heart", 2));
 

@@ -24,6 +24,10 @@ public final class ModEffects {
 	public static final Holder<MobEffect> WARMED = Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, Celestial.id("warmed"),
 		new MobEffect(MobEffectCategory.BENEFICIAL, 0xFF9A4A) {});
 
+	/** Изгнание (плод Познания): закрывает Древо Жизни, ангелы холодны. Снимает лист смоковницы. */
+	public static final Holder<MobEffect> EXILE = Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, Celestial.id("exile"),
+		new MobEffect(MobEffectCategory.HARMFUL, 0x8A5A44) {});
+
 	private ModEffects() {}
 
 	public static void init() {

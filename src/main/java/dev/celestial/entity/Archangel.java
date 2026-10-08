@@ -91,6 +91,12 @@ public class Archangel extends PathfinderMob {
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
 		if (player instanceof ServerPlayer sp && hand == InteractionHand.MAIN_HAND) {
 			String name = archangelName();
+			if (dev.celestial.eden.Exile.isExiled(sp)) {
+				sp.sendSystemMessage(Component.translatable("entity.celestial.archangel." + name).withStyle(ChatFormatting.GOLD)
+					.append(Component.literal(": ").withStyle(ChatFormatting.DARK_GRAY))
+					.append(Component.translatable("eden.celestial.cold").withStyle(ChatFormatting.GRAY)));
+				return InteractionResult.CONSUME;
+			}
 			var data = CelestialData.get(sp);
 			if (!data.knows("archangel:" + name)) {
 				CelestialData.update(sp, d -> d.withGrace(d.grace() + 1).withCodex("archangel:" + name).withCodex("mob:archangel"));

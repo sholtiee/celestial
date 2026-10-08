@@ -1,0 +1,15 @@
+# S2.4: Сад Начала находится в мире Рая (естественная генерация)
+/gamemode creative
+/weather clear
+/time set 6000
+/gamerule advance_time false
+/execute in celestial:heaven run tp @s 0 190 0
+fly
+wait 60
+goto celestial:eden_garden 0 25 40 180 30
+wait 80
+togglehud
+shot eden_natural
+togglehud
+pos
+quit
