@@ -234,6 +234,7 @@ public final class StoryEvents {
 			Finale.play(p);
 			dev.celestial.data.CelestialData.update(p, d -> d.withGrace(d.grace() + 5));
 		}
+		Archangels.appear(level, altar);
 		// Акт I пройден: свет вернулся лишь частично — Угасание отступает на две ступени
 		var server = level.getServer();
 		if (dev.celestial.data.CelestialData.world(server).act() < 1) {

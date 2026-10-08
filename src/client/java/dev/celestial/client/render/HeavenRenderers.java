@@ -17,6 +17,7 @@ public final class HeavenRenderers {
 	public static final ModelLayerLocation SHADOW = new ModelLayerLocation(Celestial.id("shadow"), "main");
 	public static final ModelLayerLocation STORM = new ModelLayerLocation(Celestial.id("storm_spirit"), "main");
 	public static final ModelLayerLocation ANGEL = new ModelLayerLocation(Celestial.id("angel"), "main");
+	public static final ModelLayerLocation ARCHANGEL = new ModelLayerLocation(Celestial.id("archangel"), "main");
 	public static final ModelLayerLocation CHERUB = new ModelLayerLocation(Celestial.id("cherub"), "main");
 	public static final ModelLayerLocation SERPENT = new ModelLayerLocation(Celestial.id("winged_serpent"), "main");
 	public static final ModelLayerLocation RAM = new ModelLayerLocation(Celestial.id("golden_ram"), "main");
@@ -28,6 +29,20 @@ public final class HeavenRenderers {
 		ModelLayerRegistry.registerModelLayer(STORM, HeavenModels.Storm::createLayer);
 		ModelLayerRegistry.registerModelLayer(ANGEL, HeavenModels.Angel::createLayer);
 		ModelLayerRegistry.registerModelLayer(CHERUB, HeavenModels.Cherub::createLayer);
+		ModelLayerRegistry.registerModelLayer(ARCHANGEL, HeavenModels.Archangel::createLayer);
+		// у архангела четыре облика — четыре текстуры; светящийся слой один: глаза, нимб и пламя/клинок разных обликов лежат в разных местах развёртки
+		EntityRendererRegistry.register(ModEntities.ARCHANGEL, ctx -> new Renderer<>(ctx, new HeavenModels.Archangel(ctx.bakeLayer(ARCHANGEL)), "archangel", 0.7F, 1.2F) {
+			@Override
+			public Identifier getTextureLocation(HeavenModels.State state) {
+				return Celestial.id("textures/entity/archangel_" + dev.celestial.entity.Archangel.NAMES[Math.floorMod(state.variant, 4)] + ".png");
+			}
+
+			@Override
+			public void extractRenderState(dev.celestial.entity.Archangel entity, HeavenModels.State state, float partialTicks) {
+				super.extractRenderState(entity, state, partialTicks);
+				state.variant = entity.variant();
+			}
+		});
 		// у ангела четыре профессии — четыре текстуры (одеяние, отделка, рукава)
 		EntityRendererRegistry.register(ModEntities.ANGEL, ctx -> new Renderer<>(ctx, new HeavenModels.Angel(ctx.bakeLayer(ANGEL)), "angel", 0.5F, 0.95F) {
 			@Override

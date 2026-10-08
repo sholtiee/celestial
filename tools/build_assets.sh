@@ -26,6 +26,7 @@ python3 gen_archon.py
 python3 gen_frozen_places.py
 python3 gen_puzzles_c.py
 python3 gen_heaven_mobs.py
+python3 gen_archangels.py
 python3 gen_lore.py
 python3 gen_achievements.py
 python3 gen_animated.py

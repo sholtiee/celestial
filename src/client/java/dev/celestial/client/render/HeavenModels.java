@@ -95,6 +95,80 @@ public final class HeavenModels {
 		}
 	}
 
+	// ---------------------------------------------------------------- Архангел (64×128): Ангел крупнее, крылья больше, в руке — атрибут
+	/** Облики: 0 Гавриил (труба), 1 Уриил (пламя), 2 Михаил (меч), 3 Рафаил (посох с рыбой). Видна только вещь своего облика. */
+	public static class Archangel extends EntityModel<State> {
+		private final ModelPart head;
+		private final ModelPart leftArm;
+		private final ModelPart rightArm;
+		private final ModelPart skirt;
+		private final ModelPart leftWing;
+		private final ModelPart rightWing;
+		private final ModelPart[] items = new ModelPart[4];
+
+		public Archangel(ModelPart root) {
+			super(root);
+			ModelPart body = root.getChild("body");
+			this.head = root.getChild("head");
+			this.skirt = root.getChild("skirt");
+			this.leftArm = body.getChild("left_arm");
+			this.rightArm = body.getChild("right_arm");
+			this.leftWing = body.getChild("left_wing");
+			this.rightWing = body.getChild("right_wing");
+			for (int i = 0; i < 4; i++) {
+				items[i] = rightArm.getChild("item" + i);
+			}
+		}
+
+		public static LayerDefinition createLayer() {
+			MeshDefinition mesh = new MeshDefinition();
+			PartDefinition root = mesh.getRoot();
+			PartDefinition head = root.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4, -8, -4, 8, 8, 8), PartPose.ZERO);
+			halo(head, -12, 4.5F, 32);
+			PartDefinition body = root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(16, 16).addBox(-4, 0, -2, 8, 10, 4), PartPose.ZERO);
+			body.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(40, 16).addBox(-1, -1, -1.5F, 3, 11, 3), PartPose.offset(5, 1, 0));
+			PartDefinition right = body.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(40, 16).mirror().addBox(-2, -1, -1.5F, 3, 11, 3),
+				PartPose.offset(-5, 1, 0));
+			body.addOrReplaceChild("left_wing", CubeListBuilder.create().texOffs(32, 32).addBox(0, -3, 0, 1, 20, 14), PartPose.offsetAndRotation(1.5F, 1, 2, 0.25F, 0.5F, 0));
+			body.addOrReplaceChild("right_wing", CubeListBuilder.create().texOffs(32, 32).mirror().addBox(-1, -3, 0, 1, 20, 14),
+				PartPose.offsetAndRotation(-1.5F, 1, 2, 0.25F, -0.5F, 0));
+			root.addOrReplaceChild("skirt", CubeListBuilder.create().texOffs(0, 32).addBox(-5, 0, -3, 10, 14, 6), PartPose.offset(0, 10, 0));
+			// в кисти правой руки (смещение 0,9,-1): труба смотрит вперёд-вверх, остальное стоит вертикально
+			PartDefinition trumpet = right.addOrReplaceChild("item0", CubeListBuilder.create().texOffs(0, 70).addBox(-1, -1, -9, 2, 2, 9), PartPose.offsetAndRotation(-0.5F, 9, -1, -0.9F, 0, 0));
+			trumpet.addOrReplaceChild("bell", CubeListBuilder.create().texOffs(0, 82).addBox(-2.5F, -2.5F, -12, 5, 5, 3), PartPose.ZERO);
+			PartDefinition lantern = right.addOrReplaceChild("item1", CubeListBuilder.create().texOffs(24, 82).addBox(-0.5F, -6, -0.5F, 1, 6, 1), PartPose.offset(-0.5F, 9, -1));
+			lantern.addOrReplaceChild("flame", CubeListBuilder.create().texOffs(24, 70).addBox(-2, -11, -2, 4, 5, 4), PartPose.ZERO);
+			PartDefinition sword = right.addOrReplaceChild("item2", CubeListBuilder.create().texOffs(42, 70).addBox(-0.5F, -15, -1, 1, 15, 2), PartPose.offset(-0.5F, 9, -1));
+			sword.addOrReplaceChild("guard", CubeListBuilder.create().texOffs(0, 92).addBox(-2.5F, -1, -1, 5, 1, 2), PartPose.ZERO);
+			PartDefinition staff = right.addOrReplaceChild("item3", CubeListBuilder.create().texOffs(50, 70).addBox(-0.5F, -16, -0.5F, 1, 22, 1), PartPose.offset(-0.5F, 9, -1));
+			staff.addOrReplaceChild("fish", CubeListBuilder.create().texOffs(0, 96).addBox(-2.5F, -20, -0.5F, 5, 3, 1), PartPose.ZERO);
+			return LayerDefinition.create(mesh, 64, 128);
+		}
+
+		@Override
+		public void setupAnim(State state) {
+			super.setupAnim(state);
+			float t = state.ageInTicks;
+			int v = Math.floorMod(state.variant, 4);
+			head.yRot = state.yRot * Mth.DEG_TO_RAD;
+			head.xRot = state.xRot * Mth.DEG_TO_RAD;
+			leftArm.xRot = Mth.sin(t * 0.05F) * 0.04F;
+			leftArm.zRot = -0.1F;
+			// правая рука держит вещь: труба поднята к губам, остальное — перед собой
+			rightArm.xRot = (v == 0 ? -1.15F : -0.45F) + Mth.sin(t * 0.06F) * 0.04F;
+			rightArm.zRot = 0.1F;
+			skirt.xRot = Mth.sin(t * 0.07F) * 0.03F;
+			float open = 0.55F + Mth.sin(t * 0.08F) * 0.07F;  // крылья раскрыты шире, чем у ангела, и медленно дышат
+			leftWing.yRot = open;
+			rightWing.yRot = -open;
+			leftWing.zRot = -0.06F;
+			rightWing.zRot = 0.06F;
+			for (int i = 0; i < 4; i++) {
+				items[i].visible = i == v;
+			}
+		}
+	}
+
 	// ---------------------------------------------------------------- Херувим (64×32): большая голова, маленькое тельце, трепещущие крылышки, нимб
 	public static class Cherub extends EntityModel<State> {
 		private final ModelPart body;

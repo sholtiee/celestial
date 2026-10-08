@@ -1,0 +1,75 @@
+# S2.3: четыре архангела: облики и свечение, беседа по акту, появление у алтаря Цитадели после Акта I
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 31000 200 31000
+fly
+wait 60
+/fill 30990 199 30990 31010 199 31010 minecraft:stone
+/fill 30990 200 30990 31010 206 31010 minecraft:air
+/summon celestial:archangel 30997 200 31006 {Variant:0,NoAI:1b}
+/summon celestial:archangel 31000 200 31006 {Variant:1,NoAI:1b}
+/summon celestial:archangel 31003 200 31006 {Variant:2,NoAI:1b}
+/summon celestial:archangel 31006 200 31006 {Variant:3,NoAI:1b}
+/tp @s 31001.5 201.5 31012 180 5
+wait 40
+togglehud
+shot archangels_front
+/time set 18000
+wait 10
+shot archangels_night
+/time set 6000
+/tp @s 31001.5 202 30999 0 5
+wait 20
+shot archangels_back
+/tp @s 30997.5 201.6 31008.5 180 5
+wait 10
+shot archangel_gabriel
+/tp @s 31000.5 201.6 31008.5 180 5
+wait 10
+shot archangel_uriel
+/tp @s 31003.5 201.6 31008.5 180 5
+wait 10
+shot archangel_michael
+/tp @s 31006.5 201.6 31008.5 180 5
+wait 10
+shot archangel_raphael
+togglehud
+/gamemode survival
+/effect give @s minecraft:resistance 600 4 true
+/time set 6000
+/celestial act 2
+/tp @s 31000.5 200 31004 0 0
+wait 10
+clearchat
+interact celestial:archangel
+wait 10
+/say TEST A1 talk_gives_codex_once expect=pass
+/execute if entity @e[type=celestial:archangel,distance=..30]
+shot archangel_talk
+# появление у алтаря: Цитадель + три осколка
+/gamemode creative
+/celestial act 0
+/kill @e[type=celestial:archangel]
+/execute in celestial:heaven run tp @s 0 190 -40
+wait 60
+/execute in celestial:heaven run fill -10 169 -10 10 169 10 minecraft:stone
+/execute in celestial:heaven run setblock 0 170 0 celestial:celestial_altar[flame=true,void=true,light=false]
+/gamemode survival
+/execute in celestial:heaven run tp @s 0.5 170 3.5 180 20
+/give @s celestial:light_shard
+/item replace entity @s weapon.mainhand with celestial:light_shard
+wait 5
+use 0 170 0 up
+wait 40
+/say TEST A2 four_archangels_appear expect=pass
+/execute in celestial:heaven if entity @e[type=celestial:archangel,distance=..12]
+/execute in celestial:heaven store result score @s x if entity @e[type=celestial:archangel,distance=..12]
+togglehud
+shot archangels_altar
+togglehud
+/gamemode creative
+/kill @e[type=celestial:archangel]
+quit
