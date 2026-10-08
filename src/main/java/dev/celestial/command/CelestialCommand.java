@@ -114,6 +114,9 @@ public final class CelestialCommand {
 				.then(Commands.argument("entry", StringArgumentType.greedyString()).executes(ctx -> {
 					String entry = StringArgumentType.getString(ctx, "entry");
 					CelestialData.update(ctx.getSource().getPlayerOrException(), d -> d.withCodex(entry));
+					if (entry.startsWith("mob:")) {
+						dev.celestial.lore.Lore.check(ctx.getSource().getPlayerOrException());
+					}
 					ctx.getSource().sendSuccess(() -> Component.literal("Кодекс: + " + entry), true);
 					return 1;
 				}))));

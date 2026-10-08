@@ -1,0 +1,27 @@
+{
+  "criteria": {
+    "granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:lore_scroll"
+    },
+    "title": {
+      "translate": "advancements.celestial.chronicle_book_3.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.chronicle_book_3.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "granted"
+    ]
+  ],
+  "parent": "celestial:story/root"
+}

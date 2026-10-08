@@ -15,7 +15,7 @@ from PIL import Image, ImageDraw
 import lore_data as L
 import textures as T
 from gen_assets import ASSETS, DATA, blockstate, c, item_def, model, save_png, write_json
-from gen_story import lang_patch
+from gen_story import advancement, lang_patch
 
 W, H = 96, 54
 
@@ -542,6 +542,28 @@ def lang():
     lang_patch(e)
 
 
+def achievements():
+    """Ветка «Летопись» (под корнем саги): первая запись, по книге, Глоссарий, Нарёкший имена, Летописец. Выдаёт lore/Lore.check (критерий impossible)."""
+    imp = {'granted': {'trigger': 'minecraft:impossible'}}
+    scroll = c('lore_scroll')
+    items = [('chronicle_first', scroll, 'task', 'Первая запись', 'Открой любой лист Летописи', 'The First Entry', 'Open any sheet of the Chronicle')]
+    for n, (ru, en) in L.BOOKS.items():
+        if any(s['book'] == n for s in L.SHEETS):
+            items.append((f'chronicle_book_{n}', scroll, 'goal', ru, f'Открой все листы: «{ru}»', en, f'Open every sheet of {en}'))
+    items.append(('chronicle_glossary', scroll, 'goal', 'Знаток слов', 'Узнай все слова Глоссария', 'Master of Words', 'Learn every word of the Glossary'))
+    items.append(('chronicle_names', c('wanderer_journal'), 'goal', 'Нарёкший имена', 'Запиши в Бестиарий 24 существа, как Адам нарёк тварей',
+                  'Namer of Creatures', 'Record 24 creatures in the Bestiary, as Adam named the beasts'))
+    if all(any(s['book'] == n for s in L.SHEETS) for n in L.BOOKS):
+        items.append(('chronicle_scribe', c('wanderer_journal'), 'challenge', 'Летописец', 'Открой каждый лист Летописи Небес', 'Chronicler', 'Open every sheet of the Chronicle of Heaven'))
+    e = {}
+    for path, icon, frame, ru_t, ru_d, en_t, en_d in items:
+        advancement(path, 'root', icon, imp, frame, f'advancements.celestial.{path}.title', f'advancements.celestial.{path}.description')
+        e[f'advancements.celestial.{path}.title'] = (ru_t, en_t)
+        e[f'advancements.celestial.{path}.description'] = (ru_d, en_d)
+    lang_patch(e)
+    return len(items)
+
+
 def main():
     scroll_item()
     tablet_block()
@@ -549,7 +571,8 @@ def main():
     lore_json()
     lang()
     illustrations()
-    print('ok: Летопись —', len(L.SHEETS), 'листов,', len(L.GLOSSARY), 'слов Глоссария,', len(ART), 'иллюстраций')
+    n_adv = achievements()
+    print('ok: Летопись —', len(L.SHEETS), 'листов,', len(L.GLOSSARY), 'слов Глоссария,', len(ART), 'иллюстраций,', n_adv, 'достижений')
 
 
 if __name__ == '__main__':

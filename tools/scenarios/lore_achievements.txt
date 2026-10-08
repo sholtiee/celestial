@@ -1,0 +1,73 @@
+# S2.8: ветка достижений «Летопись»: первая запись, книги, Глоссарий, Нарёкший имена; лист «Имена» от записей бестиария
+/gamemode creative
+/effect clear @s
+/advancement revoke @s only celestial:story/chronicle_first
+/advancement revoke @s only celestial:story/chronicle_book_1
+/advancement revoke @s only celestial:story/chronicle_book_2
+/advancement revoke @s only celestial:story/chronicle_book_3
+/advancement revoke @s only celestial:story/chronicle_glossary
+/advancement revoke @s only celestial:story/chronicle_names
+/celestial lore lock all
+/say TEST A0 none_yet expect=pass
+/execute unless entity @s[advancements={celestial:story/chronicle_first=true}]
+/celestial lore unlock light
+/say TEST A1 first_entry expect=pass
+/execute if entity @s[advancements={celestial:story/chronicle_first=true}]
+/say TEST A2 book1_not_yet expect=pass
+/execute unless entity @s[advancements={celestial:story/chronicle_book_1=true}]
+/celestial lore unlock light
+/celestial lore unlock eden
+/celestial lore unlock names
+/celestial lore unlock tree_life
+/celestial lore unlock fruit
+/celestial lore unlock exile
+/celestial lore unlock flaming_sword
+/celestial lore unlock cain_abel
+/celestial lore unlock mark
+/say TEST A3 book1_done expect=pass,pass(book2 not)
+/execute if entity @s[advancements={celestial:story/chronicle_book_1=true}]
+/execute unless entity @s[advancements={celestial:story/chronicle_book_2=true}]
+/celestial lore unlock all
+/say TEST A4 books_done expect=pass,pass
+/execute if entity @s[advancements={celestial:story/chronicle_book_2=true}]
+/execute if entity @s[advancements={celestial:story/chronicle_book_3=true}]
+/celestial lore gloss seraph
+/say TEST A5 glossary expect=pass
+/execute if entity @s[advancements={celestial:story/chronicle_glossary=true}]
+# Книга Имён: записи бестиария открывают лист «Имена» (8) и достижение (24). Тестовый сейв уже содержит десятки записей, поэтому «ещё нет» не проверяется
+/celestial lore lock names
+/celestial codex mob:test_name_0
+/celestial codex mob:test_name_1
+/celestial codex mob:test_name_2
+/celestial codex mob:test_name_3
+/celestial codex mob:test_name_4
+/celestial codex mob:test_name_5
+/celestial codex mob:test_name_6
+/celestial codex mob:test_name_7
+/say TEST N1 names_sheet_after_8_mobs expect=0
+/celestial lore unlock names
+/celestial codex mob:test_name_8
+/celestial codex mob:test_name_9
+/celestial codex mob:test_name_10
+/celestial codex mob:test_name_11
+/celestial codex mob:test_name_12
+/celestial codex mob:test_name_13
+/celestial codex mob:test_name_14
+/celestial codex mob:test_name_15
+/celestial codex mob:test_name_16
+/celestial codex mob:test_name_17
+/celestial codex mob:test_name_18
+/celestial codex mob:test_name_19
+/celestial codex mob:test_name_20
+/celestial codex mob:test_name_21
+/celestial codex mob:test_name_22
+/celestial codex mob:test_name_23
+/celestial codex mob:test_name_24
+/celestial codex mob:test_name_25
+/say TEST N3 names_achievement expect=pass
+/execute if entity @s[advancements={celestial:story/chronicle_names=true}]
+togglehud
+shot lore_achievement_toasts
+togglehud
+/celestial lore lock all
+quit

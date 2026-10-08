@@ -125,6 +125,54 @@ public final class Lore {
 		return sheets().stream().filter(s -> s.node().equals(node)).count();
 	}
 
+	/** Сколько записей бестиария (`mob:*`) нужно, чтобы «назвать» существ: открывает лист «Имена» и достижение «Нарёкший имена». */
+	public static final int NAMES_FOR_SHEET = 8;
+	public static final int NAMES_FOR_ACHIEVEMENT = 24;
+
+	/** Достижения ветки «Летопись» (story/chronicle_*): выдаются, если достижение есть в данных (для пустых книг его нет). */
+	private static void grantStory(ServerPlayer player, String path) {
+		var holder = player.level().getServer().getAdvancements().get(dev.celestial.Celestial.id("story/" + path));
+		if (holder == null) {
+			return;
+		}
+		var progress = player.getAdvancements().getOrStartProgress(holder);
+		for (String criterion : progress.getRemainingCriteria()) {
+			player.getAdvancements().award(holder, criterion);
+		}
+	}
+
+	/** Проверка завершённости: первая запись, книги целиком, весь Глоссарий, вся Летопись, имена. Безопасно вызывать часто. */
+	public static void check(ServerPlayer player) {
+		PlayerData d = CelestialData.get(player);
+		if (sheets().stream().anyMatch(s -> d.knowsLore(s.id()))) {
+			grantStory(player, "chronicle_first");
+		}
+		boolean everyBookFull = true;
+		for (int b : books()) {
+			List<Sheet> ofBook = sheetsOfBook(b);
+			if (ofBook.isEmpty()) {
+				everyBookFull = false;
+			} else if (ofBook.stream().allMatch(s -> d.knowsLore(s.id()))) {
+				grantStory(player, "chronicle_book_" + b);
+			} else {
+				everyBookFull = false;
+			}
+		}
+		if (everyBookFull) {
+			grantStory(player, "chronicle_scribe");
+		}
+		if (glossary().stream().allMatch(g -> d.knowsLore("gloss:" + g))) {
+			grantStory(player, "chronicle_glossary");
+		}
+		long mobs = d.codex().stream().filter(e -> e.startsWith("mob:")).count();
+		if (mobs >= NAMES_FOR_SHEET) {
+			unlock(player, "names");
+		}
+		if (mobs >= NAMES_FOR_ACHIEVEMENT) {
+			grantStory(player, "chronicle_names");
+		}
+	}
+
 	/** Открывает лист (и слова Глоссария, которые он приносит). Возвращает true, если лист был закрыт. Неизвестный id — false. */
 	public static boolean unlock(ServerPlayer player, String id) {
 		Optional<Sheet> sheet = sheet(id);
@@ -141,6 +189,7 @@ public final class Lore {
 		for (String g : sheet.get().gloss()) {
 			addGlossary(player, g, false);
 		}
+		check(player);
 		return true;
 	}
 
@@ -153,6 +202,7 @@ public final class Lore {
 		if (announce) {
 			player.sendOverlayMessage(Component.translatable("lore.celestial.glossary_added", Component.translatable("lore.celestial.gloss." + id)));
 		}
+		check(player);
 		return true;
 	}
 

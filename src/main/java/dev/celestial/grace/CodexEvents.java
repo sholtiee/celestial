@@ -45,6 +45,9 @@ public final class CodexEvents {
 		if (!CelestialData.get(player).knows(entry)) {
 			CelestialData.update(player, d -> d.withCodex(entry));
 			player.sendOverlayMessage(Component.translatable("codex.celestial.new_entry", name));
+			if (entry.startsWith("mob:")) {
+				dev.celestial.lore.Lore.check(player);  // «Книга Имён»: чем больше существ записано, тем ближе лист «Имена» и достижение
+			}
 		}
 	}
 }
