@@ -20,6 +20,8 @@
     "celestial:star_fresco",
     "celestial:star_lock",
     "celestial:memory_plate",
-    "celestial:memory_altar"
+    "celestial:memory_altar",
+    "celestial:echo_stone",
+    "celestial:echo_altar"
   ]
 }

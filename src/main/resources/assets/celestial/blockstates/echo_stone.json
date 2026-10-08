@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "struck=false": {
+      "model": "celestial:block/echo_stone"
+    },
+    "struck=true": {
+      "model": "celestial:block/echo_stone_struck"
+    }
+  }
+}

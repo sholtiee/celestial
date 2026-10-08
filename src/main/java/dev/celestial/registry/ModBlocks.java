@@ -327,6 +327,14 @@ public final class ModBlocks {
 		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST)
 			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.block.puzzle.memory.MemoryAltarBlock.SOLVED) ? 15 : 7), 1);
 
+	// «Эхо во тьме» (святилище Бездны)
+	public static final Block ECHO_STONE = register("echo_stone", dev.celestial.block.puzzle.echo.EchoStoneBlock::new,
+		Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST)
+			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.block.puzzle.echo.EchoStoneBlock.STRUCK) ? 3 : 0), 1);
+	public static final Block ECHO_ALTAR = register("echo_altar", dev.celestial.block.puzzle.echo.EchoAltarBlock::new,
+		Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.DEEPSLATE)
+			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.block.puzzle.echo.EchoAltarBlock.SOLVED) ? 12 : 0), 1);
+
 	private ModBlocks() {}
 
 	private static Block flower(String name, net.minecraft.core.Holder<net.minecraft.world.effect.MobEffect> effect, int light) {

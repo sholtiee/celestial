@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "solved=false": {
+      "model": "celestial:block/echo_altar"
+    },
+    "solved=true": {
+      "model": "celestial:block/echo_altar_solved"
+    }
+  }
+}

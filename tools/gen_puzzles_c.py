@@ -242,6 +242,159 @@ def memory_shrine():
                 {'type': 'minecraft:item', 'name': 'minecraft:golden_apple', 'weight': 2}]}]})
 
 
+# ---------------------------------------------------------------- Эхо во тьме
+ECHO_STONES = ((3, 1, 3), (11, 1, 4), (4, 1, 11), (10, 1, 10))
+ECHO_ALTAR = (7, 1, 2)
+
+
+def echo_textures():
+    for struck in (False, True):
+        img = T.noisy('echo_stone', [T.hexrgb(h) for h in ('#1a1424', '#221a30', '#2b213c')], cell=3, grain=0.3)
+        for y in range(16):
+            for x in range(16):
+                d = math.hypot(x - 7.5, y - 7.5)
+                for r_ in (2.5, 5.0, 7.0):
+                    if abs(d - r_) < 0.45:
+                        img.putpixel((x, y), (*T.hexrgb('#e8c8ff' if struck else '#5a4a78'), 255))
+        name = 'echo_stone' + ('_struck' if struck else '')
+        save_png(img, 'block/' + name)
+        model('block/' + name, {'parent': 'minecraft:block/cube_all', 'textures': {'all': c('block/' + name)}})
+    blockstate('echo_stone', {'variants': {'struck=false': {'model': c('block/echo_stone')}, 'struck=true': {'model': c('block/echo_stone_struck')}}})
+    item_def('echo_stone', c('block/echo_stone'))
+    for solved in (False, True):
+        img = T.bricks('echo_altar', [T.hexrgb(h) for h in ('#1a1424', '#221a30', '#2b213c')], '#0a0710')
+        for k in range(60):  # спираль-«ухо»
+            a = k * 0.32
+            rr = 0.9 + k * 0.1
+            x, y = int(7.5 + math.cos(a) * rr), int(7.5 + math.sin(a) * rr)
+            if 0 <= x < 16 and 0 <= y < 16:
+                img.putpixel((x, y), (*T.hexrgb('#f0d8ff' if solved else '#7a5aa8'), 255))
+        name = 'echo_altar' + ('_solved' if solved else '')
+        save_png(img, 'block/' + name)
+        model('block/' + name, {'parent': 'minecraft:block/cube_bottom_top', 'textures': {
+            'top': c('block/' + name), 'side': c('block/abyss_bricks'), 'bottom': c('block/abyss_bricks')}})
+    blockstate('echo_altar', {'variants': {'solved=false': {'model': c('block/echo_altar')}, 'solved=true': {'model': c('block/echo_altar_solved')}}})
+    item_def('echo_altar', c('block/echo_altar'))
+    append_tag('block', 'minecraft:dragon_immune', [c('echo_stone'), c('echo_altar')])
+    append_tag('block', 'minecraft:wither_immune', [c('echo_stone'), c('echo_altar')])
+
+
+def echo_sanctum():
+    """Малое святилище Бездны: тёмный зал 15×15 (ни одного источника света), четыре камня-резонатора, алтарь, реликварий за печатями."""
+    import os
+    from gen_structures import Template, reliquary
+    from gen_assets import DATA, write_json
+    B = c('abyss_bricks')
+    t = Template(15, 8, 15)
+    t.fill(0, 0, 0, 14, 7, 14, B)
+    t.fill(1, 1, 1, 13, 5, 13, 'minecraft:air')
+    t.fill(6, 1, 0, 8, 3, 0, 'minecraft:air')  # вход
+    for x, y, z in ECHO_STONES:
+        t.set(x, y, z, c('echo_stone'), struck=False)
+        t.set(x, 0, z, c('abyss_stone'))
+    ax, ay, az = ECHO_ALTAR
+    t.set(ax, ay, az, c('echo_altar'), solved=False, nbt={'id': c('echo_altar')})
+    rx, rz = 7, 13
+    reliquary(t, rx, 1, rz, 'celestial:chests/echo_sanctum')
+    for x, y, z in ((rx - 1, 1, rz), (rx + 1, 1, rz), (rx, 1, rz - 1), (rx, 2, rz)):
+        t.set(x, y, z, c('sealed_door'))
+    for x, z in ((1, 1), (13, 1), (1, 13), (13, 13)):  # колонны
+        t.fill(x, 1, z, x, 5, z, c('abyss_stone'))
+    t.save('echo_sanctum/main')
+    write_json(os.path.join(DATA, 'worldgen/template_pool/echo_sanctum/main.json'), {'fallback': 'minecraft:empty', 'elements': [
+        {'weight': 1, 'element': {'element_type': 'minecraft:single_pool_element', 'location': c('echo_sanctum/main'),
+                                  'processors': 'minecraft:empty', 'projection': 'rigid'}}]})
+    write_json(os.path.join(DATA, 'worldgen/structure/echo_sanctum.json'), {
+        'type': c('cave_floor'), 'biomes': '#' + c('has_structure/echo_sanctum'), 'spawn_overrides': {}, 'step': 'surface_structures',
+        'terrain_adaptation': 'beard_box', 'start_pool': c('echo_sanctum/main'), 'min_y': 30, 'max_y': 110, 'floor_offset': -1,
+        'clearance': 9, 'max_distance_from_center': 80, 'footprint': 15, 'max_step': 5})
+    write_json(os.path.join(DATA, 'tags/worldgen/biome/has_structure/echo_sanctum.json'),
+               {'values': [c(b) for b in ('dark_wastes', 'dark_lakes', 'crystal_hollows')]})
+    write_json(os.path.join(DATA, 'worldgen/structure_set/echo_sanctum.json'), {
+        'placement': {'type': 'minecraft:random_spread', 'salt': 7300303, 'separation': 9, 'spacing': 26},
+        'structures': [{'structure': c('echo_sanctum'), 'weight': 1}]})
+    append_tag('worldgen/structure', 'celestial:codex_places', [c('echo_sanctum')])
+    write_json(os.path.join(DATA, 'loot_table/chests/echo_sanctum.json'), {
+        'type': 'minecraft:chest', 'random_sequence': c('chests/echo_sanctum'), 'pools': [
+            {'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': c('abyssal_ingot'),
+                                      'functions': [{'function': 'minecraft:set_count', 'count': {'type': 'minecraft:uniform', 'min': 1, 'max': 2}}]}]},
+            {'rolls': {'type': 'minecraft:uniform', 'min': 2, 'max': 4}, 'entries': [
+                {'type': 'minecraft:item', 'name': c('starlight_flask'), 'weight': 4},
+                {'type': 'minecraft:item', 'name': c('shadow_essence'), 'weight': 4,
+                 'functions': [{'function': 'minecraft:set_count', 'count': {'type': 'minecraft:uniform', 'min': 2, 'max': 5}}]},
+                {'type': 'minecraft:item', 'name': c('star_fragment'), 'weight': 3},
+                {'type': 'minecraft:item', 'name': 'minecraft:echo_shard', 'weight': 2}]}]})
+
+
+def echo_order(X, Y0, Z):
+    """Копия EchoAltarBlockEntity: ядро и порядок ударов (от дальнего к ближнему) для неповёрнутого шаблона."""
+    ax, ay, az = X + ECHO_ALTAR[0], Y0 + ECHO_ALTAR[1], Z + ECHO_ALTAR[2]
+    stones = [(X + x, Y0 + y, Z + z) for x, y, z in ECHO_STONES]
+    # порядок сканирования в Java: betweenClosed — x быстрее всего, потом y, потом z
+    stones.sort(key=lambda p: (p[2], p[1], p[0]))
+    mnx, mxx = min(p[0] for p in stones), max(p[0] for p in stones)
+    mny = min(p[1] for p in stones)
+    mnz, mxz = min(p[2] for p in stones), max(p[2] for p in stones)
+    seed = as_long(ax, ay, az) ^ 0x4543484F
+    if seed >= 1 << 63:
+        seed -= 1 << 64
+    r = JavaRandom(seed)
+
+    def next_double():
+        # как BitRandomSource.nextDouble: long × float-константа 1.110223E-16F — умножение во float, не в double
+        import numpy as np
+        combined = (r.next(26) << 27) + r.next(27)
+        return float(np.float32(combined) * np.float32(1.110223e-16))
+
+    core = None
+    for _ in range(64):
+        core = (mnx + next_double() * (mxx - mnx + 1), mny + 0.5, mnz + next_double() * (mxz - mnz + 1))
+        d = sorted(math.dist((p[0] + 0.5, p[1] + 0.5, p[2] + 0.5), core) for p in stones)
+        if all(d[i] - d[i - 1] >= 1.5 for i in range(1, len(d))):
+            break
+    return sorted(stones, key=lambda p: -math.dist((p[0] + 0.5, p[1] + 0.5, p[2] + 0.5), core))
+
+
+def echo_scenario():
+    import os
+    X, Y0, Z = 12000, 70, 12000
+    order = echo_order(X, Y0, Z)
+    y = Y0 + 1
+    a = order[0]
+    out = ['# QA: Эхо во тьме (генерирует tools/gen_puzzles_c.py; ядро и порядок — копия Java-ГСЧ)',
+           '/gamemode creative', '/effect clear @s', '/gamerule spawn_monsters false',
+           f'/execute in celestial:abyss run tp @s {X + 7} {Y0 + 20} {Z + 7}', 'fly', 'wait 100',
+           f'/execute in celestial:abyss run fill {X - 2} {Y0} {Z - 4} {X + 16} {Y0 + 9} {Z + 16} minecraft:air',
+           f'/execute in celestial:abyss run fill {X - 2} {Y0 - 1} {Z - 4} {X + 16} {Y0 - 1} {Z + 16} celestial:abyss_stone',
+           f'/execute in celestial:abyss run place template celestial:echo_sanctum/main {X} {Y0} {Z}', 'wait 40',
+           '/kill @e[type=!minecraft:player,distance=..40]',
+           '/gamemode survival', '/clear @s', '/effect give @s minecraft:resistance 900 4 true', '/effect give @s minecraft:night_vision 900 0 true',
+           '# M на свету камень молчит: факел рядом — удар не засчитывается',
+           '/say TEST M lit_stone_muted expect=pass',
+           f'/execute in celestial:abyss run setblock {a[0]} {a[1] + 1} {a[2]} minecraft:torch',
+           f'/tp @s {a[0] + 0.5} {y} {a[2] + 2.5} 180 40', 'wait 10', 'hold attack 3', 'wait 10',
+           f'/execute in celestial:abyss if block {a[0]} {a[1]} {a[2]} celestial:echo_stone[struck=false]',
+           f'/execute in celestial:abyss run setblock {a[0]} {a[1] + 1} {a[2]} minecraft:air', 'wait 20',
+           '# B неверный порядок (сначала ближний): блокировка, ничего не засчитано',
+           '/say TEST B wrong_order expect=pass']
+    n = order[-1]
+    out += [f'/tp @s {n[0] + 0.5} {y} {n[2] + 2.5} 180 40', 'wait 5', 'hold attack 3', 'wait 10',
+            f'/execute in celestial:abyss if block {n[0]} {n[1]} {n[2]} celestial:echo_stone[struck=false]',
+            '# L прислушаться ко всем (вспышки эха — в кадре)']
+    for s in order:
+        out += [f'/tp @s {s[0] + 0.5} {y} {s[2] + 2.5} facing {s[0] + 0.5} {s[1] + 0.5} {s[2] + 0.5}', 'wait 4', f'use {s[0]} {s[1]} {s[2]} up', 'wait 40']
+    out += ['togglehud', 'shot echo_listen', 'togglehud', 'wait 340', '/say TEST S solve expect=pass,pass(items)']
+    for s in order:
+        out += [f'/tp @s {s[0] + 0.5} {y} {s[2] + 2.5} 180 40', 'wait 5', 'hold attack 3', 'wait 10']
+    ax, ay, az = X + ECHO_ALTAR[0], Y0 + ECHO_ALTAR[1], Z + ECHO_ALTAR[2]
+    out += [f'/execute in celestial:abyss if block {ax} {ay} {az} celestial:echo_altar[solved=true]',
+            f'/tp @s {X + 7.5} {y} {Z + 10.5} facing {X + 7.5} {y + 0.5} {Z + 13.5}', 'wait 5', f'use {X + 7} {y} {Z + 13} north', 'wait 10',
+            '/execute if items entity @s container.* *', '/gamemode creative', 'quit']
+    with open(os.path.join(os.path.dirname(__file__), 'scenarios', 'puzzle_echo.txt'), 'w', encoding='utf-8') as f:
+        f.write('\n'.join(out) + '\n')
+    return order
+
+
 def lang():
     names = {
         'block.celestial.star_disc': ('Звёздный диск', 'Star Disc'),
@@ -264,6 +417,21 @@ def lang():
         'structure.celestial.memory_shrine': ('Святилище памяти', 'Shrine of Memory'),
         'codex.celestial.place.memory_shrine': ('островок с плитами над ямой: алтарь показывает путь, пройди его по порядку.',
                                                 'an islet of plates over a pit: the altar shows a path, walk it in order.'),
+        'block.celestial.echo_stone': ('Камень-резонатор', 'Echo Stone'),
+        'block.celestial.echo_stone.lore1': ('ПКМ — прислушаться, ЛКМ — ударить. На свету молчит.', 'Use to listen, attack to strike. Silent in the light.'),
+        'block.celestial.echo_altar': ('Алтарь эха', 'Echo Altar'),
+        'block.celestial.echo_altar.lore1': ('Где-то во тьме зала спрятано ядро.', 'A core hides somewhere in the dark of the hall.'),
+        'puzzle.celestial.echo.rules': ('Прислушайся к камням (ПКМ): чем дальше ядро, тем позже эхо. Бей (ЛКМ) от дальнего к ближнему — и только во тьме.',
+                                        'Listen to the stones (use): the farther the core, the later the echo. Strike (attack) from farthest to nearest — only in the dark.'),
+        'puzzle.celestial.echo.muted': ('На свету камень молчит.', 'In the light the stone is silent.'),
+        'puzzle.celestial.echo.wrong': ('Эхо рассыпалось.', 'The echo shatters.'),
+        'puzzle.celestial.echo.solved': ('Тьма отозвалась — ядро найдено.', 'The dark has answered — the core is found.'),
+        'structure.celestial.echo_sanctum': ('Святилище эха', 'Echo Sanctum'),
+        'codex.celestial.place.echo_sanctum': ('тёмный зал на дне Бездны: четыре камня и скрытое ядро. Свет здесь — враг.',
+                                               'a dark hall on the Abyss floor: four stones and a hidden core. Here light is the enemy.'),
+        'codex.celestial.puzzle.echo': ('Эхо во тьме', 'Echo in the Dark'),
+        'codex.celestial.puzzle.echo.hint': ('Святилище эха в Бездне: слушай задержку эха и бей камни от дальнего к ближнему без света.',
+                                             'an Echo Sanctum in the Abyss: listen to the echo delay and strike from farthest to nearest without light.'),
         'codex.celestial.puzzle.memory': ('Плиты памяти', 'Memory Plates'),
         'codex.celestial.puzzle.memory.hint': ('Святилище памяти в Раю: запомни вспышки и пройди путь ногами — не верхом и не в полёте.',
                                                'a Shrine of Memory in Heaven: remember the flashes and walk the path on foot — no riding or flying.'),
@@ -423,6 +591,9 @@ def main():
     lang()
     print('маршрут тестового святилища:', memory_route(26000, 150, 26000))
     memory_scenario()
+    echo_textures()
+    echo_sanctum()
+    print('порядок эха:', echo_scenario())
     print('комбинация тестового замка:', scenario())
     print('ok: головоломки C (звёздный замок)')
 

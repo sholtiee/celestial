@@ -1,0 +1,79 @@
+# QA: Эхо во тьме (генерирует tools/gen_puzzles_c.py; ядро и порядок — копия Java-ГСЧ)
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/execute in celestial:abyss run tp @s 12007 90 12007
+fly
+wait 100
+/execute in celestial:abyss run fill 11998 70 11996 12016 79 12016 minecraft:air
+/execute in celestial:abyss run fill 11998 69 11996 12016 69 12016 celestial:abyss_stone
+/execute in celestial:abyss run place template celestial:echo_sanctum/main 12000 70 12000
+wait 40
+/kill @e[type=!minecraft:player,distance=..40]
+/gamemode survival
+/clear @s
+/effect give @s minecraft:resistance 900 4 true
+/effect give @s minecraft:night_vision 900 0 true
+# M на свету камень молчит: факел рядом — удар не засчитывается
+/say TEST M lit_stone_muted expect=pass
+/execute in celestial:abyss run setblock 12011 72 12004 minecraft:torch
+/tp @s 12011.5 71 12006.5 180 40
+wait 10
+hold attack 3
+wait 10
+/execute in celestial:abyss if block 12011 71 12004 celestial:echo_stone[struck=false]
+/execute in celestial:abyss run setblock 12011 72 12004 minecraft:air
+wait 20
+# B неверный порядок (сначала ближний): блокировка, ничего не засчитано
+/say TEST B wrong_order expect=pass
+/tp @s 12004.5 71 12013.5 180 40
+wait 5
+hold attack 3
+wait 10
+/execute in celestial:abyss if block 12004 71 12011 celestial:echo_stone[struck=false]
+# L прислушаться ко всем (вспышки эха — в кадре)
+/tp @s 12011.5 71 12006.5 facing 12011.5 71.5 12004.5
+wait 4
+use 12011 71 12004 up
+wait 40
+/tp @s 12003.5 71 12005.5 facing 12003.5 71.5 12003.5
+wait 4
+use 12003 71 12003 up
+wait 40
+/tp @s 12010.5 71 12012.5 facing 12010.5 71.5 12010.5
+wait 4
+use 12010 71 12010 up
+wait 40
+/tp @s 12004.5 71 12013.5 facing 12004.5 71.5 12011.5
+wait 4
+use 12004 71 12011 up
+wait 40
+togglehud
+shot echo_listen
+togglehud
+wait 340
+/say TEST S solve expect=pass,pass(items)
+/tp @s 12011.5 71 12006.5 180 40
+wait 5
+hold attack 3
+wait 10
+/tp @s 12003.5 71 12005.5 180 40
+wait 5
+hold attack 3
+wait 10
+/tp @s 12010.5 71 12012.5 180 40
+wait 5
+hold attack 3
+wait 10
+/tp @s 12004.5 71 12013.5 180 40
+wait 5
+hold attack 3
+wait 10
+/execute in celestial:abyss if block 12007 71 12002 celestial:echo_altar[solved=true]
+/tp @s 12007.5 71 12010.5 facing 12007.5 71.5 12013.5
+wait 5
+use 12007 71 12013 north
+wait 10
+/execute if items entity @s container.* *
+/gamemode creative
+quit
