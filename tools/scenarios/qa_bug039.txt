@@ -1,0 +1,42 @@
+# BUG-039: повтор точек 1 и 7 облёта Неба (бежевая «спираль» у камеры)
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+fly
+/effect give @s minecraft:night_vision 99999 0 true
+togglehud
+/execute in celestial:heaven run tp @s 3600 200 900 0 35
+wait 220
+/tp @s ~ ~ ~ 0 35
+wait 25
+shot heaven1_s
+/tp @s ~ ~ ~ 90 35
+wait 25
+shot heaven1_w
+/tp @s ~ ~ ~ 180 35
+wait 25
+shot heaven1_n
+/tp @s ~ ~ ~ 270 35
+wait 25
+shot heaven1_e
+aim 90 35
+pos
+/execute in celestial:heaven run tp @s -9000 200 7000 0 35
+wait 220
+/tp @s ~ ~ ~ 0 35
+wait 25
+shot heaven7_s
+/tp @s ~ ~ ~ 90 35
+wait 25
+shot heaven7_w
+/tp @s ~ ~ ~ 180 35
+wait 25
+shot heaven7_n
+/tp @s ~ ~ ~ 270 35
+wait 25
+shot heaven7_e
+aim 90 35
+pos
+togglehud
+quit

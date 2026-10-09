@@ -1,0 +1,57 @@
+# BUG-063 разбор: что за лента над двором цитадели — блок, сущность или артефакт? (aim пишет блок под прицелом)
+/gamemode spectator
+/effect clear @s
+/effect give @s minecraft:night_vision 9999 0 true
+/gamerule advance_time false
+/time set 6000
+/weather clear
+/execute in celestial:frozen_halls run tp @s 0 160 0
+wait 100
+goto celestial:frozen_citadel 0 30 75 180 30
+wait 200
+goto celestial:frozen_citadel 0 -20 52 180 5
+pos
+wait 400
+togglehud
+shot b63_gate_late
+togglehud
+/say ENTS @e[type=!minecraft:player,distance=..80]
+aim 160 -6
+aim 160 -12
+aim 160 -18
+aim 160 -24
+aim 160 -30
+aim 165 -6
+aim 165 -12
+aim 165 -18
+aim 165 -24
+aim 165 -30
+aim 170 -6
+aim 170 -12
+aim 170 -18
+aim 170 -24
+aim 170 -30
+aim 175 -6
+aim 175 -12
+aim 175 -18
+aim 175 -24
+aim 175 -30
+aim 180 -6
+aim 180 -12
+aim 180 -18
+aim 180 -24
+aim 180 -30
+aim 180 5
+/tp @s -2017 99 -1117 180 5
+wait 40
+aim 180 5
+togglehud
+shot b63_gate_air
+togglehud
+/kill @e[type=minecraft:block_display]
+/kill @e[type=minecraft:falling_block]
+wait 20
+togglehud
+shot b63_gate_killed
+togglehud
+quit

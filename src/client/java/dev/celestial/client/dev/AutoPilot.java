@@ -146,6 +146,20 @@ public final class AutoPilot {
 			Celestial.LOGGER.info("Автопилот: позиция {} {} {} {} блок-под-ногами={}", mc.player.level().dimension().identifier(),
 				(int) Math.floor(mc.player.getX()), String.format(java.util.Locale.ROOT, "%.2f", mc.player.getY()), (int) Math.floor(mc.player.getZ()),
 				mc.player.level().getBlockState(mc.player.blockPosition()).getBlock());
+		} else if (step.startsWith("aim")) {
+			// aim [yaw pitch] — повернуть взгляд (если углы даны) и записать в лог, какой блок под прицелом на дальности до 256
+			String[] a = step.substring(3).strip().split("\\s+");
+			if (a.length == 2) {
+				mc.player.setYRot(Float.parseFloat(a[0]));
+				mc.player.setXRot(Float.parseFloat(a[1]));
+			}
+			net.minecraft.world.phys.HitResult hit = mc.player.pick(256.0, 1.0F, false);
+			if (hit instanceof BlockHitResult bh && hit.getType() != net.minecraft.world.phys.HitResult.Type.MISS) {
+				Celestial.LOGGER.info("Автопилот: прицел yaw={} pitch={} блок {} {} {} = {}", mc.player.getYRot(), mc.player.getXRot(),
+					bh.getBlockPos().getX(), bh.getBlockPos().getY(), bh.getBlockPos().getZ(), mc.player.level().getBlockState(bh.getBlockPos()));
+			} else {
+				Celestial.LOGGER.info("Автопилот: прицел yaw={} pitch={} — пусто", mc.player.getYRot(), mc.player.getXRot());
+			}
 		} else if (step.equals("useitem")) {
 			mc.gameMode.useItem(mc.player, InteractionHand.MAIN_HAND);
 			waitTicks = 5;
