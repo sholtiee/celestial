@@ -1,0 +1,22 @@
+# Приёмка K1: модель голубя вблизи (чёрная плоскость на кадре dove_guide — голубь или облако?)
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 28000 160 27994 0 10
+fly
+wait 60
+/fill 27990 159 27990 28010 159 28010 celestial:skystone_bricks
+/fill 27990 160 27990 28010 172 28010 minecraft:air
+/kill @e[type=!minecraft:player,distance=..40]
+/summon celestial:dove 28000 162 27998 {NoAI:1b,Rotation:[90f,0f]}
+/tp @s 27997 162.5 27998 -90 5
+togglehud
+wait 20
+shot dove_side
+/tp @s 28000.5 165 28000.5 180 50
+wait 10
+shot dove_top
+togglehud
+/kill @e[type=celestial:dove]
+quit

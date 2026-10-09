@@ -34,30 +34,30 @@ togglehud
 /effect clear @s celestial:exile
 /scoreboard objectives add hp dummy
 /scoreboard objectives add maxhp dummy
-/tp @s 32017.5 137 32020.5
+/tp @s 32014.5 142 32027.5
 /damage @s 12 minecraft:magic
 wait 5
-use 32017 138 32020 down
+use 32014 143 32027 down
 wait 10
 /say TEST F1 life_fruit_heals_and_wilts expect=pass,pass
 /execute store result score @s hp run data get entity @s Health
 /execute store result score @s maxhp run attribute @s minecraft:max_health get
 /execute if score @s hp = @s maxhp
-/execute if block 32017 138 32020 celestial:life_fruit[ripe=false]
-/tp @s 32007.5 134 32034.5
+/execute if block 32014 143 32027 celestial:life_fruit[ripe=false]
+/tp @s 32005.5 137 32030.5
 wait 5
-use 32007 135 32034 down
+use 32005 138 32030 down
 wait 10
 /say TEST F2 knowledge_gives_exile_and_xp expect=pass,pass,pass
 /execute if entity @s[nbt={active_effects:[{id:"celestial:exile"}]}]
 /execute if entity @s[level=10..]
-/execute if block 32007 135 32034 celestial:knowledge_fruit[ripe=false]
-/tp @s 32020.5 138 32026.5
+/execute if block 32005 138 32030 celestial:knowledge_fruit[ripe=false]
+/tp @s 32014.5 147 32016.5
 wait 5
-use 32020 139 32026 down
+use 32014 148 32016 down
 wait 10
 /say TEST F3 exiled_cannot_eat_life expect=pass
-/execute if block 32020 139 32026 celestial:life_fruit[ripe=true]
+/execute if block 32014 148 32016 celestial:life_fruit[ripe=true]
 /summon celestial:archangel ~ ~ ~2 {Variant:0,NoAI:1b}
 wait 5
 clearchat
@@ -73,9 +73,9 @@ wait 10
 /execute unless entity @s[nbt={active_effects:[{id:"celestial:exile"}]}]
 /clear @s
 /give @s celestial:fig_leaf
-/tp @s 32008.5 133 32034.5
+/tp @s 32008.5 136 32032.5
 wait 5
-use 32008 134 32034 down
+use 32008 137 32032 down
 wait 10
 /say TEST F5 leaf_in_inventory_takes_exile expect=pass,pass
 /execute unless entity @s[nbt={active_effects:[{id:"celestial:exile"}]}]

@@ -550,22 +550,33 @@ def trial_tower():
         # свет
         for x, z in ((5, 5), (TOWER - 6, 5), (5, TOWER - 6), (TOWER - 6, TOWER - 6)):
             t.set(x, y0 + FLOOR_H - 1, z, 'minecraft:lantern', hanging=True, waterlogged=False)
-        # лестница в северо-восточном углу на следующий этаж, проём закрыт печатью
-        sx = TOWER - 4
-        for k in range(FLOOR_H):
-            t.set(sx, y0 + 1 + k, 3 + k % 3, 'minecraft:air')
-        for k in range(FLOOR_H - 1):
-            t.set(sx, y0 + 1 + k, 3 + (k % 3) if k < 3 else 5 - (k % 3), C('skystone_brick_stairs'), facing='south', half='bottom', shape='straight', waterlogged=False)
-        if f < floors - 1:
-            t.fill(sx - 1, y0 + FLOOR_H, 2, sx + 1, y0 + FLOOR_H, 6, C('sealed_door'))
         trial = f'heaven_{f + 1}'
         t.set(c0, y0 + 1, c0, C('trial_crystal'), nbt={'id': C('trial_crystal'), 'Trial': trial}, state='idle')
         decorate_floor(t, f + 1, y0, rng)
-    # печати над лестницами ставим после всех этажей: пол следующего этажа (и пропасти 2-го и 5-го) лежит на том же уровне и стирал их,
-    # из-за чего лестницы вели в потолок или были открыты с самого начала
-    sx = TOWER - 4
-    for f in range(floors - 1):
-        t.fill(sx - 1, base + f * FLOOR_H + FLOOR_H, 2, sx + 1, base + f * FLOOR_H + FLOOR_H, 6, C('sealed_door'))
+    # Лестницы ставим после всех этажей: пол следующего этажа и пропасти 2-го и 5-го лежат на том же уровне и стирали их (BUG-064).
+    # Прямой марш из 7 ступеней вдоль восточной стены (x = TOWER-3), подъём на север: вход с пола этажа на z=10, верхняя ступень встаёт
+    # в слой пола следующего этажа на z=3, выход на z=2. Проём над головой поднимающегося (z=4..6: при шаге с 4-й ступени на 5-ю голова
+    # ещё над 4-й) закрыт печатью — она растворяется
+    # после победы на этаже. Последний марш ведёт на крышу с сундуком наград.
+    sx = TOWER - 3
+    for f in range(floors):
+        y0 = base + f * FLOOR_H
+        for k in range(FLOOR_H):
+            z = 9 - k
+            t.set(sx, y0 + 1 + k, z, C('skystone_brick_stairs'), facing='north', half='bottom', shape='straight', waterlogged=False)
+            for h in (1, 2):
+                t.set(sx, y0 + 1 + k + h, z, 'minecraft:air')
+        t.fill(sx, y0 + FLOOR_H, 4, sx, y0 + FLOOR_H, 6, C('sealed_door'))
+    # Этажи-пропасти: кольцо пола вокруг пропасти позволяло обойти облака пешком до финиша. Оставляем только дорожку вдоль восточной
+    # стены (выход с нижней лестницы → вход на верхнюю) и мост к острову с кристаллом; финиш с них не достать.
+    for n in (2, 5):
+        y0 = base + (n - 1) * FLOOR_H
+        t.fill(2, y0, 2, 2, y0, TOWER - 3, 'minecraft:air')
+        t.fill(3, y0, 2, TOWER - 4, y0, 2, 'minecraft:air')
+        t.fill(2, y0, TOWER - 3, TOWER - 3, y0, TOWER - 3, 'minecraft:air')
+        t.fill(sx, y0, 12, sx, y0, TOWER - 3, 'minecraft:air')
+        t.fill(sx - 1, y0, 2, sx - 1, y0, c0 + 1, BRICKS)  # дорожка в два блока: открытый проём лестницы (x=sx) её не перерезает
+        t.fill(c0 + 2, y0, c0 + 1, sx - 1, y0, c0 + 1, BRICKS)  # мост от дорожки к острову (z = c0+1 — облаков там нет)
     # вход на первом этаже и крыша с сундуком наград
     t.fill(c0 - 1, base + 1, 1, c0 + 1, base + 3, 1, 'minecraft:air')
     roof = base + floors * FLOOR_H

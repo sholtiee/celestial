@@ -26,7 +26,7 @@ wait 60
 /kill @e[type=celestial:fallen_guardian]
 /kill @e[type=celestial:storm_spirit]
 wait 80
-/execute in celestial:heaven if block 16 112 4 celestial:sealed_door run say ПЕЧАТЬ_ЕЩЁ_НА_МЕСТЕ
+/execute in celestial:heaven if block 18 112 4 celestial:sealed_door run say ПЕЧАТЬ_ЕЩЁ_НА_МЕСТЕ
 /celestial status
 /gamemode creative
 /execute in celestial:heaven run tp @s 10 120 3 0 45

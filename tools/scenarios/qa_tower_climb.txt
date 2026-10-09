@@ -1,4 +1,5 @@
-# QA: можно ли подняться по лестнице Башни с 3-го этажа на 4-й, когда печать растворена (X=27500, Y0=150)
+# QA BUG-064: подъём по лестницам Башни (X=27500, Y0=150, base=5, этаж 7 блоков). Лестница: x=18 (27518), ступени z=9..3, подъём на север,
+# печать на проёме (x=18, z=4..6, слой пола следующего этажа). Этажи-пропасти 2 и 5: только дорожка у восточной стены и мост к острову.
 /gamemode creative
 /effect clear @s
 /gamerule advance_time false
@@ -12,26 +13,47 @@ wait 80
 /place template celestial:trial_tower/main 27500 150 27500
 wait 80
 /kill @e[type=!minecraft:player,distance=..60]
-# 3-й этаж: пол y0=19 -> y=169, стоять на y=170. Лестница x=17, z=3..5. Печать (x16..18,z2..6,y=176) растворяем вручную.
+# C0 печать над лестницей 3-го этажа на месте (пол 4-го этажа y=176)
 /say TEST C0 seal_present expect=pass
-/execute if block 27517 176 27504 celestial:sealed_door
-/fill 27516 176 27502 27518 176 27506 minecraft:air
-/tp @s 27517.5 170 27502.5 0 0
+/execute if block 27518 176 27504 celestial:sealed_door
+# C1 3-й → 4-й этаж (пол 3-го y=169, стоять на 170), печать снимаем вручную
+/fill 27518 176 27504 27518 176 27506 minecraft:air
+/tp @s 27518.5 170 27511.5 180 0
 /gamemode survival
 /effect give @s minecraft:resistance 600 4 true
 wait 10
-hold forward 200
-hold jump 200
-wait 220
+hold forward 100
+wait 110
 pos
 /say TEST C1 reached_floor4 expect=pass
 /execute if entity @s[y=176,dy=6]
 shot tower_climb
+# C2 1-й → 2-й этаж (пропасть): выходим на дорожку у восточной стены, а не в воздух
 /gamemode creative
-/tp @s 27513.5 172 27504.5 -90 10
+/fill 27518 162 27504 27518 162 27506 minecraft:air
+/tp @s 27518.5 156 27511.5 180 0
+/gamemode survival
+wait 10
+hold forward 100
+wait 110
+pos
+/say TEST C2 reached_floor2_strip expect=pass
+/execute if entity @s[y=162,dy=3]
+# C5 дорожка в два блока: по x=17 можно пройти мимо открытого проёма
+/say TEST C5 strip_two_wide expect=pass
+/execute if block 27517 162 27505 celestial:skystone_bricks
+# C3 обходного кольца нет (западная сторона пропасти 2-го этажа — воздух), мост к острову есть
+/say TEST C3 no_ring expect=pass
+/execute if block 27502 162 27510 minecraft:air
+/say TEST C4 bridge expect=pass
+/execute if block 27515 162 27511 celestial:skystone_bricks
+/gamemode creative
+/tp @s 27512.5 172 27506.5 -90 15
 wait 20
 togglehud
 shot tower_stairs_side
+/tp @s 27510.5 168 27510.5 0 90
+wait 10
+shot tower_pit_floor2
 togglehud
-/gamemode creative
 quit

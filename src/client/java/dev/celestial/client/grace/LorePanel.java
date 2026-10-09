@@ -239,8 +239,8 @@ public final class LorePanel {
 		}
 		lines.add(Component.literal(" "));
 		addKind(lines, s.scripture(), "s", p, ChatFormatting.AQUA);
+		addKind(lines, s.tradition(), "t", p, ChatFormatting.YELLOW);  // сначала Писание и предание, потом наш вымысел (LORE §1.3)
 		addKind(lines, s.apocrypha(), "a", p, ChatFormatting.LIGHT_PURPLE);
-		addKind(lines, s.tradition(), "t", p, ChatFormatting.YELLOW);
 		Button back = Button.builder(Component.translatable("lore.celestial.back"), btn -> {
 			sheet = null;
 			rebuild.run();

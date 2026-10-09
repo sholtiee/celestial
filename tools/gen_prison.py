@@ -149,6 +149,49 @@ def prison():
         t.set(x, 10, z, c('shadow_crystal'), facing='up', waterlogged=False)
     for x, z in ((2, 14), (30, 14), (2, 26), (30, 26)):
         t.set(x, 2, z, c('glowshroom'))
+    # Убранство зала (приёмка K1: был голый куб). Пол — дорожки и круг печати под Нефилимом; колонны толще, с обвитыми цепями;
+    # цепи свисают с потолка и лежат обрывками на полу; кости, черепа, мох; синее пламя душ в нишах стен.
+    rng = __import__('random').Random(6600)
+    for x in range(1, 32):
+        for z in range(8, 32):
+            if (x + z) % 6 == 0 or x in (15, 16, 17):
+                t.set(x, 1, z, S)
+    for x in range(8, 25):
+        for z in range(12, 29):
+            r = ((x - 16) ** 2 + (z - 20) ** 2) ** 0.5
+            if 5.5 <= r <= 6.4:
+                t.set(x, 1, z, c('abyss_stone'))
+            if 6.4 < r <= 7.2:
+                t.set(x, 1, z, B)
+    for i in range(8):  # руны круга — теневые кристаллы в полу по кругу
+        a = i / 8 * 6.2832
+        t.set(round(16 + 6 * __import__('math').cos(a)), 2, round(20 + 6 * __import__('math').sin(a)), c('shadow_crystal'), facing='up', waterlogged=False)
+    for x, z in ((6, 13), (26, 13), (6, 27), (26, 27)):
+        for dx, dz in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            t.fill(x + dx, 2, z + dz, x + dx, 3 + rng.randint(0, 5), z + dz, B)  # обломанная обкладка колонны
+        t.fill(x + 1, 6, z - 1, x + 1, 11, z - 1, MC('chain'), axis='y', waterlogged=False)
+    for _ in range(14):  # цепи с потолка разной длины
+        x, z = rng.randint(3, 29), rng.randint(10, 30)
+        if abs(x - 16) + abs(z - 20) > 4:
+            t.fill(x, 12 - rng.randint(2, 6), z, x, 11, z, MC('chain'), axis='y', waterlogged=False)
+    for _ in range(10):  # обрывки цепей на полу
+        x, z = rng.randint(3, 29), rng.randint(10, 30)
+        if t.get(x, 2, z) in (None, MC('air')):
+            t.set(x, 2, z, MC('chain'), axis=rng.choice(['x', 'z']), waterlogged=False)
+    for _ in range(16):  # кости и мох
+        x, z = rng.randint(2, 30), rng.randint(9, 30)
+        if t.get(x, 2, z) in (None, MC('air')):
+            kind = rng.choice(['bone', 'moss', 'moss', 'skull'])
+            if kind == 'bone':
+                t.set(x, 2, z, MC('bone_block'), axis=rng.choice(['x', 'z']))
+            elif kind == 'skull':
+                t.set(x, 2, z, MC('skeleton_skull'), rotation=rng.randint(0, 15))
+            else:
+                t.set(x, 1, z, c('gloom_moss'))  # мох вместо плиты пола
+    for z in (12, 18, 24, 30):  # синее пламя душ в нишах западной и восточной стен
+        for x in (1, 31):
+            t.set(x, 4, z, B)  # консоль в стене
+            t.set(x, 5, z, MC('soul_lantern'), hanging=False, waterlogged=False)
     t.entity(16, 2, 20, {'id': c('nephilim'), 'PersistenceRequired': True})
     # склад у входа: праща и камни (на случай, если игрок пришёл без них)
     chest(t, 12, 2, 31, 'celestial:chests/watchers_prison', facing='north')

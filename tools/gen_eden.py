@@ -104,10 +104,21 @@ def blocks():
     save_png(wafer, 'item/manna')
     model('item/manna', {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('item/manna')}})
     item_def('manna', c('item/manna'))
-    wall = T.bricks('eden_wall', [rgb(h) for h in ('#d8c68a', '#e4d49c', '#cdb877')], '#8a6a24')
-    d = ImageDraw.Draw(wall)
-    for x, y in ((3, 3), (11, 3), (3, 11), (11, 11)):
-        d.rectangle([x, y, x + 1, y + 1], fill=rgb('#fff6d6'))
+    # стена Эдема: крупные плиты белого мрамора с золотыми прожилками и золотым швом (раньше — песчаник)
+    r = T.rng_for('eden_wall_marble')
+    wall = T.noisy('eden_wall', [rgb(h) for h in ('#ece6d8', '#f4efe4', '#e2dccb', '#faf6ee')], cell=2, grain=0.3).convert('RGBA')
+    px = wall.load()
+    for y in range(16):
+        for x in range(16):
+            if y in (0, 8) or (x == 0 and y < 8) or (x == 8 and y >= 8):
+                px[x, y] = (*rgb('#c9a24a'), 255)  # золотой шов плит
+    for start in ((2, 2), (11, 10), (4, 12)):  # прожилки: короткие косые нити
+        x, y = start
+        for _ in range(6):
+            if 0 < x < 16 and 0 < y < 16 and y not in (0, 8):
+                px[x, y] = (*rgb(r.choice(['#d8b864', '#c9a24a', '#e8cf8a'])), 255)
+            x += r.choice([1, 1, 0])
+            y += r.choice([1, 0, -1])
     save_png(wall, 'block/eden_wall')
     model('block/eden_wall', {'parent': 'minecraft:block/cube_all', 'textures': {'all': c('block/eden_wall')}})
     blockstate('eden_wall', {'variants': {'': {'model': c('block/eden_wall')}}})
@@ -149,52 +160,120 @@ def garden():
         for z in range(4, 13):
             if math.hypot(x - 30, (z - 8) * 0.8) <= 3.6:
                 t.set(x, TOP, z, 'minecraft:water', level=0)
-    # Древо Жизни: толстый ствол, ветви, золотая крона, плоды
-    for y in range(TOP + 1, TOP + 13):
-        for dx in (-1, 0, 1):
-            for dz in (-1, 0, 1):
-                if abs(dx) + abs(dz) <= 1 or y < TOP + 4:
-                    t.set(CX + dx, y, CZ + dz, log, axis='y')
-    cy = TOP + 15
-    for x in range(CX - 10, CX + 11):
-        for y in range(cy - 6, cy + 6):
-            for z in range(CZ - 10, CZ + 11):
-                d = math.sqrt(((x - CX) / 9.5) ** 2 + ((y - cy) / 5.2) ** 2 + ((z - CZ) / 9.5) ** 2)
-                if d <= 1.0 and rng.random() > 0.08:
-                    t.set(x, y, z, leaves, distance=1, persistent=True, waterlogged=False)
-    for y in range(TOP + 13, cy + 1):
-        t.set(CX, y, CZ, log, axis='y')
+    # Древо Жизни: могучий ствол из коры с корнями-контрфорсами, ветви во все стороны, многоярусная золото-белая крона
+    # со светом внутри и светящимися лианами, плоды висят под кроной. Правка качества (приёмка K1): раньше — столб и шар.
+    wood, leaves, blossom = c('skywood_wood'), c('skywood_leaves'), c('cloud_willow_leaves')
+
+    def line(p0, p1, block, width=0):
+        n = int(max(abs(p1[i] - p0[i]) for i in range(3)) * 2) + 1
+        for i in range(n + 1):
+            q = [p0[j] + (p1[j] - p0[j]) * i / n for j in range(3)]
+            for dx in range(-width, width + 1):
+                for dz in range(-width, width + 1):
+                    if abs(dx) + abs(dz) <= width:
+                        t.set(round(q[0]) + dx, round(q[1]), round(q[2]) + dz, block, axis='y')
+
+    def cluster(x0, y0, z0, rx, ry, mix_rng):
+        for x in range(int(x0 - rx) - 1, int(x0 + rx) + 2):
+            for y in range(int(y0 - ry) - 1, int(y0 + ry) + 2):
+                for z in range(int(z0 - rx) - 1, int(z0 + rx) + 2):
+                    d = ((x - x0) / rx) ** 2 + ((y - y0) / ry) ** 2 + ((z - z0) / rx) ** 2
+                    if d <= 1.0 and mix_rng.random() > 0.06 * (1 + d * 2) and t.get(x, y, z) in (None, 'minecraft:air'):
+                        t.set(x, y, z, blossom if mix_rng.random() < 0.18 else leaves)
+
+    trunk_top = TOP + 13
+    for y in range(TOP + 1, trunk_top + 1):
+        k = (y - TOP) / (trunk_top - TOP)
+        rad = 2.6 - 1.4 * k
+        ox, oz = math.sin(y * 0.35) * 0.6, math.cos(y * 0.3) * 0.6  # лёгкий изгиб ствола
+        for dx in range(-3, 4):
+            for dz in range(-3, 4):
+                if math.hypot(dx - ox, dz - oz) <= rad:
+                    t.set(CX + dx, y, CZ + dz, wood, axis='y')
+    for i in range(7):  # корни-контрфорсы расходятся и уходят в землю
+        ang = i / 7 * 2 * math.pi + rng.uniform(-0.2, 0.2)
+        ln = rng.uniform(4.5, 7.0)
+        line((CX + math.cos(ang) * 1.8, TOP + 3, CZ + math.sin(ang) * 1.8),
+             (CX + math.cos(ang) * ln, TOP, CZ + math.sin(ang) * ln), wood)
+    tips = []
+    for i in range(7):  # ветви
+        ang = i / 7 * 2 * math.pi + rng.uniform(-0.25, 0.25)
+        y_start = TOP + rng.randint(8, 12)
+        ln, rise = rng.uniform(6.5, 9.5), rng.uniform(4, 7)
+        mid = (CX + math.cos(ang) * ln * 0.5, y_start + rise * 0.7, CZ + math.sin(ang) * ln * 0.5)
+        tip = (CX + math.cos(ang) * ln, y_start + rise, CZ + math.sin(ang) * ln)
+        line((CX, y_start, CZ), mid, wood)
+        line(mid, tip, wood)
+        tips.append(tip)
+    line((CX, trunk_top, CZ), (CX, trunk_top + 4, CZ), wood)
+    canopy_rng = random.Random(7701)
+    cluster(CX, trunk_top + 6, CZ, 6.5, 4.2, canopy_rng)
+    for x0, y0, z0 in tips:
+        cluster(x0, y0 + 1, z0, rng.uniform(3.8, 4.8), rng.uniform(2.6, 3.2), canopy_rng)
+    for _ in range(14):  # свет внутри кроны (невидимые источники) — Древо светится ночью
+        x0, y0, z0 = rng.choice(tips + [(CX, trunk_top + 6, CZ)])
+        x, y, z = round(x0 + rng.uniform(-2, 2)), round(y0 + rng.uniform(-1, 1)), round(z0 + rng.uniform(-2, 2))
+        if t.get(x, y, z) in (leaves, blossom):
+            t.set(x, y, z, 'minecraft:light', level=12, waterlogged=False)
+    hang = 0
+    for _ in range(400):  # светящиеся лианы свисают из-под кроны
+        x, z = CX + rng.randint(-11, 11), CZ + rng.randint(-11, 11)
+        for y in range(trunk_top + 12, TOP + 6, -1):
+            if t.get(x, y, z) in (leaves, blossom) and t.get(x, y - 1, z) in (None, 'minecraft:air'):
+                n = rng.randint(1, 4)
+                for j in range(1, n + 1):
+                    if t.get(x, y - j, z) not in (None, 'minecraft:air'):
+                        break
+                    t.set(x, y - j, z, c('lumivine'), tip=(j == n))
+                hang += 1
+                break
+        if hang >= 26:
+            break
     placed = 0
-    for k in range(40):
-        a = rng.random() * 2 * math.pi
-        rr = rng.uniform(2.5, 7.5)
-        x, z = round(CX + math.cos(a) * rr), round(CZ + math.sin(a) * rr)
-        for y in range(cy - 6, cy):
-            if t.get(x, y, z) == leaves and t.get(x, y - 1, z) in (None, 'minecraft:air'):
+    for k in range(200):
+        x0, y0, z0 = rng.choice(tips)
+        x, z = round(x0 + rng.uniform(-3, 3)), round(z0 + rng.uniform(-3, 3))
+        for y in range(round(y0) + 3, round(y0) - 4, -1):
+            if t.get(x, y, z) in (leaves, blossom) and t.get(x, y - 1, z) in (None, 'minecraft:air'):
                 t.set(x, y - 1, z, c('life_fruit'), ripe=True)
                 placed += 1
                 break
         if placed >= 8:
             break
-    # Древо Познания: корявое тёмное дерево в терновнике (юго-запад)
+    # Древо Познания: корявый ствол винтом (будто его обвил змей), голые сучья вниз, тёмная редкая крона; земля под ним голая
     kx, kz = 9, 31
-    dark_log, dark_leaves = 'minecraft:dark_oak_log', 'minecraft:dark_oak_leaves'
-    for y in range(TOP + 1, TOP + 8):
-        t.set(kx, y, kz, dark_log, axis='y')
-        if y > TOP + 3:
-            t.set(kx + (1 if y % 2 else -1), y, kz, dark_log, axis='x')
-    for x in range(kx - 4, kx + 5):
-        for y in range(TOP + 6, TOP + 12):
-            for z in range(kz - 4, kz + 5):
-                d = math.sqrt(((x - kx) / 4) ** 2 + ((y - (TOP + 8.5)) / 2.8) ** 2 + ((z - kz) / 4) ** 2)
-                if d <= 1.0 and rng.random() > 0.2:
-                    t.set(x, y, z, dark_leaves, distance=1, persistent=True, waterlogged=False)
+    dark_wood, dark_leaves = 'minecraft:dark_oak_wood', 'minecraft:dark_oak_leaves'
+    for x in range(kx - 2, kx + 3):
+        for z in range(kz - 2, kz + 3):
+            if math.hypot(x - kx, z - kz) <= 2.3 and t.get(x, TOP, z) == c('golden_grass'):
+                t.set(x, TOP, z, c('heaven_dirt'))
+    for y in range(TOP + 1, TOP + 10):
+        a = (y - TOP) * 0.75
+        ox, oz = round(math.cos(a) * 1.1), round(math.sin(a) * 1.1)
+        t.set(kx + ox, y, kz + oz, dark_wood, axis='y')
+        t.set(kx, y, kz, dark_wood, axis='y')
+    k_tips = []
+    for i in range(5):
+        ang = i / 5 * 2 * math.pi + 0.4
+        start = (kx, TOP + 7 + i % 2, kz)
+        elbow = (kx + math.cos(ang) * 3, TOP + 10, kz + math.sin(ang) * 3)
+        tip = (kx + math.cos(ang) * 5.5, TOP + 8, kz + math.sin(ang) * 5.5)  # сучья клонятся вниз
+        line(start, elbow, dark_wood)
+        line(elbow, tip, dark_wood)
+        k_tips.append(elbow)
+    k_rng = random.Random(7702)
+    for x0, y0, z0 in k_tips:
+        for x in range(round(x0) - 3, round(x0) + 4):
+            for y in range(round(y0) - 1, round(y0) + 3):
+                for z in range(round(z0) - 3, round(z0) + 4):
+                    d = ((x - x0) / 2.8) ** 2 + ((y - y0 - 0.5) / 1.6) ** 2 + ((z - z0) / 2.8) ** 2
+                    if d <= 1.0 and k_rng.random() > 0.35 and t.get(x, y, z) in (None, 'minecraft:air'):
+                        t.set(x, y, z, dark_leaves, distance=1, persistent=True, waterlogged=False)
     placed = 0
-    for k in range(30):
-        a = rng.random() * 2 * math.pi
-        rr = rng.uniform(1.5, 3.2)
-        x, z = round(kx + math.cos(a) * rr), round(kz + math.sin(a) * rr)
-        for y in range(TOP + 6, TOP + 9):
+    for k in range(200):
+        x0, y0, z0 = k_tips[k % len(k_tips)]
+        x, z = round(x0 + rng.uniform(-2, 2)), round(z0 + rng.uniform(-2, 2))
+        for y in range(round(y0) + 2, round(y0) - 3, -1):
             if t.get(x, y, z) == dark_leaves and t.get(x, y - 1, z) in (None, 'minecraft:air'):
                 t.set(x, y - 1, z, c('knowledge_fruit'), ripe=True)
                 placed += 1
@@ -208,7 +287,7 @@ def garden():
     # кусты смоковницы у входа в терновник; цветы и трава
     for x, z in ((14, 30), (13, 35), (6, 24), (17, 26)):
         t.set(x, TOP + 1, z, c('fig_bush'))
-    for _ in range(90):
+    for _ in range(260):
         x, z = rng.randrange(2, SIZE - 2), rng.randrange(2, SIZE - 2)
         if t.get(x, TOP, z) == c('golden_grass') and t.get(x, TOP + 1, z) in (None, 'minecraft:air') and math.hypot(x - kx, z - kz) > 5.5:
             t.set(x, TOP + 1, z, c(rng.choice(['sunbell', 'dawn_poppy', 'starflower', 'golden_tuft', 'golden_tuft'])))
@@ -228,9 +307,29 @@ def garden():
         for y in range(TOP + 1, TOP + 7):
             t.set(28, y, z, c('eden_wall'))
             t.set(40, y, z, c('eden_wall'))
+    for x in range(28, 41):  # зубцы поверху — тоже неразрушимые
+        for z in (14, 28):
+            if x % 2 == 0:
+                t.set(x, TOP + 7, z, c('eden_wall'))
+    for z in range(14, 29):
+        for x in (28, 40):
+            if z % 2 == 0:
+                t.set(x, TOP + 7, z, c('eden_wall'))
+    for x, z in [(x, 13) for x in range(28, 41, 3)] + [(x, 29) for x in range(28, 41, 3)] + \
+                [(27, z) for z in range(14, 29, 3)] + [(41, z) for z in range(14, 29, 3) if not 17 <= z <= 25]:
+        t.fill(x, TOP + 1, z, x, TOP + 6, z, c('radiant_stone'))  # пилястры снаружи стен
+        t.set(x, TOP + 7, z, 'minecraft:lantern', hanging=False, waterlogged=False)
     t.fill(28, TOP + 1, 19, 28, TOP + 4, 23, 'minecraft:air')  # западный вход
     t.fill(40, TOP + 1, 19, 40, TOP + 4, 23, 'minecraft:air')  # восточные врата
     t.fill(40, TOP + 5, 18, 40, TOP + 5, 24, c('radiant_stone'))
+    # Восточные врата — высокая арка: столпы, перемычка, светильники и кристалл над проёмом
+    for z in (17, 18, 24, 25):
+        t.fill(41, TOP + 1, z, 41, TOP + 10, z, c('eden_wall'))
+    t.fill(41, TOP + 10, 17, 41, TOP + 10, 25, c('eden_wall'))
+    t.fill(41, TOP + 9, 19, 41, TOP + 9, 23, c('radiant_stone'))
+    t.set(41, TOP + 11, 21, c('sky_crystal'), facing='up', waterlogged=False)
+    for z in (17, 25):
+        t.set(41, TOP + 11, z, 'minecraft:lantern', hanging=False, waterlogged=False)
     t.set(41, TOP, hz, c('trial_goal'))
     t.set(29, TOP + 1, 16, c('trial_crystal'), nbt={'id': c('trial_crystal'), 'Trial': 'eden_gate'}, state='idle')
     t.entity(hx, TOP + 1, hz, {'id': c('gate_cherub'), 'PersistenceRequired': True})

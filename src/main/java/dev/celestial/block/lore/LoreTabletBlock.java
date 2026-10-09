@@ -32,8 +32,8 @@ import org.jspecify.annotations.Nullable;
  */
 public class LoreTabletBlock extends BaseEntityBlock {
 	public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
-	private static final VoxelShape NS = Shapes.or(Block.box(3, 0, 6, 13, 2, 10), Block.box(4, 2, 7, 12, 15, 9));
-	private static final VoxelShape EW = Shapes.or(Block.box(6, 0, 3, 10, 2, 13), Block.box(7, 2, 4, 9, 15, 12));
+	private static final VoxelShape NS = Shapes.or(Block.box(1, 0, 5, 15, 2, 11), Block.box(2, 2, 7, 14, 15.5, 9));
+	private static final VoxelShape EW = Shapes.or(Block.box(5, 0, 1, 11, 2, 15), Block.box(7, 2, 2, 9, 15.5, 14));
 
 	public LoreTabletBlock(Properties properties) {
 		super(properties);

@@ -93,7 +93,17 @@ def burning_bush():
     save_png(sheet, 'block/burning_bush')
     with open(os.path.join(ASSETS, 'textures/block/burning_bush.png.mcmeta'), 'w') as f:
         json.dump({'animation': {'frametime': 3, 'interpolate': True}}, f)
-    model('block/burning_bush', {'parent': 'minecraft:block/cross', 'textures': {'cross': c('block/burning_bush')}})
+    # купина крупнее блока: два скрещённых полотна 24×24 и внутренний крест — куст выглядит объёмным пламенем (приёмка K1: был мелкий крест)
+    def plane(x0, x1, y1, angle):
+        f = {'texture': '#cross', 'uv': [0, 0, 16, 16]}
+        return {'from': [x0, 0, 8], 'to': [x1, y1, 8], 'shade': False,
+                'rotation': {'origin': [8, 8, 8], 'axis': 'y', 'angle': angle, 'rescale': False},
+                'faces': {'north': f, 'south': f}}
+    model('block/burning_bush', {'ambientocclusion': False, 'textures': {'cross': c('block/burning_bush'), 'particle': c('block/burning_bush')},
+                                 'elements': [plane(-4, 20, 22, 45), plane(-4, 20, 22, -45), plane(1, 15, 16, 0),
+                                              {**plane(1, 15, 16, 0), 'rotation': {'origin': [8, 8, 8], 'axis': 'y', 'angle': 0, 'rescale': False},
+                                               'from': [8, 0, 1], 'to': [8, 16, 15], 'faces': {'east': {'texture': '#cross', 'uv': [0, 0, 16, 16]},
+                                                                                              'west': {'texture': '#cross', 'uv': [0, 0, 16, 16]}}}]})
     blockstate('burning_bush', {'variants': {'': {'model': c('block/burning_bush')}}})
     model('item/burning_bush', {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('block/burning_bush')}})
     item_def('burning_bush', c('item/burning_bush'))
@@ -180,17 +190,63 @@ def ark():
     t.entity(4, 10, 9, {'id': c('dove'), 'NoAI': True, 'Silent': True, 'PersistenceRequired': True})
     # мачта-обломок, снежные и ледяные наносы вокруг и на палубе
     t.fill(28, 9, 10, 28, 24, 10, LG)
-    for _ in range(420):
-        x, z = rng.randrange(0, 61), rng.randrange(0, 21)
-        y = rng.randrange(2, 8)
-        if t.get(x, y, z) in (None, AIR) and half_width(x) >= 1.0:
-            t.set(x, y, z, rng.choice([MC('snow_block'), MC('packed_ice'), MC('blue_ice'), MC('snow_block')]))
+    # Наносы (приёмка K1: раньше — частокол случайных столбов и случайные глыбы в трюме). Снег привален к корпусу гладким сугробом:
+    # высота падает с расстоянием от борта, сверху — снег слоями; лёд затёк в трюм только через пробоину у носа.
+    def hull_dist(x, z):
+        best = 99.0
+        for hx in range(61):
+            hw = half_width(hx)
+            if hw < 1.0:
+                continue
+            d = max(0.0, abs(z - cz) - hw)
+            best = min(best, ((x - hx) ** 2 + d * d) ** 0.5)
+        return best
+
     for x in range(61):
         for z in range(21):
             hw = half_width(x)
-            if hw < 1.0 or abs((z - cz) / hw) > 1.0:
-                if rng.random() < 0.5:
-                    t.fill(x, 0, z, x, rng.randrange(1, 5), z, rng.choice([MC('snow_block'), MC('packed_ice')]))
+            if hw >= 1.0 and abs((z - cz) / hw) <= 1.0:
+                continue
+            d = hull_dist(x, z)
+            wave = 0.8 * __import__('math').sin(x * 0.45) + 0.6 * __import__('math').cos(z * 0.7 + x * 0.2)
+            h = 6.5 - d * 1.1 + wave
+            if h <= 0.4:
+                continue
+            top = int(h)
+            if top >= 1:
+                t.fill(x, 0, z, x, top - 1, z, MC('packed_ice'))
+                t.set(x, top - 1, z, MC('snow_block'))
+            layers = max(1, min(7, round((h - top) * 8)))
+            t.set(x, top, z, MC('snow'), layers=layers)
+    for x in range(48, 58):  # пробоина у носа: лёд затёк в трюм языком
+        for z in range(6, 15):
+            hw = half_width(x)
+            if hw >= 1.0 and abs((z - cz) / hw) < 0.9:
+                floor_y = 3 + round(((z - cz) / hw) ** 2 * 7)
+                depth = max(0, round((x - 47) * 0.45 - abs(z - cz) * 0.3))
+                for y in range(floor_y + 1, min(8, floor_y + 1 + depth)):
+                    t.set(x, y, z, MC('blue_ice') if (x + y + z) % 4 == 0 else MC('packed_ice'))
+    # трюм: стойла с сеном, бочки, корыта; лестница из люка
+    for x in range(8, 46, 6):
+        if 16 <= x <= 24:
+            continue
+        for z in (8, 12):
+            t.fill(x, 4, z, x, 5, z, MC('spruce_fence'), waterlogged=False)
+        t.set(x + 1, 4, 10, MC('hay_block'), axis='y')
+        t.set(x + 2, 4, 9, MC('barrel'), facing='up', open=False)
+        if x % 12 == 2:
+            t.set(x + 2, 4, 11, MC('cauldron'))
+    for i, x in enumerate(range(19, 24)):
+        t.set(x, 4 + i, 10, MC('spruce_stairs'), facing='east', half='bottom', shape='straight', waterlogged=False)
+    for x in range(30, 38, 3):
+        t.set(x, 7, 10, MC('lantern'), hanging=True, waterlogged=False)
+    # каюта Ноя: постель (под будущий Отблеск-сон), стол, книги
+    t.set(36, 9, 13, MC('white_bed'), facing='north', part='foot', occupied=False)
+    t.set(36, 9, 12, MC('white_bed'), facing='north', part='head', occupied=False)
+    t.set(33, 9, 7, MC('spruce_fence'), waterlogged=False)
+    t.set(33, 10, 7, MC('spruce_pressure_plate'), powered=False)
+    t.set(32, 9, 6, MC('chiseled_bookshelf'), facing='south', **{f'slot_{i}_occupied': i % 2 == 0 for i in range(6)})
+    t.set(34, 12, 10, MC('lantern'), hanging=True, waterlogged=False)
     for _ in range(90):  # сугробы на палубе и снег на крыше
         x, z = rng.randrange(1, 60), rng.randrange(2, 19)
         if t.get(x, 8, z) == PL and t.get(x, 9, z) in (None, AIR):

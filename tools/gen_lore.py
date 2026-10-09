@@ -432,30 +432,35 @@ def scroll_item():
 
 
 def tablet_block():
-    """Скрижаль: тёмная плита на подставке; лицо с высеченными строками и знаком света."""
+    """Скрижаль: две плиты со скруглённым верхом на каменном основании, почти в полный блок; на лице — высеченные строки
+    своими знаками и знак света. Форма столкновений — LoreTabletBlock.NS/EW (держать в согласии)."""
     stone = T.noisy('lore_tablet_stone', [rgb(h) for h in ('#4a4f5c', '#565c6a', '#646b7a')], cell=3, grain=0.3).convert('RGBA')
     save_png(stone, 'block/lore_tablet_stone')
-    face = stone.copy()
+    face = T.noisy('lore_tablet_face_base', [rgb(h) for h in ('#7d8494', '#8a91a1', '#959cab')], cell=2, grain=0.25).convert('RGBA')
     d = ImageDraw.Draw(face)
-    d.rectangle([0, 0, 15, 15], outline=rgb('#2a2e38'))
-    d.rectangle([1, 1, 14, 14], outline=rgb('#8a8f9c'))
-    for y in (7, 9, 11, 13):  # строки
-        for x in range(3, 13, 2):
-            if (x * 7 + y * 3) % 5:
-                d.point((x, y), fill=rgb('#1c1f26'))
-                d.point((x + 1, y), fill=rgb('#1c1f26'))
-    d.rectangle([7, 2, 8, 5], fill=rgb('#e0b54a'))  # знак света сверху
-    d.rectangle([5, 3, 10, 4], fill=rgb('#e0b54a'))
-    d.point((7, 3), fill=rgb('#fff6d6'))
+    cut, gold, glint = rgb('#2c303a'), rgb('#e0b54a'), rgb('#fff6d6')
+    # левая половина текстуры (x 0..7) — лицо плиты: рамка, знак света наверху, строки знаков
+    d.rectangle([0, 0, 6, 15], outline=rgb('#5a606e'))
+    d.rectangle([2, 1, 4, 3], fill=gold)
+    d.point((3, 2), fill=glint)
+    for y in range(5, 15, 2):
+        for x in range(1, 6):
+            if (x * 5 + y * 3) % 4:
+                d.point((x, y), fill=cut)
     save_png(face, 'block/lore_tablet_face')
     side = {'texture': '#stone'}
+
+    def slab(x0, x1, y0, y1, uv):
+        f = {'texture': '#face', 'uv': uv}
+        return {'from': [x0, y0, 7], 'to': [x1, y1, 9],
+                'faces': {'north': f, 'south': f, 'east': side, 'west': side, 'up': side, 'down': side}}
+
+    elements = [{'from': [1, 0, 5], 'to': [15, 2, 11], 'faces': {k: side for k in ('north', 'south', 'east', 'west', 'up', 'down')}}]
+    for x0 in (2, 8.5):  # две плиты: тело и скруглённая «шапка» поуже
+        elements.append(slab(x0, x0 + 5.5, 2, 13, [0.5, 4, 6, 15]))
+        elements.append(slab(x0 + 0.75, x0 + 4.75, 13, 15.5, [1, 1, 5, 3.5]))
     model('block/lore_tablet', {'textures': {'stone': c('block/lore_tablet_stone'), 'face': c('block/lore_tablet_face'),
-                                              'particle': c('block/lore_tablet_stone')},
-                                'elements': [
-        {'from': [3, 0, 6], 'to': [13, 2, 10], 'faces': {k: side for k in ('north', 'south', 'east', 'west', 'up', 'down')}},
-        {'from': [4, 2, 7], 'to': [12, 15, 9], 'faces': {'north': {'texture': '#face', 'uv': [4, 1, 12, 14]},
-                                                         'south': {'texture': '#face', 'uv': [4, 1, 12, 14]},
-                                                         'east': side, 'west': side, 'up': side, 'down': side}}]})
+                                              'particle': c('block/lore_tablet_stone')}, 'elements': elements})
     blockstate('lore_tablet', {'variants': {f'facing={f}': {'model': c('block/lore_tablet'), 'y': y} for f, y in
                                             (('north', 0), ('east', 90), ('south', 180), ('west', 270))}})
     item_def('lore_tablet', c('block/lore_tablet'))
