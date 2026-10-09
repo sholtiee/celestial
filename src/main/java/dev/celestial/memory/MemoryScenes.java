@@ -25,8 +25,9 @@ public final class MemoryScenes {
 
 	public record Actor(String id, String type, String skin, Vec3 pos, float yaw, int pose) {}
 
+	/** next — следующая сцена цепочки (пролог «Сон о Начале» — несколько сцен подряд без возврата); skippable — пропуск и при первом просмотре. */
 	public record Scene(String id, String stage, Vec3 center, double radius, Vec3 spawn, float spawnYaw, String sheet, String thought,
-		String onComplete, List<Actor> actors, List<JsonObject> steps) {}
+		String onComplete, List<Actor> actors, List<JsonObject> steps, String next, boolean skippable) {}
 
 	private MemoryScenes() {}
 
@@ -78,7 +79,8 @@ public final class MemoryScenes {
 					map.put(entry.getKey(), new Scene(entry.getKey(), o.get("stage").getAsString(), vec(o.get("center")), o.get("radius").getAsDouble(),
 						new Vec3(spawn.get(0).getAsDouble(), spawn.get(1).getAsDouble(), spawn.get(2).getAsDouble()), spawn.get(3).getAsFloat(),
 						o.get("sheet").getAsString(), o.get("thought").getAsString(), o.has("on_complete") ? o.get("on_complete").getAsString() : "",
-						List.copyOf(actors), List.copyOf(steps)));
+						List.copyOf(actors), List.copyOf(steps), o.has("next") ? o.get("next").getAsString() : "",
+						o.has("skippable") && o.get("skippable").getAsBoolean()));
 				}
 			}
 		} catch (Exception e) {

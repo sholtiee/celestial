@@ -102,6 +102,18 @@ public final class CelestialCommand {
 				.then(Commands.literal("turnin").then(Commands.argument("board", net.minecraft.commands.arguments.coordinates.BlockPosArgument.blockPos())
 					.executes(ctx -> dev.celestial.quest.Quests.turnIn(ctx.getSource().getPlayerOrException(),
 						net.minecraft.commands.arguments.coordinates.BlockPosArgument.getBlockPos(ctx, "board"))))))
+			.then(Commands.literal("memory").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+				// Отблески: войти в сцену без якоря (точка возврата — где стоишь) и забыть, что сцена пережита
+				.then(Commands.literal("enter").then(Commands.argument("scene", StringArgumentType.word()).executes(ctx -> {
+					ServerPlayer p = ctx.getSource().getPlayerOrException();
+					return dev.celestial.memory.Memories.tryEnter(p, StringArgumentType.getString(ctx, "scene"), p.blockPosition()) ? 1 : 0;
+				})))
+				.then(Commands.literal("forget").then(Commands.argument("scene", StringArgumentType.word()).executes(ctx -> {
+					String id = StringArgumentType.getString(ctx, "scene");
+					CelestialData.update(ctx.getSource().getPlayerOrException(), d -> d.withoutCodex("memory:" + id));
+					ctx.getSource().sendSuccess(() -> Component.literal("Отблеск забыт: " + id), true);
+					return 1;
+				}))))
 			.then(Commands.literal("lore").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
 				.then(Commands.literal("unlock").then(Commands.argument("sheet", StringArgumentType.word()).executes(ctx -> loreChange(ctx, true))))
 				.then(Commands.literal("lock").then(Commands.argument("sheet", StringArgumentType.word()).executes(ctx -> loreChange(ctx, false))))

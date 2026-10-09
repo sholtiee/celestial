@@ -261,7 +261,7 @@ SCENES = {
         'actors': [
             {'id': 'eve', 'type': 'human', 'skin': 'eve', 'pos': [11.5, 5, 24.5], 'yaw': 210},
             {'id': 'adam', 'type': 'human', 'skin': 'adam', 'pos': [27.5, 5, 23.5], 'yaw': 120},
-            {'id': 'serpent', 'type': 'serpent', 'skin': 'serpent', 'pos': [22.0, 9.2, 15.0], 'yaw': 200, 'pose': 3},
+            {'id': 'serpent', 'type': 'serpent', 'skin': 'serpent', 'pos': [20.9, 7.6, 18.4], 'yaw': 20, 'pose': 3},  # обвил ствол с южной стороны, на виду
         ],
         'steps': [
             step('wait', ticks=40),

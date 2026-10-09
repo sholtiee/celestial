@@ -25,6 +25,20 @@ public final class CodexEvents {
 				}
 			}
 		});
+		// «Книга Имён» (docs/LORE.md §4): как Адам нарекал имена — присесть и коснуться существа мода пустой рукой, и оно записано без убийства
+		net.fabricmc.fabric.api.event.player.UseEntityCallback.EVENT.register((player, world, hand, entity, hit) -> {
+			if (!world.isClientSide() && player instanceof ServerPlayer sp && sp.isShiftKeyDown() && hand == net.minecraft.world.InteractionHand.MAIN_HAND
+				&& sp.getMainHandItem().isEmpty() && entity instanceof net.minecraft.world.entity.LivingEntity) {
+				var key = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
+				if (key.getNamespace().equals("celestial") && !key.getPath().startsWith("memory_") && !CelestialData.get(sp).knows("mob:" + key.getPath())) {
+					unlock(sp, "mob:" + key.getPath(), entity.getType().getDescription());
+					((net.minecraft.server.level.ServerLevel) world).sendParticles(net.minecraft.core.particles.ParticleTypes.END_ROD,
+						entity.getX(), entity.getY(1.0), entity.getZ(), 12, 0.3, 0.3, 0.3, 0.02);
+					return net.minecraft.world.InteractionResult.SUCCESS;
+				}
+			}
+			return net.minecraft.world.InteractionResult.PASS;
+		});
 		ServerTickEvents.END_SERVER_TICK.register(server -> {
 			if (server.getTickCount() % 100 != 50) {
 				return;

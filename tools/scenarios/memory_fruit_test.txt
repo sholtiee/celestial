@@ -10,6 +10,7 @@ wait 60
 /fill 27990 160 27990 28010 172 28010 minecraft:air
 /kill @e[type=!minecraft:player,distance=..40]
 /celestial lore lock fruit
+/celestial memory forget fruit
 /setblock 28000 160 28000 celestial:memory_anchor{Scene:"fruit"}
 /setblock 28003 160 28000 minecraft:sweet_berry_bush[age=3]
 /setblock 27997 160 28001 minecraft:sweet_berry_bush[age=3]
@@ -32,24 +33,29 @@ pos
 /execute in celestial:memory if entity @s[x=0,y=60,z=0,dx=60,dy=40,dz=60]
 wait 30
 shot mem_enter
-# подходим к Древу — Ева идёт к нему, Змей говорит
+# подойти к Древу (триггер near), затем обзорная точка: вся поляна в кадре; оттуда же срабатывает «посмотри на Еву»
 /tp @s 20.5 69 25.5 180 0
-wait 220
-shot mem_serpent
-aim 160 5
-wait 120
-shot mem_offer
+wait 40
+/tp @s 21 72 34 180 12
+wait 90
+shot mem_00
+wait 90
+shot mem_01
+wait 90
+shot mem_02
+wait 90
+shot mem_03
+wait 90
+shot mem_04
+wait 90
+shot mem_05
+wait 90
+shot mem_06
+wait 90
+shot mem_07
+wait 90
+shot mem_08
 wait 200
-shot mem_eat
-/tp @s 24.5 69 30.5 160 5
-wait 130
-shot mem_hide
-wait 100
-shot mem_voice
-/tp @s 28.5 70 22.5 -90 0
-wait 60
-shot mem_cherub
-wait 260
 pos
 /say TEST M2 returned_same_place expect=pass
 /execute in minecraft:overworld if entity @s[x=27999,y=159,z=27996,dx=3,dy=3,dz=3]

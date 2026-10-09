@@ -61,6 +61,12 @@ public record PlayerData(int grace, List<String> skills, int reputation, List<St
 		return new PlayerData(grace, skills, value, codex, trials, radiance, quests, fear, warmth, lore);
 	}
 
+	/** Для тестов и администраторов: убрать запись Кодекса (например, «memory:fruit» — чтобы Отблеск снова был «первым»). */
+	public PlayerData withoutCodex(String entry) {
+		return !knows(entry) ? this : new PlayerData(grace, skills, reputation, codex.stream().filter(e -> !e.equals(entry)).toList(), trials, radiance,
+			quests, fear, warmth, lore);
+	}
+
 	public PlayerData withCodex(String entry) {
 		return knows(entry) ? this : new PlayerData(grace, skills, reputation, append(codex, entry), trials, radiance, quests, fear, warmth, lore);
 	}
