@@ -249,7 +249,7 @@ def ark():
     t.set(34, 12, 10, MC('lantern'), hanging=True, waterlogged=False)
     for _ in range(90):  # сугробы на палубе и снег на крыше
         x, z = rng.randrange(1, 60), rng.randrange(2, 19)
-        if t.get(x, 8, z) == PL and t.get(x, 9, z) in (None, AIR):
+        if t.get(x, 8, z) == PL and t.get(x, 9, z) in (None, AIR) and not (21 <= x <= 40 and 5 <= z <= 15):  # не в каюте
             t.set(x, 9, z, MC('snow'), layers=rng.randrange(1, 4))
     t.save('frozen_ark/main')
 
