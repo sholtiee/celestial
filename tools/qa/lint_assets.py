@@ -444,7 +444,7 @@ def check_lore():
         found = bool(re.search(rf'unlock\([^)]*"{i}"', ALL_JAVA)) or (sh['src'] == 'scroll' and f'sheet:\\"{i}\\"' in json_text) \
             or (sh['src'] == 'tablet' and i.encode() in nbt_bytes)
         scenes = load(os.path.join(D, 'memory/scenes.json')) or {}
-        found = found or any(sc.get('sheet') == i and sid.encode() in nbt_bytes for sid, sc in scenes.items())  # Отблеск с якорем в постройке
+        found = found or any(sc.get('sheet') == i and (sid.encode() in nbt_bytes or sid.startswith('prologue')) for sid, sc in scenes.items())  # Отблеск с якорем в постройке
         if found:
             continue
         if sh['src'] in ('glimpse', 'prologue', 'vision', 'conv') or i in getattr(L, 'PENDING', {}):
@@ -464,7 +464,8 @@ def check_scenes():
         return
     ru = load(os.path.join(A, 'lang/ru_ru.json')) or {}
     en = load(os.path.join(A, 'lang/en_us.json')) or {}
-    known = {'wait', 'near', 'look', 'move', 'face', 'pose', 'hold', 'say', 'voice', 'particles', 'dim', 'spawn', 'entity', 'despawn', 'end'}
+    known = {'wait', 'near', 'look', 'move', 'face', 'pose', 'hold', 'say', 'voice', 'particles', 'dim', 'spawn', 'entity', 'despawn', 'end',
+             'fly', 'caption', 'hint', 'name', 'choice', 'stars', 'reach', 'lift'}
     nbt_bytes = b''
     for dirpath, _, files in os.walk(os.path.join(D, 'structure')):
         for f in files:
@@ -493,11 +494,17 @@ def check_scenes():
                 actors.add(st['id'])
             if 'actor' in st and isinstance(st['actor'], str) and st['actor'] not in actors:
                 report('SCENE_BAD_ACTOR', f'{sid}: шаг {t} — нет актёра {st["actor"]}')
-            if t in ('say', 'voice'):
+            if t in ('say', 'voice', 'caption', 'hint'):
                 lang(st['key'])
+            if t in ('name', 'choice') and 'hint' in st:
+                lang(st['hint'])
+            if t == 'choice':
+                lang(f"memory.celestial.choice.{st['key']}.taken")
+                lang(f"memory.celestial.choice.{st['key']}.refused")
             if t == 'say':
                 lang('memory.celestial.who.' + st['actor'])
-        if sid.encode() not in nbt_bytes:
+        chained = any(o.get('next') == sid for o in scenes.values())
+        if sid.encode() not in nbt_bytes and not chained and not sid.startswith('prologue'):
             report('SCENE_NO_ANCHOR', f'{sid}: нет Отпечатка света (memory_anchor с Scene) ни в одной постройке')
 
 

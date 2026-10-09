@@ -52,6 +52,7 @@ PEOPLE = {
     # облик: кожа, волосы, одеяние, отделка, глаза, длинные волосы, борода
     'adam': ('#e2b48c', '#6a4426', '#efe6cf', '#c9a24a', '#5a8ac8', False, True),
     'eve': ('#ecc29e', '#a8642c', '#f4ecd8', '#9ac46a', '#4a9a6a', True, False),
+    'morning_star': ('#fff1d8', '#fff8e6', '#fff6d0', '#f2c24a', '#ffd84a', True, False),  # Денница: сияющий, до падения
 }
 
 
@@ -249,10 +250,163 @@ def stage_fruit():
     return t.save('memory/fruit')
 
 
+def stage_prologue_light():
+    """Свет: пустота, девять колец хоров вокруг Престола под покровом (сияющая сфера; самого Престола не видно). Странник летит к свету."""
+    S, C = 61, 30
+    t = Template(S, S, S)
+    t.fill(0, 0, 0, S - 1, S - 1, S - 1, AIR)
+    mats = [c('radiant_stone'), 'minecraft:white_stained_glass', c('sky_crystal_block'), 'minecraft:gold_block']
+    for k in range(9):  # девять хоров: кольца разной высоты, проём там, где летит странник (юг)
+        r = 5 + 3 * k
+        y = C + (2 if k % 2 else -2) * (k % 3)
+        n = int(2 * math.pi * r * 1.2)
+        for i in range(n):
+            a = i / n * 2 * math.pi
+            if abs(math.atan2(math.cos(a), math.sin(a))) < 0.18:  # проём на юге (направление +z)
+                continue
+            x, z = round(C + math.cos(a) * r), round(C + math.sin(a) * r)
+            t.set(x, y, z, mats[k % len(mats)] if (i + k) % 5 else 'minecraft:light', **({'level': 15, 'waterlogged': False} if (i + k) % 5 == 0 else {}))
+    for x in range(C - 4, C + 5):  # покров Престола: светящаяся сфера
+        for y in range(C - 4, C + 5):
+            for z in range(C - 4, C + 5):
+                d = math.sqrt((x - C) ** 2 + (y - C) ** 2 + (z - C) ** 2)
+                if d <= 3.6:
+                    t.set(x, y, z, 'minecraft:white_stained_glass' if d > 2.6 else c('radiant_stone'))
+    return t.save('memory/prologue_light')
+
+
+def stage_prologue_exile():
+    """Изгнание: голая земля за вратами, трещина, а впереди — малый остров Сада, который поднимут в небо (шаг lift)."""
+    S, TOP = 41, 4
+    rng = random.Random(5260)
+    t = Template(S, 30, S)
+    t.fill(0, 0, 0, S - 1, 29, S - 1, AIR)
+    for x in range(S):
+        for z in range(S):
+            d = math.hypot(x - 20, z - 24)
+            if d <= 18 and not (abs(z - 15) <= 1 and d > 3):  # голая земля; трещина отделяет Сад
+                for y in range(0, TOP + 1):
+                    if y >= TOP - rng.randint(1, 3) or d < 14:
+                        t.set(x, y, z, rng.choice(['minecraft:coarse_dirt', 'minecraft:gravel', 'minecraft:dirt', 'minecraft:coarse_dirt']) if y == TOP else 'minecraft:dirt')
+    for _ in range(40):
+        x, z = rng.randrange(4, 37), rng.randrange(17, 38)
+        if t.get(x, TOP, z) not in (None, AIR) and t.get(x, TOP + 1, z) in (None, AIR):
+            t.set(x, TOP + 1, z, 'minecraft:dead_bush')
+    # малый Сад: остров золотой травы с деревцем и цветами (z 4..14)
+    for x in range(12, 29):
+        for z in range(3, 15):
+            d = math.hypot(x - 20, (z - 9) * 1.1)
+            if d <= 6.5:
+                depth = max(1, int(5 - d * 0.6))
+                for y in range(TOP - depth, TOP):
+                    t.set(x, y, z, c('heaven_dirt'))
+                t.set(x, TOP, z, c('golden_grass'))
+                if rng.random() < 0.35:
+                    t.set(x, TOP + 1, z, c(rng.choice(['sunbell', 'dawn_poppy', 'starflower', 'golden_tuft'])))
+    for y in range(TOP + 1, TOP + 6):
+        t.set(20, y, 9, c('skywood_log'), axis='y')
+    for x in range(17, 24):
+        for y in range(TOP + 5, TOP + 9):
+            for z in range(6, 13):
+                if (x - 20) ** 2 / 9 + (y - TOP - 7) ** 2 / 3 + (z - 9) ** 2 / 9 <= 1.0:
+                    t.set(x, y, z, c('skywood_leaves'))
+    t.set(20, TOP + 4, 10, 'minecraft:light', level=12, waterlogged=False)
+    return t.save('memory/prologue_exile')
+
+
 # ------------------------------------------------------------------ данные сцен
 def step(t, **kw):
     return {'t': t, **kw}
 
+
+PROLOGUE = {
+    # 1. Свет: полёт сквозь хоры к Престолу; Денница смотрит на странника и уходит — падают звёзды
+    'prologue_light': {
+        'stage': c('memory/prologue_light'), 'center': [30, 30, 30], 'radius': 36, 'spawn': [30.5, 30, 60.0, 180],
+        'sheet': 'light', 'thought': '', 'next': 'prologue_garden', 'skippable': True,
+        'actors': [],
+        'steps': [
+            step('fly', on=True),
+            step('caption', key='memory.celestial.prologue.light1', ticks=80),
+            step('hint', key='memory.celestial.prologue.fly_hint'),
+            step('near', pos=[30.5, 30, 37], r=6, timeout=900),
+            step('caption', key='memory.celestial.prologue.light2', ticks=70),
+            step('spawn', actor={'id': 'morning', 'type': 'human', 'skin': 'morning_star', 'pos': [30.5, 29, 34.5], 'yaw': 0}),
+            step('particles', type='minecraft:end_rod', pos=[30.5, 30.5, 34.5], count=60, spread=0.8),
+            step('face', actor='morning', to='player'),
+            step('wait', ticks=40),
+            step('say', actor='morning', key='memory.celestial.prologue.morning', ticks=70),
+            step('dim', value=0.75),
+            step('move', actor='morning', to=[30.5, 0, 6], speed=0.35, wait=False),
+            step('caption', key='memory.celestial.prologue.fall', ticks=40),
+            step('hint', key='memory.celestial.prologue.dodge_hint'),
+            step('stars', ticks=320, every=9, r=6),
+            step('despawn', actor='morning'),
+            step('caption', key='memory.celestial.prologue.fall2', ticks=60),
+            step('end', ticks=10),
+        ],
+    },
+    # 2. Сад: имена зверям, Древа, выбор у Змея, Ева берёт плод, Херувим — бегство к вратам
+    'prologue_garden': {
+        'stage': c('memory/fruit'), 'center': [20, 5, 20], 'radius': 21, 'spawn': [12.5, 5, 33.5, 180],
+        'sheet': 'eden', 'thought': '', 'next': 'prologue_exile', 'skippable': True,
+        'actors': [
+            {'id': 'adam', 'type': 'human', 'skin': 'adam', 'pos': [13.5, 5, 27.5], 'yaw': 0},
+            {'id': 'eve', 'type': 'human', 'skin': 'eve', 'pos': [24.5, 5, 25.5], 'yaw': 150},
+            {'id': 'serpent', 'type': 'serpent', 'skin': 'serpent', 'pos': [20.9, 7.6, 18.4], 'yaw': 20, 'pose': 3},
+        ],
+        'steps': [
+            step('fly', on=False),
+            step('caption', key='memory.celestial.prologue.garden1', ticks=70),
+            step('entity', type=c('golden_ram'), pos=[10.5, 5, 30.5], yaw=90),
+            step('entity', type=c('pegasus'), pos=[16.5, 5, 31.5], yaw=200),
+            step('entity', type=c('light_wisp'), pos=[9.5, 6.5, 25.5], yaw=0, nogravity=True),
+            step('entity', type=c('cherub'), pos=[15.5, 6.5, 24.5], yaw=160, nogravity=True),
+            step('face', actor='adam', to='player'),
+            step('say', actor='adam', key='memory.celestial.prologue.adam1', ticks=70),
+            step('name', n=3, hint='memory.celestial.prologue.name_hint', timeout=1600),
+            step('say', actor='adam', key='memory.celestial.prologue.adam2', ticks=60),
+            step('move', actor='eve', to=[19.5, 5, 21.0], speed=0.08, wait=False),
+            step('caption', key='memory.celestial.prologue.trees', ticks=70),
+            step('near', pos=[20.5, 5, 22.5], r=7, timeout=900),
+            step('face', actor='serpent', to='player'),
+            step('say', actor='serpent', key='memory.celestial.prologue.serpent', ticks=60),
+            step('choice', actor='serpent', key='fruit', hint='memory.celestial.prologue.choice_hint', timeout=900),
+            step('face', actor='eve', to='serpent'),
+            step('pose', actor='eve', pose=1),
+            step('hold', actor='eve', item=c('knowledge_fruit')),
+            step('wait', ticks=30),
+            step('pose', actor='eve', pose=2),
+            step('wait', ticks=30),
+            step('hold', actor='eve', item=None),
+            step('pose', actor='eve', pose=0),
+            step('dim', value=0.5),
+            step('particles', type='minecraft:white_ash', pos=[20, 12, 16], count=160, spread=5),
+            step('wait', ticks=30),
+            step('entity', type=c('gate_cherub'), pos=[32.5, 5, 21.5], yaw=90),
+            step('caption', key='memory.celestial.prologue.run', ticks=20),
+            step('hint', key='memory.celestial.prologue.run_hint'),
+            step('reach', pos=[38.5, 5, 21.5], r=1.8, sweep={'center': [32.5, 5, 21.5], 'radius': 6.5}, timeout=1600),
+            step('end', ticks=10),
+        ],
+    },
+    # 3. Изгнание: голая земля, Сад поднимается в небо
+    'prologue_exile': {
+        'stage': c('memory/prologue_exile'), 'center': [20, 5, 26], 'radius': 15, 'spawn': [20.5, 5, 34.5, 180],
+        'sheet': '', 'thought': '', 'on_complete': 'prologue_wake', 'skippable': True,
+        'actors': [],
+        'steps': [
+            step('dim', value=0.35),
+            step('caption', key='memory.celestial.prologue.exile1', ticks=70),
+            step('wait', ticks=20),
+            step('particles', type='minecraft:end_rod', pos=[20, 6, 9], count=80, spread=4),
+            step('lift', **{'from': [11, 0, 2], 'to': [29, 14, 15]}, rise=45, ticks=240),
+            step('caption', key='memory.celestial.prologue.exile2', ticks=80),
+            step('caption', key='memory.celestial.prologue.exile3', ticks=80),
+            step('end', ticks=20),
+        ],
+    },
+}
 
 SCENES = {
     'fruit': {
@@ -328,6 +482,33 @@ LANG = {
     'memory.celestial.fruit.serpent': ('Нет, не умрёте…', 'Ye shall not surely die…'),
     'memory.celestial.fruit.voice': ('Где ты?', 'Where art thou?'),
     'memory.celestial.fruit.thought': ('Вот почему у врат стоит страж.', 'That is why a guardian stands at the gate.'),
+    'memory.celestial.skipping': ('Сон уходит… (держи «красться»)', 'The dream fades… (keep sneaking)'),
+    'memory.celestial.who.morning': ('Денница', 'The Morning Star'),
+    'memory.celestial.prologue.light1': ('Прежде всех миров был Свет', 'Before all worlds there was Light'),
+    'memory.celestial.prologue.fly_hint': ('Лети к свету (прыжок — вверх, красться — вниз)', 'Fly toward the light (jump to rise, sneak to descend)'),
+    'memory.celestial.prologue.light2': ('Вокруг Престола пели хоры', 'Around the Throne the choirs sang'),
+    'memory.celestial.prologue.morning': ('Свет будет моим.', 'The Light shall be mine.'),
+    'memory.celestial.prologue.fall': ('Ярчайший пожелал Свет себе — и пал', 'The brightest wanted the Light for himself — and fell'),
+    'memory.celestial.prologue.dodge_hint': ('Звёзды падают — уворачивайся!', 'Stars are falling — dodge!'),
+    'memory.celestial.prologue.star_hit': ('Звезда опалила тебя светом', 'A star scorched you with light'),
+    'memory.celestial.prologue.fall2': ('…и увлёк за собой звёзды', '…and drew the stars down with him'),
+    'memory.celestial.prologue.garden1': ('Для первых людей был насажен Сад', 'For the first people a Garden was planted'),
+    'memory.celestial.prologue.adam1': ('Назови их со мной.', 'Name them with me.'),
+    'memory.celestial.prologue.name_hint': ('Присядь и коснись зверя пустой рукой — дай имя (%s из %s)', 'Sneak and touch a creature with an empty hand to name it (%s of %s)'),
+    'memory.celestial.prologue.adam2': ('Так и будет имя им.', 'So shall their names be.'),
+    'memory.celestial.prologue.trees': ('Посреди Сада росли два Древа', 'In the midst of the Garden grew two Trees'),
+    'memory.celestial.prologue.serpent': ('Возьми. Не умрёшь…', 'Take it. You shall not die…'),
+    'memory.celestial.prologue.choice_hint': ('Возьми плод у Змея — или отвернись', 'Take the fruit from the Serpent — or turn away'),
+    'memory.celestial.choice.fruit.taken': ('Ты взял плод. Глаза открылись…', 'You took the fruit. Your eyes were opened…'),
+    'memory.celestial.choice.fruit.refused': ('Ты отвернулся. Но Ева протянула руку…', 'You turned away. But Eve reached out…'),
+    'memory.celestial.prologue.run': ('Беги!', 'Run!'),
+    'memory.celestial.prologue.run_hint': ('Проскочи мимо пламенного меча к вратам', 'Slip past the flaming sword to the gate'),
+    'memory.celestial.prologue.sword_hit': ('Пламенный меч отбросил тебя', 'The flaming sword threw you back'),
+    'memory.celestial.prologue.exile1': ('Люди ушли из Сада…', 'The people left the Garden…'),
+    'memory.celestial.prologue.exile2': ('…а Сад подняли над облаками', '…and the Garden was raised above the clouds'),
+    'memory.celestial.prologue.exile3': ('Внизу люди со временем забыли дорогу', 'Below, in time, people forgot the way'),
+    'memory.celestial.prologue.wake_title': ('Пробуждение', 'Awakening'),
+    'memory.celestial.prologue.wake': ('Звёзды падают, свет уходит. Ты — дитя Адама: найди дорогу назад.', 'Stars fall and the light fades. You are a child of Adam: find the way back.'),
 }
 
 
@@ -336,9 +517,11 @@ def main():
     actors()
     anchor_block()
     stage_fruit()
-    write_json(os.path.join(DATA, 'memory/scenes.json'), SCENES)
+    stage_prologue_light()
+    stage_prologue_exile()
+    write_json(os.path.join(DATA, 'memory/scenes.json'), {**SCENES, **PROLOGUE})
     lang_patch(LANG)
-    print('ok: Отблески —', len(SCENES), 'сцен')
+    print('ok: Отблески —', len(SCENES) + len(PROLOGUE), 'сцен')
 
 
 if __name__ == '__main__':

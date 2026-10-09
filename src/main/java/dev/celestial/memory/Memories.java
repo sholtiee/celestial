@@ -68,8 +68,11 @@ public final class Memories {
 	private static final int STAGE_Y = 64;
 	private static final int COMBAT_COOLDOWN = 100;   // 5 с после урона войти нельзя
 	private static final int TRIGGER_TIMEOUT = 1200;  // страница не застрянет навсегда: через минуту триггер срабатывает сам
-	private static final int SKIP_SNEAK_TICKS = 40;   // пропуск уже виденного: удерживать «красться» 2 с
+	private static final int SKIP_SNEAK_TICKS = 60;   // пропуск уже виденного: удерживать «красться» 3 с
 	private static final Map<UUID, Session> SESSIONS = new HashMap<>();
+	/** Первая сцена пролога «Сон о Начале» (docs/LORE.md §5a); цепочка идёт по полю next. */
+	public static final String PROLOGUE = "prologue_light";
+	private static final Map<UUID, Integer> PROLOGUE_PENDING = new HashMap<>();
 
 	private Memories() {}
 
@@ -87,7 +90,33 @@ public final class Memories {
 				tryEnter(p, payload.scene(), p.blockPosition());
 			}
 		});
-		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> server.execute(() -> rescue(handler.player)));
+		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> server.execute(() -> {
+			rescue(handler.player);
+			// под автопилотом (тесты) пролог сам не запускается — сценарии входят в него командой /celestial memory enter
+			if (!CelestialData.get(handler.player).knows("memory:" + PROLOGUE) && System.getenv("CELESTIAL_AUTOPILOT") == null) {
+				PROLOGUE_PENDING.put(handler.player.getUUID(), 0);  // «Сон о Начале» при первом входе в мир (как только странник встанет на землю)
+			}
+		}));
+		// в воспоминании: «назвать» существо (присесть и коснуться пустой рукой) и выбрать, взяв что-то у актёра (ПКМ)
+		net.fabricmc.fabric.api.event.player.UseEntityCallback.EVENT.register((player, world, hand, entity, hit) -> {
+			if (world.isClientSide() || hand != net.minecraft.world.InteractionHand.MAIN_HAND || !(player instanceof ServerPlayer sp)) {
+				return net.minecraft.world.InteractionResult.PASS;
+			}
+			Session s = SESSIONS.get(sp.getUUID());
+			if (s == null) {
+				return net.minecraft.world.InteractionResult.PASS;
+			}
+			if (entity instanceof MemoryActor actor) {
+				s.clicked = s.idOf(actor);
+				return net.minecraft.world.InteractionResult.SUCCESS;
+			}
+			if (sp.isShiftKeyDown() && sp.getMainHandItem().isEmpty() && s.named.add(entity.getUUID())) {
+				dev.celestial.grace.CodexEvents.name(sp, entity);  // Книга Имён: наречённое здесь записано и наяву
+				((ServerLevel) world).sendParticles(ParticleTypes.END_ROD, entity.getX(), entity.getY(1.0), entity.getZ(), 16, 0.3, 0.4, 0.3, 0.03);
+				world.playSound(null, entity.blockPosition(), SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.PLAYERS, 1.0F, 1.0F + s.named.size() * 0.15F);
+			}
+			return net.minecraft.world.InteractionResult.SUCCESS;  // в памяти ничего не седлают и не стригут
+		});
 		ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
 			Session s = SESSIONS.remove(handler.player.getUUID());
 			if (s != null) {
@@ -143,33 +172,47 @@ public final class Memories {
 	}
 
 	private static void enter(ServerPlayer player, ServerLevel memory, MemoryScenes.Scene scene, BlockPos anchor) {
-		int slot = slotFor(player);
+		player.setAttached(RETURN, new MemoryReturn(player.level().dimension().identifier().toString(), player.getX(), player.getY(), player.getZ(),
+			player.getYRot(), player.getXRot(), player.gameMode.getGameModeForPlayer().getName(), anchor, scene.id(),
+			!CelestialData.get(player).knows("memory:" + scene.id())));
+		player.level().playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.PLAYERS, 1.0F, 0.6F);
+		if (!stage(player, memory, scene, slotFor(player))) {
+			player.removeAttached(RETURN);
+			return;
+		}
+		if (player.gameMode.getGameModeForPlayer() != GameType.CREATIVE && player.gameMode.getGameModeForPlayer() != GameType.SPECTATOR) {
+			player.setGameMode(GameType.ADVENTURE);
+		}
+		ServerPlayNetworking.send(player, new MemoryOverlayPayload(true, 0.0F));
+	}
+
+	/** Поставить сцену в слот, перенести странника на точку появления, вызвать актёров. Для цепочки (пролог) — без возврата между сценами. */
+	private static boolean stage(ServerPlayer player, ServerLevel memory, MemoryScenes.Scene scene, int slot) {
 		BlockPos origin = new BlockPos(slot * SLOT_SPACING, STAGE_Y, 0);
 		memory.getChunkSource().getChunk(origin.getX() >> 4, origin.getZ() >> 4, true);
 		for (Entity e : memory.getEntitiesOfClass(Entity.class, new AABB(origin).inflate(96), e -> !(e instanceof ServerPlayer))) {
-			e.discard();  // остатки прошлого входа
+			e.discard();  // остатки прошлой сцены
 		}
 		var template = memory.getServer().getStructureTemplateManager().get(Identifier.parse(scene.stage()));
 		if (template.isEmpty()) {
 			Celestial.LOGGER.error("Нет шаблона сцены {}", scene.stage());
 			player.sendOverlayMessage(Component.translatable("memory.celestial.blank"));
-			return;
+			return false;
+		}
+		// прежняя сцена в этом слоте могла быть шире — сперва очищаем объём
+		for (BlockPos p : BlockPos.betweenClosed(origin, origin.offset(80, 60, 80))) {
+			if (!memory.getBlockState(p).isAir()) {
+				memory.setBlock(p, Blocks.AIR.defaultBlockState(), 2 | 16);
+			}
 		}
 		template.get().placeInWorld(memory, origin, origin, new StructurePlaceSettings(), memory.getRandom(), 2);
-		player.setAttached(RETURN, new MemoryReturn(player.level().dimension().identifier().toString(), player.getX(), player.getY(), player.getZ(),
-			player.getYRot(), player.getXRot(), player.gameMode.getGameModeForPlayer().getName(), anchor, scene.id(),
-			!CelestialData.get(player).knows("memory:" + scene.id())));
 		Session session = new Session(player, scene, memory, origin, slot);
 		SESSIONS.put(player.getUUID(), session);
-		player.level().playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.PLAYERS, 1.0F, 0.6F);
 		player.teleport(new TeleportTransition(memory, at(origin, scene.spawn()), Vec3.ZERO, scene.spawnYaw(), 0.0F, TeleportTransition.DO_NOTHING));
-		if (player.gameMode.getGameModeForPlayer() != GameType.CREATIVE && player.gameMode.getGameModeForPlayer() != GameType.SPECTATOR) {
-			player.setGameMode(GameType.ADVENTURE);
-		}
 		for (MemoryScenes.Actor a : scene.actors()) {
 			session.spawn(a);
 		}
-		ServerPlayNetworking.send(player, new MemoryOverlayPayload(true, 0.0F));
+		return true;
 	}
 
 	static Vec3 at(BlockPos origin, Vec3 rel) {
@@ -204,6 +247,11 @@ public final class Memories {
 			if (player.gameMode.getGameModeForPlayer() != mode) {
 				player.setGameMode(mode);
 			}
+			if (mode == GameType.SURVIVAL || mode == GameType.ADVENTURE) {  // шаг fly мог дать полёт
+				player.getAbilities().mayfly = false;
+				player.getAbilities().flying = false;
+				player.onUpdateAbilities();
+			}
 		}
 		player.teleport(new TeleportTransition(target, pos, Vec3.ZERO, yaw, pitch, TeleportTransition.DO_NOTHING));
 		if (completed && back != null) {
@@ -227,6 +275,9 @@ public final class Memories {
 				Component.translatable(s.thought()).withStyle(ChatFormatting.ITALIC, ChatFormatting.GOLD), 80);
 		}
 		level.playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.PLAYERS, 1.0F, 0.8F);
+		if (s.onComplete().equals("prologue_wake")) {
+			prologueWake(player, level, back.first());
+		}
 		if (back.first() && s.onComplete().equals("part_thorns")) {  // перемена у якоря — только в первый раз, не при повторе из Кодекса
 			// терновник вокруг Древа Познания расступается: тропа к Восточным вратам открыта
 			BlockPos a = back.anchor();
@@ -239,7 +290,46 @@ public final class Memories {
 		}
 	}
 
+	/** Пробуждение после «Сна о Начале»: ночь, рядом с грохотом падает звезда — Угасание началось; в руках Дневник странника и дар выбора. */
+	private static void prologueWake(ServerPlayer player, ServerLevel level, boolean first) {
+		dev.celestial.boss.BossIntro.title(player, Component.translatable("memory.celestial.prologue.wake_title").withStyle(ChatFormatting.GOLD),
+			Component.translatable("memory.celestial.prologue.wake").withStyle(ChatFormatting.ITALIC), 100);
+		if (!first) {
+			return;
+		}
+		var inv = player.getInventory();
+		if (inv.countItem(dev.celestial.registry.ModItems.WANDERER_JOURNAL) == 0) {
+			player.getInventory().add(new ItemStack(dev.celestial.registry.ModItems.WANDERER_JOURNAL));
+		}
+		var d = CelestialData.get(player);
+		if (d.knows("choice:fruit_taken")) {
+			player.getInventory().add(new ItemStack(dev.celestial.registry.ModBlocks.KNOWLEDGE_FRUIT.asItem()));
+		} else if (d.knows("choice:fruit_refused")) {
+			player.getInventory().add(new ItemStack(dev.celestial.registry.ModItems.FIG_LEAF));
+		}
+		if (level.dimension() == Level.OVERWORLD) {
+			dev.celestial.fading.Meteors.fallNear(level, player);
+		}
+	}
+
 	private static void tick(MinecraftServer server) {
+		// пролог при первом входе: ждём, пока странник встанет на землю (до минуты)
+		var pit = PROLOGUE_PENDING.entrySet().iterator();
+		while (pit.hasNext()) {
+			var e = pit.next();
+			ServerPlayer p = server.getPlayerList().getPlayer(e.getKey());
+			int t = e.getValue() + 1;
+			e.setValue(t);
+			if (p == null || t > 1200 || !server.overworld().getGameRules().get(dev.celestial.registry.ModGameRules.PROLOGUE)
+				|| CelestialData.get(p).knows("memory:" + PROLOGUE)) {
+				pit.remove();
+				continue;
+			}
+			if (t > 60 && p.onGround() && !p.isPassenger() && p.level().dimension() == Level.OVERWORLD && tryEnter(p, PROLOGUE, p.blockPosition())) {
+				CelestialData.update(p, d -> d.withCodex("memory:" + PROLOGUE));  // начатый пролог сам больше не запускается
+				pit.remove();
+			}
+		}
 		Iterator<Session> it = SESSIONS.values().iterator();
 		List<Session> done = new ArrayList<>();
 		while (it.hasNext()) {
@@ -256,6 +346,41 @@ public final class Memories {
 		}
 		for (Session s : done) {
 			s.cleanup();
+			MemoryScenes.Scene next = s.skipped ? null : MemoryScenes.get(s.scene.next()).orElse(null);
+			if (next != null) {
+				// следующая сцена цепочки: без возврата, со вспышкой; итог (лист, мысль, последствия) — у последней сцены
+				CelestialData.update(s.player, d -> d.withCodex("memory:" + s.scene.id()));
+				if (!s.scene.sheet().isEmpty()) {
+					dev.celestial.lore.Lore.unlock(s.player, s.scene.sheet());  // лист каждой сцены цепочки открывается по ходу
+				}
+				MemoryReturn back = s.player.getAttached(RETURN);
+				if (back != null) {
+					s.player.setAttached(RETURN, new MemoryReturn(back.dimension(), back.x(), back.y(), back.z(), back.yaw(), back.pitch(), back.gameMode(),
+						back.anchor(), next.id(), back.first()));
+				}
+				ServerPlayNetworking.send(s.player, new MemoryOverlayPayload(false, 0.0F));
+				ServerPlayNetworking.send(s.player, new MemoryOverlayPayload(true, 0.0F));
+				if (stage(s.player, s.level, next, s.slot)) {
+					continue;
+				}
+			}
+			if (s.skipped) {
+				// пропуск: итог — у последней сцены цепочки
+				MemoryScenes.Scene last = s.scene;
+				for (int guard = 0; guard < 16 && !last.next().isEmpty(); guard++) {
+					var n = MemoryScenes.get(last.next());
+					if (n.isEmpty()) {
+						break;
+					}
+					CelestialData.update(s.player, dd -> dd.withCodex("memory:" + n.get().id()));
+					last = n.get();
+				}
+				MemoryReturn back = s.player.getAttached(RETURN);
+				if (back != null) {
+					s.player.setAttached(RETURN, new MemoryReturn(back.dimension(), back.x(), back.y(), back.z(), back.yaw(), back.pitch(), back.gameMode(),
+						back.anchor(), last.id(), back.first()));
+				}
+			}
 			returnPlayer(s.player, true);
 		}
 	}
@@ -275,6 +400,24 @@ public final class Memories {
 		int stepTicks;
 		int sneakTicks;
 		final boolean seen;
+		boolean skipped;
+		String clicked;
+		final java.util.Set<UUID> named = new java.util.HashSet<>();
+		final List<Star> stars = new ArrayList<>();
+		final List<Display.BlockDisplay> lifted = new ArrayList<>();
+		int lookAway;
+		long lastSweepHit = -100;
+
+		record Star(Vec3 target, int[] left) {}
+
+		String idOf(MemoryActor a) {
+			for (var e : actors.entrySet()) {
+				if (e.getValue() == a) {
+					return e.getKey();
+				}
+			}
+			return "";
+		}
 
 		Session(ServerPlayer player, MemoryScenes.Scene scene, ServerLevel level, BlockPos origin, int slot) {
 			this.player = player;
@@ -306,6 +449,9 @@ public final class Memories {
 			actors.values().forEach(Entity::discard);
 			held.values().forEach(Entity::discard);
 			extra.forEach(Entity::discard);
+			lifted.forEach(Entity::discard);
+			lifted.clear();
+			stars.clear();
 			actors.clear();
 			held.clear();
 			extra.clear();
@@ -314,8 +460,14 @@ public final class Memories {
 		/** true — сцена окончена. */
 		boolean tick() {
 			// пропуск уже пережитого: удерживать «красться»
-			if (seen && player.isShiftKeyDown()) {
+			String current = step < scene.steps().size() ? scene.steps().get(step).get("t").getAsString() : "";
+			boolean sneakIsAction = current.equals("name") || current.equals("choice");  // здесь приседают, чтобы наречь имя, — не пропуск
+			if ((seen || scene.skippable()) && player.isShiftKeyDown() && !sneakIsAction) {
+				if (sneakTicks == 10) {
+					player.sendOverlayMessage(Component.translatable("memory.celestial.skipping").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
+				}
 				if (++sneakTicks >= SKIP_SNEAK_TICKS) {
+					skipped = true;
 					return true;
 				}
 			} else {
@@ -324,6 +476,7 @@ public final class Memories {
 			boundary();
 			moveActors();
 			syncHeld();
+			tickStars();
 			// выполняем шаги, пока очередной не попросит подождать
 			for (int guard = 0; guard < 32 && step < scene.steps().size(); guard++) {
 				JsonObject st = scene.steps().get(step);
@@ -410,6 +563,39 @@ public final class Memories {
 				return a != null ? a.getEyePosition() : player.getEyePosition();
 			}
 			return point(e);
+		}
+
+		/** Падающие звёзды (пролог, падение Денницы): метка-кольцо, огненный след сверху, удар. Попал — отбросит, но не ранит (это память). */
+		void tickStars() {
+			Iterator<Star> it = stars.iterator();
+			while (it.hasNext()) {
+				Star st = it.next();
+				int left = --st.left()[0];
+				Vec3 tg = st.target();
+				if (left > 0) {
+					double y = tg.y + left * 0.9;
+					level.sendParticles(ParticleTypes.END_ROD, tg.x, y, tg.z, 3, 0.15, 0.3, 0.15, 0.0);
+					level.sendParticles(ParticleTypes.FLAME, tg.x, y + 0.5, tg.z, 2, 0.1, 0.3, 0.1, 0.0);
+					if (left % 4 == 0) {
+						for (int i = 0; i < 10; i++) {
+							double a = i / 10.0 * Math.PI * 2;
+							level.sendParticles(ParticleTypes.END_ROD, tg.x + Math.cos(a) * 1.4, tg.y + 0.1, tg.z + Math.sin(a) * 1.4, 1, 0, 0, 0, 0);
+						}
+					}
+					continue;
+				}
+				level.sendParticles(ParticleTypes.EXPLOSION, tg.x, tg.y + 0.5, tg.z, 2, 0.3, 0.3, 0.3, 0);
+				level.sendParticles(ParticleTypes.END_ROD, tg.x, tg.y + 0.5, tg.z, 40, 0.6, 0.6, 0.6, 0.25);
+				level.playSound(null, BlockPos.containing(tg), SoundEvents.GENERIC_EXPLODE.value(), SoundSource.AMBIENT, 0.6F, 1.4F);
+				Vec3 d = player.position().subtract(tg);
+				if (d.lengthSqr() < 1.9 * 1.9) {
+					Vec3 push = d.multiply(1, 0, 1).normalize().scale(0.9);
+					player.push(push.x, 0.45, push.z);
+					player.syncVelocity = true;
+					player.sendOverlayMessage(Component.translatable("memory.celestial.prologue.star_hit").withStyle(ChatFormatting.ITALIC, ChatFormatting.GOLD));
+				}
+				it.remove();
+			}
 		}
 
 		/** Выполнить шаг. true — шаг закончен, можно дальше. */
@@ -540,6 +726,9 @@ public final class Memories {
 							m.setNoAi(true);
 							m.setPersistenceRequired();
 						}
+						if (st.has("nogravity") && st.get("nogravity").getAsBoolean()) {
+							e.setNoGravity(true);
+						}
 						level.addFreshEntity(e);
 						level.sendParticles(ParticleTypes.FLAME, p.x, p.y + 1.5, p.z, 40, 1.5, 1.0, 1.5, 0.05);
 						String id = st.has("id") ? st.get("id").getAsString() : "_e" + step;
@@ -561,6 +750,131 @@ public final class Memories {
 				}
 				case "end" -> {
 					return stepTicks >= (st.has("ticks") ? st.get("ticks").getAsInt() : 20);
+				}
+				case "fly" -> {
+					boolean on = st.get("on").getAsBoolean();
+					player.getAbilities().mayfly = on || player.isCreative();
+					player.getAbilities().flying = on;
+					player.onUpdateAbilities();
+					return true;
+				}
+				case "caption" -> {
+					if (stepTicks == 0) {
+						dev.celestial.boss.BossIntro.title(player, Component.empty(),
+							Component.translatable(st.get("key").getAsString()).withStyle(ChatFormatting.ITALIC, ChatFormatting.WHITE), 60);
+					}
+					return stepTicks >= (st.has("ticks") ? st.get("ticks").getAsInt() : 70);
+				}
+				case "hint" -> {
+					player.sendOverlayMessage(Component.translatable(st.get("key").getAsString()).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
+					return true;
+				}
+				case "name" -> {
+					// наречение имён: присесть и коснуться существа пустой рукой — n существ
+					if (st.has("hint") && stepTicks % 80 == 0) {
+						player.sendOverlayMessage(Component.translatable(st.get("hint").getAsString(), named.size(), st.get("n").getAsInt())
+							.withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
+					}
+					return named.size() >= st.get("n").getAsInt() || stepTicks >= timeout;
+				}
+				case "choice" -> {
+					// выбор: взять у актёра (ПКМ по нему) или отвернуться (смотреть прочь 3 с); итог — запись choice:<key>_taken/_refused
+					String actor = st.get("actor").getAsString();
+					String key = st.get("key").getAsString();
+					if (stepTicks == 0) {
+						clicked = null;
+						lookAway = 0;
+					}
+					if (st.has("hint") && stepTicks % 80 == 0) {
+						player.sendOverlayMessage(Component.translatable(st.get("hint").getAsString()).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
+					}
+					MemoryActor a = actors.get(actor);
+					boolean taken = actor.equals(clicked);
+					boolean away = false;
+					if (a != null) {
+						Vec3 to = a.position().subtract(player.getEyePosition()).normalize();
+						lookAway = to.dot(player.getViewVector(1.0F)) < 0 ? lookAway + 1 : 0;
+						away = lookAway >= 60;
+					}
+					if (taken || away || stepTicks >= timeout) {
+						String result = taken ? "taken" : "refused";
+						CelestialData.update(player, dd -> dd.withoutCodex("choice:" + key + "_taken").withoutCodex("choice:" + key + "_refused")
+							.withCodex("choice:" + key + "_" + result));
+						player.sendOverlayMessage(Component.translatable("memory.celestial.choice." + key + "." + result).withStyle(ChatFormatting.GOLD, ChatFormatting.ITALIC));
+						level.sendParticles(taken ? ParticleTypes.FLAME : ParticleTypes.END_ROD, player.getX(), player.getY() + 1, player.getZ(), 20, 0.4, 0.6, 0.4, 0.03);
+						return true;
+					}
+					return false;
+				}
+				case "stars" -> {
+					int every = st.has("every") ? st.get("every").getAsInt() : 12;
+					double r = st.has("r") ? st.get("r").getAsDouble() : 7.0;
+					int ticks = st.get("ticks").getAsInt();
+					if (stepTicks < ticks && stepTicks % every == 0) {
+						var rnd = level.getRandom();
+						boolean atPlayer = rnd.nextInt(3) == 0;
+						double dx = atPlayer ? 0 : (rnd.nextDouble() * 2 - 1) * r;
+						double dz = atPlayer ? 0 : (rnd.nextDouble() * 2 - 1) * r;
+						Vec3 tg = new Vec3(player.getX() + dx, player.getY(), player.getZ() + dz);
+						stars.add(new Star(tg, new int[] {st.has("warn") ? st.get("warn").getAsInt() : 26}));
+					}
+					return stepTicks >= ticks && stars.isEmpty();
+				}
+				case "reach" -> {
+					// бегство: дойти до цели; если задан sweep — вокруг центра метёт пламенный меч (фаза как у Херувима врат): задел — отбросит назад
+					Vec3 goal = point(st.get("pos"));
+					double r = st.get("r").getAsDouble();
+					if (st.has("sweep")) {
+						JsonObject sw = st.getAsJsonObject("sweep");
+						Vec3 c = point(sw.get("center"));
+						double radius = sw.get("radius").getAsDouble();
+						double dx = player.getX() - c.x;
+						double dz = player.getZ() - c.z;
+						double pr = Math.hypot(dx, dz);
+						float now = dev.celestial.entity.GateCherub.angle(level, 0);
+						double delta = Mth.wrapDegrees((float) Math.toDegrees(Math.atan2(dx, dz) - now)) * Mth.DEG_TO_RAD;
+						double half = Math.atan2(0.8, Math.max(pr, 0.5)) + dev.celestial.entity.GateCherub.ROT;
+						long time = level.getGameTime();
+						if (pr > 1.0 && pr < radius + 0.6 && player.getY() - c.y < 1.0 && Math.abs(delta) < half && time - lastSweepHit > 15) {
+							lastSweepHit = time;
+							Vec3 back = player.position().subtract(goal).multiply(1, 0, 1).normalize().scale(0.9);
+							player.push(back.x, 0.4, back.z);
+							player.syncVelocity = true;
+							level.sendParticles(ParticleTypes.FLAME, player.getX(), player.getY() + 1, player.getZ(), 30, 0.4, 0.6, 0.4, 0.05);
+							player.sendOverlayMessage(Component.translatable("memory.celestial.prologue.sword_hit").withStyle(ChatFormatting.ITALIC, ChatFormatting.RED));
+						}
+					}
+					return player.position().distanceToSqr(goal) <= r * r || stepTicks >= timeout;
+				}
+				case "lift" -> {
+					// Сад поднимается: блоки области становятся «живыми» и плавно уходят вверх (блок-дисплеи с интерполяцией)
+					int ticks = st.get("ticks").getAsInt();
+					if (stepTicks == 0) {
+						Vec3 a = point(st.get("from"));
+						Vec3 b = point(st.get("to"));
+						for (BlockPos p : BlockPos.betweenClosed(BlockPos.containing(a), BlockPos.containing(b))) {
+							var state = level.getBlockState(p);
+							if (state.isAir() || lifted.size() >= 4000) {
+								continue;
+							}
+							Display.BlockDisplay d = EntityTypes.BLOCK_DISPLAY.create(level, EntitySpawnReason.TRIGGERED);
+							if (d != null) {
+								d.setBlockState(state);
+								d.setPos(p.getX(), p.getY(), p.getZ());
+								level.addFreshEntity(d);
+								lifted.add(d);
+								level.setBlock(p, Blocks.AIR.defaultBlockState(), 2 | 16);
+							}
+						}
+					} else if (stepTicks == 2) {
+						float rise = st.get("rise").getAsFloat();
+						for (Display.BlockDisplay d : lifted) {
+							d.setTransformationInterpolationDelay(0);
+							d.setTransformationInterpolationDuration(ticks);
+							d.setTransformation(new com.mojang.math.Transformation(new org.joml.Vector3f(0, rise, 0), null, null, null));
+						}
+					}
+					return stepTicks >= ticks + 2;
 				}
 				default -> {
 					Celestial.LOGGER.warn("Неизвестный шаг сцены {}: {}", scene.id(), t);

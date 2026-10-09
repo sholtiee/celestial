@@ -1,0 +1,89 @@
+# Пролог «Сон о Начале» (O3, docs/LORE.md §5a): Свет (полёт к хорам, Денница, звездопад) → Сад (имена, выбор у Змея, бегство от меча) → Изгнание (Сад поднимается) → пробуждение
+/gamerule celestial:prologue false
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 28000 160 27994 0 10
+fly
+wait 60
+/fill 27990 159 27990 28010 159 28010 celestial:golden_grass
+/fill 27990 160 27990 28010 172 28010 minecraft:air
+/kill @e[type=!minecraft:player,distance=..40]
+/clear @s
+/celestial memory forget prologue_light
+/celestial memory forget prologue_garden
+/celestial memory forget prologue_exile
+/celestial codex choice:none
+/tp @s 28000.5 160 27997.5 0 10
+/gamemode survival
+wait 30
+/celestial memory enter prologue_light
+wait 10
+pos
+/say TEST P1 in_light expect=pass
+/execute in celestial:memory if entity @s[x=0,y=60,z=0,dx=70,dy=80,dz=70]
+wait 40
+shot pro_light_rings
+# лететь к свету: ставим у хоров
+/tp @s 30.5 94 38 180 0
+wait 120
+shot pro_throne
+wait 110
+shot pro_morning
+wait 140
+shot pro_stars
+wait 300
+# Сад
+pos
+/say TEST P2 in_garden expect=pass
+/execute in celestial:memory if entity @s[x=5,y=66,z=25,dx=15,dy=6,dz=15]
+wait 80
+shot pro_garden
+/tp @s 11.5 69 29.5 90 10
+hold sneak 25
+wait 3
+interact celestial:golden_ram
+wait 30
+/tp @s 16.5 69 29.5 180 10
+hold sneak 25
+wait 3
+interact celestial:pegasus
+wait 30
+/tp @s 11.5 69 25.5 -90 10
+hold sneak 25
+wait 3
+interact celestial:light_wisp
+wait 30
+shot pro_named
+wait 120
+/tp @s 20.5 69 22.5 180 -20
+wait 120
+shot pro_serpent
+interact celestial:memory_serpent
+wait 100
+shot pro_eve_fruit
+wait 80
+shot pro_cherub
+/tp @s 38.5 69 21.5 -90 0
+wait 40
+# Изгнание
+pos
+/say TEST P3 in_exile expect=pass
+/execute in celestial:memory if entity @s[x=15,y=66,z=28,dx=12,dy=6,dz=12]
+wait 100
+shot pro_exile
+wait 140
+shot pro_rising
+wait 400
+pos
+/say TEST P4 woke_up expect=pass
+/execute in minecraft:overworld if entity @s[x=27998,y=158,z=27995,dx=5,dy=5,dz=5]
+/say TEST P5 journal expect=pass
+/execute if items entity @s container.* celestial:wanderer_journal
+/say TEST P6 fruit_choice_gift expect=pass
+/execute if items entity @s container.* celestial:knowledge_fruit
+wait 40
+shot pro_wake
+/gamemode creative
+quit

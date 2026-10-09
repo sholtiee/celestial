@@ -15,6 +15,10 @@ public final class ModGameRules {
 	public static final GameRule<Integer> FADING_DAYS = GameRuleBuilder.forInteger(10).range(1, 1000)
 		.category(GameRuleCategory.MISC).buildAndRegister(Celestial.id("fading_days"));
 
+	/** Пролог «Сон о Начале» при первом входе в мир (docs/LORE.md §5a). Для серверов, где он не нужен: /gamerule celestial:prologue false. */
+	public static final GameRule<Boolean> PROLOGUE = GameRuleBuilder.forBoolean(true)
+		.category(GameRuleCategory.MISC).buildAndRegister(Celestial.id("prologue"));
+
 	private ModGameRules() {}
 
 	public static void init() {

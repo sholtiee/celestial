@@ -319,5 +319,486 @@
         "ticks": 30
       }
     ]
+  },
+  "prologue_light": {
+    "stage": "celestial:memory/prologue_light",
+    "center": [
+      30,
+      30,
+      30
+    ],
+    "radius": 36,
+    "spawn": [
+      30.5,
+      30,
+      60.0,
+      180
+    ],
+    "sheet": "light",
+    "thought": "",
+    "next": "prologue_garden",
+    "skippable": true,
+    "actors": [],
+    "steps": [
+      {
+        "t": "fly",
+        "on": true
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.prologue.light1",
+        "ticks": 80
+      },
+      {
+        "t": "hint",
+        "key": "memory.celestial.prologue.fly_hint"
+      },
+      {
+        "t": "near",
+        "pos": [
+          30.5,
+          30,
+          37
+        ],
+        "r": 6,
+        "timeout": 900
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.prologue.light2",
+        "ticks": 70
+      },
+      {
+        "t": "spawn",
+        "actor": {
+          "id": "morning",
+          "type": "human",
+          "skin": "morning_star",
+          "pos": [
+            30.5,
+            29,
+            34.5
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:end_rod",
+        "pos": [
+          30.5,
+          30.5,
+          34.5
+        ],
+        "count": 60,
+        "spread": 0.8
+      },
+      {
+        "t": "face",
+        "actor": "morning",
+        "to": "player"
+      },
+      {
+        "t": "wait",
+        "ticks": 40
+      },
+      {
+        "t": "say",
+        "actor": "morning",
+        "key": "memory.celestial.prologue.morning",
+        "ticks": 70
+      },
+      {
+        "t": "dim",
+        "value": 0.75
+      },
+      {
+        "t": "move",
+        "actor": "morning",
+        "to": [
+          30.5,
+          0,
+          6
+        ],
+        "speed": 0.35,
+        "wait": false
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.prologue.fall",
+        "ticks": 40
+      },
+      {
+        "t": "hint",
+        "key": "memory.celestial.prologue.dodge_hint"
+      },
+      {
+        "t": "stars",
+        "ticks": 320,
+        "every": 9,
+        "r": 6
+      },
+      {
+        "t": "despawn",
+        "actor": "morning"
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.prologue.fall2",
+        "ticks": 60
+      },
+      {
+        "t": "end",
+        "ticks": 10
+      }
+    ]
+  },
+  "prologue_garden": {
+    "stage": "celestial:memory/fruit",
+    "center": [
+      20,
+      5,
+      20
+    ],
+    "radius": 21,
+    "spawn": [
+      12.5,
+      5,
+      33.5,
+      180
+    ],
+    "sheet": "eden",
+    "thought": "",
+    "next": "prologue_exile",
+    "skippable": true,
+    "actors": [
+      {
+        "id": "adam",
+        "type": "human",
+        "skin": "adam",
+        "pos": [
+          13.5,
+          5,
+          27.5
+        ],
+        "yaw": 0
+      },
+      {
+        "id": "eve",
+        "type": "human",
+        "skin": "eve",
+        "pos": [
+          24.5,
+          5,
+          25.5
+        ],
+        "yaw": 150
+      },
+      {
+        "id": "serpent",
+        "type": "serpent",
+        "skin": "serpent",
+        "pos": [
+          20.9,
+          7.6,
+          18.4
+        ],
+        "yaw": 20,
+        "pose": 3
+      }
+    ],
+    "steps": [
+      {
+        "t": "fly",
+        "on": false
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.prologue.garden1",
+        "ticks": 70
+      },
+      {
+        "t": "entity",
+        "type": "celestial:golden_ram",
+        "pos": [
+          10.5,
+          5,
+          30.5
+        ],
+        "yaw": 90
+      },
+      {
+        "t": "entity",
+        "type": "celestial:pegasus",
+        "pos": [
+          16.5,
+          5,
+          31.5
+        ],
+        "yaw": 200
+      },
+      {
+        "t": "entity",
+        "type": "celestial:light_wisp",
+        "pos": [
+          9.5,
+          6.5,
+          25.5
+        ],
+        "yaw": 0,
+        "nogravity": true
+      },
+      {
+        "t": "entity",
+        "type": "celestial:cherub",
+        "pos": [
+          15.5,
+          6.5,
+          24.5
+        ],
+        "yaw": 160,
+        "nogravity": true
+      },
+      {
+        "t": "face",
+        "actor": "adam",
+        "to": "player"
+      },
+      {
+        "t": "say",
+        "actor": "adam",
+        "key": "memory.celestial.prologue.adam1",
+        "ticks": 70
+      },
+      {
+        "t": "name",
+        "n": 3,
+        "hint": "memory.celestial.prologue.name_hint",
+        "timeout": 1600
+      },
+      {
+        "t": "say",
+        "actor": "adam",
+        "key": "memory.celestial.prologue.adam2",
+        "ticks": 60
+      },
+      {
+        "t": "move",
+        "actor": "eve",
+        "to": [
+          19.5,
+          5,
+          21.0
+        ],
+        "speed": 0.08,
+        "wait": false
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.prologue.trees",
+        "ticks": 70
+      },
+      {
+        "t": "near",
+        "pos": [
+          20.5,
+          5,
+          22.5
+        ],
+        "r": 7,
+        "timeout": 900
+      },
+      {
+        "t": "face",
+        "actor": "serpent",
+        "to": "player"
+      },
+      {
+        "t": "say",
+        "actor": "serpent",
+        "key": "memory.celestial.prologue.serpent",
+        "ticks": 60
+      },
+      {
+        "t": "choice",
+        "actor": "serpent",
+        "key": "fruit",
+        "hint": "memory.celestial.prologue.choice_hint",
+        "timeout": 900
+      },
+      {
+        "t": "face",
+        "actor": "eve",
+        "to": "serpent"
+      },
+      {
+        "t": "pose",
+        "actor": "eve",
+        "pose": 1
+      },
+      {
+        "t": "hold",
+        "actor": "eve",
+        "item": "celestial:knowledge_fruit"
+      },
+      {
+        "t": "wait",
+        "ticks": 30
+      },
+      {
+        "t": "pose",
+        "actor": "eve",
+        "pose": 2
+      },
+      {
+        "t": "wait",
+        "ticks": 30
+      },
+      {
+        "t": "hold",
+        "actor": "eve",
+        "item": null
+      },
+      {
+        "t": "pose",
+        "actor": "eve",
+        "pose": 0
+      },
+      {
+        "t": "dim",
+        "value": 0.5
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:white_ash",
+        "pos": [
+          20,
+          12,
+          16
+        ],
+        "count": 160,
+        "spread": 5
+      },
+      {
+        "t": "wait",
+        "ticks": 30
+      },
+      {
+        "t": "entity",
+        "type": "celestial:gate_cherub",
+        "pos": [
+          32.5,
+          5,
+          21.5
+        ],
+        "yaw": 90
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.prologue.run",
+        "ticks": 20
+      },
+      {
+        "t": "hint",
+        "key": "memory.celestial.prologue.run_hint"
+      },
+      {
+        "t": "reach",
+        "pos": [
+          38.5,
+          5,
+          21.5
+        ],
+        "r": 1.8,
+        "sweep": {
+          "center": [
+            32.5,
+            5,
+            21.5
+          ],
+          "radius": 6.5
+        },
+        "timeout": 1600
+      },
+      {
+        "t": "end",
+        "ticks": 10
+      }
+    ]
+  },
+  "prologue_exile": {
+    "stage": "celestial:memory/prologue_exile",
+    "center": [
+      20,
+      5,
+      26
+    ],
+    "radius": 15,
+    "spawn": [
+      20.5,
+      5,
+      34.5,
+      180
+    ],
+    "sheet": "",
+    "thought": "",
+    "on_complete": "prologue_wake",
+    "skippable": true,
+    "actors": [],
+    "steps": [
+      {
+        "t": "dim",
+        "value": 0.35
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.prologue.exile1",
+        "ticks": 70
+      },
+      {
+        "t": "wait",
+        "ticks": 20
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:end_rod",
+        "pos": [
+          20,
+          6,
+          9
+        ],
+        "count": 80,
+        "spread": 4
+      },
+      {
+        "t": "lift",
+        "from": [
+          11,
+          0,
+          2
+        ],
+        "to": [
+          29,
+          14,
+          15
+        ],
+        "rise": 45,
+        "ticks": 240
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.prologue.exile2",
+        "ticks": 80
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.prologue.exile3",
+        "ticks": 80
+      },
+      {
+        "t": "end",
+        "ticks": 20
+      }
+    ]
   }
 }
