@@ -246,6 +246,14 @@ public final class LorePanel {
 			rebuild.run();
 		}).bounds(left + 10, top + H_BACK, ART_W, 16).build();
 		add.accept(back);
+		var scene = dev.celestial.memory.MemoryScenes.forSheet(s.id());
+		if (scene.isPresent() && d.knows("memory:" + scene.get().id())) {  // «Пережить снова» — только уже пережитое
+			String id = scene.get().id();
+			add.accept(Button.builder(Component.translatable("lore.celestial.relive").withStyle(ChatFormatting.GOLD), btn -> {
+				net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.send(new dev.celestial.network.ReplayMemoryPayload(id));
+				net.minecraft.client.Minecraft.getInstance().gui.setScreen(null);
+			}).bounds(left + 10, top + H_BACK - 20, ART_W, 16).build());
+		}
 		return new int[] {left + 116, top + 52, w - 130};
 	}
 

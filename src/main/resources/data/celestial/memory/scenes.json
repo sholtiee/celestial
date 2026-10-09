@@ -1,0 +1,323 @@
+{
+  "fruit": {
+    "stage": "celestial:memory/fruit",
+    "center": [
+      20,
+      5,
+      20
+    ],
+    "radius": 17.5,
+    "spawn": [
+      20.5,
+      5,
+      35.5,
+      180
+    ],
+    "sheet": "fruit",
+    "thought": "memory.celestial.fruit.thought",
+    "on_complete": "part_thorns",
+    "actors": [
+      {
+        "id": "eve",
+        "type": "human",
+        "skin": "eve",
+        "pos": [
+          11.5,
+          5,
+          24.5
+        ],
+        "yaw": 210
+      },
+      {
+        "id": "adam",
+        "type": "human",
+        "skin": "adam",
+        "pos": [
+          27.5,
+          5,
+          23.5
+        ],
+        "yaw": 120
+      },
+      {
+        "id": "serpent",
+        "type": "serpent",
+        "skin": "serpent",
+        "pos": [
+          22.0,
+          9.2,
+          15.0
+        ],
+        "yaw": 200,
+        "pose": 3
+      }
+    ],
+    "steps": [
+      {
+        "t": "wait",
+        "ticks": 40
+      },
+      {
+        "t": "near",
+        "pos": [
+          20.5,
+          5,
+          23
+        ],
+        "r": 10,
+        "timeout": 500
+      },
+      {
+        "t": "move",
+        "actor": "eve",
+        "to": [
+          18.5,
+          5,
+          19.5
+        ],
+        "speed": 0.07
+      },
+      {
+        "t": "face",
+        "actor": "eve",
+        "to": "serpent"
+      },
+      {
+        "t": "face",
+        "actor": "serpent",
+        "to": "eve"
+      },
+      {
+        "t": "say",
+        "actor": "serpent",
+        "key": "memory.celestial.fruit.serpent",
+        "ticks": 80
+      },
+      {
+        "t": "look",
+        "actor": "eve",
+        "r": 18,
+        "timeout": 300
+      },
+      {
+        "t": "pose",
+        "actor": "eve",
+        "pose": 1
+      },
+      {
+        "t": "hold",
+        "actor": "eve",
+        "item": "celestial:knowledge_fruit"
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:end_rod",
+        "pos": [
+          19,
+          7,
+          18.5
+        ],
+        "count": 14,
+        "spread": 0.4
+      },
+      {
+        "t": "wait",
+        "ticks": 40
+      },
+      {
+        "t": "move",
+        "actor": "eve",
+        "to": [
+          25.5,
+          5,
+          22.5
+        ],
+        "speed": 0.08
+      },
+      {
+        "t": "face",
+        "actor": "eve",
+        "to": "adam"
+      },
+      {
+        "t": "face",
+        "actor": "adam",
+        "to": "eve"
+      },
+      {
+        "t": "pose",
+        "actor": "adam",
+        "pose": 1
+      },
+      {
+        "t": "hold",
+        "actor": "adam",
+        "item": "celestial:knowledge_fruit"
+      },
+      {
+        "t": "wait",
+        "ticks": 25
+      },
+      {
+        "t": "pose",
+        "actor": "eve",
+        "pose": 2
+      },
+      {
+        "t": "pose",
+        "actor": "adam",
+        "pose": 2
+      },
+      {
+        "t": "wait",
+        "ticks": 45
+      },
+      {
+        "t": "hold",
+        "actor": "eve",
+        "item": null
+      },
+      {
+        "t": "hold",
+        "actor": "adam",
+        "item": null
+      },
+      {
+        "t": "pose",
+        "actor": "eve",
+        "pose": 0
+      },
+      {
+        "t": "pose",
+        "actor": "adam",
+        "pose": 0
+      },
+      {
+        "t": "dim",
+        "value": 0.55
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:white_ash",
+        "pos": [
+          20,
+          12,
+          16
+        ],
+        "count": 160,
+        "spread": 5
+      },
+      {
+        "t": "wait",
+        "ticks": 50
+      },
+      {
+        "t": "move",
+        "actor": "eve",
+        "to": [
+          30.5,
+          5,
+          25.5
+        ],
+        "speed": 0.11,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "adam",
+        "to": [
+          32.5,
+          5,
+          25.5
+        ],
+        "speed": 0.11
+      },
+      {
+        "t": "pose",
+        "actor": "eve",
+        "pose": 3
+      },
+      {
+        "t": "pose",
+        "actor": "adam",
+        "pose": 3
+      },
+      {
+        "t": "wait",
+        "ticks": 40
+      },
+      {
+        "t": "voice",
+        "key": "memory.celestial.fruit.voice",
+        "pos": [
+          25,
+          5,
+          21
+        ],
+        "ticks": 90
+      },
+      {
+        "t": "pose",
+        "actor": "eve",
+        "pose": 0
+      },
+      {
+        "t": "pose",
+        "actor": "adam",
+        "pose": 0
+      },
+      {
+        "t": "entity",
+        "type": "celestial:gate_cherub",
+        "pos": [
+          36.5,
+          5,
+          21.5
+        ],
+        "yaw": 90
+      },
+      {
+        "t": "wait",
+        "ticks": 30
+      },
+      {
+        "t": "move",
+        "actor": "eve",
+        "to": [
+          35.0,
+          5,
+          23.0
+        ],
+        "speed": 0.05,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "adam",
+        "to": [
+          35.0,
+          5,
+          24.5
+        ],
+        "speed": 0.05,
+        "wait": false
+      },
+      {
+        "t": "wait",
+        "ticks": 110
+      },
+      {
+        "t": "despawn",
+        "actor": "eve"
+      },
+      {
+        "t": "despawn",
+        "actor": "adam"
+      },
+      {
+        "t": "end",
+        "ticks": 30
+      }
+    ]
+  }
+}

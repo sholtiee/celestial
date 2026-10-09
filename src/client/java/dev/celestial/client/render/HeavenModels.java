@@ -25,6 +25,9 @@ public final class HeavenModels {
 		public float eatPos;
 		public float eatAngle;
 		public boolean sheared;
+		/** Актёры воспоминаний: облик (текстура memory_<skin>) и Змей без крыльев. */
+		public String skin = "";
+		public boolean noWings;
 	}
 
 	/** Нимб из четырёх светящихся планок над головой (у ангела и херувима); u — столбец развёртки: планки (u,0), бока (u,4). */
@@ -558,6 +561,13 @@ public final class HeavenModels {
 			}
 			head.yRot = Mth.sin(t * 0.25F + 0.9F) * 0.12F;
 			jaw.xRot = 0.15F + Math.max(0.0F, Mth.sin(t * 0.08F)) * 0.25F + state.attack * 0.6F;
+			leftWing.visible = !state.noWings;
+			rightWing.visible = !state.noWings;
+			if (state.noWings && state.variant == 3) {  // Змей свернулся кольцом на ветви
+				for (int i = 0; i < chain.length; i++) {
+					chain[i].yRot = 0.85F + Mth.sin(t * 0.05F - i) * 0.08F;
+				}
+			}
 		}
 	}
 
@@ -626,6 +636,85 @@ public final class HeavenModels {
 			head.yRot = state.yRot * Mth.DEG_TO_RAD;
 			fleece.visible = !state.sheared;
 			tail.zRot = Mth.sin(state.ageInTicks * 0.3F) * 0.15F;
+		}
+	}
+
+	// ---------------------------------------------------------------- Смертный (64×64): человек из воспоминаний — Адам, Ева, Каин, Ной…
+	// Голова (0,0), волосы-накидка за спиной (32,0) 8×12×1 (у коротко стриженных — прозрачна), торс (16,16), руки (40,16), одеяние (0,32).
+	// Позы (state.variant): 0 стоит, 1 протягивает руку, 2 подносит руку ко рту, 3 пригнулся, 4 на коленях.
+	public static class Mortal extends EntityModel<State> {
+		private final ModelPart head;
+		private final ModelPart body;
+		private final ModelPart skirt;
+		private final ModelPart leftArm;
+		private final ModelPart rightArm;
+
+		public Mortal(ModelPart root) {
+			super(root);
+			this.head = root.getChild("head");
+			this.body = root.getChild("body");
+			this.skirt = root.getChild("skirt");
+			this.leftArm = body.getChild("left_arm");
+			this.rightArm = body.getChild("right_arm");
+		}
+
+		public static LayerDefinition createLayer() {
+			MeshDefinition mesh = new MeshDefinition();
+			PartDefinition root = mesh.getRoot();
+			PartDefinition head = root.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4, -8, -4, 8, 8, 8), PartPose.ZERO);
+			head.addOrReplaceChild("hair", CubeListBuilder.create().texOffs(32, 0).addBox(-4, -8, 0, 8, 12, 1), PartPose.offset(0, 0, 4));
+			PartDefinition body = root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(16, 16).addBox(-4, 0, -2, 8, 10, 4), PartPose.ZERO);
+			body.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(40, 16).addBox(-1, -1, -1.5F, 3, 11, 3), PartPose.offset(5, 1, 0));
+			body.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(40, 16).mirror().addBox(-2, -1, -1.5F, 3, 11, 3), PartPose.offset(-5, 1, 0));
+			root.addOrReplaceChild("skirt", CubeListBuilder.create().texOffs(0, 32).addBox(-5, 0, -3, 10, 14, 6), PartPose.offset(0, 10, 0));
+			return LayerDefinition.create(mesh, 64, 64);
+		}
+
+		@Override
+		public void setupAnim(State state) {
+			super.setupAnim(state);
+			float t = state.ageInTicks;
+			float walk = state.walkAnimationPos * 0.6F;
+			float amp = Math.min(1.0F, state.walkAnimationSpeed);
+			head.yRot = state.yRot * Mth.DEG_TO_RAD;
+			head.xRot = state.xRot * Mth.DEG_TO_RAD;
+			leftArm.xRot = Mth.cos(walk) * 0.5F * amp + Mth.sin(t * 0.06F) * 0.04F;
+			rightArm.xRot = -Mth.cos(walk) * 0.5F * amp - Mth.sin(t * 0.06F) * 0.04F;
+			leftArm.zRot = -0.06F;
+			rightArm.zRot = 0.06F;
+			skirt.xRot = Mth.sin(walk) * 0.08F * amp;
+			float drop = 0;
+			body.xRot = 0;
+			switch (state.variant) {
+				case 1 -> {  // протягивает руку
+					rightArm.xRot = -1.35F;
+					rightArm.zRot = 0.1F;
+				}
+				case 2 -> {  // подносит ко рту
+					rightArm.xRot = -2.0F;
+					rightArm.zRot = 0.45F;
+					head.xRot = 0.25F;
+				}
+				case 3 -> {  // пригнулся, прячется
+					body.xRot = 0.45F;
+					head.xRot = 0.5F;
+					leftArm.xRot = -0.9F;
+					rightArm.xRot = -0.9F;
+					drop = 3;
+				}
+				case 4 -> {  // на коленях
+					body.xRot = 0.1F;
+					head.xRot = 0.35F;
+					leftArm.xRot = -0.4F;
+					rightArm.xRot = -0.4F;
+					drop = 6;
+				}
+				default -> {
+				}
+			}
+			head.y = drop;
+			body.y = drop;
+			skirt.y = 10 + drop;
 		}
 	}
 }

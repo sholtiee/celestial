@@ -75,6 +75,20 @@ gen_story → gen_grace → gen_fading → gen_places → gen_boss → … → g
   иначе `quote=None` и только ссылка), мотив картинки в `gen_lore.ART`, `bash tools/build_assets.sh`; открыть из кода — `Lore.unlock(player, id)` / `Lore.addGlossary`;
   вручную — `/celestial lore unlock|lock <id|all>`. Лист пишется как «дневник пережитого» (LORE §0): 1–3 короткие записи, не стена текста.
 - **Звук**: синтез в gen_sounds.py (`SOUNDS`), событие в `ModSounds`, субтитр в gen_boss.py.
+- **Отблеск (сцену-воспоминание)** — движок `memory/` (docs/LORE.md §5c), образец — сцена `fruit` в `tools/gen_scenes.py`:
+  1) функция `stage_<id>()` строит остров-сцену на `Template` (заполни воздухом весь объём; центр, радиус памяти и точка появления — в координатах шаблона);
+  2) запись в `SCENES`: `stage`, `center`, `radius`, `spawn` [x,y,z,yaw], `sheet` (лист Летописи, который откроется), `thought` (мысль по возвращении),
+     `on_complete` (перемена у якоря в первый раз; сейчас есть `part_thorns`, новое — в `Memories.consequences`), `actors`, `steps`;
+  3) актёры: `type` `human` (модель `HeavenModels.Mortal`, облик `skin` → `textures/entity/memory_<skin>.png`, рисуется `gen_scenes.mortal`, добавь в `PEOPLE`) или
+     `serpent`; позы 0 стоит, 1 протягивает руку, 2 ко рту, 3 пригнулся/свернулся, 4 на коленях;
+  4) шаги: `wait` (тики), `near` (странник подошёл к точке), `look` (странник смотрит на актёра) — триггеры ждут игрока, `timeout` по умолчанию 1200;
+     `move` (`wait: false` — не ждать прихода), `face` (на актёра/`player`/точку), `pose`, `hold` (предмет в руке; `item: None` — убрать), `say` (реплика:
+     `memory.celestial.who.<актёр>` + ключ), `voice` (Глас из света — без фигуры, только строка и столб света), `particles`, `dim` (0..1 — свет меркнет),
+     `spawn`, `entity` (декор-сущность без ИИ, например `celestial:gate_cherub`), `despawn`, `end`;
+  5) Отпечаток света в постройке мира: `t.set(x, y, z, c('memory_anchor'), nbt={'id': c('memory_anchor'), 'Scene': '<id>'})`;
+  6) переводы — в `LANG` того же файла; `lint_assets.py` (check_scenes) проверит шаблон, шаги, актёров, переводы и наличие якоря;
+  7) сценарий автопилота по образцу `memory_fruit_test.txt`: вход (`use` по якорю), кадры ключевых моментов, возврат в ту же точку, лист открыт.
+  Тексты — 3–6 слов на реплику; Бога не изображать (только `voice`), людей — в одеждах.
 
 ## 6. Проверка (обязательна перед коммитом)
 1. `./gradlew build` без ошибок.

@@ -24,6 +24,7 @@ public final class HeavenRenderers {
 	public static final ModelLayerLocation CHERUB = new ModelLayerLocation(Celestial.id("cherub"), "main");
 	public static final ModelLayerLocation SERPENT = new ModelLayerLocation(Celestial.id("winged_serpent"), "main");
 	public static final ModelLayerLocation RAM = new ModelLayerLocation(Celestial.id("golden_ram"), "main");
+	public static final ModelLayerLocation MORTAL = new ModelLayerLocation(Celestial.id("memory_human"), "main");
 
 	private HeavenRenderers() {}
 
@@ -113,6 +114,29 @@ public final class HeavenRenderers {
 				if (state.isBaby) {
 					poseStack.scale(0.55F, 0.55F, 0.55F);
 				}
+			}
+		});
+		ModelLayerRegistry.registerModelLayer(MORTAL, HeavenModels.Mortal::createLayer);
+		// актёры воспоминаний: облик по skin → textures/entity/memory_<skin>.png; поза → state.variant
+		EntityRendererRegistry.register(ModEntities.MEMORY_HUMAN, ctx -> new Renderer<>(ctx, new HeavenModels.Mortal(ctx.bakeLayer(MORTAL)), "memory_human", 0.4F, 0.95F) {
+			@Override
+			public Identifier getTextureLocation(HeavenModels.State state) {
+				return Celestial.id("textures/entity/memory_" + (state.skin.isEmpty() ? "adam" : state.skin) + ".png");
+			}
+
+			@Override
+			public void extractRenderState(dev.celestial.memory.MemoryActor entity, HeavenModels.State state, float partialTicks) {
+				super.extractRenderState(entity, state, partialTicks);
+				state.skin = entity.skin();
+				state.variant = entity.scenePose();
+			}
+		});
+		EntityRendererRegistry.register(ModEntities.MEMORY_SERPENT, ctx -> new Renderer<>(ctx, new HeavenModels.Serpent(ctx.bakeLayer(SERPENT)), "memory_serpent", 0.3F, 0.8F) {
+			@Override
+			public void extractRenderState(dev.celestial.memory.MemoryActor entity, HeavenModels.State state, float partialTicks) {
+				super.extractRenderState(entity, state, partialTicks);
+				state.noWings = true;
+				state.variant = entity.scenePose();
 			}
 		});
 		EntityRendererRegistry.register(ModEntities.SHADOW,

@@ -1,0 +1,12 @@
+{
+  "type": "celestial:memory",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "celestial:memory",
+      "features": false,
+      "lakes": false,
+      "layers": []
+    }
+  }
+}

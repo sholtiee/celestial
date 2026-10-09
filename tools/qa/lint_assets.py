@@ -443,6 +443,8 @@ def check_lore():
         i = sh['id']
         found = bool(re.search(rf'unlock\([^)]*"{i}"', ALL_JAVA)) or (sh['src'] == 'scroll' and f'sheet:\\"{i}\\"' in json_text) \
             or (sh['src'] == 'tablet' and i.encode() in nbt_bytes)
+        scenes = load(os.path.join(D, 'memory/scenes.json')) or {}
+        found = found or any(sc.get('sheet') == i and sid.encode() in nbt_bytes for sid, sc in scenes.items())  # Отблеск с якорем в постройке
         if found:
             continue
         if sh['src'] in ('glimpse', 'prologue', 'vision', 'conv') or i in getattr(L, 'PENDING', {}):
@@ -453,7 +455,53 @@ def check_lore():
         print('Листы Летописи, ждущие движка сцен или своей волны (не находки): ' + ', '.join(pending))
 
 
-CHECKS = [check_models, check_textures, check_block_transparency, check_particles_sounds, check_lang, check_data, check_lore]
+def check_scenes():
+    """Отблески (data/celestial/memory/scenes.json): шаблон сцены есть, шаги известны, актёры в шагах существуют, переводы на месте,
+    у сцены есть Отпечаток света хоть в одной постройке (иначе её не пережить без команды)."""
+    import gzip
+    scenes = load(os.path.join(D, 'memory/scenes.json'))
+    if scenes is None:
+        return
+    ru = load(os.path.join(A, 'lang/ru_ru.json')) or {}
+    en = load(os.path.join(A, 'lang/en_us.json')) or {}
+    known = {'wait', 'near', 'look', 'move', 'face', 'pose', 'hold', 'say', 'voice', 'particles', 'dim', 'spawn', 'entity', 'despawn', 'end'}
+    nbt_bytes = b''
+    for dirpath, _, files in os.walk(os.path.join(D, 'structure')):
+        for f in files:
+            if f.endswith('.nbt') and 'memory' not in dirpath:
+                with open(os.path.join(dirpath, f), 'rb') as fh:
+                    try:
+                        nbt_bytes += gzip.decompress(fh.read())
+                    except OSError:
+                        pass
+    for sid, sc in scenes.items():
+        ns, path = sc['stage'].split(':')
+        if not os.path.exists(os.path.join(D, 'structure', path + '.nbt')):
+            report('SCENE_NO_STAGE', f'{sid}: нет шаблона {sc["stage"]}')
+        actors = {a['id'] for a in sc['actors']}
+        def lang(key):
+            if key not in ru or key not in en:
+                report('SCENE_LANG_MISSING', f'{sid}: {key}')
+        lang(sc['thought']) if sc.get('thought') else None
+        for st in sc['steps']:
+            t = st['t']
+            if t not in known:
+                report('SCENE_BAD_STEP', f'{sid}: шаг {t}')
+            if t == 'spawn':
+                actors.add(st['actor']['id'])
+            if t == 'entity' and 'id' in st:
+                actors.add(st['id'])
+            if 'actor' in st and isinstance(st['actor'], str) and st['actor'] not in actors:
+                report('SCENE_BAD_ACTOR', f'{sid}: шаг {t} — нет актёра {st["actor"]}')
+            if t in ('say', 'voice'):
+                lang(st['key'])
+            if t == 'say':
+                lang('memory.celestial.who.' + st['actor'])
+        if sid.encode() not in nbt_bytes:
+            report('SCENE_NO_ANCHOR', f'{sid}: нет Отпечатка света (memory_anchor с Scene) ни в одной постройке')
+
+
+CHECKS = [check_models, check_textures, check_block_transparency, check_particles_sounds, check_lang, check_data, check_lore, check_scenes]
 
 
 def main():

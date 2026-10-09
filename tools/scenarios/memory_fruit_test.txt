@@ -1,0 +1,61 @@
+# Отблеск «Плод» (движок сцен, docs/LORE.md §5c): вход через Отпечаток света, сцена, возврат в ту же точку, лист Летописи, терновник расступился.
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 28000 160 27994 0 10
+fly
+wait 60
+/fill 27990 159 27990 28010 159 28010 celestial:golden_grass
+/fill 27990 160 27990 28010 172 28010 minecraft:air
+/kill @e[type=!minecraft:player,distance=..40]
+/celestial lore lock fruit
+/setblock 28000 160 28000 celestial:memory_anchor{Scene:"fruit"}
+/setblock 28003 160 28000 minecraft:sweet_berry_bush[age=3]
+/setblock 27997 160 28001 minecraft:sweet_berry_bush[age=3]
+/tp @s 28000.5 160 27997.5 0 20
+/gamemode survival
+wait 20
+# D1 в бою войти нельзя
+/damage @s 1 minecraft:player_attack
+wait 5
+use 28000 160 28000 north
+wait 20
+/say TEST D1 deny_in_combat expect=pass
+/execute in minecraft:overworld if entity @s[x=27995,y=155,z=27990,dx=10,dy=10,dz=10]
+wait 120
+# вход
+use 28000 160 28000 north
+wait 10
+pos
+/say TEST M1 entered_memory expect=pass
+/execute in celestial:memory if entity @s[x=0,y=60,z=0,dx=60,dy=40,dz=60]
+wait 30
+shot mem_enter
+# подходим к Древу — Ева идёт к нему, Змей говорит
+/tp @s 20.5 69 25.5 180 0
+wait 220
+shot mem_serpent
+aim 160 5
+wait 120
+shot mem_offer
+wait 200
+shot mem_eat
+/tp @s 24.5 69 30.5 160 5
+wait 130
+shot mem_hide
+wait 100
+shot mem_voice
+/tp @s 28.5 70 22.5 -90 0
+wait 60
+shot mem_cherub
+wait 260
+pos
+/say TEST M2 returned_same_place expect=pass
+/execute in minecraft:overworld if entity @s[x=27999,y=159,z=27996,dx=3,dy=3,dz=3]
+/say TEST M3 thorns_parted expect=pass
+/execute in minecraft:overworld unless block 28003 160 28000 minecraft:sweet_berry_bush
+shot mem_back
+/celestial status
+/gamemode creative
+quit

@@ -29,6 +29,9 @@ public final class ModBlockEntities {
 	public static final BlockEntityType<dev.celestial.block.puzzle.ReliquaryBlockEntity> RELIQUARY = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("reliquary"),
 		new BlockEntityType<>(dev.celestial.block.puzzle.ReliquaryBlockEntity::new, Set.of(ModBlocks.RELIQUARY)));
+	public static final BlockEntityType<dev.celestial.memory.MemoryAnchorBlockEntity> MEMORY_ANCHOR = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("memory_anchor"),
+		new BlockEntityType<>(dev.celestial.memory.MemoryAnchorBlockEntity::new, Set.of(ModBlocks.MEMORY_ANCHOR)));
 	public static final BlockEntityType<dev.celestial.block.lore.LoreTabletBlockEntity> LORE_TABLET = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("lore_tablet"),
 		new BlockEntityType<>(dev.celestial.block.lore.LoreTabletBlockEntity::new, Set.of(ModBlocks.LORE_TABLET)));

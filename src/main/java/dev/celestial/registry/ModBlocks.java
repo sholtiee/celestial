@@ -188,6 +188,10 @@ public final class ModBlocks {
 	public static final Block RELIQUARY = registerNoItem("reliquary", dev.celestial.block.puzzle.ReliquaryBlock::new,
 		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST).lightLevel(s -> 7)
 			.pushReaction(PushReaction.IMMOVEABLE));
+	// Отблески (docs/LORE.md §5c): Отпечаток света — вход в воспоминание
+	public static final Block MEMORY_ANCHOR = register("memory_anchor", dev.celestial.memory.MemoryAnchorBlock::new,
+		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST).lightLevel(s -> 11).noOcclusion()
+			.noCollision().pushReaction(PushReaction.IMMOVEABLE), 1);
 	public static final Block LORE_TABLET = register("lore_tablet", dev.celestial.block.lore.LoreTabletBlock::new,
 		Properties.of().mapColor(MapColor.STONE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.STONE).noOcclusion()
 			.pushReaction(PushReaction.IMMOVEABLE), 1);

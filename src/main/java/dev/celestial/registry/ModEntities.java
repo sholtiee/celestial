@@ -97,6 +97,11 @@ public final class ModEntities {
 			.clientTrackingRange(16));
 	public static final EntityType<dev.celestial.entity.Inia> INIA = register("inia",
 		EntityType.Builder.of(dev.celestial.entity.Inia::new, MobCategory.MISC).sized(0.6F, 1.9F).eyeHeight(1.7F).clientTrackingRange(10));
+	// актёры воспоминаний (Отблески): люди и Змей; без яиц — их создаёт только сцена
+	public static final EntityType<dev.celestial.memory.MemoryActor> MEMORY_HUMAN = registerNoEgg("memory_human",
+		EntityType.Builder.of(dev.celestial.memory.MemoryActor::new, MobCategory.MISC).sized(0.6F, 1.9F).eyeHeight(1.7F).clientTrackingRange(10));
+	public static final EntityType<dev.celestial.memory.MemoryActor> MEMORY_SERPENT = registerNoEgg("memory_serpent",
+		EntityType.Builder.of(dev.celestial.memory.MemoryActor::new, MobCategory.MISC).sized(0.9F, 0.5F).eyeHeight(0.3F).clientTrackingRange(10));
 	public static final EntityType<dev.celestial.entity.Archangel> ARCHANGEL = register("archangel",
 		EntityType.Builder.of(dev.celestial.entity.Archangel::new, MobCategory.MISC).sized(0.8F, 2.4F).eyeHeight(2.1F).clientTrackingRange(12));
 	public static final EntityType<dev.celestial.entity.GateCherub> GATE_CHERUB = register("gate_cherub",
@@ -168,6 +173,8 @@ public final class ModEntities {
 		FabricDefaultAttributeRegistry.register(NEPHILIM, dev.celestial.entity.Nephilim.createAttributes());
 		FabricDefaultAttributeRegistry.register(CHAINED_WATCHER, dev.celestial.entity.ChainedWatcher.createAttributes());
 		FabricDefaultAttributeRegistry.register(ARCHANGEL, dev.celestial.entity.Archangel.createAttributes());
+		FabricDefaultAttributeRegistry.register(MEMORY_HUMAN, dev.celestial.memory.MemoryActor.createAttributes());
+		FabricDefaultAttributeRegistry.register(MEMORY_SERPENT, dev.celestial.memory.MemoryActor.createAttributes());
 		FabricDefaultAttributeRegistry.register(ICE_GUARDIAN, dev.celestial.entity.IceGuardian.createAttributes());
 		FabricDefaultAttributeRegistry.register(ICE_WOLF, dev.celestial.entity.IceWolf.createAttributes());
 		SpawnPlacements.register(ICE_GUARDIAN, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);

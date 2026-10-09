@@ -280,6 +280,8 @@ def garden():
                 break
         if placed >= 4:
             break
+    # Отпечаток света у ствола (Отблеск «Плод», docs/LORE.md §5c): коснись — и увидишь, как это было
+    t.set(kx + 2, TOP + 1, kz, c('memory_anchor'), nbt={'id': c('memory_anchor'), 'Scene': 'fruit'})
     for x in range(kx - 5, kx + 6):  # терновник сплошным кольцом
         for z in range(kz - 5, kz + 6):
             if 2.4 <= math.hypot(x - kx, z - kz) <= 4.4 and t.get(x, TOP, z) not in (None, 'minecraft:air') and t.get(x, TOP + 1, z) in (None, 'minecraft:air'):
