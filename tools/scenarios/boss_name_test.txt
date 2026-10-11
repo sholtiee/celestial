@@ -1,0 +1,77 @@
+# Тайная концовка «Имя» (O5 шаг 4c): без букв нельзя; неверный порядок — «не откликается»; верный — минута удержания (остатки тьмы
+# нападают, свет растёт), затем эпилог: Безликий уходит светом, глава «Имя», флаги ending_name и eden_traces. В конце всё снято.
+/gamemode creative
+/effect clear @s
+/celestial ending reset
+/execute in celestial:astral run tp @s 0.5 100 20.5 180 30
+fly
+wait 80
+/kill @e[type=!minecraft:player,distance=..80]
+/fill -22 88 -22 22 104 22 minecraft:air
+/place template celestial:star_altar/summit -19 89 -19
+wait 20
+/scoreboard objectives add t dummy
+/celestial codex choir:angels
+/celestial codex choir:archangels
+/celestial codex choir:principalities
+/celestial codex choir:powers
+/celestial codex choir:virtues
+/celestial codex choir:dominions
+/celestial codex choir:thrones
+/celestial codex remove letter:1
+/celestial codex remove letter:2
+/celestial codex remove letter:3
+/celestial codex remove letter:4
+/celestial codex remove letter:5
+/celestial codex remove letter:6
+/celestial codex remove letter:7
+/gamemode survival
+/effect give @s minecraft:resistance 900 4 true
+/effect give @s minecraft:regeneration 900 4 true
+/effect give @s minecraft:saturation 900 4 true
+/effect give @s minecraft:fire_resistance 900 0 true
+/tp @s 0.5 91 6.5 180 0
+wait 40
+/damage @e[type=celestial:faceless,limit=1] 3000 minecraft:player_attack by @s
+wait 40
+/tp @s 0.5 91 4.5 180 10
+wait 10
+/execute store result score #n t run celestial ending name:1234567
+/say TEST N1 name_locked_without_letters expect=pass
+/execute if score #n t matches 0
+/celestial codex letter:1
+/celestial codex letter:2
+/celestial codex letter:3
+/celestial codex letter:4
+/celestial codex letter:5
+/celestial codex letter:6
+/celestial codex letter:7
+interact celestial:faceless
+wait 15
+shot name_choice
+closescreen
+screen name
+wait 15
+shot name_screen
+closescreen
+/execute store result score #n t run celestial ending name:7654321
+/say TEST N2 wrong_name_rejected expect=pass
+/execute if score #n t matches 0
+/execute store result score #n t run celestial ending name:1243567
+/say TEST N3 right_name_starts expect=pass
+/execute if score #n t matches 1
+wait 400
+/say TEST N4 holding_phase expect=pass
+/execute if entity @e[type=celestial:faceless,nbt={Defeated:1b}]
+shot name_holding
+wait 850
+/say TEST N5 released_in_light expect=pass
+/execute unless entity @e[type=celestial:faceless]
+/say TEST N6 true_name_chapter expect=pass
+/execute if entity @s[advancements={celestial:story/true_name=true}]
+/celestial status
+shot name_epilogue
+/kill @e[type=celestial:blind_hunter]
+/celestial ending reset
+/gamemode creative
+quit

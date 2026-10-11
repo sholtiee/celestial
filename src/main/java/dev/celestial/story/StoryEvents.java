@@ -167,6 +167,9 @@ public final class StoryEvents {
 		if (world.has("ending_consume")) {
 			Story.CONSUMED.grant(player);
 		}
+		if (world.has("ending_name")) {
+			Story.NAMED.grant(player);
+		}
 	}
 
 	/**

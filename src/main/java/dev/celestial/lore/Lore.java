@@ -142,6 +142,20 @@ public final class Lore {
 	}
 
 	/** Проверка завершённости: первая запись, книги целиком, весь Глоссарий, вся Летопись, имена. Безопасно вызывать часто. */
+	/**
+	 * Полная книга дарит букву прежнего имени Безликого (тайная концовка «Имя»): по одной на каждую из семи книг —
+	 * «Денница» / «Lucifer», ровно семь букв. Запись Кодекса {@code letter:<книга>}; буква показывается на языке игрока.
+	 */
+	private static void grantLetter(ServerPlayer player, int book) {
+		if (CelestialData.get(player).knows("letter:" + book)) {
+			return;
+		}
+		CelestialData.update(player, d -> d.withCodex("letter:" + book));
+		player.sendSystemMessage(net.minecraft.network.chat.Component.translatable("lore.celestial.letter",
+			net.minecraft.network.chat.Component.translatable("lore.celestial.book." + book),
+			net.minecraft.network.chat.Component.translatable("letter.celestial." + book).withStyle(net.minecraft.ChatFormatting.GOLD)));
+	}
+
 	/** «Книга Жизни»: во всех семи книгах есть листы, и все они открыты (тайная концовка «Имя»). */
 	public static boolean allBooksComplete(ServerPlayer player) {
 		PlayerData d = CelestialData.get(player);
@@ -166,6 +180,7 @@ public final class Lore {
 				everyBookFull = false;
 			} else if (ofBook.stream().allMatch(s -> d.knowsLore(s.id()))) {
 				grantStory(player, "chronicle_book_" + b);
+				grantLetter(player, b);
 			} else {
 				everyBookFull = false;
 			}

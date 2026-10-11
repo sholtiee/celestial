@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:star_disk"
+    },
+    "title": {
+      "translate": "advancements.celestial.true_name.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.true_name.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "celestial:story/star_path",
+  "rewards": {
+    "experience": 500
+  }
+}

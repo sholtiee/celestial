@@ -124,7 +124,7 @@ public final class CelestialCommand {
 					ctx.getSource().sendSuccess(() -> Component.literal("Концовки сняты"), true);
 					return 1;
 				}))
-				.then(Commands.argument("choice", StringArgumentType.word()).executes(ctx ->
+				.then(Commands.argument("choice", StringArgumentType.greedyString()).executes(ctx ->
 					dev.celestial.story.Endings.choose(ctx.getSource().getPlayerOrException(), StringArgumentType.getString(ctx, "choice")) ? 1 : 0)))
 			.then(Commands.literal("lore").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
 				.then(Commands.literal("unlock").then(Commands.argument("sheet", StringArgumentType.word()).executes(ctx -> loreChange(ctx, true))))

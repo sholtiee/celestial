@@ -59,6 +59,9 @@ public class Faceless extends Monster {
 	private static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(Faceless.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Boolean> DEFEATED = SynchedEntityData.defineId(Faceless.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Integer> CAST = SynchedEntityData.defineId(Faceless.class, EntityDataSerializers.INT);
+	/** Тайная концовка: имя названо — свет возвращается к нему (тики из {@link #NAME_TICKS}; 0 — не идёт). */
+	private static final EntityDataAccessor<Integer> NAMING = SynchedEntityData.defineId(Faceless.class, EntityDataSerializers.INT);
+	public static final int NAME_TICKS = 1200;
 	public static final String SUMMON_TAG = "celestial_faceless_summon";
 	public static final double ARENA = 18.0;
 	public static final int TRUMPETS = 7;
@@ -104,6 +107,12 @@ public class Faceless extends Monster {
 		builder.define(PHASE, 1);
 		builder.define(DEFEATED, false);
 		builder.define(CAST, 0);
+		builder.define(NAMING, 0);
+	}
+
+	/** Сколько тиков идёт возвращение света (0 — не идёт). */
+	public int naming() {
+		return entityData.get(NAMING);
 	}
 
 	/** Трубы, что переносят бой в отражение пройденного мира: труба → шаблон. Отражения стоят в пустоте Астрала, далеко от вершины. */
@@ -193,6 +202,10 @@ public class Faceless extends Monster {
 		}
 		if (casting() > 0) {
 			entityData.set(CAST, casting() - 1);
+		}
+		if (naming() > 0) {
+			tickNaming(level);
+			return;
 		}
 		if (defeated()) {
 			kneel(level);
@@ -456,7 +469,7 @@ public class Faceless extends Monster {
 
 	@Override
 	public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
-		if (defeated() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+		if ((defeated() || naming() > 0) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
 			return false;
 		}
 		if (source.is(DamageTypeTags.IS_FALL) || source.is(DamageTypeTags.IS_DROWNING) || source.is(DamageTypeTags.IS_FIRE)) {
@@ -503,10 +516,64 @@ public class Faceless extends Monster {
 		record.finish(level, bossEvent.getPlayers(), dev.celestial.story.Story.FACELESS_FLAWLESS, dev.celestial.story.Story.FACELESS_SWIFT, SWIFT_TICKS);
 	}
 
+	/**
+	 * Имя названо: он поднимается с колен, тьма отрывается от него и бросается на бойцов — минуту нужно выдержать,
+	 * пока столб света над алтарём растёт. Потом — эпилог ({@link dev.celestial.story.Endings#finishName}).
+	 */
+	public void startNaming(ServerLevel level, ServerPlayer speaker) {
+		if (!defeated() || naming() > 0) {
+			return;
+		}
+		entityData.set(NAMING, 1);
+		bossEvent.setName(Component.translatable("boss.celestial.faceless.naming"));
+		bossEvent.setColor(BossEvent.BossBarColor.YELLOW);
+		bossEvent.setProgress(0.0F);
+		level.playSound(null, blockPosition(), SoundEvents.BEACON_ACTIVATE, SoundSource.HOSTILE, 4.0F, 0.7F);
+		for (ServerPlayer p : fighters(level)) {
+			p.sendSystemMessage(Component.translatable("ending.celestial.name.spoken", speaker.getDisplayName()));
+			BossIntro.title(p, Component.translatable("ending.celestial.name.hold").withStyle(ChatFormatting.GOLD),
+				Component.translatable("ending.celestial.name.hold_sub").withStyle(ChatFormatting.ITALIC), 80);
+		}
+	}
+
+	private void tickNaming(ServerLevel level) {
+		int n = naming() + 1;
+		entityData.set(NAMING, n);
+		bossEvent.setProgress(Math.min(1.0F, (float) n / NAME_TICKS));
+		Vec3 c = Vec3.atBottomCenterOf(home);
+		Vec3 delta = c.add(0, 2.0 + 2.0 * n / NAME_TICKS, 0).subtract(position());
+		setDeltaMovement(delta.scale(0.05));
+		float k = (float) n / NAME_TICKS;
+		if (n % 2 == 0) {  // столб света растёт
+			level.sendParticles(ParticleTypes.END_ROD, c.x, c.y + 1 + random.nextDouble() * 30 * k, c.z, 2, 0.3 + k, 0.2, 0.3 + k, 0.01);
+		}
+		List<ServerPlayer> fighters = fighters(level);
+		if (n % 120 == 60 && n < NAME_TICKS - 100) {  // остатки тьмы бросаются на бойцов
+			locusts(level);
+			for (ServerPlayer p : fighters) {
+				for (int i = 0; i < 2; i++) {
+					VoidBolt b = new VoidBolt(ModEntities.VOID_BOLT, this, level);
+					double a = random.nextDouble() * Math.PI * 2;
+					b.setPos(p.getX() + Math.cos(a) * 10, p.getY() + 4, p.getZ() + Math.sin(a) * 10);
+					Vec3 aim = p.getEyePosition().subtract(b.position()).normalize();
+					b.shoot(aim.x, aim.y, aim.z, 0.9F, 2.0F);
+					level.addFreshEntity(b);
+				}
+			}
+		}
+		if (n >= NAME_TICKS) {
+			for (Mob m : level.getEntitiesOfClass(Mob.class, getBoundingBox().inflate(ARENA + 8), m -> m.entityTags().contains(SUMMON_TAG))) {
+				level.sendParticles(ParticleTypes.END_ROD, m.getX(), m.getY(0.5), m.getZ(), 20, 0.4, 0.6, 0.4, 0.05);
+				m.discard();
+			}
+			dev.celestial.story.Endings.finishName(level, this);
+		}
+	}
+
 	/** Повергнутый — подойти и коснуться: выбор концовки. */
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-		if (defeated() && player instanceof ServerPlayer sp && hand == InteractionHand.MAIN_HAND) {
+		if (defeated() && naming() == 0 && player instanceof ServerPlayer sp && hand == InteractionHand.MAIN_HAND) {
 			dev.celestial.story.Endings.offer(sp, this);
 			return InteractionResult.SUCCESS;
 		}
@@ -574,6 +641,7 @@ public class Faceless extends Monster {
 		output.putInt("Placed", placed);
 		output.putInt("Phase", phase());
 		output.putBoolean("Defeated", defeated());
+		output.putInt("Naming", naming());
 		record.save(output);
 	}
 
@@ -585,6 +653,7 @@ public class Faceless extends Monster {
 		placed = input.getIntOr("Placed", 0);
 		entityData.set(PHASE, input.getIntOr("Phase", 1));
 		entityData.set(DEFEATED, input.getBooleanOr("Defeated", false));
+		entityData.set(NAMING, input.getIntOr("Naming", 0));
 		record.load(input);
 	}
 

@@ -22,6 +22,7 @@ public enum Story {
 	ASTRAL("star_path"),
 	KINDLED("light_kindled"),
 	CONSUMED("light_consumed"),
+	NAMED("true_name"),
 	GLACIER_MASTER("glacier_master"),
 	THREE_BEAMS("three_beams"),
 	BELL_RINGER("bell_ringer"),

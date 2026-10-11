@@ -143,7 +143,7 @@ public final class FacelessRenderer {
 		public void extractRenderState(Faceless entity, State state, float partialTicks) {
 			super.extractRenderState(entity, state, partialTicks);
 			state.phase = entity.phase();
-			state.defeated = entity.defeated();
+			state.defeated = entity.defeated() && entity.naming() == 0;  // имя названо — поднимается с колен
 			state.cast = Math.min(1.0F, Math.max(0, entity.casting() - partialTicks) / 10.0F);
 		}
 

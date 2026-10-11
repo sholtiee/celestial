@@ -172,6 +172,11 @@ public final class AutoPilot {
 			waitTicks = 5;
 		} else if (step.equals("closescreen")) {
 			mc.gui.setScreen(null);
+		} else if (step.startsWith("screen ")) {
+			// screen name — открыть экран, до которого автопилот не докликивается (экран имени тайной концовки)
+			if (step.substring(7).strip().equals("name")) {
+				mc.gui.setScreen(new dev.celestial.client.NameScreen());
+			}
 		} else if (step.startsWith("hold ")) {
 			// hold jump|forward|sneak|back|left|right|attack|use N — держать клавишу N тиков (не ждёт)
 			String[] a = step.substring(5).strip().split("\\s+");

@@ -37,6 +37,10 @@ public class EndingScreen extends Screen {
 
 	private void add(int x, int y, int w, String choice, boolean active) {
 		Button b = Button.builder(Component.translatable("ending.celestial.choice." + choice), btn -> {
+			if (choice.equals("name")) {
+				Minecraft.getInstance().gui.setScreen(new NameScreen());  // имя складывают по буквам
+				return;
+			}
 			ClientPlayNetworking.send(new EndingPayloads.Choose(choice));
 			onClose();
 		}).bounds(x, y, w, 20).build();
