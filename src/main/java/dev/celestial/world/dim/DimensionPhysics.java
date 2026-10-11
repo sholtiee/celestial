@@ -27,15 +27,44 @@ public final class DimensionPhysics {
 
 	public static void init() {
 		ServerTickEvents.END_SERVER_TICK.register(DimensionPhysics::tick);
+		net.fabricmc.fabric.api.entity.event.v1.ServerEntityLevelChangeEvents.AFTER_ENTITY_CHANGE_LEVEL.register(
+			(original, moved, from, to) -> onChangeDimension(moved));
 	}
+
+	/** Последняя твёрдая опора игрока в невесомом измерении — туда выносит из пустоты. */
+	private static final java.util.Map<java.util.UUID, Vec3> SAFE = new java.util.HashMap<>();
 
 	private static void tick(MinecraftServer server) {
 		for (ServerPlayer player : server.getPlayerList().getPlayers()) {
 			CelestialDimension dim = CelestialDimensions.of(player.level());
 			apply(player, dim);
+			if (dim != null && dim.space() && player.onGround() && server.getTickCount() % 10 == 0
+				&& !player.level().getBlockState(player.blockPosition().below()).getCollisionShape(player.level(), player.blockPosition().below()).isEmpty()) {
+				SAFE.put(player.getUUID(), player.position());
+			}
 			if (dim != null && dim.fallTarget() != null && player.getY() < dim.fallOutY() && !player.isSpectator()) {
 				fallOut(player, server, dim);
 			}
+		}
+		// в невесомости лёгкие все живые, не только игроки (раз в секунду — новым и пришедшим)
+		if (server.getTickCount() % 20 == 0) {
+			for (CelestialDimension dim : CelestialDimensions.ALL) {
+				ServerLevel level = dim.space() ? server.getLevel(dim.key()) : null;
+				if (level != null) {
+					for (net.minecraft.world.entity.Entity e : level.getAllEntities()) {
+						if (e instanceof LivingEntity living && !(e instanceof ServerPlayer)) {
+							apply(living, dim);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/** Сущность, ушедшая из невесомого измерения, снова тяжелеет (игроков пересчитывает tick). */
+	public static void onChangeDimension(net.minecraft.world.entity.Entity entity) {
+		if (entity instanceof LivingEntity living) {
+			apply(living, CelestialDimensions.of(living.level()));
 		}
 	}
 
@@ -64,6 +93,15 @@ public final class DimensionPhysics {
 	private static void fallOut(ServerPlayer player, MinecraftServer server, CelestialDimension dim) {
 		ServerLevel target = server.getLevel(dim.fallTarget());
 		if (target == null) {
+			return;
+		}
+		if (dim.space()) {
+			// пустота Астрала не убивает: звёздный ветер выносит на последний остров
+			Vec3 safe = SAFE.getOrDefault(player.getUUID(), new Vec3(0.5, dim.arrivalY(), 0.5));  // не стоял ни на чём — к центру мира
+			player.teleport(new TeleportTransition(target, safe.add(0, 0.5, 0), Vec3.ZERO, player.getYRot(), player.getXRot(), TeleportTransition.DO_NOTHING));
+			player.resetFallDistance();
+			player.sendOverlayMessage(net.minecraft.network.chat.Component.translatable("dimension.celestial.astral.drift"));
+			target.sendParticles(dev.celestial.registry.ModParticles.STARLIGHT, safe.x, safe.y + 1, safe.z, 40, 0.4, 0.8, 0.4, 0.02);
 			return;
 		}
 		Vec3 pos = new Vec3(player.getX(), dim.arrivalY(), player.getZ());

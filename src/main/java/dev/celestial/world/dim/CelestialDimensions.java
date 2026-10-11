@@ -15,7 +15,10 @@ public final class CelestialDimensions {
 	/** Ледяные Чертоги: обычная физика, упасть в пустоту — смерть, как в Верхнем мире. */
 	public static final CelestialDimension FROZEN_HALLS = new CelestialDimension(AbyssFeatures.FROZEN_HALLS, 0.0, 0.0, -128, null, 0.0);
 
-	public static final List<CelestialDimension> ALL = List.of(HEAVEN, ABYSS, FROZEN_HALLS);
+	/** Астрал: гравитация ×0.15 для всех живых, падение без урона, из пустоты выносит на последний остров. */
+	public static final CelestialDimension ASTRAL = new CelestialDimension(AbyssFeatures.ASTRAL, -0.85, 1000.0, -16, AbyssFeatures.ASTRAL, 128.0, true);
+
+	public static final List<CelestialDimension> ALL = List.of(HEAVEN, ABYSS, FROZEN_HALLS, ASTRAL);
 
 	private CelestialDimensions() {}
 

@@ -1,0 +1,58 @@
+# Невесомость Астрала (волна 0.6, O5 шаг 1) на заготовке измерения: гравитация ×0.15 игроку и мобам, тяга прыжком, без урона от падения,
+# из пустоты выносит на последний остров, вне Астрала гравитация обычная.
+/gamemode creative
+/effect clear @s
+/execute in celestial:astral run tp @s 0.5 101 0.5 0 0
+fly
+wait 80
+/fill -3 99 -3 3 99 3 minecraft:polished_blackstone
+/fill -3 99 17 3 99 23 minecraft:polished_blackstone
+/scoreboard objectives add t dummy
+/tp @s 0.5 100 0.5 0 -10
+/gamemode survival
+wait 30
+/execute store result score #g t run attribute @s minecraft:gravity get 1000
+/scoreboard players list #g
+/say TEST F1 low_gravity expect=pass
+/execute if score #g t matches 10..14
+/execute store result score #h0 t run data get entity @s Health
+# тяга: удерживать прыжок
+hold jump 45
+wait 30
+pos
+/say TEST F2 thrust_lifts expect=pass
+/execute if entity @s[x=-5,y=105,z=-5,dx=10,dy=60,dz=10]
+shot astral_float
+wait 200
+pos
+/execute store result score #h1 t run data get entity @s Health
+/say TEST F3 no_fall_damage expect=pass
+/execute if score #h1 t >= #h0 t
+# пустота: выносит на последний остров
+/tp @s 0.5 -10 40.5 0 0
+wait 60
+pos
+/say TEST F4 drift_back_to_island expect=pass
+/execute in celestial:astral if entity @s[x=-4,y=98,z=-4,dx=8,dy=6,dz=8]
+# мобы тоже лёгкие
+/summon minecraft:zombie 0.5 100 20.5 {PersistenceRequired:1b}
+wait 30
+/execute store result score #zg t run attribute @e[type=minecraft:zombie,limit=1,sort=nearest] minecraft:gravity get 1000
+/scoreboard players list #zg
+/say TEST F5 mobs_light_too expect=pass
+/execute if score #zg t matches 10..14
+/kill @e[type=minecraft:zombie,distance=..60]
+togglehud
+/tp @s 0.5 100 -6.5 0 -25
+wait 20
+shot astral_sky
+togglehud
+# в Верхнем мире — обычная тяжесть
+/execute in minecraft:overworld run tp @s 0 200 0
+wait 30
+/execute store result score #g2 t run attribute @s minecraft:gravity get 1000
+/scoreboard players list #g2
+/say TEST F6 normal_gravity_home expect=pass
+/execute if score #g2 t matches 79..81
+/gamemode creative
+quit

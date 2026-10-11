@@ -1,0 +1,12 @@
+{
+  "type": "celestial:astral",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "celestial:astral_void",
+      "features": false,
+      "lakes": false,
+      "layers": []
+    }
+  }
+}
