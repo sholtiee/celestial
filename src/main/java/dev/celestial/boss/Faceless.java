@@ -48,7 +48,9 @@ import net.minecraft.world.phys.Vec3;
  * 1 «Град и огонь» — метки на полу, через миг падает огненный град (Серафим). 2 «Гора огненная в море» — ледяные шипы из-под ног (Архонт).
  * 3 «Звезда Полынь» — падающие звёзды оставляют облака горечи (яд). 4 «Померкла треть светил» — волны Тьмы, он скрывается (Пожиратель).
  * 5 «Саранча из бездны» — рой слепых охотников. 6 «Четыре ангела Евфрата» — «Стой!» останавливает время (Часовщик).
- * 7 «Седьмая труба» — всё сразу; на его груди проступает утренняя звезда. Умереть он не может: на последней капле здоровья
+ * 7 «Седьмая труба» — всё сразу; на его груди проступает утренняя звезда.
+ * Трубы 1, 2, 4 и 6 переносят бой в **отражения пройденных миров** (Рай, Чертоги, Бездна, Хроноград — шаблоны `faceless/<мир>`,
+ * стоят в пустоте Астрала в {@link #REFLECTION_GAP} блоках от вершины); 3, 5 и 7 — на вершине алтаря. Умереть он не может: на последней капле здоровья
  * опускается на колени у алтаря — подойди, ПКМ по нему и выбери концовку ({@link dev.celestial.story.Endings}).
  * Ранят его только игроки (прочее ×0.1).
  */
@@ -65,6 +67,10 @@ public class Faceless extends Monster {
 	private final ServerBossEvent bossEvent = new ServerBossEvent(java.util.UUID.randomUUID(), Component.translatable("entity.celestial.faceless"),
 		BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.NOTCHED_6);
 	private BlockPos home = BlockPos.ZERO;
+	/** Где сейчас бой: вершина (home) или отражение мира. */
+	private BlockPos center = BlockPos.ZERO;
+	/** Какие отражения уже поставлены (биты по REFLECTIONS). */
+	private int placed;
 	private int clock;
 	private int phaseStart;
 	private int sweepCooldown;
@@ -100,8 +106,54 @@ public class Faceless extends Monster {
 		builder.define(CAST, 0);
 	}
 
+	/** Трубы, что переносят бой в отражение пройденного мира: труба → шаблон. Отражения стоят в пустоте Астрала, далеко от вершины. */
+	private static final String[] REFLECTIONS = {"heaven", "frozen", null, "abyss", null, "chrono", null};
+	private static final int REFLECTION_GAP = 320;
+	private static final int REFLECTION_R = 15;
+
 	public void setHome(BlockPos home) {
 		this.home = home.immutable();
+		this.center = this.home;
+	}
+
+	/** Центр арены трубы (пол на этой высоте, как у алтаря на вершине). */
+	private BlockPos arenaFor(int phase) {
+		int k = phase - 1;
+		return REFLECTIONS[k] == null ? home : home.offset(0, 0, REFLECTION_GAP * (k + 1));
+	}
+
+	/** Перенести бой: поставить отражение (раз), перенести бойцов и себя, вспышка и слова. */
+	private void moveTo(ServerLevel level, BlockPos target, int phase, List<ServerPlayer> fighters) {
+		if (target.equals(center)) {
+			return;
+		}
+		int k = phase - 1;
+		String name = REFLECTIONS[Math.max(0, Math.min(k, REFLECTIONS.length - 1))];
+		if (!target.equals(home) && name != null && (placed & (1 << k)) == 0) {
+			var template = level.getServer().getStructureTemplateManager().get(dev.celestial.Celestial.id("faceless/" + name));
+			if (template.isEmpty()) {
+				return;
+			}
+			BlockPos origin = target.offset(-REFLECTION_R, -2, -REFLECTION_R);
+			template.get().placeInWorld(level, origin, origin, new net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings(),
+				level.getRandom(), 2);
+			placed |= 1 << k;
+		}
+		for (ServerPlayer p : fighters) {
+			double a = random.nextDouble() * Math.PI * 2;
+			Vec3 to = Vec3.atBottomCenterOf(target).add(Math.cos(a) * 7, 0.1, Math.sin(a) * 7);
+			level.sendParticles(ParticleTypes.END_ROD, p.getX(), p.getY() + 1, p.getZ(), 30, 0.4, 0.8, 0.4, 0.05);
+			p.teleport(new net.minecraft.world.level.portal.TeleportTransition(level, to, Vec3.ZERO, p.getYRot(), p.getXRot(),
+				net.minecraft.world.level.portal.TeleportTransition.DO_NOTHING));
+			p.resetFallDistance();
+			if (!target.equals(home) && name != null) {
+				p.sendSystemMessage(Component.translatable("boss.celestial.faceless.reflection." + name));
+			}
+		}
+		strikes.clear();
+		teleportTo(target.getX() + 0.5, target.getY() + 3.5, target.getZ() + 0.5);
+		center = target.immutable();
+		level.playSound(null, target, SoundEvents.ENDERMAN_TELEPORT, SoundSource.HOSTILE, 3.0F, 0.5F);
 	}
 
 	public BlockPos home() {
@@ -125,8 +177,10 @@ public class Faceless extends Monster {
 	}
 
 	public List<ServerPlayer> fighters(ServerLevel level) {
-		Vec3 c = Vec3.atBottomCenterOf(home);
-		return level.getPlayers(p -> !p.isCreative() && !p.isSpectator() && p.isAlive() && p.position().distanceTo(c) < ARENA + 6);
+		Vec3 c = Vec3.atBottomCenterOf(center.equals(BlockPos.ZERO) ? home : center);
+		// в невесомости бойцы взлетают высоко — по горизонтали арена, по вертикали запас
+		return level.getPlayers(p -> !p.isCreative() && !p.isSpectator() && p.isAlive()
+			&& Math.hypot(p.getX() - c.x, p.getZ() - c.z) < ARENA + 6 && Math.abs(p.getY() - c.y) < 40);
 	}
 
 	@Override
@@ -135,6 +189,7 @@ public class Faceless extends Monster {
 		clock++;
 		if (home.equals(BlockPos.ZERO)) {
 			home = blockPosition().below(3);
+			center = home;
 		}
 		if (casting() > 0) {
 			entityData.set(CAST, casting() - 1);
@@ -154,6 +209,10 @@ public class Faceless extends Monster {
 			onTrumpet(level, newPhase);
 		}
 		List<ServerPlayer> fighters = fighters(level);
+		BlockPos wanted = arenaFor(phase());
+		if (!wanted.equals(center) && clock - phaseStart >= 20) {  // труба протрубила — через секунду мир меняется
+			moveTo(level, wanted, phase(), fighters);
+		}
 		hover(fighters);
 		tickStrikes(level, fighters);
 		if (fighters.isEmpty()) {
@@ -197,7 +256,7 @@ public class Faceless extends Monster {
 				}
 			}
 			case 5 -> {
-				if (t % 300 == 0) {
+				if (t % 300 == 25) {  // после переноса на вершину
 					locusts(level);
 				}
 			}
@@ -227,7 +286,7 @@ public class Faceless extends Monster {
 
 	private void hover(List<ServerPlayer> fighters) {
 		orbit += 0.008 + phase() * 0.001;
-		Vec3 c = Vec3.atBottomCenterOf(home);
+		Vec3 c = Vec3.atBottomCenterOf(center);
 		Vec3 wanted = new Vec3(c.x + Math.cos(orbit) * 6, c.y + 3.5 + Math.sin(clock * 0.04) * 0.6, c.z + Math.sin(orbit) * 6);
 		Vec3 delta = wanted.subtract(position());
 		setDeltaMovement(getDeltaMovement().scale(0.75).add(delta.normalize().scale(Math.min(0.12, delta.length() * 0.05))));
@@ -260,9 +319,6 @@ public class Faceless extends Monster {
 			p.sendSystemMessage(Component.translatable("boss.celestial.faceless.trumpet" + phase));
 		}
 		BossIntro.phase(bossEvent.getPlayers(), "faceless", phase, phase >= 7 ? ChatFormatting.WHITE : ChatFormatting.LIGHT_PURPLE);
-		if (phase == 5) {
-			locusts(level);
-		}
 	}
 
 	private void sweep(ServerLevel level, List<ServerPlayer> fighters) {
@@ -294,7 +350,7 @@ public class Faceless extends Monster {
 			for (int i = 0; i < perPlayer; i++) {
 				double dx = i == 0 ? 0 : (random.nextDouble() * 2 - 1) * 4;
 				double dz = i == 0 ? 0 : (random.nextDouble() * 2 - 1) * 4;
-				strikes.add(new Strike(new Vec3(p.getX() + dx, home.getY() + 1.05, p.getZ() + dz), new int[] {25}, kind));
+				strikes.add(new Strike(new Vec3(p.getX() + dx, center.getY() + 0.05, p.getZ() + dz), new int[] {25}, kind));
 			}
 		}
 	}
@@ -344,7 +400,7 @@ public class Faceless extends Monster {
 		for (ServerPlayer p : fighters) {
 			IceSpike spike = ModEntities.ICE_SPIKE.create(level, EntitySpawnReason.MOB_SUMMONED);
 			if (spike != null) {
-				spike.snapTo(p.getX(), home.getY() + 1, p.getZ(), random.nextFloat() * 360, 0);
+				spike.snapTo(p.getX(), center.getY(), p.getZ(), random.nextFloat() * 360, 0);
 				spike.setup(this, 9.0F);
 				level.addFreshEntity(spike);
 			}
@@ -372,7 +428,7 @@ public class Faceless extends Monster {
 				continue;
 			}
 			double a = random.nextDouble() * Math.PI * 2;
-			m.snapTo(home.getX() + 0.5 + Math.cos(a) * 9, home.getY() + 1, home.getZ() + 0.5 + Math.sin(a) * 9, random.nextFloat() * 360, 0);
+			m.snapTo(center.getX() + 0.5 + Math.cos(a) * 9, center.getY(), center.getZ() + 0.5 + Math.sin(a) * 9, random.nextFloat() * 360, 0);
 			m.addTag(SUMMON_TAG);
 			m.addTag(dev.celestial.world.abyss.Darkness.NO_REPEL);
 			level.addFreshEntity(m);
@@ -389,7 +445,7 @@ public class Faceless extends Monster {
 
 	/** Шестая труба: «Стой!» Часовщика — 2 с время стоит для всех, кроме него и его снарядов. */
 	private void stopTime(ServerLevel level, List<ServerPlayer> fighters) {
-		TimeFlow.stop(level, Vec3.atBottomCenterOf(home), ARENA + 4, 40, true, this);
+		TimeFlow.stop(level, Vec3.atBottomCenterOf(center), 40, 40, true, this);  // шар 40 — накрывает и взлетевших в невесомости
 		for (ServerPlayer p : fighters) {
 			BossIntro.title(p, Component.translatable("boss.celestial.clockmaker.stop").withStyle(ChatFormatting.LIGHT_PURPLE, ChatFormatting.BOLD),
 				Component.empty(), 30);
@@ -426,6 +482,7 @@ public class Faceless extends Monster {
 		}
 		entityData.set(DEFEATED, true);
 		entityData.set(PHASE, TRUMPETS);
+		moveTo(level, home, TRUMPETS, fighters(level));
 		strikes.clear();
 		for (Mob m : level.getEntitiesOfClass(Mob.class, getBoundingBox().inflate(ARENA + 8), m -> m.entityTags().contains(SUMMON_TAG))) {
 			level.sendParticles(ModParticles.SHADOW, m.getX(), m.getY(0.5), m.getZ(), 20, 0.4, 0.6, 0.4, 0.05);
@@ -513,6 +570,8 @@ public class Faceless extends Monster {
 	protected void addAdditionalSaveData(ValueOutput output) {
 		super.addAdditionalSaveData(output);
 		output.store("Home", BlockPos.CODEC, home);
+		output.store("Center", BlockPos.CODEC, center);
+		output.putInt("Placed", placed);
 		output.putInt("Phase", phase());
 		output.putBoolean("Defeated", defeated());
 		record.save(output);
@@ -522,6 +581,8 @@ public class Faceless extends Monster {
 	protected void readAdditionalSaveData(ValueInput input) {
 		super.readAdditionalSaveData(input);
 		home = input.read("Home", BlockPos.CODEC).orElse(BlockPos.ZERO);
+		center = input.read("Center", BlockPos.CODEC).orElse(home);
+		placed = input.getIntOr("Placed", 0);
 		entityData.set(PHASE, input.getIntOr("Phase", 1));
 		entityData.set(DEFEATED, input.getBooleanOr("Defeated", false));
 		record.load(input);

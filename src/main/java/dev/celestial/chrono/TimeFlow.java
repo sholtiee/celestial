@@ -228,6 +228,11 @@ public final class TimeFlow {
 				}
 				next.add(e);
 				set(e, s);
+				if (s <= 0.0F && e instanceof net.minecraft.server.level.ServerPlayer sp) {
+					// застывшего держим на месте каждый тик: иначе удар даёт скорость, а без тяжести (Астрал) его уносит прочь
+					sp.setDeltaMovement(Vec3.ZERO);
+					sp.syncVelocity = true;
+				}
 			}
 		}
 		for (Entity e : active) {

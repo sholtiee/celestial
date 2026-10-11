@@ -153,6 +153,90 @@ def summit():
     return t.save('star_altar/summit')
 
 
+REFLECT_R = 15
+
+
+def reflection(name, floor, rim, deco):
+    """Отражение мира для трубы: круглая площадка R=15 (пол на y=1, центр арены — (15, 2, 15)), обод, убранство по миру."""
+    S = 2 * REFLECT_R + 1
+    c0 = REFLECT_R
+    t = Template(S, 16, S)
+    t.fill(0, 0, 0, S - 1, 15, S - 1, 'minecraft:air')
+    r = T.rng_for('faceless_' + name)
+    for x in range(S):
+        for z in range(S):
+            d = math.hypot(x - c0, z - c0)
+            if d <= REFLECT_R + 0.3:
+                t.set(x, 1, z, rim if d > REFLECT_R - 1.5 else floor(x, z, d, r))
+                if d <= REFLECT_R - 4:
+                    t.set(x, 0, z, rim)
+    deco(t, c0, r)
+    return t.save('faceless/' + name)
+
+
+def deco_heaven(t, c0, r):
+    # Рай: облачные островки, золотая трава, кольцо небесных деревьев-колонн с кронами
+    for k in range(6):
+        a = k * math.tau / 6
+        x, z = round(c0 + math.cos(a) * 11), round(c0 + math.sin(a) * 11)
+        t.fill(x, 2, z, x, 6, z, c('skywood_log'), axis='y')
+        for dx in range(-2, 3):
+            for dz in range(-2, 3):
+                for dy in (6, 7):
+                    if abs(dx) + abs(dz) <= (3 if dy == 6 else 2) and not (dx == 0 and dz == 0 and dy == 6):
+                        t.set(x + dx, dy, z + dz, c('skywood_leaves'), persistent=True, distance=1, waterlogged=False)
+    for _ in range(14):
+        x, z = r.randrange(3, 2 * REFLECT_R - 3), r.randrange(3, 2 * REFLECT_R - 3)
+        if math.hypot(x - c0, z - c0) < REFLECT_R - 2:
+            t.set(x, 2, z, 'minecraft:fire')  # «горят облака»
+
+
+def deco_frozen(t, c0, r):
+    for k in range(8):  # ледяные шпили по кругу
+        a = k * math.tau / 8 + 0.3
+        x, z = round(c0 + math.cos(a) * 12), round(c0 + math.sin(a) * 12)
+        h = 4 + r.randrange(4)
+        t.fill(x, 2, z, x, 1 + h, z, 'minecraft:packed_ice')
+        t.set(x, 2 + h, z, 'minecraft:blue_ice')
+    for _ in range(40):
+        x, z = r.randrange(2 * REFLECT_R + 1), r.randrange(2 * REFLECT_R + 1)
+        if math.hypot(x - c0, z - c0) < REFLECT_R - 2:
+            t.set(x, 2, z, 'minecraft:snow', layers=1 + r.randrange(2))
+
+
+def deco_abyss(t, c0, r):
+    for k in range(4):  # жаровни Пожирателя — единственный свет
+        a = k * math.tau / 4 + math.pi / 4
+        x, z = round(c0 + math.cos(a) * 9), round(c0 + math.sin(a) * 9)
+        t.set(x, 2, z, 'minecraft:soul_campfire', lit=True, facing='north', signal_fire=False, waterlogged=False)
+    for _ in range(18):
+        x, z = r.randrange(2 * REFLECT_R + 1), r.randrange(2 * REFLECT_R + 1)
+        if 5 < math.hypot(x - c0, z - c0) < REFLECT_R - 2:
+            t.set(x, 2, z, c('shadow_crystal'), facing='up', waterlogged=False)
+
+
+def deco_chrono(t, c0, r):
+    for k in range(12):  # риски циферблата
+        a = k * math.tau / 12
+        for rr in (10, 11):
+            t.set(round(c0 + math.sin(a) * rr), 1, round(c0 - math.cos(a) * rr), 'minecraft:gold_block')
+    for i in range(2, 9):  # стрелки на «без одной минуты»
+        t.set(c0, 1, c0 - i, 'minecraft:gold_block')
+    for k in range(4):
+        a = k * math.tau / 4 + math.pi / 4
+        x, z = round(c0 + math.cos(a) * 12), round(c0 + math.sin(a) * 12)
+        t.fill(x, 2, z, x, 3, z, 'minecraft:polished_deepslate')
+        t.set(x, 4, z, c('heavy_pendulum'), facing='north', swinging=False, sealed=True, nbt={'id': c('pendulum')})  # стоят: время отражения мёртвое
+
+
+def reflections():
+    reflection('heaven', lambda x, z, d, r: c('golden_grass') if r.random() < 0.7 else c('cloud'), c('skystone_bricks'), deco_heaven)
+    reflection('frozen', lambda x, z, d, r: 'minecraft:packed_ice' if r.random() < 0.5 else c('frost_stone'), c('frost_stone_bricks'), deco_frozen)
+    reflection('abyss', lambda x, z, d, r: c('abyss_stone') if r.random() < 0.8 else c('abyss_bricks'), c('abyss_bricks'), deco_abyss)
+    reflection('chrono', lambda x, z, d, r: 'minecraft:polished_deepslate' if int(d) % 3 else 'minecraft:waxed_cut_copper',
+               'minecraft:waxed_cut_copper', deco_chrono)
+
+
 STORY = [
     ('star_path', 'gear_of_eternity', c('star_stone'),
      {'entered': {'trigger': 'minecraft:changed_dimension', 'conditions': {'to': c('astral')}}}, 'goal',
@@ -217,6 +301,7 @@ def main():
     item_def('faceless_spawn_egg', c('item/faceless_spawn_egg'))
     altar_blocks()
     summit()
+    reflections()
     append_tag('entity_type', 'celestial:time_immune', [c('faceless')])
     e = story()
     for i, (ru_t, en_t, ru, en) in enumerate(TRUMPETS, 1):
@@ -224,6 +309,10 @@ def main():
         e[f'boss.celestial.faceless.trumpet{i}'] = ('§d' + ru, '§d' + en)
     e.update({
         'entity.celestial.faceless': ('Безликий', 'The Faceless'),
+        'boss.celestial.faceless.reflection.heaven': ('§dМир вокруг становится отражением Рая — и облака горят.', '§dThe world around becomes a reflection of Heaven — and the clouds burn.'),
+        'boss.celestial.faceless.reflection.frozen': ('§dВокруг — отражение Ледяных Чертогов: лёд помнит Архонта.', '§dAround you — a reflection of the Frozen Halls: the ice remembers the Archon.'),
+        'boss.celestial.faceless.reflection.abyss': ('§dВокруг — отражение Бездны. Свет — только у жаровен.', '§dAround you — a reflection of the Abyss. The only light is at the braziers.'),
+        'boss.celestial.faceless.reflection.chrono': ('§dВокруг — отражение Хронограда: часы стоят на последней минуте.', '§dAround you — a reflection of Chronograd: the clocks stand at the last minute.'),
         'entity.celestial.void_bolt': ('Сгусток пустоты', 'Void Bolt'),
         'item.celestial.faceless_spawn_egg': ('Яйцо призыва: Безликий', 'Faceless Spawn Egg'),
         'block.celestial.star_altar': ('Звёздный алтарь', 'Star Altar'),

@@ -45,19 +45,29 @@ wait 30
 /say TEST X2 faceless_awakened expect=pass
 /execute if entity @e[type=celestial:faceless,distance=..30]
 wait 40
+/say TEST R1 heaven_reflection expect=pass
+/execute in celestial:astral if entity @s[x=-20,y=80,z=300,dx=40,dy=60,dz=40]
 shot faceless_trumpet1
 /data merge entity @e[type=celestial:faceless,limit=1] {Health:856.0f}
 wait 60
 /say TEST X3 trumpet2 expect=pass
 /execute if entity @e[type=celestial:faceless,nbt={Phase:2}]
+/say TEST R2 frozen_reflection expect=pass
+/execute in celestial:astral if entity @s[x=-20,y=80,z=620,dx=40,dy=60,dz=40]
 shot faceless_trumpet2
 /data merge entity @e[type=celestial:faceless,limit=1] {Health:713.0f}
 wait 70
+/say TEST R3 back_on_summit expect=pass
+/execute in celestial:astral if entity @s[x=-20,y=80,z=-20,dx=40,dy=60,dz=40]
 shot faceless_trumpet3
 /data merge entity @e[type=celestial:faceless,limit=1] {Health:570.0f}
 wait 10
 /say TEST X4 trumpet4 expect=pass
 /execute if entity @e[type=celestial:faceless,nbt={Phase:4}]
+wait 30
+/say TEST R4 abyss_reflection expect=pass
+/execute in celestial:astral if entity @s[x=-20,y=80,z=1260,dx=40,dy=60,dz=40]
+shot faceless_trumpet4
 /data merge entity @e[type=celestial:faceless,limit=1] {Health:427.0f}
 wait 30
 /say TEST X5 locusts_swarm expect=pass
@@ -71,11 +81,17 @@ wait 302
 /say TEST X6 trumpet6_stops_time expect=pass
 /execute if score #sp1 t matches ..5
 shot faceless_trumpet6
+/say TEST R5 chrono_reflection expect=pass
+/execute in celestial:astral if entity @s[x=-20,y=80,z=1900,dx=40,dy=60,dz=40]
 wait 60
+pos
 /data merge entity @e[type=celestial:faceless,limit=1] {Health:141.0f}
 wait 30
+pos
 /say TEST X7 trumpet7 expect=pass
 /execute if entity @e[type=celestial:faceless,nbt={Phase:7}]
+/say TEST R6 summit_for_seventh expect=pass
+/execute in celestial:astral if entity @s[x=-20,y=80,z=-20,dx=40,dy=60,dz=40]
 shot faceless_trumpet7
 # на колени: урон больше остатка — не умирает
 /damage @e[type=celestial:faceless,limit=1] 1000 minecraft:player_attack by @s
