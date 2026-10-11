@@ -208,6 +208,9 @@ public final class ModItems {
 	public static final Item LIGHT_SPEAR = register("light_spear", dev.celestial.item.LightSpearItem::new,
 		lore(new Item.Properties().durability(300).rarity(Rarity.RARE).enchantable(1).repairable(STARQUARTZ), "light_spear", 1));
 
+	public static final Item IRON_PLATE = register("iron_plate", Item::new, lore(new Item.Properties(), "iron_plate", 1));
+	public static final Item COPPER_PLATE = register("copper_plate", Item::new, lore(new Item.Properties(), "copper_plate", 1));
+	public static final Item GOLD_PLATE = register("gold_plate", Item::new, lore(new Item.Properties(), "gold_plate", 1));
 	public static final Item HOURGLASS = register("hourglass", dev.celestial.chrono.HourglassItem::new,
 		lore(new Item.Properties().durability(64).rarity(Rarity.RARE), "hourglass", 2));
 

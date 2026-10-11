@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "P": "celestial:copper_plate",
+    "B": "minecraft:bucket",
+    "F": "minecraft:furnace"
+  },
+  "pattern": [
+    "PPP",
+    "PBP",
+    "PFP"
+  ],
+  "result": {
+    "id": "celestial:steam_engine"
+  }
+}

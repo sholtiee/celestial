@@ -1,0 +1,88 @@
+# Сеть оборотов (волна 0.5, O4): пружина → валы → шестерня → пресс; зацепление шестерён; котёл и маховик (разгон без источника);
+# лифт от привода; заклинивание — две пружины гонят один вал навстречу.
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 30003 166 29994 0 35
+fly
+wait 60
+/fill 29995 159 29995 30012 159 30012 minecraft:polished_andesite
+/fill 29995 160 29995 30012 172 30012 minecraft:air
+/kill @e[type=!minecraft:player,distance=..40]
+# линия A (z=30000): пружина на восток, три вала, шестерня, пресс; над шестернёй — вторая шестерня (зацепление)
+/setblock 30000 160 30000 celestial:clock_spring[facing=east]
+/fill 30001 160 30000 30003 160 30000 celestial:shaft[axis=x]
+/setblock 30004 160 30000 celestial:gear[axis=x]
+/setblock 30004 161 30000 celestial:gear[axis=x]
+/setblock 30005 160 30000 celestial:drive_press
+# линия B (z=30004): котёл на магме, вал, маховик, вал, облачный лифт
+/setblock 30000 159 30004 minecraft:magma_block
+/setblock 30000 160 30004 celestial:steam_engine[facing=east]
+/setblock 30001 160 30004 celestial:shaft[axis=x]
+/setblock 30002 160 30004 celestial:flywheel[axis=x]
+/setblock 30003 160 30004 celestial:shaft[axis=x]
+/setblock 30004 160 30004 celestial:cloud_lift
+# линия C (z=30008): две пружины навстречу через три вала
+/setblock 30000 160 30008 celestial:clock_spring[facing=east]
+/fill 30001 160 30008 30003 160 30008 celestial:shaft[axis=x]
+/setblock 30004 160 30008 celestial:clock_spring[facing=west]
+/gamemode survival
+/tp @s 30002.5 160 29998.5 0 30
+/item replace entity @s weapon.mainhand with minecraft:air
+wait 10
+/say TEST G0 idle_before_wind expect=pass
+/execute if block 30002 160 30000 celestial:shaft[spin=0]
+use 30000 160 30000 south
+wait 12
+/say TEST G1 spring_turns_shaft expect=pass
+/execute if block 30002 160 30000 celestial:shaft[spin=1]
+/say TEST G2 meshed_gear_reverses expect=pass
+/execute if block 30004 161 30000 celestial:gear[spin=2]
+/item replace entity @s weapon.mainhand with minecraft:iron_ingot 3
+use 30005 160 30000 north
+wait 5
+/item replace entity @s weapon.mainhand with minecraft:air
+shot gears_line_a
+wait 70
+/say TEST G3 press_makes_plates expect=pass
+/execute if entity @e[type=minecraft:item,x=30005.5,y=161,z=30000.5,distance=..3,nbt={Item:{id:"celestial:iron_plate"}}]
+/say TEST G4 engine_drives_lift expect=pass
+/execute if block 30004 160 30004 celestial:cloud_lift[lit=true]
+/tp @s 30002.5 161 30001.5 0 25
+wait 5
+shot gears_line_b
+# котёл гаснет — маховик ещё крутит вал
+/setblock 30000 159 30004 minecraft:stone
+wait 40
+/say TEST G5 engine_off expect=pass
+/execute if block 30000 160 30004 celestial:steam_engine[active=false]
+/say TEST G6 flywheel_keeps_turning expect=pass
+/execute if block 30003 160 30004 celestial:shaft[spin=1]
+wait 200
+/say TEST G7 flywheel_runs_down expect=pass
+/execute if block 30003 160 30004 celestial:shaft[spin=0]
+# заклинивание
+/tp @s 30002.5 160 30006.5 0 30
+wait 5
+use 30000 160 30008 north
+wait 12
+/say TEST G8 one_spring_turns expect=pass
+/execute if block 30002 160 30008 celestial:shaft[spin=1]
+use 30004 160 30008 north
+wait 16
+/say TEST G9 opposed_springs_jam expect=pass
+/execute if block 30002 160 30008 celestial:shaft[spin=0]
+shot gears_jam
+/gamemode creative
+/tp @s 29999.5 164 29996.5 -35 35
+wait 10
+shot gears_overview
+/setblock 30000 159 30004 minecraft:magma_block
+/tp @s 30003.5 161.2 29998.2 20 20
+wait 10
+shot gears_close_a
+/tp @s 30001.5 161.2 30002.2 -20 20
+wait 10
+shot gears_close_b
+quit

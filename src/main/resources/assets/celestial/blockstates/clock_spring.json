@@ -1,0 +1,50 @@
+{
+  "variants": {
+    "active=false,facing=north": {
+      "model": "celestial:block/clock_spring"
+    },
+    "active=true,facing=north": {
+      "model": "celestial:block/clock_spring_active"
+    },
+    "active=false,facing=east": {
+      "model": "celestial:block/clock_spring",
+      "y": 90
+    },
+    "active=true,facing=east": {
+      "model": "celestial:block/clock_spring_active",
+      "y": 90
+    },
+    "active=false,facing=south": {
+      "model": "celestial:block/clock_spring",
+      "y": 180
+    },
+    "active=true,facing=south": {
+      "model": "celestial:block/clock_spring_active",
+      "y": 180
+    },
+    "active=false,facing=west": {
+      "model": "celestial:block/clock_spring",
+      "y": 270
+    },
+    "active=true,facing=west": {
+      "model": "celestial:block/clock_spring_active",
+      "y": 270
+    },
+    "active=false,facing=up": {
+      "model": "celestial:block/clock_spring",
+      "x": 270
+    },
+    "active=true,facing=up": {
+      "model": "celestial:block/clock_spring_active",
+      "x": 270
+    },
+    "active=false,facing=down": {
+      "model": "celestial:block/clock_spring",
+      "x": 90
+    },
+    "active=true,facing=down": {
+      "model": "celestial:block/clock_spring_active",
+      "x": 90
+    }
+  }
+}

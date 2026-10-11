@@ -1,0 +1,40 @@
+{
+  "variants": {
+    "axis=y,spin=0": {
+      "model": "celestial:block/shaft"
+    },
+    "axis=y,spin=1": {
+      "model": "celestial:block/shaft_cw"
+    },
+    "axis=y,spin=2": {
+      "model": "celestial:block/shaft_ccw"
+    },
+    "axis=x,spin=0": {
+      "model": "celestial:block/shaft",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,spin=1": {
+      "model": "celestial:block/shaft_cw",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,spin=2": {
+      "model": "celestial:block/shaft_ccw",
+      "x": 90,
+      "y": 90
+    },
+    "axis=z,spin=0": {
+      "model": "celestial:block/shaft",
+      "x": 90
+    },
+    "axis=z,spin=1": {
+      "model": "celestial:block/shaft_cw",
+      "x": 90
+    },
+    "axis=z,spin=2": {
+      "model": "celestial:block/shaft_ccw",
+      "x": 90
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "variants": {
+    "active=false,facing=north": {
+      "model": "celestial:block/steam_engine"
+    },
+    "active=true,facing=north": {
+      "model": "celestial:block/steam_engine_active"
+    },
+    "active=false,facing=east": {
+      "model": "celestial:block/steam_engine",
+      "y": 90
+    },
+    "active=true,facing=east": {
+      "model": "celestial:block/steam_engine_active",
+      "y": 90
+    },
+    "active=false,facing=south": {
+      "model": "celestial:block/steam_engine",
+      "y": 180
+    },
+    "active=true,facing=south": {
+      "model": "celestial:block/steam_engine_active",
+      "y": 180
+    },
+    "active=false,facing=west": {
+      "model": "celestial:block/steam_engine",
+      "y": 270
+    },
+    "active=true,facing=west": {
+      "model": "celestial:block/steam_engine_active",
+      "y": 270
+    },
+    "active=false,facing=up": {
+      "model": "celestial:block/steam_engine",
+      "x": 270
+    },
+    "active=true,facing=up": {
+      "model": "celestial:block/steam_engine_active",
+      "x": 270
+    },
+    "active=false,facing=down": {
+      "model": "celestial:block/steam_engine",
+      "x": 90
+    },
+    "active=true,facing=down": {
+      "model": "celestial:block/steam_engine_active",
+      "x": 90
+    }
+  }
+}

@@ -38,6 +38,15 @@ public final class ModBlockEntities {
 	public static final BlockEntityType<dev.celestial.chrono.PendulumBlockEntity> PENDULUM = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("pendulum"),
 		new BlockEntityType<>(dev.celestial.chrono.PendulumBlockEntity::new, Set.of(ModBlocks.SWIFT_PENDULUM, ModBlocks.HEAVY_PENDULUM)));
+	public static final BlockEntityType<dev.celestial.mech.FlywheelBlockEntity> FLYWHEEL = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("flywheel"),
+		new BlockEntityType<>(dev.celestial.mech.FlywheelBlockEntity::new, Set.of(ModBlocks.FLYWHEEL)));
+	public static final BlockEntityType<dev.celestial.mech.SourceBlockEntity> MECH_SOURCE = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("mech_source"),
+		new BlockEntityType<>(dev.celestial.mech.SourceBlockEntity::new, Set.of(ModBlocks.CLOCK_SPRING, ModBlocks.STEAM_ENGINE)));
+	public static final BlockEntityType<dev.celestial.mech.DrivePressBlockEntity> DRIVE_PRESS = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("drive_press"),
+		new BlockEntityType<>(dev.celestial.mech.DrivePressBlockEntity::new, Set.of(ModBlocks.DRIVE_PRESS)));
 	public static final BlockEntityType<dev.celestial.block.puzzle.BellAltarBlockEntity> BELL_ALTAR = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("bell_altar"),
 		new BlockEntityType<>(dev.celestial.block.puzzle.BellAltarBlockEntity::new, Set.of(ModBlocks.BELL_ALTAR)));

@@ -42,6 +42,12 @@
     "celestial:frozen_angel",
     "celestial:rime_ice",
     "celestial:swift_pendulum",
-    "celestial:heavy_pendulum"
+    "celestial:heavy_pendulum",
+    "celestial:shaft",
+    "celestial:gear",
+    "celestial:flywheel",
+    "celestial:clock_spring",
+    "celestial:steam_engine",
+    "celestial:drive_press"
   ]
 }

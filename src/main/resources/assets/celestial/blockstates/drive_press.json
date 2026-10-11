@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "working=false": {
+      "model": "celestial:block/drive_press"
+    },
+    "working=true": {
+      "model": "celestial:block/drive_press_working"
+    }
+  }
+}

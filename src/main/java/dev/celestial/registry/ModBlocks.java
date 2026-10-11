@@ -380,6 +380,21 @@ public final class ModBlocks {
 		Properties.of().mapColor(MapColor.METAL).strength(3.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion()
 			.lightLevel(s -> s.getValue(dev.celestial.chrono.PendulumBlock.SWINGING) ? 4 : 0), 2);
 
+	// ── Хроноград (0.5): сеть оборотов ──
+	public static final Block SHAFT = register("shaft", p -> new dev.celestial.mech.MechBlock(dev.celestial.mech.MechBlock.Kind.SHAFT, p),
+		Properties.of().mapColor(MapColor.METAL).strength(2.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.CHAIN).noOcclusion(), 1);
+	public static final Block GEAR = register("gear", p -> new dev.celestial.mech.MechBlock(dev.celestial.mech.MechBlock.Kind.GEAR, p),
+		Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(2.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.COPPER).noOcclusion(), 2);
+	public static final Block FLYWHEEL = register("flywheel", dev.celestial.mech.FlywheelBlock::new,
+		Properties.of().mapColor(MapColor.METAL).strength(3.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion(), 1);
+	public static final Block CLOCK_SPRING = register("clock_spring", p -> new dev.celestial.mech.SourceBlock(dev.celestial.mech.SourceBlock.Kind.SPRING, p),
+		Properties.of().mapColor(MapColor.GOLD).strength(3.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.COPPER), 2);
+	public static final Block STEAM_ENGINE = register("steam_engine", p -> new dev.celestial.mech.SourceBlock(dev.celestial.mech.SourceBlock.Kind.ENGINE, p),
+		Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(3.5F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.COPPER)
+			.lightLevel(s -> s.getValue(dev.celestial.mech.SourceBlock.ACTIVE) ? 9 : 0), 2);
+	public static final Block DRIVE_PRESS = register("drive_press", dev.celestial.mech.DrivePressBlock::new,
+		Properties.of().mapColor(MapColor.METAL).strength(3.5F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion(), 2);
+
 	private static Block registerNoItem(String name, Function<Properties, Block> factory, Properties properties) {
 		ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, Celestial.id(name));
 		return Blocks.register(key, factory, properties);

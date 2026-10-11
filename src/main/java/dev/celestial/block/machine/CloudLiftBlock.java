@@ -28,7 +28,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Облачный лифт: пока он работает (на него падает луч или подан сигнал красного камня),
+ * Облачный лифт: пока он работает (на него падает луч, подан сигнал красного камня или его крутит вал),
  * поднимает всех, кто стоит в столбе над ним (до 12 блоков). Присесть — плавно спуститься.
  */
 public class CloudLiftBlock extends Block implements EntityBlock, BeamTarget {
@@ -63,9 +63,16 @@ public class CloudLiftBlock extends Block implements EntityBlock, BeamTarget {
 		}
 	}
 
+	@Override
+	protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState old, boolean moved) {
+		if (!old.is(this)) {
+			level.scheduleTick(pos, this, 1);  // поставили рядом с уже крутящимся валом или горящим сигналом — проверить сразу
+		}
+	}
+
 	private void update(ServerLevel level, BlockPos pos, BlockState state) {
 		Long beam = LAST_BEAM.get(pos.asLong());
-		boolean on = level.hasNeighborSignal(pos) || (beam != null && level.getGameTime() - beam <= LightBeams.PULSE * 2);
+		boolean on = level.hasNeighborSignal(pos) || dev.celestial.mech.Gears.driven(level, pos) || (beam != null && level.getGameTime() - beam <= LightBeams.PULSE * 2);
 		if (on != state.getValue(LIT)) {
 			level.setBlock(pos, state.setValue(LIT, on), Block.UPDATE_ALL);
 		}

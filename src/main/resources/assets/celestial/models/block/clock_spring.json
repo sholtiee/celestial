@@ -1,0 +1,80 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "front": "celestial:block/clock_spring_front",
+    "face": "celestial:block/clock_spring_face",
+    "side": "celestial:block/clock_spring_side",
+    "top": "celestial:block/clock_spring_side",
+    "particle": "celestial:block/clock_spring_side"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#front"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#face"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#face"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#face"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#top"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#side"
+        }
+      }
+    }
+  ]
+}

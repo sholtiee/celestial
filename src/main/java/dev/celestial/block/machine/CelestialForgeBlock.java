@@ -22,7 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 /**
- * Небесная кузня (мультиблок): ядро, четыре блока светлого камня по сторонам и луч света в ядро.
+ * Небесная кузня (мультиблок): ядро, четыре блока светлого камня по сторонам и луч света в ядро (или вал привода сверху/снизу).
  * ПКМ предметом: алмазное снаряжение → эфиритовое (2 эфирита + звёздный кварц из инвентаря),
  * эфиритовое — полный ремонт за звёздный кварц. Зачарования сохраняются.
  */
@@ -60,7 +60,7 @@ public class CelestialForgeBlock extends Block implements BeamPowered {
 			player.sendOverlayMessage(Component.translatable("machine.celestial.forge.incomplete"));
 			return InteractionResult.FAIL;
 		}
-		if (!BeamPowered.isPowered(level, pos)) {
+		if (!BeamPowered.isPowered(level, pos) && !dev.celestial.mech.Gears.driven(level, pos)) {
 			player.sendOverlayMessage(Component.translatable("machine.celestial.forge.no_light"));
 			return InteractionResult.FAIL;
 		}

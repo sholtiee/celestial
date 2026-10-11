@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "P": "minecraft:iron_ingot",
+    "I": "minecraft:iron_bars",
+    "S": "minecraft:piston",
+    "X": "minecraft:smooth_stone"
+  },
+  "pattern": [
+    "PPP",
+    "ISI",
+    "XXX"
+  ],
+  "result": {
+    "id": "celestial:drive_press"
+  }
+}

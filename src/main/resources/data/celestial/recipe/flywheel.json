@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "P": "celestial:iron_plate",
+    "S": "celestial:shaft"
+  },
+  "pattern": [
+    "PPP",
+    "PSP",
+    "PPP"
+  ],
+  "result": {
+    "id": "celestial:flywheel"
+  }
+}

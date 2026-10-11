@@ -1,0 +1,36 @@
+# Витрина механизмов волны 0.5 (без HUD): маятники, вал, шестерни, маховик, пружина, котёл, пресс — стоят и крутятся.
+/gamemode creative
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 31004 163 30992 0 25
+fly
+wait 60
+/fill 30995 159 30995 31015 159 31008 minecraft:polished_andesite
+/fill 30995 160 30995 31015 170 31008 minecraft:air
+/kill @e[type=!minecraft:player,distance=..30]
+/setblock 31000 159 31000 minecraft:magma_block
+/setblock 31000 160 31000 celestial:steam_engine[facing=east]
+/setblock 31001 160 31000 celestial:shaft[axis=x]
+/setblock 31002 160 31000 celestial:flywheel[axis=x]
+/setblock 31003 160 31000 celestial:shaft[axis=x]
+/setblock 31004 160 31000 celestial:gear[axis=x]
+/setblock 31004 161 31000 celestial:gear[axis=x]
+/setblock 31004 162 31000 celestial:gear[axis=x]
+/setblock 31005 160 31000 celestial:drive_press
+/setblock 31007 160 31000 celestial:clock_spring[facing=north]
+/setblock 31009 160 31000 celestial:heavy_pendulum[facing=north]
+/setblock 31011 162 31000 celestial:swift_pendulum[facing=north]
+/setblock 31004 160 31003 celestial:gear[axis=z]
+/setblock 31003 160 31003 celestial:shaft[axis=y]
+togglehud
+clearchat
+/tp @s 31004.5 162 30993.5 0 18
+wait 40
+shot mech_row_front
+/tp @s 31000.5 162.5 30995.5 -40 22
+wait 10
+shot mech_engine_side
+/tp @s 31008.5 161.5 30995.5 20 15
+wait 10
+shot mech_press_spring
+quit

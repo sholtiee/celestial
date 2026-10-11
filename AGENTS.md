@@ -48,6 +48,8 @@ Fabric-мод **Celestial** для Minecraft **26.3**: измерение Рая
 | `quest/` | поручения ангелов |
 | `story/` | `Story` (главы = достижения), `StoryEvents`, `Finale` |
 | `lore/` | `Lore` — Летопись Небес (листы, книги, «Нить», Глоссарий; данные из `tools/lore_data.py` через `data/celestial/lore/lore.json`); вкладка — `client/grace/LorePanel` |
+| `chrono/` | Ход времени (0.5): `TimeFlow` (масштаб хода сущностей, зоны, пузыри остановки; миксины `mixin/TickRateManagerMixin`, `ServerLevelTimeMixin`), маятники, Песочные часы; HUD — `client/chrono/` |
+| `mech/` | Сеть оборотов (0.5): `Gears` (сведение заявок источников, заклинивание, `driven` для потребителей), вал/шестерня/маховик (`MechBlock`), пружина и котёл (`SourceBlock`), пресс |
 | `command/` | `/celestial status|fading|act|grace|codex|learn|meteor|beacon|quest` |
 | `client/` | рендеры (`render/`), HUD и Кодекс (`grace/`), автопилот (`dev/AutoPilot`), миксины (`mixin/`) |
 
