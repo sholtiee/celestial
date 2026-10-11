@@ -370,6 +370,16 @@ public final class ModBlocks {
 			.pushReaction(PushReaction.POPPED).lightLevel(s -> light));
 	}
 
+	// ── Хроноград (0.5): маятники — зоны иного хода времени ──
+	public static final Block SWIFT_PENDULUM = register("swift_pendulum",
+		p -> new dev.celestial.chrono.PendulumBlock(dev.celestial.chrono.TimeFlow.FAST, 16, p),
+		Properties.of().mapColor(MapColor.GOLD).strength(3.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.COPPER).noOcclusion()
+			.lightLevel(s -> s.getValue(dev.celestial.chrono.PendulumBlock.SWINGING) ? 7 : 0), 2);
+	public static final Block HEAVY_PENDULUM = register("heavy_pendulum",
+		p -> new dev.celestial.chrono.PendulumBlock(dev.celestial.chrono.TimeFlow.SLOW, 60, p),
+		Properties.of().mapColor(MapColor.METAL).strength(3.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion()
+			.lightLevel(s -> s.getValue(dev.celestial.chrono.PendulumBlock.SWINGING) ? 4 : 0), 2);
+
 	private static Block registerNoItem(String name, Function<Properties, Block> factory, Properties properties) {
 		ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, Celestial.id(name));
 		return Blocks.register(key, factory, properties);

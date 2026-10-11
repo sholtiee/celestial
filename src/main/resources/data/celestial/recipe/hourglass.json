@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "G": "minecraft:gold_ingot",
+    "S": "minecraft:glass",
+    "I": "celestial:ice_core"
+  },
+  "pattern": [
+    "GGG",
+    "SIS",
+    "GGG"
+  ],
+  "result": {
+    "id": "celestial:hourglass"
+  }
+}

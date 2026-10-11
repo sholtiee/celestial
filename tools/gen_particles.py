@@ -48,11 +48,26 @@ def feather():
     return img
 
 
+def cog(color, phase):
+    """Шестерёнка-искра хода времени: кольцо с 6 зубцами и пустой серединой."""
+    img = blank()
+    c = hexrgb(color)
+    for y in range(8):
+        for x in range(8):
+            d = math.hypot(x - 3.5, y - 3.5)
+            a = math.atan2(y - 3.5, x - 3.5) + phase
+            if 1.2 <= d <= 2.6 or (2.6 < d <= 3.7 and math.cos(a * 6) > 0.35):
+                img.putpixel((x, y), (*mix(c, (255, 255, 255), 0.35 if d < 2 else 0.0), 235))
+    return img
+
+
 PARTICLES = {
     'starlight': [star(3), star(3), star(2), star(1)],
     'shadow': [blob(3.6, '#2a1c3a', 1.2), blob(3.4, '#22172f', 1.4), blob(3.0, '#1a1226', 1.6), blob(2.4, '#140e1f', 2.0)],
     'spore': [blob(1.6, '#7af5e3', 1.5), blob(1.2, '#3fe0c8', 2.0)],
     'feather': [feather()],
+    'chrono_haste': [cog('#ffc860', 0.0), cog('#ffb040', 0.26)],
+    'chrono_lag': [cog('#9fb4ff', 0.0), cog('#7f92e0', 0.26)],
     'rift': [blob(1.8, '#c9a8ff', 1.2), blob(1.4, '#8a5cd0', 1.5), blob(1.0, '#5b2a8c', 2.0)],
 }
 

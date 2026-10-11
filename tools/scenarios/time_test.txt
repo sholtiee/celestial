@@ -1,0 +1,116 @@
+# Механика Времени (волна 0.5, O4): маятники (зоны замедления/ускорения), Песочные часы, циферблат HUD.
+# Три стрелы без гравитации получают одинаковую скорость в один тик: в зоне Тяжёлого маятника, вне зон, в зоне Быстрого.
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 29020 170 28985 0 30
+fly
+wait 60
+/fill 28990 159 28985 29070 159 29010 minecraft:polished_andesite
+/fill 28990 160 28985 29070 175 29010 minecraft:air
+/kill @e[type=!minecraft:player,distance=..60]
+/scoreboard objectives add t dummy
+/setblock 29000 163 29000 celestial:heavy_pendulum[facing=south]
+/setblock 29040 163 29000 celestial:swift_pendulum[facing=south]
+/setblock 29000 166 29000 minecraft:chain
+/setblock 29040 166 29000 minecraft:chain
+wait 20
+/summon minecraft:arrow 29000.5 161.5 28996.5 {NoGravity:1b,Tags:["t","slow"],pickup:0b}
+/summon minecraft:arrow 29020.5 161.5 28996.5 {NoGravity:1b,Tags:["t","ref"],pickup:0b}
+/summon minecraft:arrow 29040.5 161.5 28996.5 {NoGravity:1b,Tags:["t","fast"],pickup:0b}
+wait 10
+/execute as @e[type=minecraft:arrow,tag=t] run data merge entity @s {Motion:[0.0,0.0,0.3]}
+wait 20
+/execute as @e[type=minecraft:arrow,tag=t] store result score @s t run data get entity @s Pos[2] 100
+/scoreboard players operation #slow t = @e[tag=slow,limit=1] t
+/scoreboard players operation #ref t = @e[tag=ref,limit=1] t
+/scoreboard players operation #fast t = @e[tag=fast,limit=1] t
+/scoreboard players set #base t 2899650
+/scoreboard players operation #slow t -= #base t
+/scoreboard players operation #ref t -= #base t
+/scoreboard players operation #fast t -= #base t
+/scoreboard players set #k t 100
+/scoreboard players operation #lo t = #ref t
+/scoreboard players set #m t 65
+/scoreboard players operation #lo t *= #m t
+/scoreboard players operation #lo t /= #k t
+/scoreboard players operation #hi t = #ref t
+/scoreboard players set #m t 160
+/scoreboard players operation #hi t *= #m t
+/scoreboard players operation #hi t /= #k t
+/scoreboard players list #slow
+/scoreboard players list #ref
+/scoreboard players list #fast
+/say TEST T1 slow_zone_halves_arrow expect=pass
+/execute if score #slow t < #lo t
+/say TEST T2 fast_zone_speeds_arrow expect=pass
+/execute if score #fast t > #hi t
+# игрок: в зоне Тяжёлого маятника скорость снижена модификатором, вне — нет
+/tp @s 29020.5 160 28990.5 0 10
+/gamemode survival
+wait 10
+/execute store result score #sp0 t run attribute @s minecraft:movement_speed get 1000
+/tp @s 29000.5 160 29003.5 180 -10
+wait 10
+/execute store result score #sp1 t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players list #sp0
+/scoreboard players list #sp1
+/say TEST T3 player_slowed_in_zone expect=pass
+/execute if score #sp1 t < #sp0 t
+shot time_heavy_zone
+/tp @s 29040.5 160 29003.5 180 -10
+wait 30
+shot time_swift_zone
+/tp @s 29020.5 160 28990.5 0 10
+wait 10
+/execute store result score #sp2 t run attribute @s minecraft:movement_speed get 1000
+/say TEST T4 player_restored_outside expect=pass
+/execute if score #sp2 t = #sp0 t
+# остановленный маятник зону не держит
+/tp @s 29003.5 160 29002.5 135 -30
+wait 5
+use 29000 163 29000 south
+wait 10
+/say TEST T5 pendulum_stopped expect=pass
+/execute if block 29000 163 29000 celestial:heavy_pendulum[swinging=false]
+/kill @e[type=minecraft:arrow]
+/summon minecraft:arrow 29000.5 161.5 28996.5 {NoGravity:1b,Tags:["t2"],pickup:0b,Motion:[0.0,0.0,0.3]}
+wait 20
+/execute store result score #still t run data get entity @e[tag=t2,limit=1] Pos[2] 100
+/scoreboard players operation #still t -= #base t
+/scoreboard players list #still
+/say TEST T6 stopped_pendulum_no_zone expect=pass
+/execute if score #still t > #lo t
+use 29000 163 29000 south
+wait 10
+# Песочные часы: стрела замирает на 5 с, потом летит дальше
+/tp @s 29060.5 160 28990.5 0 20
+/kill @e[type=minecraft:arrow]
+/summon minecraft:arrow 29062.5 161.5 28994.5 {NoGravity:1b,Tags:["hg"],pickup:0b}
+/summon minecraft:zombie 29058.5 160 28996.5 {Tags:["hgz"],PersistenceRequired:1b}
+/item replace entity @s weapon.mainhand with celestial:hourglass
+wait 10
+useitem
+wait 3
+/execute as @e[tag=hg] run data merge entity @s {Motion:[0.0,0.0,0.3]}
+/execute store result score #h0 t run data get entity @e[tag=hg,limit=1] Pos[2] 100
+wait 30
+shot time_hourglass
+/execute store result score #h1 t run data get entity @e[tag=hg,limit=1] Pos[2] 100
+/scoreboard players list #h0
+/scoreboard players list #h1
+/say TEST T7 hourglass_freezes_arrow expect=pass
+/execute if score #h1 t = #h0 t
+wait 90
+/execute store result score #h2 t run data get entity @e[tag=hg,limit=1] Pos[2] 100
+/scoreboard players list #h2
+/say TEST T8 arrow_resumes_after expect=pass
+/execute if score #h2 t > #h1 t
+/kill @e[tag=hgz]
+/gamemode creative
+/setblock 29020 160 29000 celestial:swift_pendulum[facing=north]
+/tp @s 29020.5 161.5 28997.5 0 10
+wait 10
+shot time_metronome
+quit

@@ -55,6 +55,7 @@ public final class CelestialRenderers {
 		net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry.register(
 			riftType(), ctx -> new net.minecraft.client.renderer.blockentity.TheEndPortalRenderer());
 		GuardianRenderer.register();
+		dev.celestial.client.chrono.PendulumRenderer.register();
 		EntityRendererRegistry.register(ModEntities.FALLEN_GUARDIAN, GuardianRenderer::new);
 		EntityRendererRegistry.register(ModEntities.FALLEN_SERAPH, SeraphRenderer::new);
 		EntityRendererRegistry.register(ModEntities.SERAPH_CRYSTAL, SeraphRenderer.Crystal::new);

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "G": "minecraft:gold_ingot",
+    "C": "minecraft:copper_ingot",
+    "K": "minecraft:clock"
+  },
+  "pattern": [
+    "GCG",
+    "GKG",
+    " G "
+  ],
+  "result": {
+    "id": "celestial:swift_pendulum"
+  }
+}

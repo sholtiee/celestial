@@ -55,6 +55,7 @@ public class Celestial implements ModInitializer {
 		dev.celestial.world.frozen.WarmConsumeEffect.init();
 		dev.celestial.world.CaveFloorStructure.init();
 		dev.celestial.memory.Memories.init();
+		dev.celestial.chrono.TimeFlow.init();
 		LOGGER.info("Celestial: небеса открываются");
 	}
 

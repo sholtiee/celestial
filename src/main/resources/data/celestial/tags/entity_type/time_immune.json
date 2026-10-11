@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "celestial:fallen_seraph",
+    "celestial:light_devourer",
+    "celestial:frost_archon",
+    "minecraft:ender_dragon",
+    "minecraft:wither",
+    "minecraft:warden",
+    "minecraft:elder_guardian"
+  ]
+}

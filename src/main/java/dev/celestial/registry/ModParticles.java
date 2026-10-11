@@ -13,6 +13,8 @@ public final class ModParticles {
 	public static final SimpleParticleType SPORE = register("spore");
 	public static final SimpleParticleType FEATHER = register("feather");
 	public static final SimpleParticleType RIFT = register("rift");
+	public static final SimpleParticleType CHRONO_HASTE = register("chrono_haste");
+	public static final SimpleParticleType CHRONO_LAG = register("chrono_lag");
 
 	private ModParticles() {}
 

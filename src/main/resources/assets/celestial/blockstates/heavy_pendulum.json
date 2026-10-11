@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,swinging=true": {
+      "model": "celestial:block/heavy_pendulum"
+    },
+    "facing=north,swinging=false": {
+      "model": "celestial:block/heavy_pendulum_still"
+    },
+    "facing=east,swinging=true": {
+      "model": "celestial:block/heavy_pendulum",
+      "y": 90
+    },
+    "facing=east,swinging=false": {
+      "model": "celestial:block/heavy_pendulum_still",
+      "y": 90
+    },
+    "facing=south,swinging=true": {
+      "model": "celestial:block/heavy_pendulum",
+      "y": 180
+    },
+    "facing=south,swinging=false": {
+      "model": "celestial:block/heavy_pendulum_still",
+      "y": 180
+    },
+    "facing=west,swinging=true": {
+      "model": "celestial:block/heavy_pendulum",
+      "y": 270
+    },
+    "facing=west,swinging=false": {
+      "model": "celestial:block/heavy_pendulum_still",
+      "y": 270
+    }
+  }
+}

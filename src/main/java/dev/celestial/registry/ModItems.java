@@ -208,6 +208,9 @@ public final class ModItems {
 	public static final Item LIGHT_SPEAR = register("light_spear", dev.celestial.item.LightSpearItem::new,
 		lore(new Item.Properties().durability(300).rarity(Rarity.RARE).enchantable(1).repairable(STARQUARTZ), "light_spear", 1));
 
+	public static final Item HOURGLASS = register("hourglass", dev.celestial.chrono.HourglassItem::new,
+		lore(new Item.Properties().durability(64).rarity(Rarity.RARE), "hourglass", 2));
+
 	// Ключи от хранилищ в руинах (сундуки заперты на предмет-ключ в руке)
 	public static final Item BRONZE_KEY = register("bronze_key", Item::new, lore(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON), "bronze_key", 1));
 	public static final Item SILVER_KEY = register("silver_key", Item::new, lore(new Item.Properties().stacksTo(16).rarity(Rarity.RARE), "silver_key", 1));

@@ -20,7 +20,7 @@ public class CelestialParticle extends SimpleAnimatedParticle {
 	private final float baseSize;
 	private final double spinPhase;
 
-	enum Kind { STARLIGHT, SHADOW, SPORE, FEATHER, RIFT }
+	enum Kind { STARLIGHT, SHADOW, SPORE, FEATHER, RIFT, CHRONO_HASTE, CHRONO_LAG }
 
 	CelestialParticle(ClientLevel level, double x, double y, double z, double xa, double ya, double za, SpriteSet sprites, Kind kind) {
 		super(level, x, y, z, sprites, 0.0F);
@@ -59,6 +59,16 @@ public class CelestialParticle extends SimpleAnimatedParticle {
 				quadSize *= 0.5F + random.nextFloat() * 0.3F;
 				setFadeColor(0x3A1A6A);
 			}
+			case CHRONO_HASTE -> {
+				lifetime = 14 + random.nextInt(8);
+				quadSize *= 0.45F + random.nextFloat() * 0.2F;
+				setFadeColor(0xFF9A3A);
+			}
+			case CHRONO_LAG -> {
+				lifetime = 60 + random.nextInt(30);
+				quadSize *= 0.45F + random.nextFloat() * 0.2F;
+				setFadeColor(0x3A4A8A);
+			}
 		}
 		this.baseSize = quadSize;
 		setSpriteFromAge(sprites);
@@ -91,6 +101,12 @@ public class CelestialParticle extends SimpleAnimatedParticle {
 				zd = Math.sin(a) * 0.06;
 				yd = -0.02;
 			}
+			case CHRONO_HASTE, CHRONO_LAG -> {
+				// шестерёнка вращается: быстрая — быстро, медленная — еле-еле
+				oRoll = roll;
+				roll += kind == Kind.CHRONO_HASTE ? 0.5F : 0.04F;
+				setAlpha(1.0F - life * life);
+			}
 		}
 	}
 
@@ -120,5 +136,7 @@ public class CelestialParticle extends SimpleAnimatedParticle {
 		r.register(ModParticles.SPORE, sprites -> new Provider(sprites, Kind.SPORE));
 		r.register(ModParticles.FEATHER, sprites -> new Provider(sprites, Kind.FEATHER));
 		r.register(ModParticles.RIFT, sprites -> new Provider(sprites, Kind.RIFT));
+		r.register(ModParticles.CHRONO_HASTE, sprites -> new Provider(sprites, Kind.CHRONO_HASTE));
+		r.register(ModParticles.CHRONO_LAG, sprites -> new Provider(sprites, Kind.CHRONO_LAG));
 	}
 }
