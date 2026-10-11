@@ -126,6 +126,9 @@ public final class CelestialCommand {
 					return added ? 1 : 0;
 				}))))
 			.then(Commands.literal("codex").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+				// для сценариев: 1, если запись есть (execute store result … run celestial codex has <запись>)
+				.then(Commands.literal("has").then(Commands.argument("entry", StringArgumentType.greedyString()).executes(ctx ->
+					CelestialData.get(ctx.getSource().getPlayerOrException()).knows(StringArgumentType.getString(ctx, "entry")) ? 1 : 0)))
 				.then(Commands.argument("entry", StringArgumentType.greedyString()).executes(ctx -> {
 					String entry = StringArgumentType.getString(ctx, "entry");
 					CelestialData.update(ctx.getSource().getPlayerOrException(), d -> d.withCodex(entry));

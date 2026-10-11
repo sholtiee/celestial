@@ -77,6 +77,11 @@ public final class TimeFlow {
 		AURAS.add(new Aura(level.dimension(), owner.getUUID(), level.getGameTime() + ticks));
 	}
 
+	/** Замедление вокруг игрока (благословение Престолов): как аура Шестерни, но без ускорения самого игрока. */
+	public static void slowAround(ServerLevel level, Player owner, double radius, int ticks) {
+		BUBBLES.add(new Bubble(level.dimension(), owner.position(), radius, level.getGameTime() + ticks, SLOW, false, owner.getUUID()));
+	}
+
 	/** Пузырь остановленного времени. {@code exempt} — кто не замирает (владелец часов, его снаряды; босс). */
 	public record Bubble(ResourceKey<Level> level, Vec3 center, double radius, long until, float scale, boolean players, @Nullable UUID exempt) {}
 

@@ -17,7 +17,7 @@ import net.minecraft.util.FormattedCharSequence;
 
 /** Кодекс Небес: Сага, Благодать (дерево навыков), Бестиарий, Места, Справочник. */
 public class CodexScreen extends Screen {
-	private enum Tab { SAGA, GRACE, BESTIARY, PLACES, GUIDE, LORE }
+	private enum Tab { SAGA, GRACE, STARS, BESTIARY, PLACES, GUIDE, LORE }
 
 	private static final String[] MOBS = {"fallen_guardian", "storm_spirit", "winged_serpent", "cloud_whale", "light_wisp", "angel", "pegasus",
 		"cherub", "golden_ram", "sky_ray", "cloud_jelly", "mimic", "storm_elemental", "fallen_seraph", "shadow", "blind_hunter", "light_eater", "deep_worm", "light_devourer", "frost_wraith", "ice_guardian", "ice_wolf", "frost_archon", "inia", "clockmaker", "archangel", "nephilim", "chained_watcher", "dove"};
@@ -95,6 +95,7 @@ public class CodexScreen extends Screen {
 				lines.add(Component.translatable("codex.celestial.saga.text." + Math.min(ClientState.act(), 4)));
 			}
 			case GRACE -> buildGrace(d);
+			case STARS -> textArea = StarsPanel.build(left(), top(), W, d, lines);
 			case LORE -> textArea = LorePanel.build(left(), top(), W, d, lines, this::addRenderableWidget, this::init);
 			case BESTIARY -> {
 				for (String m : MOBS) {
@@ -189,6 +190,9 @@ public class CodexScreen extends Screen {
 		}
 		if (tab == Tab.LORE) {
 			LorePanel.render(graphics, font, left(), top(), W, GraceClient.data());
+		}
+		if (tab == Tab.STARS) {
+			StarsPanel.render(graphics, font, left(), top(), W, H, GraceClient.data(), mouseX, mouseY);
 		}
 		int y = textArea[1];
 		if (tab == Tab.GRACE) {

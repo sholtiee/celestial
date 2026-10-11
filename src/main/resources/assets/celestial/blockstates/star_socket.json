@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "filled=false": {
+      "model": "celestial:block/star_socket"
+    },
+    "filled=true": {
+      "model": "celestial:block/star_socket_filled"
+    }
+  }
+}

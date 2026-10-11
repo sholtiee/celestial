@@ -57,6 +57,7 @@ public class Celestial implements ModInitializer {
 		dev.celestial.memory.Memories.init();
 		dev.celestial.chrono.TimeFlow.init();
 		dev.celestial.mech.Gears.init();
+		dev.celestial.astral.Choirs.init();
 		LOGGER.info("Celestial: небеса открываются");
 	}
 

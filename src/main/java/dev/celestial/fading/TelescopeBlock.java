@@ -62,6 +62,7 @@ public class TelescopeBlock extends HorizontalDirectionalBlock {
 			return InteractionResult.SUCCESS;
 		}
 		CelestialData.update(player, d -> d.withCodex("place:telescope"));
+		observe(server, pos, player);
 		int stage = Fading.stage(server.getServer());
 		player.sendSystemMessage(Component.translatable("block.celestial.telescope.stage." + stage));
 		if (level.dimension() == Level.OVERWORLD) {
@@ -73,6 +74,26 @@ public class TelescopeBlock extends HorizontalDirectionalBlock {
 			}
 		}
 		return InteractionResult.SUCCESS;
+	}
+
+	/**
+	 * Созвездие хора, видимое в эту ночь: вне Астрала — по фазе Луны (8 хоров), в Астрале — Серафимы. Первое наблюдение — запись
+	 * {@code constellation:<хор>} в Кодексе (рисунок во вкладке «Созвездия»).
+	 */
+	private static void observe(ServerLevel level, BlockPos pos, Player player) {
+		dev.celestial.astral.Choir choir = level.dimension() == dev.celestial.world.dim.AbyssFeatures.ASTRAL ? dev.celestial.astral.Choir.SERAPHIM
+			: dev.celestial.astral.Choir.forMoonPhase(level.environmentAttributes().getValue(
+				net.minecraft.world.attribute.EnvironmentAttributes.MOON_PHASE, net.minecraft.world.phys.Vec3.atCenterOf(pos)).index());
+		if (choir == null) {
+			return;
+		}
+		boolean fresh = !CelestialData.get(player).knows("constellation:" + choir.id);
+		CelestialData.update(player, d -> d.withCodex("constellation:" + choir.id));
+		player.sendSystemMessage(Component.translatable(fresh ? "block.celestial.telescope.constellation_new" : "block.celestial.telescope.constellation",
+			Component.translatable("choir.celestial." + choir.id).withStyle(net.minecraft.ChatFormatting.AQUA)));
+		if (fresh) {
+			level.sendParticles(dev.celestial.registry.ModParticles.STARLIGHT, pos.getX() + 0.5, pos.getY() + 1.4, pos.getZ() + 0.5, 25, 0.4, 0.4, 0.4, 0.03);
+		}
 	}
 
 	/** Сторона света: n, ne, e, se, s, sw, w, nw. */

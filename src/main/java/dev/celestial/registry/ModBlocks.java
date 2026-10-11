@@ -399,6 +399,14 @@ public final class ModBlocks {
 		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.COPPER)
 			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.boss.ClockSealBlock.AWAKENED) ? 3 : 12));
 
+	// ── Астрал (0.6): Звёздные диски хоров ──
+	public static final Block STAR_DISK = register("star_disk", dev.celestial.astral.StarDiskBlock::new,
+		Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST)
+			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.astral.StarDiskBlock.LIT) ? 15 : 6));
+	public static final Block STAR_SOCKET = register("star_socket", dev.celestial.astral.StarSocketBlock::new,
+		Properties.of().mapColor(MapColor.COLOR_BLUE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST).noOcclusion()
+			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.astral.StarSocketBlock.FILLED) ? 10 : 2));
+
 	private static Block registerNoItem(String name, Function<Properties, Block> factory, Properties properties) {
 		ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, Celestial.id(name));
 		return Blocks.register(key, factory, properties);

@@ -50,6 +50,9 @@ public final class ModBlockEntities {
 	public static final BlockEntityType<dev.celestial.boss.ClockSealBlockEntity> CLOCK_SEAL = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("clock_seal"),
 		new BlockEntityType<>(dev.celestial.boss.ClockSealBlockEntity::new, Set.of(ModBlocks.CLOCK_SEAL)));
+	public static final BlockEntityType<dev.celestial.astral.StarDiskBlockEntity> STAR_DISK = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("star_disk"),
+		new BlockEntityType<>(dev.celestial.astral.StarDiskBlockEntity::new, Set.of(ModBlocks.STAR_DISK)));
 	public static final BlockEntityType<dev.celestial.block.puzzle.BellAltarBlockEntity> BELL_ALTAR = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("bell_altar"),
 		new BlockEntityType<>(dev.celestial.block.puzzle.BellAltarBlockEntity::new, Set.of(ModBlocks.BELL_ALTAR)));

@@ -1,0 +1,84 @@
+# Созвездия хоров (волна 0.6, O5 шаг 2): Телескоп ночью → созвездие по фазе Луны в Кодекс; Звёздный диск — неверно (камни выпрыгнули,
+# блокировка), верно (хор собран, покровитель, благословение), вкладка «Созвездия».
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 18000
+/execute in minecraft:overworld run tp @s 33000 170 33000 0 20
+fly
+wait 60
+/fill 32990 159 32990 33015 159 33015 minecraft:polished_andesite
+/fill 32990 160 32990 33015 175 33015 minecraft:air
+/kill @e[type=!minecraft:player,distance=..40]
+/clear @s
+/scoreboard objectives add t dummy
+/celestial codex choir:none
+/setblock 32995 160 32995 celestial:telescope[facing=north]
+/place template celestial:star_shrine/angels 33000 159 33000
+wait 20
+/gamemode survival
+# Телескоп: полнолуние (день 0) — созвездие Ангелов
+/tp @s 32995.5 160 32996.8 180 30
+wait 10
+use 32995 160 32995 south
+wait 10
+/execute store result score #c1 t run celestial codex has constellation:angels
+/say TEST C1 telescope_sees_angels expect=pass
+/execute if score #c1 t matches 1
+# диск Ангелов: центр шаблона (6,2,6) → 33006 161 33006
+/tp @s 33006.5 161.3 33003.5 0 50
+wait 10
+use 33006 161 33006 up
+/item replace entity @s weapon.mainhand with celestial:star_stone 8
+# неверно: 4 камня не по рисунку
+use 33005 161 33007 up
+use 33007 161 33007 up
+use 33006 161 33008 up
+use 33004 161 33006 up
+wait 10
+/say TEST C2 wrong_pops_stones expect=pass
+/execute unless block 33005 161 33007 celestial:star_socket[filled=true] unless block 33004 161 33006 celestial:star_socket[filled=true]
+/say TEST C3 disk_not_lit expect=pass
+/execute if block 33006 161 33006 celestial:star_disk[lit=false]
+/execute store result score #pop t if entity @e[type=minecraft:item,distance=..12,nbt={Item:{id:"celestial:star_stone"}}]
+/scoreboard players list #pop
+/say TEST C3b four_stones_popped expect=pass
+/execute if score #pop t matches 4
+/kill @e[type=minecraft:item,distance=..10]
+/item replace entity @s weapon.mainhand with celestial:star_stone 8
+use 33005 161 33005 up
+wait 5
+/say TEST C4 locked_after_error expect=pass
+/execute unless block 33005 161 33005 celestial:star_socket[filled=true]
+wait 410
+# верно: Ангелы — (-1,-1) (-2,-1) (1,-1) (2,-1)
+use 33005 161 33005 up
+use 33004 161 33005 up
+use 33007 161 33005 up
+wait 3
+shot choir_partial
+use 33008 161 33005 up
+wait 20
+/say TEST C5 disk_lit expect=pass
+/execute if block 33006 161 33006 celestial:star_disk[lit=true]
+/execute store result score #c2 t run celestial codex has choir:angels
+/say TEST C6 choir_collected expect=pass
+/execute if score #c2 t matches 1
+/execute store result score #c3 t run celestial codex has patron:angels
+/say TEST C7 patron_auto_set expect=pass
+/execute if score #c3 t matches 1
+wait 25
+/execute store result score #sp t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players list #sp
+/say TEST C8 angels_blessing_speed expect=pass
+/execute if score #sp t matches 105..
+shot choir_solved
+/say TEST C9 solved_keeps_stones expect=pass
+use 33005 161 33005 up
+/execute if block 33005 161 33005 celestial:star_socket[filled=true]
+codex stars
+wait 20
+shot choir_codex
+closescreen
+/gamemode creative
+quit

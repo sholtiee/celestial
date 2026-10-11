@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "celestial:block/star_disk"
+    },
+    "lit=true": {
+      "model": "celestial:block/star_disk_lit"
+    }
+  }
+}

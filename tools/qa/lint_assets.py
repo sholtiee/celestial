@@ -508,7 +508,31 @@ def check_scenes():
             report('SCENE_NO_ANCHOR', f'{sid}: нет Отпечатка света (memory_anchor с Scene) ни в одной постройке')
 
 
-CHECKS = [check_models, check_textures, check_block_transparency, check_particles_sounds, check_lang, check_data, check_lore, check_scenes]
+def check_choirs():
+    """Рисунки созвездий хоров в astral/Choir.java и в tools/gen_choirs.py (святилища) совпадают; у каждого есть центр (0,0) и переводы."""
+    import re
+    import sys as _sys
+    _sys.path.insert(0, os.path.join(ROOT, 'tools'))
+    import gen_choirs
+    src = open(os.path.join(ROOT, 'src/main/java/dev/celestial/astral/Choir.java'), encoding='utf-8').read()
+    seen = set()
+    for m in re.finditer(r'([A-Z]+)\("(\w+)", (-?\d+), new int\[\]\[\] \{(.*?)\},\s*new int', src, re.S):
+        cid = m.group(2)
+        seen.add(cid)
+        pts = sorted((int(a), int(b)) for a, b in re.findall(r'\{(-?\d+), (-?\d+)\}', m.group(4)))
+        if cid not in gen_choirs.PATTERNS:
+            report('CHOIR_PATTERN', f'{cid}: нет рисунка в gen_choirs.PATTERNS')
+            continue
+        if pts != sorted(gen_choirs.PATTERNS[cid]):
+            report('CHOIR_PATTERN', f'{cid}: рисунок в Choir.java и gen_choirs.py различается')
+        if (0, 0) not in pts or any(abs(x) > 2 or abs(z) > 2 for x, z in pts) or len(set(pts)) != len(pts):
+            report('CHOIR_PATTERN', f'{cid}: нет центра, точка вне поля 5×5 или повтор')
+    if seen != set(gen_choirs.CHOIRS):
+        report('CHOIR_PATTERN', f'хоры в Java и в генераторе различаются: {sorted(seen ^ set(gen_choirs.CHOIRS))}')
+
+
+CHECKS = [check_models, check_textures, check_block_transparency, check_particles_sounds, check_lang, check_data, check_lore, check_scenes,
+          check_choirs]
 
 
 def main():

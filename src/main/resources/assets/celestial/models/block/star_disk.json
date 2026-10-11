@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "celestial:block/star_disk",
+    "side": "celestial:block/star_socket_side",
+    "bottom": "celestial:block/star_socket_side"
+  }
+}

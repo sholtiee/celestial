@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "Q": "celestial:starquartz",
+    "G": "minecraft:glowstone_dust"
+  },
+  "pattern": [
+    " Q ",
+    "QGQ",
+    " Q "
+  ],
+  "result": {
+    "id": "celestial:star_stone",
+    "count": 2
+  }
+}

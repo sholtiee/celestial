@@ -208,6 +208,7 @@ public final class ModItems {
 	public static final Item LIGHT_SPEAR = register("light_spear", dev.celestial.item.LightSpearItem::new,
 		lore(new Item.Properties().durability(300).rarity(Rarity.RARE).enchantable(1).repairable(STARQUARTZ), "light_spear", 1));
 
+	public static final Item STAR_STONE = register("star_stone", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON), "star_stone", 1));
 	public static final Item GEAR_OF_ETERNITY = register("gear_of_eternity", dev.celestial.chrono.GearOfEternityItem::new,
 		lore(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), "gear_of_eternity", 2));
 	public static final Item IRON_PLATE = register("iron_plate", Item::new, lore(new Item.Properties(), "iron_plate", 1));

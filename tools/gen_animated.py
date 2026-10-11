@@ -154,15 +154,26 @@ def lore(d, img):  # перо над свитком: Летопись
     d.line([(11, 3), (8, 8)], fill='#ffffff')
 
 
+def stars(d, img):  # созвездие: пять звёзд, соединённых линиями
+    pts = [(3, 4), (7, 2), (12, 5), (10, 11), (4, 12)]
+    for a, b in zip(pts, pts[1:]):
+        d.line([a, b], fill='#5a6aa8')
+    d.line([pts[1], pts[3]], fill='#5a6aa8')
+    for x, y in pts:
+        d.rectangle([x - 1, y - 1, x + 1, y + 1], fill=CYAN)
+        d.point((x, y), fill='#ffffff')
+
+
 def icons():
-    for name, fn in (('saga', saga), ('grace', grace), ('bestiary', bestiary), ('places', places), ('guide', guide), ('lore', lore)):
+    for name, fn in (('saga', saga), ('grace', grace), ('bestiary', bestiary), ('places', places), ('guide', guide), ('lore', lore),
+                     ('stars', stars)):
         icon(fn, name)
 
 
 def main():
     blocks()
     icons()
-    print('ok: анимированные текстуры (6) и иконки вкладок Кодекса (6)')
+    print('ok: анимированные текстуры (6) и иконки вкладок Кодекса (7)')
 
 
 if __name__ == '__main__':
