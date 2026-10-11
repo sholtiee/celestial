@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:halo"
+    },
+    "title": {
+      "translate": "advancements.celestial.light_kindled.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.light_kindled.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "celestial:story/star_path",
+  "rewards": {
+    "experience": 500
+  }
+}

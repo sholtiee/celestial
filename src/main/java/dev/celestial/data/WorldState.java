@@ -38,6 +38,12 @@ public record WorldState(int fading, int act, List<String> flags, long lastFadin
 		return new WorldState(fading, act, List.copyOf(copy), lastFadingDay);
 	}
 
+	public WorldState withoutFlag(String flag) {
+		List<String> next = new java.util.ArrayList<>(flags);
+		next.remove(flag);
+		return new WorldState(fading, act, List.copyOf(next), lastFadingDay);
+	}
+
 	public WorldState withLastFadingDay(long day) {
 		return new WorldState(fading, act, flags, day);
 	}

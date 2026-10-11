@@ -117,6 +117,15 @@ public final class CelestialCommand {
 					ctx.getSource().sendSuccess(() -> Component.literal("Отблеск забыт: " + id), true);
 					return 1;
 				}))))
+			// концовка у повергнутого Безликого без экрана (для сценариев): /celestial ending kindle|consume|name
+			.then(Commands.literal("ending").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+				.then(Commands.literal("reset").executes(ctx -> {
+					dev.celestial.story.Endings.reset(ctx.getSource().getPlayerOrException());
+					ctx.getSource().sendSuccess(() -> Component.literal("Концовки сняты"), true);
+					return 1;
+				}))
+				.then(Commands.argument("choice", StringArgumentType.word()).executes(ctx ->
+					dev.celestial.story.Endings.choose(ctx.getSource().getPlayerOrException(), StringArgumentType.getString(ctx, "choice")) ? 1 : 0)))
 			.then(Commands.literal("lore").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
 				.then(Commands.literal("unlock").then(Commands.argument("sheet", StringArgumentType.word()).executes(ctx -> loreChange(ctx, true))))
 				.then(Commands.literal("lock").then(Commands.argument("sheet", StringArgumentType.word()).executes(ctx -> loreChange(ctx, false))))
@@ -127,6 +136,12 @@ public final class CelestialCommand {
 				}))))
 			.then(Commands.literal("codex").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
 				// для сценариев: 1, если запись есть (execute store result … run celestial codex has <запись>)
+				.then(Commands.literal("remove").then(Commands.argument("entry", StringArgumentType.greedyString()).executes(ctx -> {
+					String entry = StringArgumentType.getString(ctx, "entry");
+					CelestialData.update(ctx.getSource().getPlayerOrException(), d -> d.withoutCodex(entry));
+					ctx.getSource().sendSuccess(() -> Component.literal("Кодекс: − " + entry), true);
+					return 1;
+				})))
 				.then(Commands.literal("has").then(Commands.argument("entry", StringArgumentType.greedyString()).executes(ctx ->
 					CelestialData.get(ctx.getSource().getPlayerOrException()).knows(StringArgumentType.getString(ctx, "entry")) ? 1 : 0)))
 				.then(Commands.argument("entry", StringArgumentType.greedyString()).executes(ctx -> {

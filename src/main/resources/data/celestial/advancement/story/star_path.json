@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "entered": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "celestial:astral"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:star_stone"
+    },
+    "title": {
+      "translate": "advancements.celestial.star_path.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.star_path.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "entered"
+    ]
+  ],
+  "parent": "celestial:story/gear_of_eternity"
+}

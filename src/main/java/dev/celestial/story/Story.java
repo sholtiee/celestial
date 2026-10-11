@@ -19,6 +19,9 @@ public enum Story {
 	ARCHON("crown_of_frost"),
 	CLOCKWORK("clockwork"),
 	CLOCKMAKER("gear_of_eternity"),
+	ASTRAL("star_path"),
+	KINDLED("light_kindled"),
+	CONSUMED("light_consumed"),
 	GLACIER_MASTER("glacier_master"),
 	THREE_BEAMS("three_beams"),
 	BELL_RINGER("bell_ringer"),
@@ -36,7 +39,9 @@ public enum Story {
 	ARCHON_FLAWLESS("archon_flawless"),
 	ARCHON_SWIFT("archon_swift"),
 	CLOCKMAKER_FLAWLESS("clockmaker_flawless"),
-	CLOCKMAKER_SWIFT("clockmaker_swift");
+	CLOCKMAKER_SWIFT("clockmaker_swift"),
+	FACELESS_FLAWLESS("faceless_flawless"),
+	FACELESS_SWIFT("faceless_swift");
 
 	/** Вид загадки (как в PuzzleRewards.solved) → достижение; все восемь вместе дают «Мастера загадок». */
 	public static final java.util.Map<String, Story> PUZZLES = java.util.Map.of(

@@ -8,6 +8,7 @@
     "minecraft:wither",
     "minecraft:warden",
     "minecraft:elder_guardian",
-    "celestial:clockmaker"
+    "celestial:clockmaker",
+    "celestial:faceless"
   ]
 }

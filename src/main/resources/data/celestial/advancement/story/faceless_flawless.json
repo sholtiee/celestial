@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:star_stone"
+    },
+    "title": {
+      "translate": "advancements.celestial.faceless_flawless.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.faceless_flawless.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "celestial:story/star_path",
+  "rewards": {
+    "experience": 500
+  }
+}

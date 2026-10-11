@@ -1,0 +1,147 @@
+# Безликий и концовки (волна 0.6, O5 шаг 4a) — в Астрале на вершине-заготовке: без 7 хоров алтарь молчит; пробуждение; семь труб;
+# на последней капле здоровья — на колени (не умирает); экран выбора; «Возжечь» (act=5, Угасание 0, глава); второй бой — «Поглотить»
+# (вечная ночь, крылья Серафима, ранг Серафима); в конце концовки сняты (/celestial ending reset).
+/gamemode creative
+/effect clear @s
+/celestial ending reset
+/celestial codex remove choir:angels
+/celestial codex remove choir:archangels
+/celestial codex remove choir:principalities
+/celestial codex remove choir:powers
+/celestial codex remove choir:virtues
+/celestial codex remove choir:dominions
+/celestial codex remove choir:thrones
+/execute in celestial:astral run tp @s 0.5 100 20.5 180 30
+fly
+wait 80
+/kill @e[type=!minecraft:player,distance=..80]
+/fill -22 88 -22 22 104 22 minecraft:air
+/place template celestial:star_altar/summit -19 89 -19
+wait 20
+/scoreboard objectives add t dummy
+togglehud
+/tp @s 0.5 102 22.5 180 25
+wait 30
+shot faceless_summit
+togglehud
+# без хоров алтарь молчит
+/gamemode survival
+/effect give @s minecraft:resistance 900 4 true
+/effect give @s minecraft:regeneration 900 4 true
+/effect give @s minecraft:saturation 900 4 true
+/effect give @s minecraft:fire_resistance 900 0 true
+/tp @s 0.5 91 6.5 180 0
+wait 30
+/say TEST X1 altar_silent_without_choirs expect=pass
+/execute unless entity @e[type=celestial:faceless]
+/celestial codex choir:angels
+/celestial codex choir:archangels
+/celestial codex choir:principalities
+/celestial codex choir:powers
+/celestial codex choir:virtues
+/celestial codex choir:dominions
+/celestial codex choir:thrones
+wait 30
+/say TEST X2 faceless_awakened expect=pass
+/execute if entity @e[type=celestial:faceless,distance=..30]
+wait 40
+shot faceless_trumpet1
+/data merge entity @e[type=celestial:faceless,limit=1] {Health:856.0f}
+wait 60
+/say TEST X3 trumpet2 expect=pass
+/execute if entity @e[type=celestial:faceless,nbt={Phase:2}]
+shot faceless_trumpet2
+/data merge entity @e[type=celestial:faceless,limit=1] {Health:713.0f}
+wait 70
+shot faceless_trumpet3
+/data merge entity @e[type=celestial:faceless,limit=1] {Health:570.0f}
+wait 10
+/say TEST X4 trumpet4 expect=pass
+/execute if entity @e[type=celestial:faceless,nbt={Phase:4}]
+/data merge entity @e[type=celestial:faceless,limit=1] {Health:427.0f}
+wait 30
+/say TEST X5 locusts_swarm expect=pass
+/execute if entity @e[type=celestial:blind_hunter,tag=celestial_faceless_summon]
+shot faceless_trumpet5
+/data merge entity @e[type=celestial:faceless,limit=1] {Health:284.0f}
+/execute store result score #sp0 t run attribute @s minecraft:movement_speed get 1000
+wait 302
+/execute store result score #sp1 t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players list #sp1
+/say TEST X6 trumpet6_stops_time expect=pass
+/execute if score #sp1 t matches ..5
+shot faceless_trumpet6
+wait 60
+/data merge entity @e[type=celestial:faceless,limit=1] {Health:141.0f}
+wait 30
+/say TEST X7 trumpet7 expect=pass
+/execute if entity @e[type=celestial:faceless,nbt={Phase:7}]
+shot faceless_trumpet7
+# на колени: урон больше остатка — не умирает
+/damage @e[type=celestial:faceless,limit=1] 1000 minecraft:player_attack by @s
+wait 40
+/say TEST X8 kneels_not_dies expect=pass
+/execute if entity @e[type=celestial:faceless,nbt={Defeated:1b}]
+/kill @e[type=celestial:blind_hunter]
+/tp @s 0.5 91 4.5 180 10
+wait 30
+shot faceless_kneel
+interact celestial:faceless
+wait 15
+shot faceless_choice
+closescreen
+/celestial ending kindle
+wait 40
+/say TEST X9 kindle_released expect=pass
+/execute unless entity @e[type=celestial:faceless]
+/say TEST X10 kindle_chapter expect=pass
+/execute if entity @s[advancements={celestial:story/light_kindled=true}]
+/celestial status
+shot faceless_kindled
+# второй бой — «Поглотить»
+/celestial ending reset
+/gamemode creative
+/place template celestial:star_altar/summit -19 89 -19
+wait 10
+/gamemode survival
+/tp @s 0.5 91 6.5 180 0
+wait 30
+/damage @e[type=celestial:faceless,limit=1] 3000 minecraft:player_attack by @s
+wait 30
+/tp @s 0.5 91 4.5 180 10
+wait 10
+/celestial ending consume
+wait 60
+/say TEST X11 consume_wings expect=pass
+/execute if entity @s[nbt={Inventory:[{id:"celestial:seraph_wings"}]}]
+/execute store result score #cn t run celestial codex has ending:consume
+/say TEST X12 consume_recorded expect=pass
+/execute if score #cn t matches 1
+/execute in minecraft:overworld run tp @s 0 200 0
+/gamerule advance_time true
+wait 60
+/scoreboard players set #day t 24000
+/execute store result score #tm t run time of minecraft:overworld query time
+/scoreboard players operation #tm t %= #day t
+/scoreboard players list #tm
+/say TEST X13 eternal_night expect=pass
+/execute if score #tm t matches 17990..18010
+wait 100
+/execute store result score #tm2 t run time of minecraft:overworld query time
+/scoreboard players operation #tm2 t %= #day t
+/say TEST X14 night_does_not_pass expect=pass
+/execute if score #tm2 t = #tm t
+codex stars
+wait 15
+shot faceless_rank_seraph
+closescreen
+/celestial ending reset
+wait 60
+/execute store result score #tm3 t run time of minecraft:overworld query time
+/scoreboard players operation #tm3 t %= #day t
+/say TEST X15 reset_releases_clock expect=pass
+/execute unless score #tm3 t = #tm t
+/gamerule advance_time false
+/gamemode creative
+/time set 6000
+quit

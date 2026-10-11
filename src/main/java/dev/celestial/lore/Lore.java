@@ -142,6 +142,18 @@ public final class Lore {
 	}
 
 	/** Проверка завершённости: первая запись, книги целиком, весь Глоссарий, вся Летопись, имена. Безопасно вызывать часто. */
+	/** «Книга Жизни»: во всех семи книгах есть листы, и все они открыты (тайная концовка «Имя»). */
+	public static boolean allBooksComplete(ServerPlayer player) {
+		PlayerData d = CelestialData.get(player);
+		for (int b : books()) {
+			List<Sheet> ofBook = sheetsOfBook(b);
+			if (ofBook.isEmpty() || !ofBook.stream().allMatch(s -> d.knowsLore(s.id()))) {
+				return false;
+			}
+		}
+		return !books().isEmpty();
+	}
+
 	public static void check(ServerPlayer player) {
 		PlayerData d = CelestialData.get(player);
 		if (sheets().stream().anyMatch(s -> d.knowsLore(s.id()))) {

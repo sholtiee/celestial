@@ -163,6 +163,6 @@ gen_story → gen_grace → gen_fading → gen_places → gen_boss → … → g
 - Игровые правила в командах — snake_case: `/gamerule random_tick_speed 3`, `advance_time` (не `randomTickSpeed`). Проверка здоровья в сценарии — через `scoreboard` (`store result score … data get entity @s Health` против `attribute … max_health get`): максимум зависит от навыков сейва.
 - Аргумент команды с `:` — `StringArgumentType.greedyString()`. Профессии: `VillagerProfession` record + `PoiHelper.register`,
   сделки data-driven (`trade_set`, `villager_trade`, теги `villager_trade/...`), создаются лениво.
-- `EndCrystal.hurtServer` final и взрывается — для своих кристаллов писать свою сущность. Гравитация 0 у снаряда + вода = застревает.
+- `EndCrystal.hurtServer` final и взрывается — для своих кристаллов писать свою сущность. **Потолок атрибута `max_health` — 1024**: больше молча обрежется (пороги фаз босса съедут). Гравитация 0 у снаряда + вода = застревает.
 - `/place structure` для jigsaw кладёт шаблон от угла чанка. Энтити-теги для ездовых мобов: `can_equip_saddle` и др.
 - Ogg для игры — моно (позиционный звук), через soundfile/libsndfile.

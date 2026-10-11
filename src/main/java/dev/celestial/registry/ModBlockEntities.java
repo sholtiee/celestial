@@ -53,6 +53,9 @@ public final class ModBlockEntities {
 	public static final BlockEntityType<dev.celestial.astral.StarDiskBlockEntity> STAR_DISK = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("star_disk"),
 		new BlockEntityType<>(dev.celestial.astral.StarDiskBlockEntity::new, Set.of(ModBlocks.STAR_DISK)));
+	public static final BlockEntityType<dev.celestial.boss.StarAltarBlockEntity> STAR_ALTAR = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("star_altar"),
+		new BlockEntityType<>(dev.celestial.boss.StarAltarBlockEntity::new, Set.of(ModBlocks.STAR_ALTAR)));
 	public static final BlockEntityType<dev.celestial.block.puzzle.BellAltarBlockEntity> BELL_ALTAR = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("bell_altar"),
 		new BlockEntityType<>(dev.celestial.block.puzzle.BellAltarBlockEntity::new, Set.of(ModBlocks.BELL_ALTAR)));

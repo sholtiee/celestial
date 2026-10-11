@@ -161,6 +161,12 @@ public final class StoryEvents {
 		if (world.act() >= 4) {
 			Story.CLOCKMAKER.grant(player);
 		}
+		if (world.has("ending_kindle")) {
+			Story.KINDLED.grant(player);
+		}
+		if (world.has("ending_consume")) {
+			Story.CONSUMED.grant(player);
+		}
 	}
 
 	/**

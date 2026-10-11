@@ -78,6 +78,11 @@ public class WandererJournalItem extends Item {
 		}
 		if (Story.CLOCKMAKER.isDone(player)) {
 			page(pages, "clockmaker");
+			page(pages, "task_astral");
+		}
+		if (Story.ASTRAL.isDone(player)) {
+			page(pages, "astral");
+			page(pages, "task_faceless");
 		}
 		return new WrittenBookContent(Filterable.passThrough("Дневник Странника"), "Странник", 0, pages, true);
 	}

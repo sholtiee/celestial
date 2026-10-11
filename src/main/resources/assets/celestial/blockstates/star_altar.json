@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "awakened=false": {
+      "model": "celestial:block/star_altar"
+    },
+    "awakened=true": {
+      "model": "celestial:block/star_altar_awakened"
+    }
+  }
+}

@@ -18,7 +18,7 @@ import net.minecraft.world.phys.Vec3;
  * тряска камеры. Реплики в чат остаются в самих боссах.
  */
 public final class BossIntro {
-	private static final String[] ROMAN = {"I", "II", "III", "IV", "V"};
+	private static final String[] ROMAN = {"I", "II", "III", "IV", "V", "VI", "VII"};
 
 	private BossIntro() {}
 

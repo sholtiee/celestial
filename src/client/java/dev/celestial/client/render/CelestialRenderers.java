@@ -49,6 +49,7 @@ public final class CelestialRenderers {
 		FrozenRenderers.init();
 		ArchonRenderer.init();
 		ClockmakerRenderer.init();
+		FacelessRenderer.init();
 		HeavenRenderers.init();
 		CelestialParticle.init();
 		net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry.register(

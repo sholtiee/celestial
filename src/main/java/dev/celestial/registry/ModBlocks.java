@@ -407,6 +407,10 @@ public final class ModBlocks {
 		Properties.of().mapColor(MapColor.COLOR_BLUE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST).noOcclusion()
 			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.astral.StarSocketBlock.FILLED) ? 10 : 2));
 
+	public static final Block STAR_ALTAR = register("star_altar", dev.celestial.boss.StarAltarBlock::new,
+		Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST)
+			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.boss.StarAltarBlock.AWAKENED) ? 4 : 14));
+
 	private static Block registerNoItem(String name, Function<Properties, Block> factory, Properties properties) {
 		ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, Celestial.id(name));
 		return Blocks.register(key, factory, properties);

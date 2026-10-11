@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:gear_of_eternity"
+    },
+    "title": {
+      "translate": "advancements.celestial.faceless_swift.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.faceless_swift.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "celestial:story/star_path",
+  "rewards": {
+    "experience": 500
+  }
+}

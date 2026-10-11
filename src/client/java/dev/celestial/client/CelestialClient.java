@@ -12,6 +12,7 @@ public class CelestialClient implements ClientModInitializer {
 		dev.celestial.client.memory.MemoryOverlay.init();
 		dev.celestial.client.chrono.ChronoHud.init();
 		AstralSwim.init();
+		EndingScreen.register();
 		dev.celestial.client.grace.LorePanel.initNetwork();
 		// трава Рая окрашивается цветом травы биома (золото на лугах, серый на Грозовом пике и т. д.)
 		net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry.register(
