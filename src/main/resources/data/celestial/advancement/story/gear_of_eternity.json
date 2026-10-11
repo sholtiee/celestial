@@ -1,0 +1,43 @@
+{
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "celestial:clockmaker"
+          }
+        }
+      }
+    },
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:gear_of_eternity"
+    },
+    "title": {
+      "translate": "advancements.celestial.gear_of_eternity.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.gear_of_eternity.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "killed",
+      "impossible"
+    ]
+  ],
+  "parent": "celestial:story/clockwork",
+  "rewards": {
+    "experience": 500
+  }
+}

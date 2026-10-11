@@ -95,6 +95,12 @@ public final class ModEntities {
 	public static final EntityType<dev.celestial.boss.FrostArchon> FROST_ARCHON = register("frost_archon",
 		EntityType.Builder.of(dev.celestial.boss.FrostArchon::new, MobCategory.MONSTER).fireImmune().sized(1.8F, 4.8F).eyeHeight(4.2F)
 			.clientTrackingRange(16));
+	public static final EntityType<dev.celestial.boss.Clockmaker> CLOCKMAKER = register("clockmaker",
+		EntityType.Builder.of(dev.celestial.boss.Clockmaker::new, MobCategory.MONSTER).fireImmune().sized(2.2F, 4.4F).eyeHeight(3.8F)
+			.clientTrackingRange(16));
+	public static final EntityType<dev.celestial.boss.ClockGear> CLOCK_GEAR = registerNoEgg("clock_gear",
+		EntityType.Builder.<dev.celestial.boss.ClockGear>of(dev.celestial.boss.ClockGear::new, MobCategory.MISC).noLootTable().sized(0.8F, 0.8F)
+			.clientTrackingRange(8).updateInterval(2));
 	public static final EntityType<dev.celestial.entity.Inia> INIA = register("inia",
 		EntityType.Builder.of(dev.celestial.entity.Inia::new, MobCategory.MISC).sized(0.6F, 1.9F).eyeHeight(1.7F).clientTrackingRange(10));
 	// актёры воспоминаний (Отблески): люди и Змей; без яиц — их создаёт только сцена
@@ -167,6 +173,7 @@ public final class ModEntities {
 		FabricDefaultAttributeRegistry.register(LIGHT_DEVOURER, dev.celestial.boss.LightDevourer.createAttributes());
 		FabricDefaultAttributeRegistry.register(FROST_WRAITH, dev.celestial.entity.FrostWraith.createAttributes());
 		FabricDefaultAttributeRegistry.register(FROST_ARCHON, dev.celestial.boss.FrostArchon.createAttributes());
+		FabricDefaultAttributeRegistry.register(CLOCKMAKER, dev.celestial.boss.Clockmaker.createAttributes());
 		FabricDefaultAttributeRegistry.register(INIA, dev.celestial.entity.Inia.createAttributes());
 		FabricDefaultAttributeRegistry.register(GATE_CHERUB, dev.celestial.entity.GateCherub.createAttributes());
 		FabricDefaultAttributeRegistry.register(DOVE, dev.celestial.entity.Dove.createAttributes());

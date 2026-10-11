@@ -26,7 +26,7 @@ import org.jspecify.annotations.Nullable;
 /**
  * Маятник: часовой корпус, под которым (или над которым, если внизу опора — тогда как метроном) качается маятник.
  * Пока качается — вокруг сфера R={@link #RADIUS}, где время идёт иначе: Быстрый маятник ускоряет, Тяжёлый — замедляет.
- * ПКМ пустой рукой — остановить/пустить. Древние маятники ({@code sealed}) рукой не останавливаются (загадки, арена Часовщика).
+ * ПКМ пустой рукой — остановить/пустить. Древние маятники ({@code sealed}) рукой не останавливаются — только Камертоном (загадки, арена Часовщика).
  */
 public class PendulumBlock extends BaseEntityBlock {
 	public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -59,6 +59,25 @@ public class PendulumBlock extends BaseEntityBlock {
 	@Override
 	protected RenderShape getRenderShape(BlockState state) {
 		return RenderShape.MODEL;
+	}
+
+	/** Камертон останавливает любой маятник, и древний тоже (арена Часовщика, загадки): звон в лад гасит качание. */
+	@Override
+	protected InteractionResult useItemOn(net.minecraft.world.item.ItemStack stack, BlockState state, Level level, BlockPos pos, Player player,
+		net.minecraft.world.InteractionHand hand, BlockHitResult hit) {
+		if (!stack.is(dev.celestial.registry.ModItems.TUNING_FORK)) {
+			return InteractionResult.TRY_WITH_EMPTY_HAND;
+		}
+		if (!state.getValue(SWINGING)) {
+			return InteractionResult.PASS;
+		}
+		level.setBlock(pos, state.setValue(SWINGING, false), Block.UPDATE_ALL);
+		level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.BLOCKS, 1.5F, 0.7F);
+		level.playSound(null, pos, SoundEvents.CHAIN_BREAK, SoundSource.BLOCKS, 1.0F, 0.5F);
+		if (level instanceof net.minecraft.server.level.ServerLevel server) {
+			server.sendParticles(net.minecraft.core.particles.ParticleTypes.END_ROD, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 20, 0.4, 0.6, 0.4, 0.05);
+		}
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override

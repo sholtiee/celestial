@@ -7,6 +7,7 @@
     "minecraft:ender_dragon",
     "minecraft:wither",
     "minecraft:warden",
-    "minecraft:elder_guardian"
+    "minecraft:elder_guardian",
+    "celestial:clockmaker"
   ]
 }

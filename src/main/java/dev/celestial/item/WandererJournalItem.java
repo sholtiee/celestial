@@ -70,6 +70,14 @@ public class WandererJournalItem extends Item {
 		}
 		if (Story.ARCHON.isDone(player)) {
 			page(pages, "archon");
+			page(pages, "task_chrono");
+		}
+		if (Story.CLOCKWORK.isDone(player)) {
+			page(pages, "chrono");
+			page(pages, "task_clockmaker");
+		}
+		if (Story.CLOCKMAKER.isDone(player)) {
+			page(pages, "clockmaker");
 		}
 		return new WrittenBookContent(Filterable.passThrough("Дневник Странника"), "Странник", 0, pages, true);
 	}

@@ -282,6 +282,17 @@ SHEETS = [
          a=('Морозный Архонт держал Инию во льду, но он был лишь тюремщиком: приказы приходили из темноты.',
             'The Frost Archon kept Inia in the ice, yet he was only a gaoler: his orders came out of the dark.'),
          gloss=['archon']),
+    dict(id='sun_stood', book=4, node='babel', art='clock', src='deed',
+         how=('Останови Часовщика-Механоида', 'Stop the Clockwork Mechanoid'),
+         title=('Стой, солнце', 'Sun, Stand Still'),
+         ref=('Нав. 10:13', 'Josh. 10:13'),
+         quote=('И остановилось солнце, и луна стояла, доколе народ мстил врагам своим.',
+                'And the sun stood still, and the moon stayed, until the people had avenged themselves upon their enemies.'),
+         t=('Однажды солнце остановилось по слову человека — один-единственный день, ради победы.',
+            'Once the sun stood still at a man\'s word — a single day, for the sake of a victory.'),
+         a=('Часовщик держал солнце Хронограда века, а не день. Я заставил его стрелки идти: время, которое не идёт, — тоже тюрьма.',
+            'The Clockmaker held Chronograd\'s sun for ages, not a day. I made his hands move again: time that does not flow is a prison too.'),
+         gloss=[]),
 ]
 
 # Глоссарий (LORE §5a): кто это — и что это значит здесь. id → (ru слово, en слово, ru кто, en who, ru здесь, en here)

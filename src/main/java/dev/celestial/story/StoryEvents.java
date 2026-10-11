@@ -158,6 +158,41 @@ public final class StoryEvents {
 		if (world.act() >= 3) {
 			Story.ARCHON.grant(player);
 		}
+		if (world.act() >= 4) {
+			Story.CLOCKMAKER.grant(player);
+		}
+	}
+
+	/**
+	 * Акт IV пройден: Часовщик остановлен. Участникам — Шестерня Вечности, Благодать, лист Летописи «Стой, солнце», титры;
+	 * act = 4, Угасание отступает ещё на ступень, главы — всем игрокам мира.
+	 */
+	public static void onClockmakerDefeated(ServerLevel level, LivingEntity boss, net.minecraft.core.BlockPos home) {
+		for (ServerPlayer p : level.getPlayers(p -> p.distanceToSqr(boss) < 96 * 96)) {
+			ItemStack gear = new ItemStack(ModItems.GEAR_OF_ETERNITY);
+			if (!p.getInventory().add(gear)) {
+				ItemEntity drop = p.spawnAtLocation(level, gear);
+				if (drop != null) {
+					drop.setUnlimitedLifetime();
+					drop.setGlowingTag(true);
+				}
+			}
+			dev.celestial.data.CelestialData.update(p, d -> d.withGrace(d.grace() + 6));
+			dev.celestial.lore.Lore.unlock(p, "sun_stood");
+			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket(20, 100, 40));
+			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket(Component.translatable("story.celestial.act4.title")));
+			p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket(Component.translatable("story.celestial.act4.subtitle")));
+			for (int i = 1; i <= 3; i++) {
+				p.sendSystemMessage(Component.translatable("story.celestial.act4." + i));
+			}
+		}
+		level.playSound(null, home, SoundEvents.BELL_BLOCK, SoundSource.BLOCKS, 4.0F, 1.0F);
+		var server = level.getServer();
+		if (dev.celestial.data.CelestialData.world(server).act() < 4) {
+			dev.celestial.data.CelestialData.updateWorld(server, w -> w.withAct(4).withFlag("act4_done"));
+			dev.celestial.fading.Fading.weaken(server, 1);
+		}
+		server.getPlayerList().getPlayers().forEach(StoryEvents::syncActs);
 	}
 
 	/**

@@ -47,6 +47,9 @@ public final class ModBlockEntities {
 	public static final BlockEntityType<dev.celestial.mech.DrivePressBlockEntity> DRIVE_PRESS = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("drive_press"),
 		new BlockEntityType<>(dev.celestial.mech.DrivePressBlockEntity::new, Set.of(ModBlocks.DRIVE_PRESS)));
+	public static final BlockEntityType<dev.celestial.boss.ClockSealBlockEntity> CLOCK_SEAL = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("clock_seal"),
+		new BlockEntityType<>(dev.celestial.boss.ClockSealBlockEntity::new, Set.of(ModBlocks.CLOCK_SEAL)));
 	public static final BlockEntityType<dev.celestial.block.puzzle.BellAltarBlockEntity> BELL_ALTAR = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("bell_altar"),
 		new BlockEntityType<>(dev.celestial.block.puzzle.BellAltarBlockEntity::new, Set.of(ModBlocks.BELL_ALTAR)));

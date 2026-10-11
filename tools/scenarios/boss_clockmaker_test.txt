@@ -1,0 +1,119 @@
+# Часовщик-Механоид и Акт IV (волна 0.5, O4): арена-циферблат, пробуждение, фаза 2 «Стой!» (время стоит и для игрока),
+# фаза 3 — маятники перезаведены и держат его здоровье ≥15%, Камертон их останавливает, победа → Шестерня Вечности, act=4.
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 32000 175 32025 180 20
+fly
+wait 60
+/kill @e[type=!minecraft:player,distance=..60]
+/fill 31980 158 31980 32020 183 32020 minecraft:air
+/place template celestial:clock_tower/arena 31984 159 31984
+wait 20
+/scoreboard objectives add t dummy
+togglehud
+/tp @s 32000.5 168 32010.5 180 38
+wait 30
+shot clock_arena
+/tp @s 31990.5 162 32008.5 -130 12
+wait 10
+shot clock_arena_side
+togglehud
+# пробуждение: подходим к циферблату в выживании (неуязвимыми — бой проверяет механику, не реакцию)
+/gamemode survival
+/effect give @s minecraft:resistance 600 4 true
+/effect give @s minecraft:regeneration 600 4 true
+/effect give @s minecraft:saturation 600 4 true
+/tp @s 32000.5 160 32008.5 180 0
+wait 40
+/say TEST K1 boss_awakened expect=pass
+/execute if entity @e[type=celestial:clockmaker,distance=..30]
+/say TEST K2 seal_used expect=pass
+/execute if block 32000 159 32000 celestial:clock_seal[awakened=true]
+wait 20
+shot clock_boss_awake
+togglehud
+/tp @s 32000.5 161.5 32006.5 180 -12
+wait 15
+shot clock_boss_close
+togglehud
+/tp @s 32000.5 160 32008.5 180 0
+wait 60
+shot clock_boss_fight
+# фаза 2: через 15 с «Тик… так…» и «Стой!»
+/data merge entity @e[type=celestial:clockmaker,limit=1] {Health:500.0f}
+wait 10
+/say TEST K3 phase2 expect=pass
+/execute if entity @e[type=celestial:clockmaker,nbt={Phase:2}]
+/execute store result score #sp0 t run attribute @s minecraft:movement_speed get 1000
+wait 268
+shot clock_tick_tock
+wait 34
+/execute store result score #sp1 t run attribute @s minecraft:movement_speed get 1000
+shot clock_stop
+/scoreboard players list #sp0
+/scoreboard players list #sp1
+/say TEST K4 player_frozen_by_stop expect=pass
+/execute if score #sp1 t matches ..5
+wait 60
+/execute store result score #sp2 t run attribute @s minecraft:movement_speed get 1000
+/say TEST K5 time_resumes expect=pass
+/execute if score #sp2 t = #sp0 t
+# фаза 3: маятники перезаведены, здоровье не падает ниже 15%
+/data merge entity @e[type=celestial:clockmaker,limit=1] {Health:250.0f}
+wait 20
+/say TEST K6 phase3 expect=pass
+/execute if entity @e[type=celestial:clockmaker,nbt={Phase:3}]
+/say TEST K7 pendulums_rewound expect=pass
+/execute if block 32006 163 31994 celestial:swift_pendulum[swinging=true]
+/damage @e[type=celestial:clockmaker,limit=1] 400 minecraft:player_attack by @s
+wait 5
+/execute store result score #hp t run data get entity @e[type=celestial:clockmaker,limit=1] Health
+/scoreboard players list #hp
+/say TEST K8 held_by_pendulums expect=pass
+/execute if score #hp t matches 119..
+shot clock_phase3
+# Камертоном останавливаем все четыре древних маятника
+/item replace entity @s weapon.mainhand with celestial:tuning_fork
+/tp @s 32004.5 160 31996.5 45 20
+wait 5
+use 32006 163 31994 west
+/tp @s 32004.5 160 32004.5 135 20
+wait 5
+use 32006 163 32006 west
+/tp @s 31996.5 160 32004.5 -135 20
+wait 5
+use 31994 163 32006 east
+/tp @s 31996.5 160 31996.5 -45 20
+wait 5
+use 31994 163 31994 east
+wait 15
+/say TEST K9 all_pendulums_stopped expect=pass
+/execute unless block 32006 163 31994 celestial:swift_pendulum[swinging=true] unless block 32006 163 32006 celestial:swift_pendulum[swinging=true] unless block 31994 163 32006 celestial:swift_pendulum[swinging=true] unless block 31994 163 31994 celestial:swift_pendulum[swinging=true]
+# победа
+/damage @e[type=celestial:clockmaker,limit=1] 2000 minecraft:player_attack by @s
+wait 60
+/say TEST K10 boss_dead expect=pass
+/execute unless entity @e[type=celestial:clockmaker]
+/say TEST K11 gear_of_eternity_given expect=pass
+/execute if entity @s[nbt={Inventory:[{id:"celestial:gear_of_eternity"}]}]
+/say TEST K12 chapter_granted expect=pass
+/execute if entity @s[advancements={celestial:story/gear_of_eternity=true}]
+/celestial status
+shot clock_victory
+wait 80
+# Шестерня Вечности: вокруг — замедление, сам — ускорение
+/clear @s celestial:tuning_fork
+/item replace entity @s weapon.mainhand with celestial:gear_of_eternity
+/summon minecraft:zombie 32003.5 160 31998.5 {PersistenceRequired:1b,NoAI:0b}
+wait 5
+useitem
+wait 10
+/execute store result score #sp3 t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players list #sp3
+/say TEST K13 gear_hastes_owner expect=pass
+/execute if score #sp3 t > #sp0 t
+shot clock_gear_aura
+/kill @e[type=minecraft:zombie,distance=..30]
+quit

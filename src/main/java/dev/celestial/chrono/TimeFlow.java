@@ -66,6 +66,17 @@ public final class TimeFlow {
 	/** Пузыри остановки (Песочные часы, «Стой!» Часовщика). */
 	private static final List<Bubble> BUBBLES = new ArrayList<>();
 
+	/** Аура Шестерни Вечности: вокруг владельца время тянется, сам он ускорен. */
+	private record Aura(ResourceKey<Level> level, UUID owner, long until) {}
+
+	private static final List<Aura> AURAS = new ArrayList<>();
+	public static final double AURA_RADIUS = 8.0;
+
+	/** Шестерня Вечности: на {@code ticks} тиков вокруг игрока всё (кроме игроков) замедлено, сам он ускорен. */
+	public static void aura(ServerLevel level, Player owner, int ticks) {
+		AURAS.add(new Aura(level.dimension(), owner.getUUID(), level.getGameTime() + ticks));
+	}
+
 	/** Пузырь остановленного времени. {@code exempt} — кто не замирает (владелец часов, его снаряды; босс). */
 	public record Bubble(ResourceKey<Level> level, Vec3 center, double radius, long until, float scale, boolean players, @Nullable UUID exempt) {}
 
@@ -173,6 +184,24 @@ public final class TimeFlow {
 				}
 				claim(e, b.scale);
 			}
+		}
+
+		for (Iterator<Aura> it = AURAS.iterator(); it.hasNext(); ) {
+			Aura a = it.next();
+			if (a.until <= now) {
+				it.remove();
+				continue;
+			}
+			if (a.level != level.dimension()) {
+				continue;
+			}
+			Player owner = level.getPlayerByUUID(a.owner);
+			if (owner == null || !owner.isAlive()) {
+				it.remove();
+				continue;
+			}
+			claimZone(level, owner.position(), AURA_RADIUS, SLOW, false);
+			claim(owner, FAST);
 		}
 
 		Map<Entity, Float> claims = CLAIMS.remove(level.dimension());

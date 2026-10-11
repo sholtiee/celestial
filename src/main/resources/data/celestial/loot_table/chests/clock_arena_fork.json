@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:chest",
+  "random_sequence": "celestial:chests/clock_arena_fork",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "celestial:tuning_fork"
+        }
+      ]
+    }
+  ]
+}

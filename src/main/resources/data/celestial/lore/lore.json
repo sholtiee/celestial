@@ -339,6 +339,18 @@
       "gloss": [
         "archon"
       ]
+    },
+    {
+      "id": "sun_stood",
+      "book": 4,
+      "node": "babel",
+      "art": "clock",
+      "src": "deed",
+      "has_quote": true,
+      "has_s": false,
+      "has_a": true,
+      "has_t": true,
+      "gloss": []
     }
   ],
   "glossary": [

@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "entered": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "celestial:chronograd"
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:swift_pendulum"
+    },
+    "title": {
+      "translate": "advancements.celestial.clockwork.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.clockwork.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "entered"
+    ]
+  ],
+  "parent": "celestial:story/crown_of_frost"
+}

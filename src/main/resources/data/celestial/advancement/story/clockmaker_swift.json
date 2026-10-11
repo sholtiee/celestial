@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:hourglass"
+    },
+    "title": {
+      "translate": "advancements.celestial.clockmaker_swift.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.clockmaker_swift.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "celestial:story/gear_of_eternity",
+  "rewards": {
+    "experience": 500
+  }
+}

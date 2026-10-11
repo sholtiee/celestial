@@ -383,6 +383,23 @@ def art_archon(rng):
     return img
 
 
+def art_clock(rng):
+    img = gradient('#3a1a08', '#d8843a')
+    glow(img, 48, 22, 18, '#ffe08a', 0.9)  # остановленное солнце
+    d = ImageDraw.Draw(img)
+    d.ellipse([38, 12, 58, 32], fill=rgb('#fff1b8'))
+    for k in range(12):  # циферблат на солнце
+        a = k * math.pi / 6
+        d.point((48 + round(math.sin(a) * 8), 22 - round(math.cos(a) * 8)), fill=rgb('#8a5a1c'))
+    d.line([(48, 22), (48, 15)], fill=rgb('#7a1a10'))
+    d.line([(48, 22), (46, 17)], fill=rgb('#7a1a10'))
+    for x0, h in ((6, 18), (18, 26), (70, 22), (82, 14)):  # башни города
+        d.rectangle([x0, 54 - h, x0 + 8, 54], fill=rgb('#2a1408'))
+        d.ellipse([x0 + 1, 54 - h - 4, x0 + 7, 54 - h + 2], fill=rgb('#c48e3a'))
+    d.rectangle([0, 52, 96, 54], fill=rgb('#1a0c04'))
+    return img
+
+
 def art_locked(rng):
     img = gradient('#1a1a24', '#2a2a38')
     d = ImageDraw.Draw(img)
@@ -396,7 +413,7 @@ ART = {
     'light': art_light, 'garden': art_garden, 'names': art_names, 'tree_life': art_tree_life, 'fruit': art_fruit, 'exile': art_exile,
     'sword': art_sword, 'altars': art_altars, 'mark': art_mark, 'watchers': art_watchers, 'forge': art_forge, 'giant': art_giant,
     'enoch': art_enoch, 'chains': art_chains, 'abyss': art_abyss, 'star_fall': art_star_fall, 'waters': art_waters, 'flood': art_flood,
-    'ark': art_ark, 'dove': art_dove, 'rainbow': art_rainbow, 'archon': art_archon,
+    'ark': art_ark, 'dove': art_dove, 'rainbow': art_rainbow, 'archon': art_archon, 'clock': art_clock,
 }
 
 

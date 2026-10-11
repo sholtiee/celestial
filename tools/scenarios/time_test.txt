@@ -13,8 +13,8 @@ wait 60
 /scoreboard objectives add t dummy
 /setblock 29000 163 29000 celestial:heavy_pendulum[facing=south]
 /setblock 29040 163 29000 celestial:swift_pendulum[facing=south]
-/setblock 29000 166 29000 minecraft:chain
-/setblock 29040 166 29000 minecraft:chain
+/setblock 29000 166 29000 minecraft:iron_chain
+/setblock 29040 166 29000 minecraft:iron_chain
 wait 20
 /summon minecraft:arrow 29000.5 161.5 28996.5 {NoGravity:1b,Tags:["t","slow"],pickup:0b}
 /summon minecraft:arrow 29020.5 161.5 28996.5 {NoGravity:1b,Tags:["t","ref"],pickup:0b}

@@ -395,6 +395,10 @@ public final class ModBlocks {
 	public static final Block DRIVE_PRESS = register("drive_press", dev.celestial.mech.DrivePressBlock::new,
 		Properties.of().mapColor(MapColor.METAL).strength(3.5F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion(), 2);
 
+	public static final Block CLOCK_SEAL = register("clock_seal", dev.celestial.boss.ClockSealBlock::new,
+		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.COPPER)
+			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.boss.ClockSealBlock.AWAKENED) ? 3 : 12));
+
 	private static Block registerNoItem(String name, Function<Properties, Block> factory, Properties properties) {
 		ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, Celestial.id(name));
 		return Blocks.register(key, factory, properties);
