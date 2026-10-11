@@ -1,0 +1,88 @@
+# Пролог «Сон о Начале» (O3), пути, не проверенные в prologue_test: автозапуск при первом входе (очередь, как у JOIN) и пропуск всей
+# цепочки (красться 3 с); путь «отвернулся» у Змея (→ фиговый лист при пробуждении) и удар пламенного меча при бегстве.
+/gamerule celestial:prologue true
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 28000 160 27994 0 10
+fly
+wait 60
+/fill 27990 159 27990 28010 159 28010 celestial:golden_grass
+/fill 27990 160 27990 28010 172 28010 minecraft:air
+/kill @e[type=!minecraft:player,distance=..40]
+/clear @s
+/celestial memory forget prologue_light
+/celestial memory forget prologue_garden
+/celestial memory forget prologue_exile
+/tp @s 28000.5 160 27997.5 0 10
+/gamemode survival
+wait 20
+# A. автозапуск: «первый вход» ставит пролог в очередь, он начинается, когда странник стоит на земле
+/celestial memory first_join
+wait 100
+pos
+/say TEST A1 prologue_autostarts expect=pass
+/execute in celestial:memory if entity @s[x=0,y=60,z=0,dx=70,dy=80,dz=70]
+wait 40
+# A2. пропуск всей цепочки: красться 3 с на обычном шаге
+hold sneak 75
+wait 120
+pos
+/say TEST A2 skipped_back_home expect=pass
+/execute in minecraft:overworld if entity @s[x=27995,y=155,z=27990,dx=10,dy=10,dz=10]
+/say TEST A3 journal_after_skip expect=pass
+/execute if entity @s[nbt={Inventory:[{id:"celestial:wanderer_journal"}]}]
+/scoreboard objectives add t dummy
+/execute store result score #q t run celestial memory first_join
+/say TEST A4 not_requeued_after_seen expect=pass
+/execute if score #q t matches 0
+# B. путь «отвернулся» и меч
+/clear @s
+/celestial memory forget prologue_garden
+/celestial memory forget prologue_exile
+/celestial memory enter prologue_garden
+wait 120
+/tp @s 11.5 69 29.5 90 10
+hold sneak 25
+wait 3
+interact celestial:golden_ram
+wait 30
+/tp @s 16.5 69 29.5 180 10
+hold sneak 25
+wait 3
+interact celestial:pegasus
+wait 30
+/tp @s 11.5 69 25.5 -90 10
+hold sneak 25
+wait 3
+interact celestial:light_wisp
+wait 150
+/tp @s 20.5 69 22.5 180 -20
+wait 150
+shot path_serpent
+# отвернуться от Змея на 3+ с
+/tp @s 20.5 69 22.5 0 0
+wait 90
+shot path_refused
+wait 160
+# встать на кольцо меча (r=3 от центра) и ждать удара — отбросит на запад
+/tp @s 35.5 69 21.5 90 0
+wait 25
+shot path_sword
+wait 95
+pos
+/say TEST B1 sword_pushed_back expect=pass
+/execute in celestial:memory if entity @s[x=10,y=60,z=10,dx=24.7,dy=20,dz=25]
+# дойти до цели — Изгнание — пробуждение
+/tp @s 38.5 69 21.5 -90 0
+wait 60
+hold sneak 75
+wait 120
+pos
+/say TEST B2 woke_with_fig_leaf expect=pass
+/execute if entity @s[nbt={Inventory:[{id:"celestial:fig_leaf"}]}]
+/say TEST B3 no_fruit_when_refused expect=fail
+/execute if entity @s[nbt={Inventory:[{id:"celestial:knowledge_fruit"}]}]
+/gamerule celestial:prologue false
+quit

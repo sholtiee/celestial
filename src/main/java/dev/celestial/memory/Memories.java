@@ -93,8 +93,8 @@ public final class Memories {
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> server.execute(() -> {
 			rescue(handler.player);
 			// под автопилотом (тесты) пролог сам не запускается — сценарии входят в него командой /celestial memory enter
-			if (!CelestialData.get(handler.player).knows("memory:" + PROLOGUE) && System.getenv("CELESTIAL_AUTOPILOT") == null) {
-				PROLOGUE_PENDING.put(handler.player.getUUID(), 0);  // «Сон о Начале» при первом входе в мир (как только странник встанет на землю)
+			if (System.getenv("CELESTIAL_AUTOPILOT") == null) {
+				queuePrologue(handler.player);
 			}
 		}));
 		// в воспоминании: «назвать» существо (присесть и коснуться пустой рукой) и выбрать, взяв что-то у актёра (ПКМ)
@@ -291,6 +291,15 @@ public final class Memories {
 	}
 
 	/** Пробуждение после «Сна о Начале»: ночь, рядом с грохотом падает звезда — Угасание началось; в руках Дневник странника и дар выбора. */
+	/** «Сон о Начале» при первом входе в мир: ждём, пока странник встанет на землю (до минуты). Сценарии зовут через /celestial memory first_join. */
+	public static boolean queuePrologue(ServerPlayer player) {
+		if (CelestialData.get(player).knows("memory:" + PROLOGUE)) {
+			return false;
+		}
+		PROLOGUE_PENDING.put(player.getUUID(), 0);
+		return true;
+	}
+
 	private static void prologueWake(ServerPlayer player, ServerLevel level, boolean first) {
 		dev.celestial.boss.BossIntro.title(player, Component.translatable("memory.celestial.prologue.wake_title").withStyle(ChatFormatting.GOLD),
 			Component.translatable("memory.celestial.prologue.wake").withStyle(ChatFormatting.ITALIC), 100);

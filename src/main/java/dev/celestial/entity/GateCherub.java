@@ -73,6 +73,9 @@ public class GateCherub extends PathfinderMob {
 	}
 
 	private void sweep(ServerLevel level) {
+		if (level.dimension() == dev.celestial.memory.Memories.MEMORY) {
+			return;  // в Отблеске (пролог) Херувим — декорация: бьёт меч сцены (шаг reach), без проверки Благодати
+		}
 		float now = angle(level, 0);
 		for (ServerPlayer p : level.getPlayers(pl -> pl.distanceToSqr(this) < (RADIUS + 1) * (RADIUS + 1) && !pl.isCreative() && !pl.isSpectator())) {
 			double dx = p.getX() - getX();

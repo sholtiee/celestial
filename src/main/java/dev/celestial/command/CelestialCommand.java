@@ -108,6 +108,9 @@ public final class CelestialCommand {
 					ServerPlayer p = ctx.getSource().getPlayerOrException();
 					return dev.celestial.memory.Memories.tryEnter(p, StringArgumentType.getString(ctx, "scene"), p.blockPosition()) ? 1 : 0;
 				})))
+				// как при первом входе в мир: пролог встанет в очередь и начнётся, когда игрок будет на земле (под автопилотом вход его не ставит)
+				.then(Commands.literal("first_join").executes(ctx ->
+					dev.celestial.memory.Memories.queuePrologue(ctx.getSource().getPlayerOrException()) ? 1 : 0))
 				.then(Commands.literal("forget").then(Commands.argument("scene", StringArgumentType.word()).executes(ctx -> {
 					String id = StringArgumentType.getString(ctx, "scene");
 					CelestialData.update(ctx.getSource().getPlayerOrException(), d -> d.withoutCodex("memory:" + id));
