@@ -68,6 +68,8 @@ def dimension():
                                             'error_message': {'translate': 'block.minecraft.bed.no_sleep'}},
             'minecraft:gameplay/respawn_anchor_works': False,
             'minecraft:visual/cloud_color': '#ccd8e6ff',
+            # BUG-065: ледники стоят на высоте ~140, и облака на обычных 192 висели низким тёмным «потолком» (ночью почти чёрным)
+            'minecraft:visual/cloud_height': 330.0,
             'minecraft:visual/fog_color': '#a8c4d8',
             'minecraft:visual/sky_color': '#3a5a7a',
         },

@@ -1,0 +1,20 @@
+# BUG-065: облака Ледяных Чертогов снизу — тёмный низкий «потолок». Кадры вверх с высоты ледника днём и ночью.
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/execute in celestial:frozen_halls run tp @s 0 150 0 0 -35
+fly
+wait 80
+togglehud
+/time set 6000
+wait 40
+shot bug065_day
+/time set 18000
+wait 40
+shot bug065_night
+/time set 12500
+wait 40
+shot bug065_dusk
+/time set 6000
+togglehud
+quit
