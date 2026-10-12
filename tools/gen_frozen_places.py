@@ -127,6 +127,7 @@ def arena(t):
     t.fill(ax - 2, 1, az - ARENA_R + 1, ax + 2, 1, az - ARENA_R + 3, EV)
     t.set(ax, 2, az - ARENA_R + 2, c('inia_ice'), half='lower')
     t.set(ax, 3, az - ARENA_R + 2, c('inia_ice'), half='upper')
+    t.set(ax + 3, 1, az - ARENA_R + 5, c('memory_anchor'), nbt={'id': c('memory_anchor'), 'Scene': 'inia_chained'})  # Отблеск «Иния в оковах»
     t.set(ax, 0, az, c('archon_seal'), awakened=False, nbt={'id': c('archon_seal')})  # печать в полу центра арены будит Архонта
     for x in range(ax - 5, ax + 6):  # замок купола
         for z in range(az - 5, az + 6):

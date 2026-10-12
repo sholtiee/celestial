@@ -1,0 +1,44 @@
+# «Осколки падения» (S3.7): после смерти босса участник через ~8 с сам входит в Отблеск глазами побеждённого (один раз).
+# Плюс «Сухие кости»: ангелы встают из костей во вспышке света (не пламени).
+/gamemode creative
+/effect clear @s
+/clear @s
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 28000 160 27994 0 10
+fly
+wait 60
+/fill 27990 159 27990 28010 159 28010 celestial:golden_grass
+/fill 27990 160 27990 28010 172 28010 minecraft:air
+/kill @e[type=!minecraft:player,distance=..40]
+/scoreboard objectives add t dummy
+/celestial memory forget shard_archon
+/tp @s 28000.5 160 27997.5 0 10
+/gamemode survival
+/effect give @s minecraft:resistance 600 4 true
+wait 20
+/summon celestial:frost_archon 28000.5 163 28004.5
+wait 20
+/damage @e[type=celestial:frost_archon,limit=1] 2000 minecraft:player_attack by @s
+wait 60
+/say TEST A1 not_yet_in_memory expect=pass
+/execute in minecraft:overworld if entity @s[x=27990,y=150,z=27985,dx=25,dy=20,dz=25]
+wait 160
+/say TEST A2 shard_started expect=pass
+/execute in celestial:memory if entity @s[x=-10,y=50,z=-10,dx=120,dy=90,dz=120]
+shot shard_auto
+wait 500
+/execute store result score #m t run celestial codex has memory:shard_archon
+/say TEST A3 shard_done expect=pass
+/execute if score #m t matches 1
+/say TEST A4 back_home expect=pass
+/execute in minecraft:overworld if entity @s[x=27990,y=150,z=27985,dx=25,dy=20,dz=25]
+/celestial memory forget dry_bones
+/celestial memory enter dry_bones
+wait 40
+/tp @s 23.5 69 32.5 180 0
+wait 260
+shot bones_light
+wait 300
+/gamemode creative
+quit

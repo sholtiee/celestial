@@ -739,7 +739,9 @@ public final class Memories {
 							e.setNoGravity(true);
 						}
 						level.addFreshEntity(e);
-						level.sendParticles(ParticleTypes.FLAME, p.x, p.y + 1.5, p.z, 40, 1.5, 1.0, 1.5, 0.05);
+						// вспышка появления: по умолчанию пламя (Херувим с мечом); burst — своя частица (ангелы из костей — свет)
+						var burst = st.has("burst") ? BuiltInRegistries.PARTICLE_TYPE.getValue(Identifier.parse(st.get("burst").getAsString())) : null;
+						level.sendParticles(burst instanceof SimpleParticleType b ? b : ParticleTypes.FLAME, p.x, p.y + 1.5, p.z, 40, 1.5, 1.0, 1.5, 0.05);
 						String id = st.has("id") ? st.get("id").getAsString() : "_e" + step;
 						if (e instanceof MemoryActor ma) {
 							actors.put(id, ma);

@@ -380,6 +380,7 @@ public class FallenSeraph extends Monster {
 			level.sendParticles(ParticleTypes.END_ROD, getX(), getY(1.0), getZ(), 200, 1.5, 2.0, 1.5, 0.4);
 			level.playSound(null, blockPosition(), SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, SoundSource.HOSTILE, 2.0F, 1.0F);
 			dev.celestial.story.StoryEvents.onSeraphDefeated(level, this, source);
+			dev.celestial.story.ShardsOfTheFall.schedule(level, this, "shard_seraph");
 			record.finish(level, bossEvent.getPlayers(), dev.celestial.story.Story.SERAPH_FLAWLESS, dev.celestial.story.Story.SERAPH_SWIFT, SWIFT_TICKS);
 			for (java.util.UUID id : crystals) {
 				if (level.getEntity(id) instanceof SeraphCrystal crystal) {

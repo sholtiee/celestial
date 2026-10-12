@@ -513,15 +513,18 @@ LANG = {
 
 
 def main():
+    import gen_scenes_lore as S3  # сцены S3 (черновик Sonnet, доведён Opus)
+    PEOPLE.update(S3.PEOPLE)
     dimension()
     actors()
     anchor_block()
     stage_fruit()
     stage_prologue_light()
     stage_prologue_exile()
-    write_json(os.path.join(DATA, 'memory/scenes.json'), {**SCENES, **PROLOGUE})
-    lang_patch(LANG)
-    print('ok: Отблески —', len(SCENES) + len(PROLOGUE), 'сцен')
+    S3.stages()
+    write_json(os.path.join(DATA, 'memory/scenes.json'), {**SCENES, **PROLOGUE, **S3.SCENES})
+    lang_patch({**LANG, **S3.LANG})
+    print('ok: Отблески —', len(SCENES) + len(PROLOGUE) + len(S3.SCENES), 'сцен')
 
 
 if __name__ == '__main__':

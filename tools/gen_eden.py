@@ -335,6 +335,7 @@ def garden():
     t.set(41, TOP, hz, c('trial_goal'))
     t.set(29, TOP + 1, 16, c('trial_crystal'), nbt={'id': c('trial_crystal'), 'Trial': 'eden_gate'}, state='idle')
     t.entity(hx, TOP + 1, hz, {'id': c('gate_cherub'), 'PersistenceRequired': True})
+    t.set(hx - 5, TOP + 1, hz + 2, c('memory_anchor'), nbt={'id': c('memory_anchor'), 'Scene': 'exile'})  # Отблеск «Изгнание»
     fruits = {n: [(x, y, z) for (x, y, z), (b, *_r) in sorted(t.blocks.items()) if b == c(n)] for n in ('life_fruit', 'knowledge_fruit')}
     t.save('eden_garden/main')
     write_json(os.path.join(DATA, 'worldgen/template_pool/eden_garden/main.json'), {'fallback': 'minecraft:empty', 'elements': [

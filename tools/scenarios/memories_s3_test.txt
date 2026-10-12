@@ -1,0 +1,229 @@
+# Отблески S3 (черновик Sonnet, доведён Opus): все 11 сцен — вход, действия по ходу, кадры, сцена засчитана, игрок вернулся домой.
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 28000 160 27994 0 10
+fly
+wait 60
+/fill 27990 159 27990 28010 159 28010 celestial:golden_grass
+/fill 27990 160 27990 28010 172 28010 minecraft:air
+/kill @e[type=!minecraft:player,distance=..40]
+/clear @s
+/scoreboard objectives add t dummy
+/tp @s 28000.5 160 27997.5 0 10
+/gamemode survival
+/effect give @s minecraft:resistance 3000 4 true
+/effect give @s minecraft:saturation 3000 4 true
+wait 30
+# --- exile
+/celestial memory forget exile
+/celestial memory enter exile
+wait 40
+/say TEST exile_in expect=pass
+/execute in celestial:memory if entity @s[x=-10,y=50,z=-10,dx=120,dy=90,dz=120]
+shot s3_exile_a
+wait 250
+shot s3_exile_b
+wait 200
+shot s3_exile_c
+wait 400
+/execute store result score #m t run celestial codex has memory:exile
+/say TEST exile_done expect=pass
+/execute if score #m t matches 1
+/say TEST exile_home expect=pass
+/execute in minecraft:overworld if entity @s[x=27990,y=150,z=27985,dx=25,dy=20,dz=25]
+# --- seraph_choir
+/celestial memory forget seraph_choir
+/celestial memory enter seraph_choir
+wait 40
+/say TEST seraph_choir_in expect=pass
+/execute in celestial:memory if entity @s[x=-10,y=50,z=-10,dx=120,dy=90,dz=120]
+shot s3_seraph_choir_a
+/tp @s 23.5 69 27.5 180 -5
+wait 200
+shot s3_seraph_choir_b
+wait 200
+shot s3_seraph_choir_c
+wait 400
+/execute store result score #m t run celestial codex has memory:seraph_choir
+/say TEST seraph_choir_done expect=pass
+/execute if score #m t matches 1
+/say TEST seraph_choir_home expect=pass
+/execute in minecraft:overworld if entity @s[x=27990,y=150,z=27985,dx=25,dy=20,dz=25]
+# --- brothers
+/celestial memory forget brothers
+/celestial memory enter brothers
+wait 40
+/say TEST brothers_in expect=pass
+/execute in celestial:memory if entity @s[x=-10,y=50,z=-10,dx=120,dy=90,dz=120]
+shot s3_brothers_a
+/tp @s 20.5 69 28.5 180 0
+wait 220
+shot s3_brothers_b
+wait 200
+shot s3_brothers_c
+wait 400
+/execute store result score #m t run celestial codex has memory:brothers
+/say TEST brothers_done expect=pass
+/execute if score #m t matches 1
+/say TEST brothers_home expect=pass
+/execute in minecraft:overworld if entity @s[x=27990,y=150,z=27985,dx=25,dy=20,dz=25]
+# --- chains
+/celestial memory forget chains
+/celestial memory enter chains
+wait 40
+/say TEST chains_in expect=pass
+/execute in celestial:memory if entity @s[x=-10,y=50,z=-10,dx=120,dy=90,dz=120]
+shot s3_chains_a
+wait 300
+shot s3_chains_b
+wait 300
+shot s3_chains_c
+wait 500
+/execute store result score #m t run celestial codex has memory:chains
+/say TEST chains_done expect=pass
+/execute if score #m t matches 1
+/say TEST chains_home expect=pass
+/execute in minecraft:overworld if entity @s[x=27990,y=150,z=27985,dx=25,dy=20,dz=25]
+# --- flood
+/celestial memory forget flood
+/celestial memory enter flood
+wait 40
+/say TEST flood_in expect=pass
+/execute in celestial:memory if entity @s[x=-10,y=50,z=-10,dx=120,dy=90,dz=120]
+shot s3_flood_a
+wait 200
+shot s3_flood_b
+/tp @s 17.5 69 11.5 180 10
+hold sneak 25
+wait 3
+interact minecraft:sheep
+wait 30
+/tp @s 12.5 69 22.5 0 10
+hold sneak 25
+wait 3
+interact minecraft:cow
+wait 30
+/tp @s 20.5 69 24.0 0 10
+hold sneak 25
+wait 3
+interact minecraft:pig
+wait 30
+/tp @s 10.5 69 12.5 180 10
+hold sneak 25
+wait 3
+interact minecraft:horse
+wait 200
+/tp @s 26.5 70 17.0 -90 10
+wait 80
+interact celestial:memory_human
+wait 60
+shot s3_flood_c
+wait 300
+/execute store result score #m t run celestial codex has memory:flood
+/say TEST flood_done expect=pass
+/execute if score #m t matches 1
+/say TEST flood_home expect=pass
+/execute in minecraft:overworld if entity @s[x=27990,y=150,z=27985,dx=25,dy=20,dz=25]
+# --- inia_chained
+/celestial memory forget inia_chained
+/celestial memory enter inia_chained
+wait 40
+/say TEST inia_chained_in expect=pass
+/execute in celestial:memory if entity @s[x=-10,y=50,z=-10,dx=120,dy=90,dz=120]
+shot s3_inia_chained_a
+/tp @s 20.5 73 30.5 180 0
+wait 250
+shot s3_inia_chained_b
+wait 200
+shot s3_inia_chained_c
+wait 300
+/execute store result score #m t run celestial codex has memory:inia_chained
+/say TEST inia_chained_done expect=pass
+/execute if score #m t matches 1
+/say TEST inia_chained_home expect=pass
+/execute in minecraft:overworld if entity @s[x=27990,y=150,z=27985,dx=25,dy=20,dz=25]
+# --- shard_seraph
+/celestial memory forget shard_seraph
+/celestial memory enter shard_seraph
+wait 40
+/say TEST shard_seraph_in expect=pass
+/execute in celestial:memory if entity @s[x=-10,y=50,z=-10,dx=120,dy=90,dz=120]
+shot s3_shard_seraph_a
+wait 200
+shot s3_shard_seraph_b
+wait 400
+/execute store result score #m t run celestial codex has memory:shard_seraph
+/say TEST shard_seraph_done expect=pass
+/execute if score #m t matches 1
+/say TEST shard_seraph_home expect=pass
+/execute in minecraft:overworld if entity @s[x=27990,y=150,z=27985,dx=25,dy=20,dz=25]
+# --- shard_devourer
+/celestial memory forget shard_devourer
+/celestial memory enter shard_devourer
+wait 40
+/say TEST shard_devourer_in expect=pass
+/execute in celestial:memory if entity @s[x=-10,y=50,z=-10,dx=120,dy=90,dz=120]
+shot s3_shard_devourer_a
+wait 200
+shot s3_shard_devourer_b
+wait 400
+/execute store result score #m t run celestial codex has memory:shard_devourer
+/say TEST shard_devourer_done expect=pass
+/execute if score #m t matches 1
+/say TEST shard_devourer_home expect=pass
+/execute in minecraft:overworld if entity @s[x=27990,y=150,z=27985,dx=25,dy=20,dz=25]
+# --- shard_archon
+/celestial memory forget shard_archon
+/celestial memory enter shard_archon
+wait 40
+/say TEST shard_archon_in expect=pass
+/execute in celestial:memory if entity @s[x=-10,y=50,z=-10,dx=120,dy=90,dz=120]
+shot s3_shard_archon_a
+wait 200
+shot s3_shard_archon_b
+wait 400
+/execute store result score #m t run celestial codex has memory:shard_archon
+/say TEST shard_archon_done expect=pass
+/execute if score #m t matches 1
+/say TEST shard_archon_home expect=pass
+/execute in minecraft:overworld if entity @s[x=27990,y=150,z=27985,dx=25,dy=20,dz=25]
+# --- dry_bones
+/celestial memory forget dry_bones
+/celestial memory enter dry_bones
+wait 40
+/say TEST dry_bones_in expect=pass
+/execute in celestial:memory if entity @s[x=-10,y=50,z=-10,dx=120,dy=90,dz=120]
+shot s3_dry_bones_a
+/tp @s 23.5 69 32.5 180 0
+wait 250
+shot s3_dry_bones_b
+wait 150
+shot s3_dry_bones_c
+wait 300
+/execute store result score #m t run celestial codex has memory:dry_bones
+/say TEST dry_bones_done expect=pass
+/execute if score #m t matches 1
+/say TEST dry_bones_home expect=pass
+/execute in minecraft:overworld if entity @s[x=27990,y=150,z=27985,dx=25,dy=20,dz=25]
+# --- jacob_ladder
+/celestial memory forget jacob_ladder
+/celestial memory enter jacob_ladder
+wait 40
+/say TEST jacob_ladder_in expect=pass
+/execute in celestial:memory if entity @s[x=-10,y=50,z=-10,dx=120,dy=90,dz=120]
+shot s3_jacob_ladder_a
+wait 120
+shot s3_jacob_ladder_b
+/tp @s 57.5 110 20.5 90 0
+wait 60
+shot s3_jacob_ladder_c
+wait 300
+/execute store result score #m t run celestial codex has memory:jacob_ladder
+/say TEST jacob_ladder_done expect=pass
+/execute if score #m t matches 1
+/say TEST jacob_ladder_home expect=pass
+/execute in minecraft:overworld if entity @s[x=27990,y=150,z=27985,dx=25,dy=20,dz=25]
+/gamemode creative
+quit

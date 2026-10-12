@@ -86,7 +86,7 @@ gen_story → gen_grace → gen_fading → gen_places → gen_boss → … → g
   4) шаги: `wait` (тики), `near` (странник подошёл к точке), `look` (странник смотрит на актёра) — триггеры ждут игрока, `timeout` по умолчанию 1200;
      `move` (`wait: false` — не ждать прихода), `face` (на актёра/`player`/точку), `pose`, `hold` (предмет в руке; `item: None` — убрать), `say` (реплика:
      `memory.celestial.who.<актёр>` + ключ), `voice` (Глас из света — без фигуры, только строка и столб света), `particles`, `dim` (0..1 — свет меркнет),
-     `spawn`, `entity` (декор-сущность без ИИ, например `celestial:gate_cherub`), `despawn`, `end`;
+     `spawn`, `entity` (декор-сущность без ИИ, например `celestial:gate_cherub`; вспышка появления — пламя, `burst` — своя частица), `despawn`, `end`;
   5) Отпечаток света в постройке мира: `t.set(x, y, z, c('memory_anchor'), nbt={'id': c('memory_anchor'), 'Scene': '<id>'})`;
   6) переводы — в `LANG` того же файла; `lint_assets.py` (check_scenes) проверит шаблон, шаги, актёров, переводы и наличие якоря;
   7) сценарий автопилота по образцу `memory_fruit_test.txt`: вход (`use` по якорю), кадры ключевых моментов, возврат в ту же точку, лист открыт.

@@ -128,6 +128,7 @@ def prison():
     t.walls(0, 2, 0, 32, 11, 32, B)
     t.fill(0, 12, 0, 32, 12, 32, B)
     t.fill(14, 2, 32, 18, 5, 32, MC('air'))  # вход с юга
+    t.set(18, 2, 29, c('memory_anchor'), nbt={'id': c('memory_anchor'), 'Scene': 'chains'})  # Отблеск «Скованные» у входа
     # камеры вдоль северной стены: 5 штук, решётки на z = 7; прикованные Стражи в 1-й, 3-й и 5-й
     for k in range(5):
         x0 = 2 + 6 * k
@@ -138,7 +139,7 @@ def prison():
             t.fill(x0 + 4, 2, z, x0 + 4, 11, z, B)
         if k % 2 == 0:
             for x in (x0, x0 + 3):  # цепи свисают с потолка
-                t.fill(x, 6, 3, x, 11, 3, MC('chain'), axis='y', waterlogged=False)
+                t.fill(x, 6, 3, x, 11, 3, MC('iron_chain'), axis='y', waterlogged=False)
             t.entity(x0 + 1, 2, 4, {'id': c('chained_watcher'), 'PersistenceRequired': True})
         else:
             t.set(x0 + 1, 2, 4, MC('cobweb'))
@@ -169,15 +170,15 @@ def prison():
     for x, z in ((6, 13), (26, 13), (6, 27), (26, 27)):
         for dx, dz in ((1, 0), (-1, 0), (0, 1), (0, -1)):
             t.fill(x + dx, 2, z + dz, x + dx, 3 + rng.randint(0, 5), z + dz, B)  # обломанная обкладка колонны
-        t.fill(x + 1, 6, z - 1, x + 1, 11, z - 1, MC('chain'), axis='y', waterlogged=False)
+        t.fill(x + 1, 6, z - 1, x + 1, 11, z - 1, MC('iron_chain'), axis='y', waterlogged=False)
     for _ in range(14):  # цепи с потолка разной длины
         x, z = rng.randint(3, 29), rng.randint(10, 30)
         if abs(x - 16) + abs(z - 20) > 4:
-            t.fill(x, 12 - rng.randint(2, 6), z, x, 11, z, MC('chain'), axis='y', waterlogged=False)
+            t.fill(x, 12 - rng.randint(2, 6), z, x, 11, z, MC('iron_chain'), axis='y', waterlogged=False)
     for _ in range(10):  # обрывки цепей на полу
         x, z = rng.randint(3, 29), rng.randint(10, 30)
         if t.get(x, 2, z) in (None, MC('air')):
-            t.set(x, 2, z, MC('chain'), axis=rng.choice(['x', 'z']), waterlogged=False)
+            t.set(x, 2, z, MC('iron_chain'), axis=rng.choice(['x', 'z']), waterlogged=False)
     for _ in range(16):  # кости и мох
         x, z = rng.randint(2, 30), rng.randint(9, 30)
         if t.get(x, 2, z) in (None, MC('air')):

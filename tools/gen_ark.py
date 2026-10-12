@@ -243,6 +243,7 @@ def ark():
     # каюта Ноя: постель (под будущий Отблеск-сон), стол, книги
     t.set(36, 9, 13, MC('white_bed'), facing='north', part='foot', occupied=False)
     t.set(36, 9, 12, MC('white_bed'), facing='north', part='head', occupied=False)
+    t.set(35, 9, 13, c('memory_anchor'), nbt={'id': c('memory_anchor'), 'Scene': 'flood'})  # Отблеск «Потоп» у постели Ноя
     t.set(33, 9, 7, MC('spruce_fence'), waterlogged=False)
     t.set(33, 10, 7, MC('spruce_pressure_plate'), powered=False)
     t.set(32, 9, 6, MC('chiseled_bookshelf'), facing='south', **{f'slot_{i}_occupied': i % 2 == 0 for i in range(6)})

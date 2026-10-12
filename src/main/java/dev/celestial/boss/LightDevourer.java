@@ -349,6 +349,7 @@ public class LightDevourer extends Monster {
 				}
 			}
 			dev.celestial.story.StoryEvents.onDevourerDefeated(level, this);
+			dev.celestial.story.ShardsOfTheFall.schedule(level, this, "shard_devourer");
 			record.finish(level, bossEvent.getPlayers(), dev.celestial.story.Story.DEVOURER_FLAWLESS, dev.celestial.story.Story.DEVOURER_SWIFT, SWIFT_TICKS);
 		}
 	}

@@ -504,7 +504,7 @@ def check_scenes():
             if t == 'say':
                 lang('memory.celestial.who.' + st['actor'])
         chained = any(o.get('next') == sid for o in scenes.values())
-        if sid.encode() not in nbt_bytes and not chained and not sid.startswith('prologue'):
+        if sid.encode() not in nbt_bytes and not chained and not sid.startswith('prologue') and not sc.get('trigger'):
             report('SCENE_NO_ANCHOR', f'{sid}: нет Отпечатка света (memory_anchor с Scene) ни в одной постройке')
 
 

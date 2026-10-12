@@ -451,6 +451,7 @@ public class FrostArchon extends Monster {
 			level.sendParticles(ParticleTypes.END_ROD, getX(), getY(0.5), getZ(), 300, 3, 3, 3, 0.4);
 			level.sendParticles(ParticleTypes.SNOWFLAKE, getX(), getY(0.5), getZ(), 400, 6, 4, 6, 0.3);
 			dev.celestial.story.StoryEvents.onArchonDefeated(level, this, home);
+			dev.celestial.story.ShardsOfTheFall.schedule(level, this, "shard_archon");
 			record.finish(level, bossEvent.getPlayers(), dev.celestial.story.Story.ARCHON_FLAWLESS, dev.celestial.story.Story.ARCHON_SWIFT, SWIFT_TICKS);
 		}
 	}

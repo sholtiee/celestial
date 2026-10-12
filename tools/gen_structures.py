@@ -301,6 +301,7 @@ def citadel():
     t.set(cx, top + 1, cz, C('seraph_seal'), nbt={'id': C('seraph_seal')}, awakened=False)
     t.fill(cx - 1, top + 1, cz + 10, cx + 1, top + 1, cz + 12, RADIANT)
     t.set(cx, top + 2, cz + 11, C('celestial_altar'))
+    t.set(cx + 3, top + 1, cz + 9, C('memory_anchor'), nbt={'id': C('memory_anchor'), 'Scene': 'seraph_choir'})  # Отблеск «Серафим до падения»
     # сокровищница за аркой
     t.walls(16, top + 1, 34, 28, top + 5, 39, BRICKS)
     t.fill(17, top + 1, 35, 27, top + 4, 38, 'minecraft:air')

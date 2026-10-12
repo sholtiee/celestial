@@ -438,9 +438,9 @@ SCENES = {
         ],
         'steps': [
             step('dim', value=0.3),
-            step('hold', actor='w1', item='minecraft:chain'),
-            step('hold', actor='w2', item='minecraft:chain'),
-            step('hold', actor='w3', item='minecraft:chain'),
+            step('hold', actor='w1', item='minecraft:iron_chain'),
+            step('hold', actor='w2', item='minecraft:iron_chain'),
+            step('hold', actor='w3', item='minecraft:iron_chain'),
             step('wait', ticks=40),
             step('caption', key='memory.celestial.chains.1', ticks=90),
             step('move', actor='h1', to=[22.5, 10, 12.5], speed=0.06, wait=False),
@@ -526,6 +526,7 @@ SCENES = {
     },
     # S3.7 Осколки падения: 15–20 секунд глазами побеждённого. Включаются сами после смерти босса (story/ShardsOfTheFall)
     'shard_seraph': {
+        'trigger': 'boss',
         'stage': c('memory/seraph_choir'), 'center': [23, 5, 23], 'radius': 22, 'spawn': [23.5, 5, 18.5, 0],
         'sheet': '', 'thought': 'memory.celestial.shard.seraph.thought', 'skippable': True,
         'actors': [
@@ -547,6 +548,7 @@ SCENES = {
         ],
     },
     'shard_devourer': {
+        'trigger': 'boss',
         'stage': c('memory/void_star'), 'center': [20, 3, 20], 'radius': 8, 'spawn': [20.5, 3, 20.5, 0],
         'sheet': '', 'thought': 'memory.celestial.shard.devourer.thought', 'skippable': True,
         'actors': [],
@@ -563,6 +565,7 @@ SCENES = {
         ],
     },
     'shard_archon': {
+        'trigger': 'boss',
         'stage': c('memory/ice_hall'), 'center': [20, 9, 20], 'radius': 17, 'spawn': [20.5, 9, 22.5, 180],
         'sheet': 'morning_star', 'thought': 'memory.celestial.shard.archon.thought', 'skippable': True,
         'actors': [
@@ -596,10 +599,10 @@ SCENES = {
             step('say', actor='prophet', key='memory.celestial.bones.prophet', ticks=90),
             step('particles', type='minecraft:end_rod', pos=[23.5, 7, 23.5], count=120, spread=10),
             step('lift', **{'from': [0, 5, 0], 'to': [46, 6, 46]}, rise=7, ticks=120),
-            step('entity', type=c('angel'), pos=[17.5, 5, 18.5], yaw=0),
-            step('entity', type=c('angel'), pos=[29.5, 5, 19.5], yaw=20),
-            step('entity', type=c('angel'), pos=[20.5, 5, 29.5], yaw=180),
-            step('entity', type=c('angel'), pos=[27.5, 5, 27.5], yaw=200),
+            step('entity', burst='minecraft:end_rod', type=c('angel'), pos=[17.5, 5, 18.5], yaw=0),
+            step('entity', burst='minecraft:end_rod', type=c('angel'), pos=[29.5, 5, 19.5], yaw=20),
+            step('entity', burst='minecraft:end_rod', type=c('angel'), pos=[20.5, 5, 29.5], yaw=180),
+            step('entity', burst='minecraft:end_rod', type=c('angel'), pos=[27.5, 5, 27.5], yaw=200),
             step('pose', actor='prophet', pose=0),
             step('dim', value=0.0),
             step('caption', key='memory.celestial.bones.2', ticks=90),

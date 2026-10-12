@@ -800,5 +800,1904 @@
         "ticks": 20
       }
     ]
+  },
+  "exile": {
+    "stage": "celestial:memory/exile",
+    "center": [
+      24,
+      5,
+      21
+    ],
+    "radius": 26,
+    "spawn": [
+      18.5,
+      5,
+      28.5,
+      -70
+    ],
+    "sheet": "exile",
+    "thought": "memory.celestial.exile.thought",
+    "actors": [
+      {
+        "id": "adam",
+        "type": "human",
+        "skin": "adam",
+        "pos": [
+          27.5,
+          5,
+          20.5
+        ],
+        "yaw": 270,
+        "pose": 3
+      },
+      {
+        "id": "eve",
+        "type": "human",
+        "skin": "eve",
+        "pos": [
+          27.5,
+          5,
+          22.5
+        ],
+        "yaw": 270,
+        "pose": 3
+      }
+    ],
+    "steps": [
+      {
+        "t": "wait",
+        "ticks": 40
+      },
+      {
+        "t": "dim",
+        "value": 0.25
+      },
+      {
+        "t": "voice",
+        "key": "memory.celestial.exile.voice",
+        "pos": [
+          27.5,
+          5,
+          21.5
+        ],
+        "ticks": 100
+      },
+      {
+        "t": "pose",
+        "actor": "adam",
+        "pose": 0
+      },
+      {
+        "t": "pose",
+        "actor": "eve",
+        "pose": 0
+      },
+      {
+        "t": "move",
+        "actor": "adam",
+        "to": [
+          36.5,
+          5,
+          20.5
+        ],
+        "speed": 0.06,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "eve",
+        "to": [
+          36.5,
+          5,
+          22.5
+        ],
+        "speed": 0.06
+      },
+      {
+        "t": "move",
+        "actor": "adam",
+        "to": [
+          43.5,
+          5,
+          20.5
+        ],
+        "speed": 0.06,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "eve",
+        "to": [
+          43.5,
+          5,
+          22.5
+        ],
+        "speed": 0.06
+      },
+      {
+        "t": "entity",
+        "type": "celestial:gate_cherub",
+        "pos": [
+          35.5,
+          5,
+          21.5
+        ],
+        "yaw": 270
+      },
+      {
+        "t": "dim",
+        "value": 0.5
+      },
+      {
+        "t": "wait",
+        "ticks": 40
+      },
+      {
+        "t": "pose",
+        "actor": "adam",
+        "pose": 4
+      },
+      {
+        "t": "pose",
+        "actor": "eve",
+        "pose": 4
+      },
+      {
+        "t": "face",
+        "actor": "eve",
+        "to": [
+          34.5,
+          7,
+          21.5
+        ]
+      },
+      {
+        "t": "say",
+        "actor": "eve",
+        "key": "memory.celestial.exile.eve",
+        "ticks": 80
+      },
+      {
+        "t": "wait",
+        "ticks": 60
+      },
+      {
+        "t": "despawn",
+        "actor": "adam"
+      },
+      {
+        "t": "despawn",
+        "actor": "eve"
+      },
+      {
+        "t": "end",
+        "ticks": 40
+      }
+    ]
+  },
+  "seraph_choir": {
+    "stage": "celestial:memory/seraph_choir",
+    "center": [
+      23,
+      5,
+      23
+    ],
+    "radius": 22,
+    "spawn": [
+      23.5,
+      5,
+      40.5,
+      180
+    ],
+    "sheet": "seraph_before",
+    "thought": "memory.celestial.seraph.thought",
+    "actors": [
+      {
+        "id": "seraph",
+        "type": "human",
+        "skin": "seraph",
+        "pos": [
+          23.5,
+          5,
+          15.5
+        ],
+        "yaw": 180
+      },
+      {
+        "id": "c1",
+        "type": "human",
+        "skin": "chorister",
+        "pos": [
+          13.5,
+          5,
+          11.5
+        ],
+        "yaw": 270
+      },
+      {
+        "id": "c2",
+        "type": "human",
+        "skin": "chorister",
+        "pos": [
+          12.5,
+          5,
+          15.5
+        ],
+        "yaw": 270
+      },
+      {
+        "id": "c3",
+        "type": "human",
+        "skin": "chorister",
+        "pos": [
+          13.5,
+          5,
+          19.5
+        ],
+        "yaw": 270
+      },
+      {
+        "id": "c4",
+        "type": "human",
+        "skin": "chorister",
+        "pos": [
+          33.5,
+          5,
+          11.5
+        ],
+        "yaw": 90
+      },
+      {
+        "id": "c5",
+        "type": "human",
+        "skin": "chorister",
+        "pos": [
+          34.5,
+          5,
+          15.5
+        ],
+        "yaw": 90
+      },
+      {
+        "id": "c6",
+        "type": "human",
+        "skin": "chorister",
+        "pos": [
+          33.5,
+          5,
+          19.5
+        ],
+        "yaw": 90
+      }
+    ],
+    "steps": [
+      {
+        "t": "wait",
+        "ticks": 40
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:end_rod",
+        "pos": [
+          23.5,
+          12,
+          6
+        ],
+        "count": 60,
+        "spread": 1.5
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.seraph.holy",
+        "ticks": 90
+      },
+      {
+        "t": "near",
+        "pos": [
+          23.5,
+          5,
+          25
+        ],
+        "r": 9,
+        "timeout": 700
+      },
+      {
+        "t": "say",
+        "actor": "seraph",
+        "key": "memory.celestial.seraph.sing",
+        "ticks": 70
+      },
+      {
+        "t": "spawn",
+        "actor": {
+          "id": "morning",
+          "type": "human",
+          "skin": "morning_star",
+          "pos": [
+            39.5,
+            5,
+            21.5
+          ],
+          "yaw": 90
+        }
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:end_rod",
+        "pos": [
+          39.5,
+          7,
+          21.5
+        ],
+        "count": 50,
+        "spread": 0.8
+      },
+      {
+        "t": "move",
+        "actor": "morning",
+        "to": [
+          27.5,
+          5,
+          16.5
+        ],
+        "speed": 0.05
+      },
+      {
+        "t": "face",
+        "actor": "morning",
+        "to": "seraph"
+      },
+      {
+        "t": "face",
+        "actor": "seraph",
+        "to": "morning"
+      },
+      {
+        "t": "wait",
+        "ticks": 30
+      },
+      {
+        "t": "say",
+        "actor": "morning",
+        "key": "memory.celestial.seraph.morning",
+        "ticks": 80
+      },
+      {
+        "t": "dim",
+        "value": 0.55
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:white_ash",
+        "pos": [
+          23.5,
+          9,
+          15.5
+        ],
+        "count": 120,
+        "spread": 3
+      },
+      {
+        "t": "wait",
+        "ticks": 60
+      },
+      {
+        "t": "despawn",
+        "actor": "morning"
+      },
+      {
+        "t": "end",
+        "ticks": 40
+      }
+    ]
+  },
+  "brothers": {
+    "stage": "celestial:memory/brothers",
+    "center": [
+      20,
+      5,
+      22
+    ],
+    "radius": 19,
+    "spawn": [
+      20.5,
+      5,
+      35.5,
+      180
+    ],
+    "sheet": "cain_abel",
+    "thought": "memory.celestial.brothers.thought",
+    "actors": [
+      {
+        "id": "abel",
+        "type": "human",
+        "skin": "abel",
+        "pos": [
+          11.5,
+          5,
+          17.5
+        ],
+        "yaw": 180
+      },
+      {
+        "id": "cain",
+        "type": "human",
+        "skin": "cain",
+        "pos": [
+          29.5,
+          5,
+          17.5
+        ],
+        "yaw": 180
+      }
+    ],
+    "steps": [
+      {
+        "t": "entity",
+        "type": "minecraft:sheep",
+        "pos": [
+          8.5,
+          5,
+          21.5
+        ],
+        "yaw": 90
+      },
+      {
+        "t": "entity",
+        "type": "minecraft:sheep",
+        "pos": [
+          12.5,
+          5,
+          23.5
+        ],
+        "yaw": 120
+      },
+      {
+        "t": "entity",
+        "type": "minecraft:sheep",
+        "pos": [
+          7.5,
+          5,
+          25.5
+        ],
+        "yaw": 70
+      },
+      {
+        "t": "wait",
+        "ticks": 40
+      },
+      {
+        "t": "near",
+        "pos": [
+          20.5,
+          5,
+          24
+        ],
+        "r": 11,
+        "timeout": 600
+      },
+      {
+        "t": "pose",
+        "actor": "abel",
+        "pose": 1
+      },
+      {
+        "t": "hold",
+        "actor": "abel",
+        "item": "minecraft:white_wool"
+      },
+      {
+        "t": "pose",
+        "actor": "cain",
+        "pose": 1
+      },
+      {
+        "t": "hold",
+        "actor": "cain",
+        "item": "minecraft:wheat"
+      },
+      {
+        "t": "wait",
+        "ticks": 50
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:campfire_signal_smoke",
+        "pos": [
+          11.5,
+          6.5,
+          14.5
+        ],
+        "count": 18,
+        "spread": 0.1,
+        "speed": 0.04
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:smoke",
+        "pos": [
+          29.5,
+          6.2,
+          14.5
+        ],
+        "count": 30,
+        "spread": 0.7,
+        "speed": 0.005
+      },
+      {
+        "t": "wait",
+        "ticks": 40
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:campfire_signal_smoke",
+        "pos": [
+          11.5,
+          6.5,
+          14.5
+        ],
+        "count": 18,
+        "spread": 0.1,
+        "speed": 0.04
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:smoke",
+        "pos": [
+          29.5,
+          6.2,
+          14.5
+        ],
+        "count": 30,
+        "spread": 0.7,
+        "speed": 0.005
+      },
+      {
+        "t": "wait",
+        "ticks": 40
+      },
+      {
+        "t": "voice",
+        "key": "memory.celestial.brothers.voice",
+        "pos": [
+          29.5,
+          5,
+          15.5
+        ],
+        "ticks": 90
+      },
+      {
+        "t": "hold",
+        "actor": "cain",
+        "item": null
+      },
+      {
+        "t": "pose",
+        "actor": "cain",
+        "pose": 0
+      },
+      {
+        "t": "face",
+        "actor": "cain",
+        "to": "abel"
+      },
+      {
+        "t": "dim",
+        "value": 0.45
+      },
+      {
+        "t": "say",
+        "actor": "cain",
+        "key": "memory.celestial.brothers.cain",
+        "ticks": 60
+      },
+      {
+        "t": "move",
+        "actor": "cain",
+        "to": [
+          17.5,
+          5,
+          18.5
+        ],
+        "speed": 0.05
+      },
+      {
+        "t": "dim",
+        "value": 0.85
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:crimson_spore",
+        "pos": [
+          11.5,
+          5.5,
+          17.5
+        ],
+        "count": 40,
+        "spread": 0.6
+      },
+      {
+        "t": "wait",
+        "ticks": 50
+      },
+      {
+        "t": "despawn",
+        "actor": "cain"
+      },
+      {
+        "t": "despawn",
+        "actor": "abel"
+      },
+      {
+        "t": "end",
+        "ticks": 40
+      }
+    ]
+  },
+  "chains": {
+    "stage": "celestial:memory/chains",
+    "center": [
+      24,
+      5,
+      24
+    ],
+    "radius": 23,
+    "spawn": [
+      20.5,
+      5,
+      30.5,
+      180
+    ],
+    "sheet": "chains",
+    "thought": "memory.celestial.chains.thought",
+    "actors": [
+      {
+        "id": "h1",
+        "type": "human",
+        "skin": "host",
+        "pos": [
+          22.5,
+          10,
+          7.5
+        ],
+        "yaw": 0
+      },
+      {
+        "id": "w1",
+        "type": "human",
+        "skin": "watcher",
+        "pos": [
+          24.5,
+          10,
+          8.5
+        ],
+        "yaw": 0
+      },
+      {
+        "id": "w2",
+        "type": "human",
+        "skin": "watcher",
+        "pos": [
+          26.5,
+          10,
+          8.5
+        ],
+        "yaw": 0
+      },
+      {
+        "id": "w3",
+        "type": "human",
+        "skin": "watcher",
+        "pos": [
+          28.5,
+          10,
+          8.5
+        ],
+        "yaw": 0
+      },
+      {
+        "id": "h2",
+        "type": "human",
+        "skin": "host",
+        "pos": [
+          30.5,
+          10,
+          7.5
+        ],
+        "yaw": 0
+      }
+    ],
+    "steps": [
+      {
+        "t": "dim",
+        "value": 0.3
+      },
+      {
+        "t": "hold",
+        "actor": "w1",
+        "item": "minecraft:iron_chain"
+      },
+      {
+        "t": "hold",
+        "actor": "w2",
+        "item": "minecraft:iron_chain"
+      },
+      {
+        "t": "hold",
+        "actor": "w3",
+        "item": "minecraft:iron_chain"
+      },
+      {
+        "t": "wait",
+        "ticks": 40
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.chains.1",
+        "ticks": 90
+      },
+      {
+        "t": "move",
+        "actor": "h1",
+        "to": [
+          22.5,
+          10,
+          12.5
+        ],
+        "speed": 0.06,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "w1",
+        "to": [
+          24.5,
+          10,
+          12.5
+        ],
+        "speed": 0.06,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "w2",
+        "to": [
+          26.5,
+          10,
+          12.5
+        ],
+        "speed": 0.06,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "w3",
+        "to": [
+          28.5,
+          10,
+          12.5
+        ],
+        "speed": 0.06,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "h2",
+        "to": [
+          30.5,
+          10,
+          12.5
+        ],
+        "speed": 0.06
+      },
+      {
+        "t": "move",
+        "actor": "h1",
+        "to": [
+          22.5,
+          5,
+          18.0
+        ],
+        "speed": 0.06,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "w1",
+        "to": [
+          24.5,
+          5,
+          18.0
+        ],
+        "speed": 0.06,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "w2",
+        "to": [
+          26.5,
+          5,
+          18.0
+        ],
+        "speed": 0.06,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "w3",
+        "to": [
+          28.5,
+          5,
+          18.0
+        ],
+        "speed": 0.06,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "h2",
+        "to": [
+          30.5,
+          5,
+          18.0
+        ],
+        "speed": 0.06
+      },
+      {
+        "t": "say",
+        "actor": "h1",
+        "key": "memory.celestial.chains.host",
+        "ticks": 70
+      },
+      {
+        "t": "move",
+        "actor": "h1",
+        "to": [
+          26.5,
+          5,
+          40.5
+        ],
+        "speed": 0.07,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "w1",
+        "to": [
+          26.5,
+          5,
+          41.5
+        ],
+        "speed": 0.07,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "w2",
+        "to": [
+          26.5,
+          5,
+          42.5
+        ],
+        "speed": 0.07,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "w3",
+        "to": [
+          26.5,
+          5,
+          43.5
+        ],
+        "speed": 0.07,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "h2",
+        "to": [
+          27.5,
+          5,
+          40.5
+        ],
+        "speed": 0.07
+      },
+      {
+        "t": "dim",
+        "value": 0.6
+      },
+      {
+        "t": "face",
+        "actor": "w3",
+        "to": "player"
+      },
+      {
+        "t": "say",
+        "actor": "w3",
+        "key": "memory.celestial.chains.watcher",
+        "ticks": 80
+      },
+      {
+        "t": "end",
+        "ticks": 40
+      }
+    ]
+  },
+  "flood": {
+    "stage": "celestial:memory/flood",
+    "center": [
+      24,
+      5,
+      17
+    ],
+    "radius": 24,
+    "spawn": [
+      14.5,
+      5,
+      17.5,
+      -90
+    ],
+    "sheet": "flood",
+    "thought": "memory.celestial.flood.thought",
+    "actors": [
+      {
+        "id": "noah",
+        "type": "human",
+        "skin": "noah",
+        "pos": [
+          28.5,
+          6,
+          17.0
+        ],
+        "yaw": 270
+      }
+    ],
+    "steps": [
+      {
+        "t": "dim",
+        "value": 0.3
+      },
+      {
+        "t": "entity",
+        "type": "minecraft:sheep",
+        "pos": [
+          17.5,
+          5,
+          9.5
+        ],
+        "yaw": 0
+      },
+      {
+        "t": "entity",
+        "type": "minecraft:sheep",
+        "pos": [
+          19.5,
+          5,
+          9.5
+        ],
+        "yaw": 0
+      },
+      {
+        "t": "entity",
+        "type": "minecraft:cow",
+        "pos": [
+          12.5,
+          5,
+          24.5
+        ],
+        "yaw": 180
+      },
+      {
+        "t": "entity",
+        "type": "minecraft:cow",
+        "pos": [
+          14.5,
+          5,
+          25.5
+        ],
+        "yaw": 180
+      },
+      {
+        "t": "entity",
+        "type": "minecraft:pig",
+        "pos": [
+          20.5,
+          5,
+          26.0
+        ],
+        "yaw": 180
+      },
+      {
+        "t": "entity",
+        "type": "minecraft:pig",
+        "pos": [
+          22.5,
+          5,
+          25.0
+        ],
+        "yaw": 180
+      },
+      {
+        "t": "entity",
+        "type": "minecraft:horse",
+        "pos": [
+          10.5,
+          5,
+          10.5
+        ],
+        "yaw": 0
+      },
+      {
+        "t": "entity",
+        "type": "minecraft:horse",
+        "pos": [
+          12.5,
+          5,
+          9.5
+        ],
+        "yaw": 0
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:rain",
+        "pos": [
+          24,
+          18,
+          17
+        ],
+        "count": 300,
+        "spread": 14,
+        "speed": 0.0
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.flood.1",
+        "ticks": 80
+      },
+      {
+        "t": "say",
+        "actor": "noah",
+        "key": "memory.celestial.flood.noah1",
+        "ticks": 80
+      },
+      {
+        "t": "name",
+        "n": 4,
+        "hint": "memory.celestial.flood.herd_hint",
+        "timeout": 1800
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:rain",
+        "pos": [
+          24,
+          18,
+          17
+        ],
+        "count": 400,
+        "spread": 14,
+        "speed": 0.0
+      },
+      {
+        "t": "dim",
+        "value": 0.55
+      },
+      {
+        "t": "say",
+        "actor": "noah",
+        "key": "memory.celestial.flood.noah2",
+        "ticks": 70
+      },
+      {
+        "t": "hold",
+        "actor": "noah",
+        "item": "minecraft:feather"
+      },
+      {
+        "t": "choice",
+        "actor": "noah",
+        "key": "bird",
+        "hint": "memory.celestial.flood.bird_hint",
+        "timeout": 900
+      },
+      {
+        "t": "hold",
+        "actor": "noah",
+        "item": null
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:end_rod",
+        "pos": [
+          27.5,
+          8,
+          17.0
+        ],
+        "count": 40,
+        "spread": 1.0
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.flood.2",
+        "ticks": 80
+      },
+      {
+        "t": "dim",
+        "value": 0.1
+      },
+      {
+        "t": "end",
+        "ticks": 40
+      }
+    ]
+  },
+  "inia_chained": {
+    "stage": "celestial:memory/ice_hall",
+    "center": [
+      20,
+      9,
+      20
+    ],
+    "radius": 17,
+    "spawn": [
+      20.5,
+      9,
+      34.5,
+      180
+    ],
+    "sheet": "inia",
+    "thought": "memory.celestial.inia.thought",
+    "actors": [
+      {
+        "id": "archon",
+        "type": "human",
+        "skin": "archon",
+        "pos": [
+          20.5,
+          9,
+          24.5
+        ],
+        "yaw": 180
+      },
+      {
+        "id": "inia",
+        "type": "human",
+        "skin": "inia",
+        "pos": [
+          20.5,
+          9,
+          12.5
+        ],
+        "yaw": 0
+      }
+    ],
+    "steps": [
+      {
+        "t": "dim",
+        "value": 0.2
+      },
+      {
+        "t": "wait",
+        "ticks": 50
+      },
+      {
+        "t": "near",
+        "pos": [
+          20.5,
+          9,
+          27
+        ],
+        "r": 9,
+        "timeout": 700
+      },
+      {
+        "t": "face",
+        "actor": "archon",
+        "to": "inia"
+      },
+      {
+        "t": "say",
+        "actor": "inia",
+        "key": "memory.celestial.inia.inia1",
+        "ticks": 70
+      },
+      {
+        "t": "voice",
+        "key": "memory.celestial.inia.voice",
+        "pos": [
+          20.5,
+          9,
+          18.0
+        ],
+        "ticks": 90
+      },
+      {
+        "t": "pose",
+        "actor": "archon",
+        "pose": 1
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:snowflake",
+        "pos": [
+          20.5,
+          10,
+          12.5
+        ],
+        "count": 120,
+        "spread": 1.2,
+        "speed": 0.05
+      },
+      {
+        "t": "move",
+        "actor": "inia",
+        "to": [
+          20.5,
+          9,
+          6.5
+        ],
+        "speed": 0.05,
+        "wait": false
+      },
+      {
+        "t": "wait",
+        "ticks": 40
+      },
+      {
+        "t": "lift",
+        "from": [
+          15,
+          0,
+          8
+        ],
+        "to": [
+          25,
+          8,
+          8
+        ],
+        "rise": 8,
+        "ticks": 70
+      },
+      {
+        "t": "pose",
+        "actor": "archon",
+        "pose": 0
+      },
+      {
+        "t": "say",
+        "actor": "inia",
+        "key": "memory.celestial.inia.inia2",
+        "ticks": 80
+      },
+      {
+        "t": "dim",
+        "value": 0.6
+      },
+      {
+        "t": "end",
+        "ticks": 50
+      }
+    ]
+  },
+  "shard_seraph": {
+    "trigger": "boss",
+    "stage": "celestial:memory/seraph_choir",
+    "center": [
+      23,
+      5,
+      23
+    ],
+    "radius": 22,
+    "spawn": [
+      23.5,
+      5,
+      18.5,
+      0
+    ],
+    "sheet": "",
+    "thought": "memory.celestial.shard.seraph.thought",
+    "skippable": true,
+    "actors": [
+      {
+        "id": "c1",
+        "type": "human",
+        "skin": "chorister",
+        "pos": [
+          17.5,
+          5,
+          22.5
+        ],
+        "yaw": 270
+      },
+      {
+        "id": "c2",
+        "type": "human",
+        "skin": "chorister",
+        "pos": [
+          29.5,
+          5,
+          22.5
+        ],
+        "yaw": 90
+      },
+      {
+        "id": "c3",
+        "type": "human",
+        "skin": "chorister",
+        "pos": [
+          23.5,
+          5,
+          28.0
+        ],
+        "yaw": 180
+      }
+    ],
+    "steps": [
+      {
+        "t": "caption",
+        "key": "memory.celestial.shard.seraph.1",
+        "ticks": 80
+      },
+      {
+        "t": "spawn",
+        "actor": {
+          "id": "morning",
+          "type": "human",
+          "skin": "morning_star",
+          "pos": [
+            23.5,
+            5,
+            29.5
+          ],
+          "yaw": 180
+        }
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:end_rod",
+        "pos": [
+          23.5,
+          7,
+          29.5
+        ],
+        "count": 50,
+        "spread": 0.8
+      },
+      {
+        "t": "move",
+        "actor": "morning",
+        "to": [
+          23.5,
+          5,
+          20.5
+        ],
+        "speed": 0.05
+      },
+      {
+        "t": "face",
+        "actor": "morning",
+        "to": "player"
+      },
+      {
+        "t": "say",
+        "actor": "morning",
+        "key": "memory.celestial.seraph.morning",
+        "ticks": 80
+      },
+      {
+        "t": "dim",
+        "value": 0.5
+      },
+      {
+        "t": "say",
+        "actor": "morning",
+        "key": "memory.celestial.shard.seraph.2",
+        "ticks": 70
+      },
+      {
+        "t": "dim",
+        "value": 0.8
+      },
+      {
+        "t": "end",
+        "ticks": 30
+      }
+    ]
+  },
+  "shard_devourer": {
+    "trigger": "boss",
+    "stage": "celestial:memory/void_star",
+    "center": [
+      20,
+      3,
+      20
+    ],
+    "radius": 8,
+    "spawn": [
+      20.5,
+      3,
+      20.5,
+      0
+    ],
+    "sheet": "",
+    "thought": "memory.celestial.shard.devourer.thought",
+    "skippable": true,
+    "actors": [],
+    "steps": [
+      {
+        "t": "dim",
+        "value": 0.35
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.shard.devourer.1",
+        "ticks": 80
+      },
+      {
+        "t": "spawn",
+        "actor": {
+          "id": "morning",
+          "type": "human",
+          "skin": "morning_star",
+          "pos": [
+            20.5,
+            3,
+            11.5
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "t": "face",
+        "actor": "morning",
+        "to": "player"
+      },
+      {
+        "t": "say",
+        "actor": "morning",
+        "key": "memory.celestial.shard.devourer.2",
+        "ticks": 70
+      },
+      {
+        "t": "stars",
+        "ticks": 100,
+        "every": 40,
+        "r": 3,
+        "warn": 60
+      },
+      {
+        "t": "voice",
+        "key": "memory.celestial.shard.devourer.voice",
+        "pos": [
+          20.5,
+          3,
+          20.5
+        ],
+        "ticks": 70
+      },
+      {
+        "t": "dim",
+        "value": 0.9
+      },
+      {
+        "t": "end",
+        "ticks": 30
+      }
+    ]
+  },
+  "shard_archon": {
+    "trigger": "boss",
+    "stage": "celestial:memory/ice_hall",
+    "center": [
+      20,
+      9,
+      20
+    ],
+    "radius": 17,
+    "spawn": [
+      20.5,
+      9,
+      22.5,
+      180
+    ],
+    "sheet": "morning_star",
+    "thought": "memory.celestial.shard.archon.thought",
+    "skippable": true,
+    "actors": [
+      {
+        "id": "inia",
+        "type": "human",
+        "skin": "inia",
+        "pos": [
+          20.5,
+          9,
+          12.5
+        ],
+        "yaw": 0
+      }
+    ],
+    "steps": [
+      {
+        "t": "dim",
+        "value": 0.3
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.shard.archon.1",
+        "ticks": 80
+      },
+      {
+        "t": "voice",
+        "key": "memory.celestial.inia.voice",
+        "pos": [
+          20.5,
+          9,
+          18.0
+        ],
+        "ticks": 90
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:snowflake",
+        "pos": [
+          20.5,
+          10,
+          12.5
+        ],
+        "count": 120,
+        "spread": 1.2,
+        "speed": 0.05
+      },
+      {
+        "t": "move",
+        "actor": "inia",
+        "to": [
+          20.5,
+          9,
+          6.5
+        ],
+        "speed": 0.05,
+        "wait": false
+      },
+      {
+        "t": "wait",
+        "ticks": 40
+      },
+      {
+        "t": "lift",
+        "from": [
+          15,
+          0,
+          8
+        ],
+        "to": [
+          25,
+          8,
+          8
+        ],
+        "rise": 8,
+        "ticks": 70
+      },
+      {
+        "t": "say",
+        "actor": "inia",
+        "key": "memory.celestial.shard.archon.2",
+        "ticks": 80
+      },
+      {
+        "t": "dim",
+        "value": 0.85
+      },
+      {
+        "t": "end",
+        "ticks": 30
+      }
+    ]
+  },
+  "dry_bones": {
+    "stage": "celestial:memory/dry_bones",
+    "center": [
+      23,
+      5,
+      23
+    ],
+    "radius": 21,
+    "spawn": [
+      23.5,
+      5,
+      40.5,
+      180
+    ],
+    "sheet": "dry_bones",
+    "thought": "memory.celestial.bones.thought",
+    "actors": [
+      {
+        "id": "prophet",
+        "type": "human",
+        "skin": "prophet",
+        "pos": [
+          23.5,
+          5,
+          23.5
+        ],
+        "yaw": 0
+      }
+    ],
+    "steps": [
+      {
+        "t": "dim",
+        "value": 0.2
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.bones.1",
+        "ticks": 80
+      },
+      {
+        "t": "near",
+        "pos": [
+          23.5,
+          5,
+          30
+        ],
+        "r": 9,
+        "timeout": 700
+      },
+      {
+        "t": "pose",
+        "actor": "prophet",
+        "pose": 1
+      },
+      {
+        "t": "say",
+        "actor": "prophet",
+        "key": "memory.celestial.bones.prophet",
+        "ticks": 90
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:end_rod",
+        "pos": [
+          23.5,
+          7,
+          23.5
+        ],
+        "count": 120,
+        "spread": 10
+      },
+      {
+        "t": "lift",
+        "from": [
+          0,
+          5,
+          0
+        ],
+        "to": [
+          46,
+          6,
+          46
+        ],
+        "rise": 7,
+        "ticks": 120
+      },
+      {
+        "t": "entity",
+        "burst": "minecraft:end_rod",
+        "type": "celestial:angel",
+        "pos": [
+          17.5,
+          5,
+          18.5
+        ],
+        "yaw": 0
+      },
+      {
+        "t": "entity",
+        "burst": "minecraft:end_rod",
+        "type": "celestial:angel",
+        "pos": [
+          29.5,
+          5,
+          19.5
+        ],
+        "yaw": 20
+      },
+      {
+        "t": "entity",
+        "burst": "minecraft:end_rod",
+        "type": "celestial:angel",
+        "pos": [
+          20.5,
+          5,
+          29.5
+        ],
+        "yaw": 180
+      },
+      {
+        "t": "entity",
+        "burst": "minecraft:end_rod",
+        "type": "celestial:angel",
+        "pos": [
+          27.5,
+          5,
+          27.5
+        ],
+        "yaw": 200
+      },
+      {
+        "t": "pose",
+        "actor": "prophet",
+        "pose": 0
+      },
+      {
+        "t": "dim",
+        "value": 0.0
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.bones.2",
+        "ticks": 90
+      },
+      {
+        "t": "end",
+        "ticks": 40
+      }
+    ]
+  },
+  "jacob_ladder": {
+    "stage": "celestial:memory/jacob",
+    "center": [
+      34,
+      5,
+      20
+    ],
+    "radius": 33,
+    "spawn": [
+      11.5,
+      5,
+      20.5,
+      -90
+    ],
+    "sheet": "jacob_ladder",
+    "thought": "memory.celestial.jacob.thought",
+    "actors": [
+      {
+        "id": "a1",
+        "type": "human",
+        "skin": "host",
+        "pos": [
+          26.5,
+          16,
+          19.5
+        ],
+        "yaw": 270
+      },
+      {
+        "id": "a2",
+        "type": "human",
+        "skin": "host",
+        "pos": [
+          34.5,
+          24,
+          20.5
+        ],
+        "yaw": 270
+      },
+      {
+        "id": "a3",
+        "type": "human",
+        "skin": "host",
+        "pos": [
+          42.5,
+          32,
+          20.5
+        ],
+        "yaw": 90
+      },
+      {
+        "id": "a4",
+        "type": "human",
+        "skin": "host",
+        "pos": [
+          30.5,
+          20,
+          21.0
+        ],
+        "yaw": 90
+      }
+    ],
+    "steps": [
+      {
+        "t": "fly",
+        "on": false
+      },
+      {
+        "t": "dim",
+        "value": 0.3
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.jacob.1",
+        "ticks": 80
+      },
+      {
+        "t": "hint",
+        "key": "memory.celestial.jacob.hint"
+      },
+      {
+        "t": "move",
+        "actor": "a1",
+        "to": [
+          44.5,
+          34,
+          19.5
+        ],
+        "speed": 0.03,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "a2",
+        "to": [
+          18.5,
+          6,
+          20.5
+        ],
+        "speed": 0.03,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "a3",
+        "to": [
+          22.5,
+          12,
+          20.5
+        ],
+        "speed": 0.03,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "a4",
+        "to": [
+          50.5,
+          40,
+          21.0
+        ],
+        "speed": 0.03,
+        "wait": false
+      },
+      {
+        "t": "reach",
+        "pos": [
+          57.5,
+          46,
+          20.5
+        ],
+        "r": 2.5,
+        "timeout": 3000
+      },
+      {
+        "t": "voice",
+        "key": "memory.celestial.jacob.voice",
+        "pos": [
+          57.5,
+          46,
+          20.5
+        ],
+        "ticks": 100
+      },
+      {
+        "t": "dim",
+        "value": 0.0
+      },
+      {
+        "t": "end",
+        "ticks": 40
+      }
+    ]
   }
 }
