@@ -8,6 +8,7 @@ public final class ClientState {
 	private static int fading;
 	private static int act;
 	private static boolean fadingEnabled = true;
+	private static String ending = "";
 
 	private ClientState() {}
 
@@ -16,6 +17,7 @@ public final class ClientState {
 			fading = payload.fading();
 			act = payload.act();
 			fadingEnabled = payload.fadingEnabled();
+			ending = payload.ending();
 		});
 	}
 
@@ -26,5 +28,10 @@ public final class ClientState {
 
 	public static int act() {
 		return act;
+	}
+
+	/** Выбранная концовка Саги: "", kindle, consume, name. */
+	public static String ending() {
+		return ending;
 	}
 }

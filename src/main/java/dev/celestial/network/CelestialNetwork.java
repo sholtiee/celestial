@@ -37,7 +37,8 @@ public final class CelestialNetwork {
 
 	public static void sendWorld(ServerPlayer player, WorldState state) {
 		boolean enabled = player.level().getServer().overworld().getGameRules().get(ModGameRules.FADING);
-		ServerPlayNetworking.send(player, new WorldStatePayload(state.fading(), state.act(), enabled));
+		String ending = state.has("ending_name") ? "name" : state.has("ending_consume") ? "consume" : state.has("ending_kindle") ? "kindle" : "";
+		ServerPlayNetworking.send(player, new WorldStatePayload(state.fading(), state.act(), enabled, ending));
 	}
 
 	public static void broadcastWorld(MinecraftServer server, WorldState state) {

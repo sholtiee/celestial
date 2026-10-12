@@ -4,7 +4,9 @@
 	"compatibilityLevel": "JAVA_25",
 	"client": [
 		"BossMusicMixin",
-		"CameraShakeMixin"
+		"CameraShakeMixin",
+		"SkyRendererMixin",
+		"SkyRendererInvoker"
 	],
 	"injectors": {
 		"defaultRequire": 1

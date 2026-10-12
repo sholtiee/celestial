@@ -1,0 +1,47 @@
+# Небо мода (O5 шаг 5): Рай днём — ореол солнца и звёзды; ночью — полярное сияние на севере; тёмный Рай после «Поглотить»;
+# Астрал — туманности и созвездия хоров (собранные ярко, виденные тускло). Только кадры — проверка глазами.
+/gamemode creative
+/effect clear @s
+/celestial ending reset
+/gamerule advance_time false
+/time set 6000
+/execute in celestial:heaven run tp @s 0.5 260 0.5 0 -60
+fly
+wait 80
+togglehud
+/tp @s 0.5 260 0.5 0 -88
+wait 30
+shot sky_heaven_noon
+/time set 18000
+wait 30
+/tp @s 0.5 260 0.5 180 -20
+wait 30
+shot sky_heaven_aurora
+/tp @s 0.5 260 0.5 90 -50
+wait 10
+shot sky_heaven_night_stars
+/celestial flag add ending_consume
+/time set 6000
+wait 40
+/tp @s 0.5 260 0.5 0 -60
+wait 20
+shot sky_heaven_dark
+/celestial ending reset
+/time set 6000
+/celestial codex choir:angels
+/celestial codex choir:thrones
+/celestial codex constellation:cherubim
+/execute in celestial:astral run tp @s 0.5 130 0.5 30 -40
+wait 60
+shot sky_astral_1
+/tp @s 0.5 130 0.5 160 -25
+wait 20
+shot sky_astral_2
+/tp @s 0.5 130 0.5 10 -42
+wait 20
+shot sky_astral_choir_angels
+/tp @s 0.5 130 0.5 250 -42
+wait 20
+shot sky_astral_choir_thrones
+togglehud
+quit
