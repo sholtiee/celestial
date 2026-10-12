@@ -1,0 +1,113 @@
+# Постройки Хронограда: Часовая башня (вид, подъём по лестнице на арену, нижний зал), шестерни, дом мастера, литейня
+/gamemode spectator
+/effect clear @s
+/clear @s
+/gamerule advance_time false
+/gamerule spawn_monsters false
+/weather clear
+/execute in celestial:chronograd run tp @s 2022 190 2022
+wait 120
+/fill 1990 96 1990 2017 99 2050 minecraft:stone
+/fill 1990 100 1990 2017 115 2050 minecraft:air
+/fill 1990 116 1990 2017 131 2050 minecraft:air
+/fill 1990 132 1990 2017 147 2050 minecraft:air
+/fill 1990 148 1990 2017 163 2050 minecraft:air
+/fill 1990 164 1990 2017 166 2050 minecraft:air
+/fill 2018 96 1990 2045 99 2050 minecraft:stone
+/fill 2018 100 1990 2045 115 2050 minecraft:air
+/fill 2018 116 1990 2045 131 2050 minecraft:air
+/fill 2018 132 1990 2045 147 2050 minecraft:air
+/fill 2018 148 1990 2045 163 2050 minecraft:air
+/fill 2018 164 1990 2045 166 2050 minecraft:air
+/place template celestial:clock_tower/main 2000 99 2000
+wait 60
+/kill @e[type=celestial:clockwork_sentry]
+/kill @e[type=item]
+togglehud
+/tp @s 2016 135 2095 180 12
+wait 40
+shot tower_south
+/tp @s 2075 150 2016 90 15
+wait 10
+shot tower_east
+/tp @s 2016 150 1960 0 15
+wait 10
+shot tower_north
+/tp @s 2016 116 2006 0 10
+wait 10
+shot tower_arena_inside
+/tp @s 2016 102 2027 180 5
+wait 10
+shot tower_hall
+/tp @s 2018 136 2018 225 -10
+wait 10
+shot tower_spire_inside
+togglehud
+# T1 подъём по парадной лестнице пешком: от земли до двери арены
+/say TEST T1 stairs_walk expect=pass
+/gamemode survival
+/effect give @s minecraft:resistance 600 4 true
+/tp @s 2016.5 100 2047.5 180 0
+wait 10
+pos
+hold forward 90
+wait 95
+pos
+/execute if entity @p[x=2010,y=109,z=2010,dx=12,dy=3,dz=20]
+togglehud
+shot tower_climbed
+togglehud
+# T2 нижний зал: вход с севера пешком
+/say TEST T2 hall_walk expect=pass
+/tp @s 2016.5 100 1995.5 0 0
+wait 10
+hold forward 40
+wait 45
+pos
+/execute if entity @p[x=2008,y=99,z=2003,dx=16,dy=3,dz=26]
+/gamemode spectator
+/execute in celestial:chronograd run fill 2060 100 2000 2090 120 2020 minecraft:air
+/execute in celestial:chronograd run fill 2060 99 2000 2090 99 2020 minecraft:stone
+/place template celestial:gear_monument/main1 2068 96 2008
+/tp @s 2079 106 2030 180 5
+wait 20
+togglehud
+shot gear_front
+/tp @s 2098 104 2010 90 5
+wait 10
+shot gear_side
+togglehud
+# в мире: шестерни, дом мастера, литейня, башня
+togglehud
+goto celestial:gear_monument 0 -6 26 180 20
+wait 60
+shot world_gear
+goto celestial:master_house 0 -2 28 180 30
+wait 60
+shot world_house
+goto celestial:master_house 0 -21 2 180 20
+wait 20
+shot world_house_inside
+goto celestial:tubalcain_foundry 0 -2 34 180 25
+wait 60
+shot world_foundry
+goto celestial:tubalcain_foundry 0 -23 3 180 15
+wait 20
+shot world_foundry_inside
+goto celestial:clock_tower 0 -10 80 180 8
+wait 80
+shot world_tower
+togglehud
+# M1 глава «Часы мироздания» (первый вход) даёт карту к Часовой башне
+/say TEST M1 tower_map expect=pass
+/gamemode survival
+/clear @s
+/execute in celestial:chronograd run tp @s 2016 120 1960
+wait 20
+/advancement revoke @s only celestial:story/clockwork
+/advancement grant @s only celestial:story/clockwork
+wait 40
+/execute if entity @p[nbt={Inventory:[{id:"minecraft:filled_map"}]}]
+/clear @s
+/gamemode spectator
+quit

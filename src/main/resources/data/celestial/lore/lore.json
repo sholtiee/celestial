@@ -341,6 +341,30 @@
       ]
     },
     {
+      "id": "city_of_cain",
+      "book": 4,
+      "node": "babel",
+      "art": "city",
+      "src": "place",
+      "has_quote": true,
+      "has_s": false,
+      "has_a": true,
+      "has_t": true,
+      "gloss": []
+    },
+    {
+      "id": "tubal_cain",
+      "book": 4,
+      "node": "babel",
+      "art": "foundry",
+      "src": "tablet",
+      "has_quote": true,
+      "has_s": false,
+      "has_a": true,
+      "has_t": true,
+      "gloss": []
+    },
+    {
       "id": "sun_stood",
       "book": 4,
       "node": "babel",

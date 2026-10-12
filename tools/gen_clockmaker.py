@@ -185,6 +185,11 @@ HEIGHT = 24
 
 
 def arena():
+    return arena_template().save('clock_tower/arena')
+
+
+def arena_template():
+    """Зал под куполом Часовой башни (его же вклеивает целая башня — gen_chrono_places.clock_tower)."""
     t = Template(SIZE, HEIGHT, SIZE)
     t.fill(0, 0, 0, SIZE - 1, HEIGHT - 1, SIZE - 1, 'minecraft:air')
     wall, trim, accent = 'minecraft:deepslate_bricks', 'minecraft:waxed_cut_copper', 'minecraft:waxed_chiseled_copper'
@@ -257,7 +262,7 @@ def arena():
         'type': 'minecraft:chest', 'random_sequence': c('chests/clock_arena_fork'),
         'pools': [{'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': c('tuning_fork')}]}]})
     t.set(CX, 0, CZ, c('clock_seal'), awakened=False, nbt={'id': c('clock_seal')})
-    return t.save('clock_tower/arena')
+    return t
 
 
 # ---------------------------------------------------------------- сюжет

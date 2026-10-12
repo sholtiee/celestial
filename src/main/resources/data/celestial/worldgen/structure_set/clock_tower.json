@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 5500501,
+    "separation": 14,
+    "spacing": 36
+  },
+  "structures": [
+    {
+      "structure": "celestial:clock_tower",
+      "weight": 1
+    }
+  ]
+}

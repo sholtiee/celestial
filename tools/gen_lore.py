@@ -400,6 +400,42 @@ def art_clock(rng):
     return img
 
 
+def art_city(rng):
+    img = gradient('#4a1e0a', '#e08a3a')
+    glow(img, 70, 16, 14, '#ffd88a', 0.8)  # закатное солнце, которое не садится
+    d = ImageDraw.Draw(img)
+    for x0, w, h in ((2, 10, 14), (12, 8, 22), (22, 12, 16), (36, 9, 30), (47, 14, 20), (63, 8, 26), (73, 12, 15), (86, 9, 19)):
+        d.rectangle([x0, 46 - h, x0 + w, 46], fill=rgb('#2a1006'))  # кварталы-башни
+        for wy in range(46 - h + 3, 44, 4):
+            if rng.random() < 0.6:
+                d.point((x0 + 2 + rng.randrange(max(1, w - 3)), wy), fill=rgb('#ffb85a'))  # огни мастерских
+    d.ellipse([39, 12, 47, 20], outline=rgb('#c48e3a'))  # циферблат на высокой башне
+    d.line([(43, 16), (43, 13)], fill=rgb('#c48e3a'))
+    for cx in (18, 56, 80):  # город стоит на шестернях
+        d.ellipse([cx - 9, 42, cx + 9, 60], outline=rgb('#8a5a1c'))
+        for k in range(8):
+            a = k * math.pi / 4
+            d.point((cx + round(math.cos(a) * 10), 51 + round(math.sin(a) * 10)), fill=rgb('#8a5a1c'))
+    return img
+
+
+def art_foundry(rng):
+    img = gradient('#120806', '#5a1e0a')
+    glow(img, 48, 40, 22, '#ff8a2a', 0.9)  # жар горна
+    d = ImageDraw.Draw(img)
+    d.rectangle([30, 34, 66, 40], fill=rgb('#2a2a30'))  # наковальня
+    d.rectangle([40, 40, 56, 48], fill=rgb('#2a2a30'))
+    d.rectangle([34, 48, 62, 52], fill=rgb('#1a1a20'))
+    d.line([(58, 14), (50, 30)], fill=rgb('#6a4a2a'), width=2)  # молот поднят
+    d.rectangle([54, 10, 64, 16], fill=rgb('#4a4a52'))
+    for _ in range(18):  # искры
+        x, y = 48 + rng.randrange(-20, 21), 30 - rng.randrange(0, 22)
+        d.point((x, y), fill=rgb('#ffd060' if rng.random() < 0.5 else '#ff9a3a'))
+    d.ellipse([10, 30, 22, 42], outline=rgb('#c48e3a'))  # отлитая шестерня
+    d.ellipse([74, 26, 88, 40], outline=rgb('#c48e3a'))
+    return img
+
+
 def art_seraph(rng):
     img = gradient('#1a2450', '#f6d98a')
     glow(img, 48, 20, 30, '#fff6d6', 1.0)
@@ -476,7 +512,7 @@ ART = {
     'sword': art_sword, 'altars': art_altars, 'mark': art_mark, 'watchers': art_watchers, 'forge': art_forge, 'giant': art_giant,
     'enoch': art_enoch, 'chains': art_chains, 'abyss': art_abyss, 'star_fall': art_star_fall, 'waters': art_waters, 'flood': art_flood,
     'ark': art_ark, 'dove': art_dove, 'rainbow': art_rainbow, 'archon': art_archon, 'clock': art_clock,
-    'seraph': art_seraph, 'ice_chain': art_ice_chain, 'bones': art_bones, 'ladder': art_ladder,
+    'seraph': art_seraph, 'city': art_city, 'foundry': art_foundry, 'ice_chain': art_ice_chain, 'bones': art_bones, 'ladder': art_ladder,
 }
 
 

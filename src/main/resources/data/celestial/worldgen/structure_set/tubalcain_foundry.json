@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 5500507,
+    "separation": 10,
+    "spacing": 26
+  },
+  "structures": [
+    {
+      "structure": "celestial:tubalcain_foundry",
+      "weight": 1
+    }
+  ]
+}

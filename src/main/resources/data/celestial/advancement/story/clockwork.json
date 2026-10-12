@@ -26,5 +26,10 @@
       "entered"
     ]
   ],
-  "parent": "celestial:story/crown_of_frost"
+  "parent": "celestial:story/crown_of_frost",
+  "rewards": {
+    "loot": [
+      "celestial:gameplay/clock_tower_map"
+    ]
+  }
 }
