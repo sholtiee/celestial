@@ -236,6 +236,7 @@ def features():
 
 
 def biomes():
+    from gen_chrono_mobs import natural_spawns
     MC = 'minecraft:'
     steps = {
         'copper_plains': {6: [c('ore_chronite')], 9: [c('wire_grass_dense'), c('cog_flowers')]},
@@ -252,6 +253,7 @@ def biomes():
         sky, fog = colors[name]
         write_json(os.path.join(WG, 'biome', name + '.json'), {
             'attributes': {'minecraft:visual/sky_color': sky, 'minecraft:visual/fog_color': fog, 'minecraft:visual/water_fog_color': '#8a5a2a',
+                           'minecraft:gameplay/natural_mob_spawns': natural_spawns(name),
                            'minecraft:visual/ambient_particles': {'argument': [{'particle': {'type': c('chrono_haste')}, 'probability': 0.004}],
                                                                   'modifier': 'append'}},
             'carvers': [], 'downfall': 0.0,

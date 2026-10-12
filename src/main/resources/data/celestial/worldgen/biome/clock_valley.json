@@ -3,6 +3,35 @@
     "minecraft:visual/sky_color": "#e09858",
     "minecraft:visual/fog_color": "#d8a868",
     "minecraft:visual/water_fog_color": "#8a5a2a",
+    "minecraft:gameplay/natural_mob_spawns": {
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "monster": [
+            {
+              "type": "celestial:clockwork_sentry",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 2
+              },
+              "weight": 40
+            },
+            {
+              "type": "celestial:brass_doll",
+              "count": 1,
+              "weight": 20
+            },
+            {
+              "type": "celestial:ophanim",
+              "count": 1,
+              "weight": 12
+            }
+          ]
+        }
+      },
+      "modifier": "overlay"
+    },
     "minecraft:visual/ambient_particles": {
       "argument": [
         {

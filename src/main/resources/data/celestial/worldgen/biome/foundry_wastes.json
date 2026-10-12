@@ -3,6 +3,25 @@
     "minecraft:visual/sky_color": "#b85a30",
     "minecraft:visual/fog_color": "#a05a38",
     "minecraft:visual/water_fog_color": "#8a5a2a",
+    "minecraft:gameplay/natural_mob_spawns": {
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "monster": [
+            {
+              "type": "celestial:winder_beetle",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 3,
+                "max_inclusive": 5
+              },
+              "weight": 60
+            }
+          ]
+        }
+      },
+      "modifier": "overlay"
+    },
     "minecraft:visual/ambient_particles": {
       "argument": [
         {

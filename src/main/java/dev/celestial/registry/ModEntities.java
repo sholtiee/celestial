@@ -95,6 +95,17 @@ public final class ModEntities {
 	public static final EntityType<dev.celestial.boss.FrostArchon> FROST_ARCHON = register("frost_archon",
 		EntityType.Builder.of(dev.celestial.boss.FrostArchon::new, MobCategory.MONSTER).fireImmune().sized(1.8F, 4.8F).eyeHeight(4.2F)
 			.clientTrackingRange(16));
+	// Хроноград (волна 0.5)
+	public static final EntityType<dev.celestial.entity.ClockworkSentry> CLOCKWORK_SENTRY = register("clockwork_sentry",
+		EntityType.Builder.of(dev.celestial.entity.ClockworkSentry::new, MobCategory.MONSTER).fireImmune().sized(0.8F, 2.3F).eyeHeight(2.0F).clientTrackingRange(10).notInPeaceful());
+	public static final EntityType<dev.celestial.entity.WinderBeetle> WINDER_BEETLE = register("winder_beetle",
+		EntityType.Builder.of(dev.celestial.entity.WinderBeetle::new, MobCategory.MONSTER).fireImmune().sized(0.7F, 0.5F).eyeHeight(0.3F).clientTrackingRange(8).notInPeaceful());
+	public static final EntityType<dev.celestial.entity.BrassDoll> BRASS_DOLL = register("brass_doll",
+		EntityType.Builder.of(dev.celestial.entity.BrassDoll::new, MobCategory.MONSTER).fireImmune().sized(0.6F, 1.7F).eyeHeight(1.5F).clientTrackingRange(10).notInPeaceful());
+	public static final EntityType<dev.celestial.entity.Ophanim> OPHANIM = register("ophanim",
+		EntityType.Builder.of(dev.celestial.entity.Ophanim::new, MobCategory.MONSTER).fireImmune().sized(1.8F, 1.8F).eyeHeight(0.9F).clientTrackingRange(12).notInPeaceful());
+	public static final EntityType<dev.celestial.entity.ClockworkHorse> CLOCKWORK_HORSE = register("clockwork_horse",
+		EntityType.Builder.of(dev.celestial.entity.ClockworkHorse::new, MobCategory.CREATURE).fireImmune().sized(1.3F, 1.6F).eyeHeight(1.5F).clientTrackingRange(10));
 	public static final EntityType<dev.celestial.boss.Clockmaker> CLOCKMAKER = register("clockmaker",
 		EntityType.Builder.of(dev.celestial.boss.Clockmaker::new, MobCategory.MONSTER).fireImmune().sized(2.2F, 4.4F).eyeHeight(3.8F)
 			.clientTrackingRange(16));
@@ -191,6 +202,19 @@ public final class ModEntities {
 		FabricDefaultAttributeRegistry.register(MEMORY_SERPENT, dev.celestial.memory.MemoryActor.createAttributes());
 		FabricDefaultAttributeRegistry.register(ICE_GUARDIAN, dev.celestial.entity.IceGuardian.createAttributes());
 		FabricDefaultAttributeRegistry.register(ICE_WOLF, dev.celestial.entity.IceWolf.createAttributes());
+		FabricDefaultAttributeRegistry.register(CLOCKWORK_SENTRY, dev.celestial.entity.ClockworkSentry.createAttributes());
+		FabricDefaultAttributeRegistry.register(WINDER_BEETLE, dev.celestial.entity.WinderBeetle.createAttributes());
+		FabricDefaultAttributeRegistry.register(BRASS_DOLL, dev.celestial.entity.BrassDoll.createAttributes());
+		FabricDefaultAttributeRegistry.register(OPHANIM, dev.celestial.entity.Ophanim.createAttributes());
+		FabricDefaultAttributeRegistry.register(CLOCKWORK_HORSE, dev.celestial.entity.ClockworkHorse.createAttributes());
+		// механоидам свет не помеха: в Хронограде вечный закат
+		SpawnPlacements.register(CLOCKWORK_SENTRY, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkAnyLightMonsterSpawnRules);
+		SpawnPlacements.register(WINDER_BEETLE, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkAnyLightMonsterSpawnRules);
+		SpawnPlacements.register(BRASS_DOLL, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkAnyLightMonsterSpawnRules);
+		SpawnPlacements.register(OPHANIM, SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING,
+			(type, level, reason, pos, random) -> level.getBlockState(pos).isAir() && level.getBlockState(pos.above()).isAir());
+		SpawnPlacements.register(CLOCKWORK_HORSE, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+			(type, level, reason, pos, random) -> level.getBlockState(pos.below()).isSolid());
 		SpawnPlacements.register(ICE_GUARDIAN, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
 		SpawnPlacements.register(ICE_WOLF, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
 			(type, level, reason, pos, random) -> level.getBlockState(pos.below()).isSolid());

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": "minecraft:copper_ingot",
+    "X": "celestial:chronite_ingot"
+  },
+  "pattern": [
+    " C",
+    "X "
+  ],
+  "result": {
+    "id": "celestial:wind_key"
+  }
+}

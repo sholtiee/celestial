@@ -3,7 +3,7 @@
 # затем MSPT и количество выживших. Ищем краши, исключения, лаги, размножение/исчезновение.
 # Запуск: tools/qa/fuzz_server.sh  → лог build/fuzz.log, сводка в stdout
 cd "$(dirname "$0")/../.."
-ENTS="fallen_guardian storm_spirit winged_serpent cloud_whale light_wisp angel pegasus fallen_seraph cherub golden_ram sky_ray cloud_jelly mimic storm_elemental shadow blind_hunter light_eater deep_worm frost_wraith light_devourer ice_guardian ice_wolf frost_archon clockmaker faceless inia archangel gate_cherub dove nephilim chained_watcher"
+ENTS="fallen_guardian storm_spirit winged_serpent cloud_whale light_wisp angel pegasus fallen_seraph cherub golden_ram sky_ray cloud_jelly mimic storm_elemental shadow blind_hunter light_eater deep_worm frost_wraith light_devourer ice_guardian ice_wolf frost_archon clockwork_sentry winder_beetle brass_doll ophanim clockwork_horse clockmaker faceless inia archangel gate_cherub dove nephilim chained_watcher"
 ARGS=()
 yfor() { case $1 in minecraft:overworld) echo 100;; celestial:heaven) echo 150;; celestial:abyss) echo 70;; celestial:astral) echo 110;; *) echo 120;; esac; }  # bash 3.2: без ассоц. массивов
 X=0

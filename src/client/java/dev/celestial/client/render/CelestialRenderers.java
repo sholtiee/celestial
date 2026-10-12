@@ -47,6 +47,7 @@ public final class CelestialRenderers {
 		ModModelLayers.init();
 		AbyssRenderers.init();
 		FrozenRenderers.init();
+		ChronoRenderers.init();
 		ArchonRenderer.init();
 		ClockmakerRenderer.init();
 		FacelessRenderer.init();

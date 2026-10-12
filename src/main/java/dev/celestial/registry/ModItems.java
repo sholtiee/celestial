@@ -129,6 +129,8 @@ public final class ModItems {
 	// Морозная сталь
 	public static final Item RAW_CHRONITE = register("raw_chronite", Item::new, new Item.Properties());
 	public static final Item CHRONITE_INGOT = register("chronite_ingot", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON), "chronite_ingot", 1));
+	public static final Item WIND_KEY = register("wind_key", Item::new, lore(new Item.Properties().durability(48), "wind_key", 2));
+	public static final Item OPHANIM_EYE = register("ophanim_eye", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON), "ophanim_eye", 1));
 	public static final Item CHRONITE_SWORD = register("chronite_sword", Item::new, new Item.Properties().sword(CHRONITE_TOOL, 3.0F, -2.4F));
 	public static final Item CHRONITE_PICKAXE = register("chronite_pickaxe", Item::new, new Item.Properties().pickaxe(CHRONITE_TOOL, 1.0F, -2.8F));
 	public static final Item CHRONITE_AXE = register("chronite_axe", Item::new, new Item.Properties().axe(CHRONITE_TOOL, 5.0F, -3.0F));

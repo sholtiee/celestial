@@ -49,6 +49,8 @@ wait 10
 /execute if entity @e[type=celestial:clockmaker,nbt={Phase:2}]
 /execute store result score #sp0 t run attribute @s minecraft:movement_speed get 1000
 wait 268
+/say TEST K3b beetles_summoned expect=pass
+/execute if entity @e[type=celestial:winder_beetle,tag=celestial_no_repel]
 shot clock_tick_tock
 wait 34
 /execute store result score #sp1 t run attribute @s minecraft:movement_speed get 1000
@@ -61,6 +63,7 @@ wait 60
 /execute store result score #sp2 t run attribute @s minecraft:movement_speed get 1000
 /say TEST K5 time_resumes expect=pass
 /execute if score #sp2 t = #sp0 t
+/kill @e[type=celestial:winder_beetle]
 # фаза 3: маятники перезаведены, здоровье не падает ниже 15%
 /data merge entity @e[type=celestial:clockmaker,limit=1] {Health:250.0f}
 wait 20

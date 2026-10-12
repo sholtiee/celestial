@@ -20,7 +20,7 @@ public class CodexScreen extends Screen {
 	private enum Tab { SAGA, GRACE, STARS, BESTIARY, PLACES, GUIDE, LORE }
 
 	private static final String[] MOBS = {"fallen_guardian", "storm_spirit", "winged_serpent", "cloud_whale", "light_wisp", "angel", "pegasus",
-		"cherub", "golden_ram", "sky_ray", "cloud_jelly", "mimic", "storm_elemental", "fallen_seraph", "shadow", "blind_hunter", "light_eater", "deep_worm", "light_devourer", "frost_wraith", "ice_guardian", "ice_wolf", "frost_archon", "inia", "clockmaker", "faceless", "archangel", "nephilim", "chained_watcher", "dove"};
+		"cherub", "golden_ram", "sky_ray", "cloud_jelly", "mimic", "storm_elemental", "fallen_seraph", "shadow", "blind_hunter", "light_eater", "deep_worm", "light_devourer", "frost_wraith", "ice_guardian", "ice_wolf", "frost_archon", "inia", "clockwork_sentry", "winder_beetle", "brass_doll", "ophanim", "clockwork_horse", "clockmaker", "faceless", "archangel", "nephilim", "chained_watcher", "dove"};
 	private static final String[] PLACES = {"sky_village", "sky_ruins", "trial_tower", "beam_temple", "cloud_castle", "sky_lighthouse",
 		"airship_wreck", "citadel", "meteor_crater", "observatory", "flame_sanctuary", "void_rift", "abyss_rift", "abyss", "sunken_temple", "devourer_lair", "frozen_citadel", "mirror_maze", "angel_camp", "memory_shrine", "echo_sanctum", "eden_garden", "watchers_prison", "frozen_ark", "burning_bush_shrine", "eden_trace", "two_altars", "bone_valley", "jacob_stone"};
 	private static final String[] PUZZLES = {"bells", "star_tiles", "riddle", "star_lock", "memory", "echo", "glacier", "mirror_maze"};

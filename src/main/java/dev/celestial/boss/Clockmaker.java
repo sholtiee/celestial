@@ -23,6 +23,7 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -182,6 +183,8 @@ public class Clockmaker extends Monster {
 				warn(level, fighters);
 			} else if (t == 0 && clock != phase2Start) {
 				stopTime(level, fighters);
+			} else if (t == STOP_EVERY / 2) {
+				summonBeetles(level);
 			}
 			if (warning() > 0) {
 				entityData.set(WARN, warning() - 1);
@@ -288,6 +291,24 @@ public class Clockmaker extends Monster {
 		level.sendParticles(ModParticles.CHRONO_LAG, getX(), getY() + 1, getZ(), 120, ARENA / 2, 1.5, ARENA / 2, 0.0);
 		for (ServerPlayer p : fighters) {
 			rollGears(level, p, 2);
+		}
+	}
+
+	/** Ф2+: из-под циферблата выбегают подзаведённые жуки-заводняки (не больше 6 живых на арене). */
+	private void summonBeetles(ServerLevel level) {
+		int alive = level.getEntitiesOfClass(dev.celestial.entity.WinderBeetle.class, getBoundingBox().inflate(ARENA + 4)).size();
+		for (int i = alive; i < Math.min(6, alive + 3); i++) {
+			dev.celestial.entity.WinderBeetle beetle = dev.celestial.registry.ModEntities.WINDER_BEETLE.create(level, EntitySpawnReason.MOB_SUMMONED);
+			if (beetle == null) {
+				continue;
+			}
+			double a = random.nextDouble() * Math.PI * 2;
+			double r = 3 + random.nextDouble() * (ARENA - 5);
+			beetle.snapTo(home.getX() + 0.5 + Math.cos(a) * r, home.getY() + 1, home.getZ() + 0.5 + Math.sin(a) * r, (float) Math.toDegrees(a), 0);
+			beetle.addTag(dev.celestial.world.abyss.Darkness.NO_REPEL);
+			beetle.windUp(dev.celestial.entity.WinderBeetle.WOUND_TICKS);
+			level.addFreshEntity(beetle);
+			level.sendParticles(ParticleTypes.SMOKE, beetle.getX(), beetle.getY() + 0.3, beetle.getZ(), 8, 0.2, 0.1, 0.2, 0.02);
 		}
 	}
 

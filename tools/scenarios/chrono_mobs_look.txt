@@ -1,0 +1,45 @@
+# Существа Хронограда: внешний вид, светящиеся слои, седло коня, наводка офанима
+/gamemode creative
+/effect clear @s
+/gamerule spawn_monsters false
+/gamerule advance_time false
+/execute in celestial:chronograd run tp @s 1001 121 992 0 12
+fly
+wait 100
+/execute in celestial:chronograd run fill 990 119 990 1012 119 1012 celestial:chronite_bricks
+/execute in celestial:chronograd run fill 990 120 990 1012 130 1012 minecraft:air
+/execute in celestial:chronograd run tp @s 1001 121 992 0 12
+wait 80
+/kill @e[type=!minecraft:player,distance=..40]
+/kill @e[type=item]
+/summon celestial:clockwork_sentry 996 120 1000 {NoAI:1b,Rotation:[200f,0f]}
+/summon celestial:clockwork_sentry 999 120 1003 {NoAI:1b,Rewind:600,Rotation:[180f,0f]}
+/summon celestial:winder_beetle 1001 120 997 {NoAI:1b,Rotation:[160f,0f]}
+/summon celestial:winder_beetle 1002 120 998 {NoAI:1b,Wound:600,Rotation:[220f,0f]}
+/summon celestial:brass_doll 1003 120 1000 {NoAI:1b,Rotation:[170f,0f]}
+/summon celestial:ophanim 1001 123 1004 {NoAI:1b,Rotation:[180f,0f]}
+/summon celestial:clockwork_horse 1006 120 999 {NoAI:1b,Rotation:[120f,0f]}
+/summon celestial:clockwork_horse 1008 120 1003 {NoAI:1b,Wind:6000,Tame:1b,Rotation:[230f,0f],equipment:{saddle:{id:"minecraft:saddle",count:1}}}
+wait 40
+togglehud
+shot chrono_mobs_wide
+/tp @s 998 121.5 997 30 20
+wait 10
+shot chrono_sentry_close
+/tp @s 996.5 121.5 1006 175 15
+wait 10
+shot chrono_sentry_back
+/tp @s 1002 121 995.5 12 40
+wait 10
+shot chrono_beetles_close
+/tp @s 1004 121.2 998 20 10
+wait 10
+shot chrono_doll_close
+/tp @s 1001 123 1000.5 0 -5
+wait 10
+shot chrono_ophanim_close
+/tp @s 1003 121.8 996.5 305 15
+wait 10
+shot chrono_horses_close
+togglehud
+quit

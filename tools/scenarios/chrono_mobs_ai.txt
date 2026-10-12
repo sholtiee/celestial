@@ -1,0 +1,119 @@
+# Поведение существ Хронограда: часовой заводится и уязвим, жук подзаводится у маятника, кукла идёт по следам, офаним бьёт лучом, конь заводится ключом
+/gamemode creative
+/effect clear @s
+/clear @s
+/gamerule spawn_monsters false
+/gamerule advance_time false
+/scoreboard objectives add t dummy
+/execute in celestial:chronograd run tp @s 1001 121 992 0 0
+fly
+wait 100
+/execute in celestial:chronograd run fill 980 119 980 1030 119 1030 celestial:chronite_bricks
+/execute in celestial:chronograd run fill 980 120 980 1030 126 1030 minecraft:air
+/execute in celestial:chronograd run tp @s 1001 120 992 0 0
+wait 80
+/kill @e[type=!minecraft:player,distance=..80]
+/kill @e[type=item]
+# S1 часовой в бою спускает завод и встаёт заводиться
+/say TEST S1 sentry_rewinds expect=pass
+/gamemode survival
+/effect give @s minecraft:resistance 900 4 true
+/summon celestial:clockwork_sentry 1001 120 998 {Wind:6,Tags:["s1"]}
+wait 40
+/execute store result score #r t run data get entity @e[tag=s1,limit=1] Rewind
+/execute if score #r t matches 1..
+/kill @e[tag=s1]
+/gamemode creative
+# S2 во время завода урон ×1.75 (10 → 17,5; magic мимо брони)
+/say TEST S2 sentry_vulnerable expect=pass
+/summon celestial:clockwork_sentry 1005 120 998 {NoAI:1b,Rewind:600,Tags:["s2"]}
+wait 5
+/damage @e[tag=s2,limit=1] 10 minecraft:magic
+wait 5
+/execute if entity @e[tag=s2,nbt={Health:26.5f}]
+/kill @e[tag=s2]
+# B1 жук у качающегося маятника подзаводится, вдали — нет
+/say TEST B1 beetle_winds expect=pass,pass
+/setblock 990 120 1010 celestial:heavy_pendulum
+/summon celestial:winder_beetle 991 120 1012 {Tags:["bn"]}
+/summon celestial:winder_beetle 1025 120 1025 {Tags:["bf"]}
+wait 50
+/execute store result score #w t run data get entity @e[tag=bn,limit=1] Wound
+/execute if score #w t matches 1..
+/execute if entity @e[tag=bf,nbt={Wound:0}]
+togglehud
+/tp @s 993 121 1007 20 25
+wait 5
+shot beetle_wound
+togglehud
+/kill @e[tag=bn]
+/kill @e[tag=bf]
+/setblock 990 120 1010 minecraft:air
+# D1 кукла повторяет путь: игрок проходит 4 блока и встаёт — кукла приходит туда же по его следам
+/say TEST D1 doll_follows expect=pass
+/tp @s 1001 120 992 0 0
+/gamemode survival
+/summon celestial:brass_doll 1001 120 986 {Rotation:[0f,0f],Tags:["d"]}
+wait 20
+hold forward 25
+wait 30
+pos
+wait 90
+/execute as @p at @s if entity @e[tag=d,distance=..2.5]
+/kill @e[tag=d]
+/gamemode creative
+# O1 офаним наводит луч и бьёт: на игроке замедление
+/say TEST O1 ophanim_beam expect=pass
+/effect clear @s minecraft:slowness
+/tp @s 1001 120 992 0 0
+/gamemode survival
+/summon celestial:ophanim 1001 124 1002 {Tags:["o"]}
+wait 70
+wait 80
+/execute if entity @p[nbt={active_effects:[{id:"minecraft:slowness"}]}]
+/kill @e[tag=o]
+/gamemode creative
+/effect clear @s minecraft:slowness
+# H1 дикий конь без ключа не седлается; ключ приручает и заводит
+/say TEST H1 horse_key expect=pass,pass,pass
+/kill @e[type=item]
+/clear @s
+/summon celestial:clockwork_horse 1001 120 996 {Tags:["h"],Rotation:[0f,0f]}
+/tp @s 1001 120 994 0 20
+/gamemode survival
+wait 10
+interact celestial:clockwork_horse
+wait 10
+/execute if entity @e[tag=h,nbt={Tame:0b}]
+/give @s celestial:wind_key
+wait 5
+interact celestial:clockwork_horse
+wait 10
+/execute if entity @e[tag=h,nbt={Tame:1b}]
+/execute store result score #k t run data get entity @e[tag=h,limit=1] Wind
+/execute if score #k t matches 6000..
+# H2 с заводом бежит быстро, без завода плетётся (сравнить pos)
+/say TEST H2 horse_speed (сравнить pos в логе)
+/item replace entity @e[tag=h,limit=1] saddle with minecraft:saddle
+/tp @e[tag=h] 985 120 985 0 0
+/tp @s 985 120 985 0 0
+/ride @s mount @e[tag=h,limit=1]
+wait 10
+pos
+hold forward 40
+wait 45
+pos
+/ride @s dismount
+/data merge entity @e[tag=h,limit=1] {Wind:0}
+/tp @e[tag=h] 995 120 985 0 0
+/tp @s 995 120 985 0 0
+/ride @s mount @e[tag=h,limit=1]
+wait 10
+pos
+hold forward 40
+wait 45
+pos
+/ride @s dismount
+/kill @e[tag=h]
+/gamemode creative
+quit
