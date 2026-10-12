@@ -37,7 +37,7 @@ public class HourglassItem extends Item {
 			}
 			stack.hurtAndBreak(1, player, hand.asEquipmentSlot());
 		}
-		player.getCooldowns().addCooldown(stack, COOLDOWN);
+		player.getCooldowns().addCooldown(stack, ChronoGear.cooldown(player, COOLDOWN));
 		return InteractionResult.SUCCESS;
 	}
 }

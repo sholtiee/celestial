@@ -35,7 +35,7 @@ public class GearOfEternityItem extends Item {
 					player.getZ() + Math.sin(a) * TimeFlow.AURA_RADIUS, 1, 0, 0.1, 0, 0.0);
 			}
 		}
-		player.getCooldowns().addCooldown(stack, COOLDOWN);
+		player.getCooldowns().addCooldown(stack, ChronoGear.cooldown(player, COOLDOWN));
 		return InteractionResult.SUCCESS;
 	}
 }

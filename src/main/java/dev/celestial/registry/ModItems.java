@@ -65,6 +65,15 @@ public final class ModItems {
 		Map.of(ArmorType.BOOTS, 3, ArmorType.LEGGINGS, 6, ArmorType.CHESTPLATE, 8, ArmorType.HELMET, 3, ArmorType.BODY, 11),
 		20, SoundEvents.ARMOR_EQUIP_IRON, 2.0F, 0.05F, REPAIRS_FROST_ARMOR, FROST_ASSET);
 
+	/** Хронит (0.5): чуть выше Морозной стали; полный комплект сокращает откат реликвий на четверть ({@link dev.celestial.chrono.ChronoGear}). */
+	public static final TagKey<Item> CHRONITE_TOOL_MATERIALS = TagKey.create(Registries.ITEM, Celestial.id("chronite_tool_materials"));
+	public static final TagKey<Item> REPAIRS_CHRONITE_ARMOR = TagKey.create(Registries.ITEM, Celestial.id("repairs_chronite_armor"));
+	public static final ResourceKey<EquipmentAsset> CHRONITE_ASSET = ResourceKey.create(EquipmentAssets.ROOT_ID, Celestial.id("chronite"));
+	public static final ToolMaterial CHRONITE_TOOL = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 1900, 9.5F, 3.5F, 18, CHRONITE_TOOL_MATERIALS);
+	public static final ArmorMaterial CHRONITE_ARMOR = new ArmorMaterial(33,
+		Map.of(ArmorType.BOOTS, 3, ArmorType.LEGGINGS, 6, ArmorType.CHESTPLATE, 8, ArmorType.HELMET, 3, ArmorType.BODY, 11),
+		18, SoundEvents.ARMOR_EQUIP_IRON, 2.5F, 0.05F, REPAIRS_CHRONITE_ARMOR, CHRONITE_ASSET);
+
 	// Материалы
 	public static final Item RAW_FROST_STEEL = register("raw_frost_steel", Item::new, new Item.Properties());
 	public static final Item FROST_STEEL_INGOT = register("frost_steel_ingot", Item::new, new Item.Properties());
@@ -118,6 +127,16 @@ public final class ModItems {
 	public static final Item ETHERITE_HOE = register("etherite_hoe", Item::new, new Item.Properties().hoe(ETHERITE_TOOL, -3.0F, 0.0F));
 
 	// Морозная сталь
+	public static final Item RAW_CHRONITE = register("raw_chronite", Item::new, new Item.Properties());
+	public static final Item CHRONITE_INGOT = register("chronite_ingot", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON), "chronite_ingot", 1));
+	public static final Item CHRONITE_SWORD = register("chronite_sword", Item::new, new Item.Properties().sword(CHRONITE_TOOL, 3.0F, -2.4F));
+	public static final Item CHRONITE_PICKAXE = register("chronite_pickaxe", Item::new, new Item.Properties().pickaxe(CHRONITE_TOOL, 1.0F, -2.8F));
+	public static final Item CHRONITE_AXE = register("chronite_axe", Item::new, new Item.Properties().axe(CHRONITE_TOOL, 5.0F, -3.0F));
+	public static final Item CHRONITE_SHOVEL = register("chronite_shovel", Item::new, new Item.Properties().shovel(CHRONITE_TOOL, 1.5F, -3.0F));
+	public static final Item CHRONITE_HELMET = register("chronite_helmet", Item::new, lore(new Item.Properties().humanoidArmor(CHRONITE_ARMOR, ArmorType.HELMET), "chronite_set", 1));
+	public static final Item CHRONITE_CHESTPLATE = register("chronite_chestplate", Item::new, lore(new Item.Properties().humanoidArmor(CHRONITE_ARMOR, ArmorType.CHESTPLATE), "chronite_set", 1));
+	public static final Item CHRONITE_LEGGINGS = register("chronite_leggings", Item::new, lore(new Item.Properties().humanoidArmor(CHRONITE_ARMOR, ArmorType.LEGGINGS), "chronite_set", 1));
+	public static final Item CHRONITE_BOOTS = register("chronite_boots", Item::new, lore(new Item.Properties().humanoidArmor(CHRONITE_ARMOR, ArmorType.BOOTS), "chronite_set", 1));
 	public static final Item FROST_SWORD = register("frost_steel_sword", Item::new, new Item.Properties().sword(FROST_TOOL, 3.0F, -2.4F));
 	public static final Item FROST_PICKAXE = register("frost_steel_pickaxe", Item::new, new Item.Properties().pickaxe(FROST_TOOL, 1.0F, -2.8F));
 	public static final Item FROST_AXE = register("frost_steel_axe", Item::new, new Item.Properties().axe(FROST_TOOL, 5.0F, -3.0F));

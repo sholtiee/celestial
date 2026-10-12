@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": "minecraft:copper_ingot",
+    "K": "minecraft:clock"
+  },
+  "pattern": [
+    "CCC",
+    "CKC",
+    "CCC"
+  ],
+  "result": {
+    "id": "celestial:chronite_bricks",
+    "count": 8
+  }
+}

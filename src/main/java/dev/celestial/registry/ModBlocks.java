@@ -370,6 +370,27 @@ public final class ModBlocks {
 			.pushReaction(PushReaction.POPPED).lightLevel(s -> light));
 	}
 
+	// ── Хроноград (0.5): камень, почва, руда хронита, растения, портал «Часовые врата» ──
+	public static final Block CHRONITE_STONE = register("chronite_stone", Block::new,
+		Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE).requiresCorrectToolForDrops().strength(2.0F, 6.0F).sound(SoundType.TUFF));
+	public static final Block CHRONITE_BRICKS = register("chronite_bricks", Block::new,
+		Properties.ofFullCopy(CHRONITE_STONE).sound(SoundType.TUFF_BRICKS));
+	public static final Block CHRONITE_ORE = register("chronite_ore", p -> new DropExperienceBlock(UniformInt.of(3, 7), p),
+		Properties.ofFullCopy(CHRONITE_STONE).strength(4.5F, 6.0F));
+	public static final Block BRASS_SOIL = register("brass_soil", Block::new,
+		Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(0.6F).sound(SoundType.ROOTED_DIRT));
+	public static final Block SLAG = register("slag", Block::new,
+		Properties.of().mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(1.5F, 4.0F).sound(SoundType.BASALT));
+	public static final Block WIRE_GRASS = register("wire_grass", net.minecraft.world.level.block.BushBlock::new,
+		Properties.of().mapColor(MapColor.COLOR_ORANGE).noCollision().instabreak().sound(SoundType.CHAIN).replaceable()
+			.offsetType(net.minecraft.world.level.block.state.BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.POPPED));
+	public static final Block COG_FLOWER = register("cog_flower", net.minecraft.world.level.block.BushBlock::new,
+		Properties.of().mapColor(MapColor.GOLD).noCollision().instabreak().sound(SoundType.COPPER).lightLevel(s -> 5)
+			.offsetType(net.minecraft.world.level.block.state.BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.POPPED));
+	public static final Block CHRONO_PORTAL = registerNoItem("chrono_portal",
+		p -> new dev.celestial.world.portal.CelestialPortalBlock(() -> dev.celestial.world.portal.PortalTypes.CHRONO, p),
+		Properties.of().noCollision().strength(-1.0F).sound(SoundType.GLASS).lightLevel(s -> 11).pushReaction(PushReaction.IMMOVEABLE).noLootTable());
+
 	// ── Хроноград (0.5): маятники — зоны иного хода времени ──
 	public static final Block SWIFT_PENDULUM = register("swift_pendulum",
 		p -> new dev.celestial.chrono.PendulumBlock(dev.celestial.chrono.TimeFlow.FAST, 16, p),

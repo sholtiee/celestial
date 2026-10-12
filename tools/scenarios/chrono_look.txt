@@ -1,0 +1,49 @@
+# Хроноград (S4.1–S4.2): Часовые врата (хронитовые кирпичи + Ледяная Корона) → прибытие; облёт измерения: равнины, плато, каньоны с лавой.
+/gamemode creative
+/effect clear @s
+/clear @s
+/execute in minecraft:overworld run tp @s 35093 140 -293
+fly
+wait 60
+/execute in minecraft:overworld run fill 35090 120 -300 35110 135 -280 minecraft:air
+/execute in minecraft:overworld run fill 35096 119 -296 35099 119 -296 minecraft:stone
+/execute in minecraft:overworld run fill 35096 120 -296 35099 124 -296 celestial:chronite_bricks
+/execute in minecraft:overworld run fill 35097 121 -296 35098 123 -296 minecraft:air
+/execute in minecraft:overworld run tp @s 35097 121 -292 180 0
+wait 10
+/item replace entity @s weapon.mainhand with celestial:ice_crown
+use 35097 120 -296 up
+wait 20
+/scoreboard objectives add t dummy
+/say TEST G1 gate_lit expect=pass
+/execute in minecraft:overworld if block 35097 121 -296 celestial:chrono_portal
+togglehud
+shot chrono_gate
+togglehud
+/execute in minecraft:overworld run tp @s 35097 121 -296
+wait 160
+pos
+/say TEST G2 arrived_in_chronograd expect=pass
+/execute in celestial:chronograd if entity @s[x=-100000,y=0,z=-100000,dx=200000,dy=300,dz=200000]
+togglehud
+shot chrono_arrival
+/execute in celestial:chronograd run tp @s 0 150 0 0 25
+wait 120
+shot chrono_n
+/tp @s 0 150 0 90 25
+wait 40
+shot chrono_w
+/tp @s 0 150 0 180 25
+wait 40
+shot chrono_s
+/tp @s 0 150 0 270 25
+wait 40
+shot chrono_e
+/tp @s 300 170 300 45 40
+wait 140
+shot chrono_far1
+/tp @s -300 170 300 135 40
+wait 140
+shot chrono_far2
+togglehud
+quit

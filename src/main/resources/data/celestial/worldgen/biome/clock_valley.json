@@ -1,0 +1,45 @@
+{
+  "attributes": {
+    "minecraft:visual/sky_color": "#e09858",
+    "minecraft:visual/fog_color": "#d8a868",
+    "minecraft:visual/water_fog_color": "#8a5a2a",
+    "minecraft:visual/ambient_particles": {
+      "argument": [
+        {
+          "particle": {
+            "type": "celestial:chrono_haste"
+          },
+          "probability": 0.004
+        }
+      ],
+      "modifier": "append"
+    }
+  },
+  "carvers": [],
+  "downfall": 0.0,
+  "effects": {
+    "grass_color": "#c8843a",
+    "foliage_color": "#b87430",
+    "water_color": "#b8743a"
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "celestial:ore_chronite"
+    ],
+    [],
+    [],
+    [
+      "celestial:wire_grass_sparse",
+      "celestial:cog_flowers"
+    ],
+    []
+  ],
+  "has_precipitation": false,
+  "temperature": 1.2
+}

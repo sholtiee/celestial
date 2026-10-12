@@ -1,0 +1,131 @@
+{
+  "type": "minecraft:add",
+  "left": {
+    "type": "minecraft:interpolated",
+    "cell_size_xz": 4,
+    "cell_size_y": 4,
+    "input": {
+      "type": "minecraft:add",
+      "left": {
+        "type": "minecraft:max",
+        "left": {
+          "type": "minecraft:add",
+          "left": {
+            "type": "minecraft:add",
+            "left": {
+              "type": "minecraft:add",
+              "left": {
+                "type": "minecraft:gradient",
+                "axis": "y",
+                "from_coordinate": 58,
+                "from_value": 1.0,
+                "to_coordinate": 92,
+                "to_value": -1.0
+              },
+              "right": {
+                "type": "minecraft:mul",
+                "left": {
+                  "type": "minecraft:noise",
+                  "noise": "celestial:chrono_continent",
+                  "xz_scale": 1.0,
+                  "y_scale": 0.0
+                },
+                "right": 0.35
+              }
+            },
+            "right": {
+              "type": "minecraft:mul",
+              "left": {
+                "type": "minecraft:noise",
+                "noise": "celestial:chrono_rough",
+                "xz_scale": 1.0,
+                "y_scale": 0.0
+              },
+              "right": 0.05
+            }
+          },
+          "right": -0.05
+        },
+        "right": {
+          "type": "minecraft:add",
+          "left": -1.0,
+          "right": {
+            "type": "minecraft:mul",
+            "left": {
+              "type": "minecraft:clamp",
+              "input": {
+                "type": "minecraft:mul",
+                "left": {
+                  "type": "minecraft:add",
+                  "left": {
+                    "type": "minecraft:noise",
+                    "noise": "celestial:chrono_city",
+                    "xz_scale": 1.0,
+                    "y_scale": 0.0
+                  },
+                  "right": -0.28
+                },
+                "right": 7.0
+              },
+              "min": 0.0,
+              "max": 1.0
+            },
+            "right": {
+              "type": "minecraft:add",
+              "left": {
+                "type": "minecraft:add",
+                "left": {
+                  "type": "minecraft:gradient",
+                  "axis": "y",
+                  "from_coordinate": 88,
+                  "from_value": 2.0,
+                  "to_coordinate": 100,
+                  "to_value": -2.0
+                },
+                "right": {
+                  "type": "minecraft:mul",
+                  "left": {
+                    "type": "minecraft:noise",
+                    "noise": "celestial:chrono_city_top",
+                    "xz_scale": 1.0,
+                    "y_scale": 0.0
+                  },
+                  "right": 0.25
+                }
+              },
+              "right": 1.0
+            }
+          }
+        }
+      },
+      "right": {
+        "type": "minecraft:mul",
+        "left": {
+          "type": "minecraft:max",
+          "left": {
+            "type": "minecraft:add",
+            "left": 0.06,
+            "right": {
+              "type": "minecraft:mul",
+              "left": {
+                "type": "minecraft:abs",
+                "input": {
+                  "type": "minecraft:noise",
+                  "noise": "celestial:chrono_canyon",
+                  "xz_scale": 1.0,
+                  "y_scale": 0.0
+                }
+              },
+              "right": -1.0
+            }
+          },
+          "right": 0.0
+        },
+        "right": -26.0
+      }
+    }
+  },
+  "right": {
+    "type": "minecraft:beardifier"
+  }
+}

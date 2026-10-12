@@ -14,6 +14,19 @@ import net.minecraft.world.level.gameevent.GameEvent;
 public final class PortalActivation {
 	private PortalActivation() {}
 
+	/**
+	 * Порталы, чьи ключи — обычные реликвии (Ледяная Корона, Шестерня Вечности), а не предметы со своим useOn: зажигаем кликом по рамке.
+	 */
+	public static void init() {
+		net.fabricmc.fabric.api.event.player.UseBlockCallback.EVENT.register((player, level, hand, hit) -> {
+			var stack = player.getItemInHand(hand);
+			if (!stack.is(dev.celestial.registry.ModItems.ICE_CROWN) && !stack.is(dev.celestial.registry.ModItems.GEAR_OF_ETERNITY)) {
+				return InteractionResult.PASS;
+			}
+			return tryActivate(new UseOnContext(player, hand, hit), () -> { });
+		});
+	}
+
 	public static InteractionResult tryActivate(UseOnContext context, Runnable onLit) {
 		Level level = context.getLevel();
 		BlockPos clicked = context.getClickedPos();

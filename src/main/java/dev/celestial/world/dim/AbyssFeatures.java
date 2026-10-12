@@ -12,6 +12,8 @@ public final class AbyssFeatures {
 		ResourceKey.create(Registries.FEATURE, Celestial.id("huge_glowshroom"));
 
 	public static final ResourceKey<Level> FROZEN_HALLS = ResourceKey.create(Registries.DIMENSION, Celestial.id("frozen_halls"));
+	/** Хроноград (0.5): город Каина на шестернях, солнце стоит на закате. */
+	public static final ResourceKey<Level> CHRONOGRAD = ResourceKey.create(Registries.DIMENSION, Celestial.id("chronograd"));
 	/** Астрал (0.6): невесомость; мир — S5.1, пока заготовка-пустота из tools/gen_astral.py. */
 	public static final ResourceKey<Level> ASTRAL = ResourceKey.create(Registries.DIMENSION, Celestial.id("astral"));
 

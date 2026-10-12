@@ -11,6 +11,8 @@ TAGS = {
     'abyssal_tool_materials': ('Материалы безднового инструмента', 'Abyssal Tool Materials'),
     'etherite_tool_materials': ('Материалы эфиритового инструмента', 'Etherite Tool Materials'),
     'frost_tool_materials': ('Материалы инструмента из морозной стали', 'Frost Steel Tool Materials'),
+    'chronite_tool_materials': ('Материалы хронитового инструмента', 'Chronite Tool Materials'),
+    'repairs_chronite_armor': ('Чинит хронитовую броню', 'Repairs Chronite Armor'),
     'light_sources': ('Источники света в руке', 'Hand-held Light Sources'),
     'repairs_abyssal_armor': ('Чинит бездновую броню', 'Repairs Abyssal Armor'),
     'repairs_etherite_armor': ('Чинит эфиритовую броню', 'Repairs Etherite Armor'),
