@@ -38,6 +38,7 @@ python3 gen_clockmaker.py
 python3 gen_astral.py
 python3 gen_choirs.py
 python3 gen_faceless.py
+python3 gen_eden_traces.py
 python3 gen_achievements.py
 python3 gen_animated.py
 python3 gen_tags_lang.py

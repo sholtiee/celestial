@@ -137,7 +137,15 @@ public final class Endings {
 		MinecraftServer server = p.level().getServer();
 		CelestialData.updateWorld(server, w -> w.withoutFlag("ending_" + KINDLE).withoutFlag("ending_" + CONSUME).withoutFlag("ending_" + NAME)
 			.withoutFlag("eden_traces"));
-		CelestialData.update(p, d -> d.withoutCodex("ending:" + KINDLE).withoutCodex("ending:" + CONSUME).withoutCodex("ending:" + NAME));
+		CelestialData.update(p, d -> {
+			var out = d.withoutCodex("ending:" + KINDLE).withoutCodex("ending:" + CONSUME).withoutCodex("ending:" + NAME);
+			for (String e : d.codex()) {
+				if (e.startsWith("eden_trace_day:")) {
+					out = out.withoutCodex(e);
+				}
+			}
+			return out;
+		});
 		ServerLevel overworld = server.overworld();
 		var clock = overworld.registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.WORLD_CLOCK)
 			.getOrThrow(net.minecraft.world.clock.WorldClocks.OVERWORLD);

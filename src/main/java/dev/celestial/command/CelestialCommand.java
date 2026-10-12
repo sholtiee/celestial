@@ -117,6 +117,20 @@ public final class CelestialCommand {
 					ctx.getSource().sendSuccess(() -> Component.literal("Отблеск забыт: " + id), true);
 					return 1;
 				}))))
+			// флаги мира для сценариев: /celestial flag add|remove <флаг>
+			.then(Commands.literal("flag").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+				.then(Commands.literal("add").then(Commands.argument("flag", StringArgumentType.word()).executes(ctx -> {
+					String f = StringArgumentType.getString(ctx, "flag");
+					CelestialData.updateWorld(ctx.getSource().getServer(), w -> w.withFlag(f));
+					ctx.getSource().sendSuccess(() -> Component.literal("Флаг мира: + " + f), true);
+					return 1;
+				})))
+				.then(Commands.literal("remove").then(Commands.argument("flag", StringArgumentType.word()).executes(ctx -> {
+					String f = StringArgumentType.getString(ctx, "flag");
+					CelestialData.updateWorld(ctx.getSource().getServer(), w -> w.withoutFlag(f));
+					ctx.getSource().sendSuccess(() -> Component.literal("Флаг мира: − " + f), true);
+					return 1;
+				}))))
 			// концовка у повергнутого Безликого без экрана (для сценариев): /celestial ending kindle|consume|name
 			.then(Commands.literal("ending").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
 				.then(Commands.literal("reset").executes(ctx -> {

@@ -1,0 +1,34 @@
+# Следы Эдема (итог тайной концовки «Имя»): при флаге мира eden_traces рядом с игроком в Верхнем мире вырастает сад с молодым Древом Жизни.
+/gamemode creative
+/effect clear @s
+/gamerule advance_time false
+/time set 6000
+/execute in minecraft:overworld run tp @s 34000 180 34000 0 60
+fly
+wait 80
+/fill 33950 150 33950 34050 158 34050 minecraft:dirt
+/fill 33950 159 33950 34050 159 34050 minecraft:grass_block
+/fill 33950 160 33950 34050 185 34050 minecraft:air
+/kill @e[type=!minecraft:player,distance=..80]
+/celestial codex remove place:eden_trace
+/celestial ending reset
+/tp @s 34000.5 160 34000.5 0 10
+/gamemode survival
+wait 20
+/celestial flag add eden_traces
+wait 230
+/scoreboard objectives add t dummy
+/execute store result score #e t run celestial codex has place:eden_trace
+/say TEST E1 eden_trace_grown expect=pass
+/execute if score #e t matches 1
+/celestial flag remove eden_traces
+/gamemode creative
+togglehud
+/tp @s 34000.5 215 34000.5 0 90
+wait 30
+shot eden_trace_above
+/tp @s 34000.5 180 34000.5 0 40
+wait 20
+shot eden_trace_view
+togglehud
+quit

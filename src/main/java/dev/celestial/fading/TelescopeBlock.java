@@ -96,6 +96,11 @@ public class TelescopeBlock extends HorizontalDirectionalBlock {
 		}
 	}
 
+	/** Сторона света для других систем (следы Эдема и т.п.). */
+	public static String directionOf(BlockPos from, BlockPos to) {
+		return direction(from, to);
+	}
+
 	/** Сторона света: n, ne, e, se, s, sw, w, nw. */
 	static String direction(BlockPos from, BlockPos to) {
 		double angle = Math.toDegrees(Math.atan2(to.getX() - from.getX(), from.getZ() - to.getZ()));
