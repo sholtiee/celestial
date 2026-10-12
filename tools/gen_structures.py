@@ -9,7 +9,7 @@ import os
 import random
 
 import nbtlib
-from nbtlib import Byte, Compound, Double, Float, Int, List, String
+from nbtlib import Byte, Compound, Double, Float, Int, IntArray, List, String
 
 from gen_assets import DATA, write_json, c
 
@@ -102,6 +102,8 @@ def to_nbt(v):
         return Int(v)
     if isinstance(v, float):
         return Float(v)
+    if isinstance(v, tuple):  # кортеж целых — IntArray (List[Int] Java прочтёт иначе)
+        return IntArray(v)
     if isinstance(v, list):
         items = [to_nbt(x) for x in v]
         return List[type(items[0])](items) if items else List([])

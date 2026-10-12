@@ -92,6 +92,15 @@ public final class ModBlockEntities {
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("memory_altar"),
 		new BlockEntityType<>(dev.celestial.block.puzzle.memory.MemoryAltarBlockEntity::new, Set.of(ModBlocks.MEMORY_ALTAR)));
 
+	public static final BlockEntityType<dev.celestial.block.puzzle.time.ClockDialBlockEntity> CLOCK_DIAL = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("clock_dial"),
+		new BlockEntityType<>(dev.celestial.block.puzzle.time.ClockDialBlockEntity::new, Set.of(ModBlocks.CLOCK_DIAL)));
+	public static final BlockEntityType<dev.celestial.block.puzzle.time.TickConductorBlockEntity> TICK_CONDUCTOR = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("tick_conductor"),
+		new BlockEntityType<>(dev.celestial.block.puzzle.time.TickConductorBlockEntity::new, Set.of(ModBlocks.TICK_CONDUCTOR)));
+	public static final BlockEntityType<dev.celestial.block.puzzle.time.RewindCoreBlockEntity> REWIND_CORE = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("rewind_core"),
+		new BlockEntityType<>(dev.celestial.block.puzzle.time.RewindCoreBlockEntity::new, Set.of(ModBlocks.REWIND_CORE)));
 	public static final BlockEntityType<dev.celestial.block.puzzle.echo.EchoAltarBlockEntity> ECHO_ALTAR = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("echo_altar"),
 		new BlockEntityType<>(dev.celestial.block.puzzle.echo.EchoAltarBlockEntity::new, Set.of(ModBlocks.ECHO_ALTAR)));

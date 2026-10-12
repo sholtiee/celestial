@@ -1,0 +1,27 @@
+{
+  "criteria": {
+    "solved": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:clock_dial"
+    },
+    "title": {
+      "translate": "advancements.celestial.clock_dials.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.clock_dials.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "solved"
+    ]
+  ],
+  "parent": "celestial:story/clockwork"
+}

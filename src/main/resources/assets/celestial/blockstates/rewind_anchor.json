@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "celestial:block/rewind_anchor"
+    },
+    "lit=true": {
+      "model": "celestial:block/rewind_anchor_lit"
+    }
+  }
+}

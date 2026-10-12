@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "top": "celestial:block/tick_platform_ghost_3",
+    "bottom": "celestial:block/tick_platform_ghost_3",
+    "side": "celestial:block/tick_platform_ghost_3"
+  },
+  "render_type": "minecraft:translucent"
+}

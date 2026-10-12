@@ -24,6 +24,9 @@ public enum Story {
 	CONSUMED("light_consumed"),
 	NAMED("true_name"),
 	GLACIER_MASTER("glacier_master"),
+	CLOCK_DIALS("clock_dials"),
+	TICK_WALKER("tick_walker"),
+	REWIND_ROOM("rewind_room"),
 	THREE_BEAMS("three_beams"),
 	BELL_RINGER("bell_ringer"),
 	STAR_WALKER("star_walker"),
@@ -45,9 +48,11 @@ public enum Story {
 	FACELESS_SWIFT("faceless_swift");
 
 	/** Вид загадки (как в PuzzleRewards.solved) → достижение; все восемь вместе дают «Мастера загадок». */
-	public static final java.util.Map<String, Story> PUZZLES = java.util.Map.of(
-		"bells", BELL_RINGER, "star_tiles", STAR_WALKER, "riddle", RIDDLE, "star_lock", STAR_LOCK,
-		"memory", MEMORY, "echo", ECHO, "glacier", GLACIER_MASTER, "mirror_maze", THREE_BEAMS);
+	public static final java.util.Map<String, Story> PUZZLES = java.util.Map.ofEntries(
+		java.util.Map.entry("bells", BELL_RINGER), java.util.Map.entry("star_tiles", STAR_WALKER), java.util.Map.entry("riddle", RIDDLE),
+		java.util.Map.entry("star_lock", STAR_LOCK), java.util.Map.entry("memory", MEMORY), java.util.Map.entry("echo", ECHO),
+		java.util.Map.entry("glacier", GLACIER_MASTER), java.util.Map.entry("mirror_maze", THREE_BEAMS),
+		java.util.Map.entry("clock_dials", CLOCK_DIALS), java.util.Map.entry("tick_platforms", TICK_WALKER), java.util.Map.entry("rewind_room", REWIND_ROOM));
 
 	public final Identifier id;
 

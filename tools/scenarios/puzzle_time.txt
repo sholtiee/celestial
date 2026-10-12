@@ -1,0 +1,255 @@
+# Загадки времени (Хранилище времени): связанные часы, ход маятника, комната-перемотка — «Честно» и «Обход»
+/gamemode creative
+/effect clear @s
+/clear @s
+/gamerule advance_time false
+/gamerule spawn_monsters false
+/weather clear
+/scoreboard objectives add t dummy
+/execute in celestial:chronograd run tp @s 3040 120 3010
+fly
+wait 120
+/fill 2995 90 2995 3017 94 3025 minecraft:stone
+/fill 2995 95 2995 3017 105 3025 minecraft:air
+/fill 2995 106 2995 3017 116 3025 minecraft:air
+/fill 2995 117 2995 3017 122 3025 minecraft:air
+/fill 3018 90 2995 3040 94 3025 minecraft:stone
+/fill 3018 95 2995 3040 105 3025 minecraft:air
+/fill 3018 106 2995 3040 116 3025 minecraft:air
+/fill 3018 117 2995 3040 122 3025 minecraft:air
+/fill 3041 90 2995 3063 94 3025 minecraft:stone
+/fill 3041 95 2995 3063 105 3025 minecraft:air
+/fill 3041 106 2995 3063 116 3025 minecraft:air
+/fill 3041 117 2995 3063 122 3025 minecraft:air
+/fill 3064 90 2995 3085 94 3025 minecraft:stone
+/fill 3064 95 2995 3085 105 3025 minecraft:air
+/fill 3064 106 2995 3085 116 3025 minecraft:air
+/fill 3064 117 2995 3085 122 3025 minecraft:air
+/place template celestial:time_vault/main 3000 95 3000
+wait 60
+/kill @e[type=item]
+togglehud
+/tp @s 2984 114 2990 -55 18
+wait 20
+shot vault_outside
+/tp @s 3011 103 3013 180 5
+wait 10
+shot vault_dials
+/tp @s 3030 106 3014 -100 15
+wait 10
+shot vault_ticks
+/tp @s 3060 106 3015 -120 20
+wait 10
+shot vault_rewind
+togglehud
+# A Обход: в творческом выставить часы — не решается; в выживании циферблат не сломать, рядом не построить
+/say TEST A1 dials_creative_no_solve expect=pass,pass
+/tp @s 3004.5 100 3003.5 180 -20
+wait 3
+use 3004 102 3001 south
+use 3004 102 3001 south
+use 3004 102 3001 south
+/tp @s 3011.5 100 3003.5 180 -20
+wait 3
+use 3011 102 3001 south
+use 3011 102 3001 south
+use 3011 102 3001 south
+use 3011 102 3001 south
+use 3011 102 3001 south
+/tp @s 3018.5 100 3003.5 180 -20
+wait 3
+use 3018 102 3001 south
+use 3018 102 3001 south
+wait 10
+/execute if block 3004 102 3001 celestial:clock_dial[hour=3]
+/execute if block 3011 100 3017 celestial:sealed_door
+/say TEST A2 dials_unbreakable_and_guarded expect=pass,pass
+/setblock 3004 102 3001 celestial:clock_dial[facing=south,hour=10]{Index:0,Target:3}
+/setblock 3011 102 3001 celestial:clock_dial[facing=south,hour=1]{Index:1,Target:9}
+/setblock 3018 102 3001 celestial:clock_dial[facing=south,hour=6]{Index:2,Target:1}
+/gamemode survival
+/give @s minecraft:cobblestone 8
+/tp @s 3011.5 100 3004.5 180 -30
+wait 5
+hold attack 40
+wait 45
+/execute if block 3011 102 3001 celestial:clock_dial
+use 3010 99 3003 up
+wait 5
+/execute unless block 3010 100 3003 minecraft:cobblestone
+/clear @s
+# A Честно: dial0 ×3, dial1 ×5, dial2 ×2 → печать растворилась
+/say TEST A3 dials_solved expect=pass
+/tp @s 3004.5 100 3003.5 180 -20
+wait 3
+use 3004 102 3001 south
+use 3004 102 3001 south
+use 3004 102 3001 south
+/tp @s 3011.5 100 3003.5 180 -20
+wait 3
+use 3011 102 3001 south
+use 3011 102 3001 south
+use 3011 102 3001 south
+use 3011 102 3001 south
+use 3011 102 3001 south
+/tp @s 3018.5 100 3003.5 180 -20
+wait 3
+use 3018 102 3001 south
+use 3018 102 3001 south
+wait 10
+/execute unless block 3011 100 3017 celestial:sealed_door
+togglehud
+/tp @s 3011.5 100 3006.5 180 -15
+wait 5
+shot vault_dials_solved
+togglehud
+# B такт: при качающемся лёгком маятнике платформа мигает быстро (выборка раз в 4 тика), при тяжёлом — долго держится
+/gamemode creative
+/say TEST B1 tempo_swift (выборка: ждём частую смену)
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/setblock 3030 104 3003 celestial:swift_pendulum[facing=east,swinging=false,sealed=true]
+/setblock 3030 104 3015 celestial:heavy_pendulum[facing=east,swinging=true]
+wait 20
+/say TEST B2 tempo_heavy (выборка: ждём длинные серии)
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+/execute if block 3033 103 3009 celestial:tick_platform[solid=true]
+wait 4
+# B Обход: финиш без прохода по платформам не засчитывается; в яме строить нельзя
+/say TEST B3 goal_without_walk expect=pass,pass
+/gamemode survival
+/give @s minecraft:cobblestone 8
+/tp @s 3048.5 104 3009.5 0 0
+wait 30
+/execute if block 3048 104 3014 celestial:sealed_door
+/tp @s 3040.5 99.5 3012.5 0 0
+wait 5
+use 3040 99 3012 up
+wait 5
+/execute unless block 3040 100 3012 minecraft:cobblestone
+/clear @s
+# B Честно (упрощённо): встать на последнюю платформу, когда она твёрдая, и дойти до финиша
+/say TEST B4 goal_after_platform expect=pass
+/execute if block 3045 103 3009 celestial:tick_platform[solid=true] run tp @s 3045.5 104 3009.5 -90 0
+hold forward 20
+hold jump 6
+wait 22
+/execute if block 3045 103 3009 celestial:tick_platform[solid=true] run tp @s 3045.5 104 3009.5 -90 0
+hold forward 20
+hold jump 6
+wait 22
+/execute if block 3045 103 3009 celestial:tick_platform[solid=true] run tp @s 3045.5 104 3009.5 -90 0
+hold forward 20
+hold jump 6
+wait 22
+/execute if block 3045 103 3009 celestial:tick_platform[solid=true] run tp @s 3045.5 104 3009.5 -90 0
+hold forward 20
+hold jump 6
+wait 22
+wait 10
+/execute unless block 3048 104 3014 celestial:sealed_door
+pos
+# C перемотка: построенное и зажжённое за оборот исчезает
+/gamemode survival
+/clear @s
+/give @s minecraft:cobblestone 8
+/tp @s 3058.5 100 3012.5 -90 30
+wait 10
+/say TEST C1 rewind_wipes expect=pass,pass,pass,pass,pass
+use 3059 99 3013 up
+wait 5
+/execute if block 3059 100 3013 minecraft:cobblestone
+/tp @s 3073.5 100 3011.5 0 0
+wait 5
+/setblock 3073 100 3013 minecraft:air
+wait 5
+/tp @s 3067.5 100 3011.5 180 40
+wait 5
+use 3067 100 3009 up
+wait 5
+/execute if block 3067 100 3009 celestial:rewind_anchor[lit=true]
+wait 900
+/execute unless block 3059 100 3013 minecraft:cobblestone
+/execute if block 3067 100 3009 celestial:rewind_anchor[lit=false]
+/execute if block 3073 100 3013 minecraft:deepslate_bricks
+# C Честно: три якоря за один оборот (подходы — телепортом, как будто дорогу построили)
+/say TEST C2 three_anchors expect=pass
+/tp @s 3067.5 100 3011.5 180 40
+wait 5
+use 3067 100 3009 up
+wait 5
+/setblock 3059 106 3004 minecraft:cobbled_deepslate
+/tp @s 3059.5 107 3004.5 180 30
+wait 5
+use 3059 107 3003 up
+wait 5
+/setblock 3074 100 3013 minecraft:air
+/setblock 3074 101 3013 minecraft:air
+/tp @s 3074.5 100 3012.5 0 30
+wait 5
+use 3074 100 3014 north
+wait 10
+/execute unless block 3067 100 3017 celestial:sealed_door
+togglehud
+/tp @s 3067.5 104 3001.5 0 25
+wait 5
+shot vault_rewind_solved
+togglehud
+/gamemode creative
+/clear @s
+quit

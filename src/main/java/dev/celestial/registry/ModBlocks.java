@@ -355,6 +355,24 @@ public final class ModBlocks {
 			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.block.puzzle.memory.MemoryAltarBlock.SOLVED) ? 15 : 7), 1);
 
 	// «Эхо во тьме» (святилище Бездны)
+	// Загадки времени (Хранилище времени, Хроноград)
+	public static final Block CLOCK_DIAL = register("clock_dial", dev.celestial.block.puzzle.time.ClockDialBlock::new,
+		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.COPPER).noOcclusion()
+			.pushReaction(PushReaction.IMMOVEABLE), 1);
+	public static final Block TICK_PLATFORM = register("tick_platform", dev.celestial.block.puzzle.time.TickPlatformBlock::new,
+		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.COPPER).noOcclusion()
+			.pushReaction(PushReaction.IMMOVEABLE)
+			.lightLevel(s -> s.getValue(dev.celestial.block.puzzle.time.TickPlatformBlock.SOLID) ? 6 : 2), 1);
+	public static final Block TICK_CONDUCTOR = registerNoItem("tick_conductor", dev.celestial.block.puzzle.time.TickConductorBlock::new,
+		Properties.of().strength(-1.0F, 3600000.0F).noLootTable().noCollision().noOcclusion().pushReaction(PushReaction.IMMOVEABLE));
+	public static final Block TICK_GOAL = register("tick_goal", dev.celestial.block.puzzle.time.TickGoalBlock::new,
+		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.COPPER).lightLevel(s -> 9).noOcclusion()
+			.pushReaction(PushReaction.IMMOVEABLE), 1);
+	public static final Block REWIND_CORE = registerNoItem("rewind_core", dev.celestial.block.puzzle.time.RewindCoreBlock::new,
+		Properties.of().strength(-1.0F, 3600000.0F).noLootTable().noCollision().noOcclusion().pushReaction(PushReaction.IMMOVEABLE));
+	public static final Block REWIND_ANCHOR = register("rewind_anchor", dev.celestial.block.puzzle.time.RewindAnchorBlock::new,
+		Properties.of().mapColor(MapColor.COLOR_CYAN).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST)
+			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.block.puzzle.time.RewindAnchorBlock.LIT) ? 14 : 3), 1);
 	public static final Block ECHO_STONE = register("echo_stone", dev.celestial.block.puzzle.echo.EchoStoneBlock::new,
 		Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST)
 			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.block.puzzle.echo.EchoStoneBlock.STRUCK) ? 3 : 0), 1);

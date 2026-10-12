@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "phase=0,solid=true": {
+      "model": "celestial:block/tick_platform_0"
+    },
+    "phase=0,solid=false": {
+      "model": "celestial:block/tick_platform_ghost_0"
+    },
+    "phase=1,solid=true": {
+      "model": "celestial:block/tick_platform_1"
+    },
+    "phase=1,solid=false": {
+      "model": "celestial:block/tick_platform_ghost_1"
+    },
+    "phase=2,solid=true": {
+      "model": "celestial:block/tick_platform_2"
+    },
+    "phase=2,solid=false": {
+      "model": "celestial:block/tick_platform_ghost_2"
+    },
+    "phase=3,solid=true": {
+      "model": "celestial:block/tick_platform_3"
+    },
+    "phase=3,solid=false": {
+      "model": "celestial:block/tick_platform_ghost_3"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "top": "celestial:block/tick_platform_0",
+    "bottom": "celestial:block/tick_platform_0",
+    "side": "celestial:block/tick_platform_0"
+  }
+}
