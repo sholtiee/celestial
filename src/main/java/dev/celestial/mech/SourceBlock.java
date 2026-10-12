@@ -99,4 +99,17 @@ public class SourceBlock extends BaseEntityBlock {
 	public <T extends BlockEntity> @Nullable BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
 		return createTickerHelper(type, ModBlockEntities.MECH_SOURCE, level.isClientSide() ? SourceBlockEntity::clientTick : SourceBlockEntity::serverTick);
 	}
+
+	/** Работающий котёл шипит паром, заведённая пружина тикает. */
+	@Override
+	public void animateTick(BlockState state, net.minecraft.world.level.Level level, net.minecraft.core.BlockPos pos, net.minecraft.util.RandomSource random) {
+		if (!state.getValue(ACTIVE)) {
+			return;
+		}
+		boolean engine = state.is(dev.celestial.registry.ModBlocks.STEAM_ENGINE);
+		if (random.nextInt(engine ? 40 : 20) == 0) {
+			level.playLocalSound(pos, engine ? dev.celestial.registry.ModSounds.STEAM_HISS : dev.celestial.registry.ModSounds.CLOCK_TICK,
+				net.minecraft.sounds.SoundSource.BLOCKS, engine ? 0.4F : 0.3F, 0.9F + random.nextFloat() * 0.2F, false);
+		}
+	}
 }

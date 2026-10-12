@@ -112,7 +112,7 @@ public class Ophanim extends Mob implements Enemy {
 			if (beamCooldown == 0 && hasLineOfSight(target)) {
 				entityData.set(BEAM_TARGET, target.getId());
 				entityData.set(BEAM_CHARGE, 1);
-				level.playSound(null, blockPosition(), SoundEvents.BEACON_POWER_SELECT, SoundSource.HOSTILE, 1.2F, 1.6F);
+				level.playSound(null, blockPosition(), dev.celestial.registry.ModSounds.OPHANIM_CHARGE, SoundSource.HOSTILE, 1.4F, 1.0F);
 			}
 			return;
 		}
@@ -136,7 +136,7 @@ public class Ophanim extends Mob implements Enemy {
 				level.sendParticles(ParticleTypes.END_ROD, p.x, p.y, p.z, 1, 0.02, 0.02, 0.02, 0.0);
 			}
 			level.sendParticles(ParticleTypes.ELECTRIC_SPARK, to.x, to.y, to.z, 12, 0.3, 0.3, 0.3, 0.2);
-			level.playSound(null, living.blockPosition(), SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.HOSTILE, 1.5F, 1.8F);
+			level.playSound(null, living.blockPosition(), dev.celestial.registry.ModSounds.OPHANIM_BEAM, SoundSource.HOSTILE, 1.5F, 1.0F);
 		} else {
 			level.playSound(null, blockPosition(), SoundEvents.BEACON_DEACTIVATE, SoundSource.HOSTILE, 0.8F, 1.6F);
 		}
@@ -185,7 +185,7 @@ public class Ophanim extends Mob implements Enemy {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return SoundEvents.AMETHYST_BLOCK_CHIME;
+		return dev.celestial.registry.ModSounds.OPHANIM_HUM;
 	}
 
 	@Override

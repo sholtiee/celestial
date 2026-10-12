@@ -102,7 +102,7 @@ public class RewindCoreBlockEntity extends BlockEntity {
 			item.discard();
 		}
 		restock(level);
-		level.playSound(null, worldPosition, SoundEvents.BEACON_DEACTIVATE, SoundSource.BLOCKS, 2.0F, 0.6F);
+		level.playSound(null, worldPosition, dev.celestial.registry.ModSounds.REWIND, SoundSource.BLOCKS, 2.5F, 1.0F);
 		level.playSound(null, worldPosition, SoundEvents.BELL_BLOCK, SoundSource.BLOCKS, 2.0F, 0.5F);
 		for (ServerPlayer player : level.getEntitiesOfClass(ServerPlayer.class, room().inflate(4))) {
 			player.sendOverlayMessage(Component.translatable("puzzle.celestial.rewind_room.rewound"));
@@ -122,7 +122,7 @@ public class RewindCoreBlockEntity extends BlockEntity {
 		clock++;
 		int left = CYCLE - clock;
 		if (left == 200 || left == 100 || left <= 60 && left % 20 == 0 && left > 0) {
-			level.playSound(null, worldPosition, SoundEvents.NOTE_BLOCK_CHIME.value(), SoundSource.BLOCKS, 1.5F, left <= 60 ? 1.6F : 1.0F);
+			level.playSound(null, worldPosition, dev.celestial.registry.ModSounds.CLOCK_TICK, SoundSource.BLOCKS, 2.0F, left <= 60 ? 1.4F : 0.9F);
 		}
 		if (clock % 20 == 0) {
 			for (ServerPlayer player : level.getEntitiesOfClass(ServerPlayer.class, room().inflate(2))) {

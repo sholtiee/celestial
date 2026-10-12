@@ -38,6 +38,23 @@ public final class ModSounds {
 	public static final SoundEvent WOLF_HOWL = register("entity.ice_wolf.howl");
 	public static final SoundEvent WOLF_HURT = register("entity.ice_wolf.hurt");
 	public static final SoundEvent GUARDIAN_CRACK = register("entity.ice_guardian.crack");
+	// Хроноград (волна 0.5) и финал
+	public static final Holder<SoundEvent> MUSIC_CHRONOGRAD = registerHolder("music.chronograd");
+	public static final Holder<SoundEvent> MUSIC_CLOCKMAKER_BATTLE = registerHolder("music.clockmaker_battle");
+	public static final Holder<SoundEvent> MUSIC_FACELESS_BATTLE = registerHolder("music.faceless_battle");
+	public static final SoundEvent CLOCK_TICK = register("block.clock.tick");
+	public static final SoundEvent GEAR_WHIR = register("block.gear.whir");
+	public static final SoundEvent STEAM_HISS = register("block.steam.hiss");
+	public static final SoundEvent SENTRY_WIND = register("entity.clockwork_sentry.wind");
+	public static final SoundEvent BEETLE_CHITTER = register("entity.winder_beetle.chitter");
+	public static final SoundEvent DOLL_MUSIC_BOX = register("entity.brass_doll.music_box");
+	public static final SoundEvent OPHANIM_HUM = register("entity.ophanim.hum");
+	public static final SoundEvent OPHANIM_CHARGE = register("entity.ophanim.charge");
+	public static final SoundEvent OPHANIM_BEAM = register("entity.ophanim.beam");
+	public static final SoundEvent HORSE_WHINNY = register("entity.clockwork_horse.whinny");
+	public static final SoundEvent CLOCKMAKER_STOP = register("entity.clockmaker.stop");
+	public static final SoundEvent REWIND = register("block.rewind.rewind");
+	public static final SoundEvent GLYPH_CLICK = register("block.glyph.click");
 
 	private ModSounds() {}
 

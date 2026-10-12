@@ -242,5 +242,133 @@
       }
     ],
     "subtitle": "subtitles.celestial.guardian_crack"
+  },
+  "music.chronograd": {
+    "sounds": [
+      {
+        "name": "celestial:music/chronograd_1",
+        "stream": true
+      }
+    ]
+  },
+  "music.clockmaker_battle": {
+    "sounds": [
+      {
+        "name": "celestial:music/clockmaker_battle",
+        "stream": true
+      }
+    ]
+  },
+  "music.faceless_battle": {
+    "sounds": [
+      {
+        "name": "celestial:music/faceless_battle",
+        "stream": true
+      }
+    ]
+  },
+  "block.clock.tick": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/clock_tick"
+      }
+    ],
+    "subtitle": "subtitles.celestial.clock_tick"
+  },
+  "block.gear.whir": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/gear_whir"
+      }
+    ],
+    "subtitle": "subtitles.celestial.gear_whir"
+  },
+  "block.steam.hiss": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/steam_hiss"
+      }
+    ],
+    "subtitle": "subtitles.celestial.steam_hiss"
+  },
+  "entity.clockwork_sentry.wind": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/sentry_wind"
+      }
+    ],
+    "subtitle": "subtitles.celestial.sentry_wind"
+  },
+  "entity.winder_beetle.chitter": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/beetle_chitter"
+      }
+    ],
+    "subtitle": "subtitles.celestial.beetle_chitter"
+  },
+  "entity.brass_doll.music_box": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/doll_music_box"
+      }
+    ],
+    "subtitle": "subtitles.celestial.doll_music_box"
+  },
+  "entity.ophanim.hum": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/ophanim_hum"
+      }
+    ],
+    "subtitle": "subtitles.celestial.ophanim_hum"
+  },
+  "entity.ophanim.charge": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/ophanim_charge"
+      }
+    ],
+    "subtitle": "subtitles.celestial.ophanim_charge"
+  },
+  "entity.ophanim.beam": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/ophanim_beam"
+      }
+    ],
+    "subtitle": "subtitles.celestial.ophanim_beam"
+  },
+  "entity.clockwork_horse.whinny": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/horse_whinny"
+      }
+    ],
+    "subtitle": "subtitles.celestial.horse_whinny"
+  },
+  "entity.clockmaker.stop": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/clockmaker_stop"
+      }
+    ],
+    "subtitle": "subtitles.celestial.clockmaker_stop"
+  },
+  "block.rewind.rewind": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/rewind"
+      }
+    ],
+    "subtitle": "subtitles.celestial.rewind"
+  },
+  "block.glyph.click": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/glyph_click"
+      }
+    ],
+    "subtitle": "subtitles.celestial.glyph_click"
   }
 }

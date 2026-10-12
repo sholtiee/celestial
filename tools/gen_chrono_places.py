@@ -271,6 +271,70 @@ def foundry():
     return t.save('tubalcain_foundry/main')
 
 
+# ---------------------------------------------------------------- колокольня Иувала
+BELL_TOP = 26  # пол звонницы
+
+
+def belltower():
+    """Кампанила Иувала: ствол 7×7 с лестницей-стремянкой внутри, звонница с пятью колоколами и алтарём мелодии,
+    медный шатёр; скрижаль Иувала внизу; реликварий на звоннице за печатями (загадка «колокола»)."""
+    S = 11
+    t = Template(S, 40, S)
+    t.fill(0, 1, 0, S - 1, 39, S - 1, MC + 'air')
+    t.fill(0, 0, 0, S - 1, 0, S - 1, MC + 'polished_deepslate')
+    t.fill(1, 1, 1, 9, 2, 9, WALL)  # цоколь
+    t.fill(2, 1, 2, 8, 2, 8, MC + 'air')
+    for y in range(1, BELL_TOP):
+        for x in range(2, 9):
+            for z in range(2, 9):
+                if x in (2, 8) or z in (2, 8):
+                    corner = x in (2, 8) and z in (2, 8)
+                    band = y % 8 == 0
+                    blk = MC + 'waxed_copper_block' if corner else TRIM if band else WALL
+                    if not corner and 4 <= x <= 6 and z in (2, 8) and y % 8 in (4, 5) or not corner and 4 <= z <= 6 and x in (2, 8) and y % 8 in (4, 5):
+                        blk = MC + 'yellow_stained_glass'
+                    t.set(x, y, z, blk)
+    t.fill(5, 1, 8, 5, 3, 8, MC + 'air')  # дверь с юга
+    t.fill(5, 1, 9, 5, 2, 9, MC + 'air')
+    t.fill(5, 1, 3, 5, BELL_TOP, 3, MC + 'ladder', facing='south', waterlogged=False)  # стремянка по северной стене
+    for y in range(4, BELL_TOP, 6):
+        t.set(5, y, 5, MC + 'light', level=13)
+    t.set(3, 2, 5, c('lore_tablet'), facing='east', nbt={'id': c('lore_tablet'), 'Sheet': 'jubal'})
+    # звонница: пол с люком у лестницы, балкон 9×9, арки по углам, колокола по кругу, алтарь в центре
+    t.fill(1, BELL_TOP, 1, 9, BELL_TOP, 9, MC + 'polished_deepslate')
+    t.set(5, BELL_TOP, 3, MC + 'ladder', facing='south', waterlogged=False)
+    for x, z in ((1, 1), (9, 1), (1, 9), (9, 9)):
+        t.fill(x, BELL_TOP + 1, z, x, BELL_TOP + 5, z, MC + 'waxed_copper_block')
+    for x in range(1, 10):
+        for z in range(1, 10):
+            if x in (1, 9) or z in (1, 9):
+                t.set(x, BELL_TOP + 6, z, TRIM)
+                if not (x in (1, 9) and z in (1, 9)):
+                    t.set(x, BELL_TOP + 1, z, MC + 'waxed_copper_grate', waterlogged=False)  # перила: сквозные, но не перешагнуть
+    t.set(5, BELL_TOP + 1, 5, c('bell_altar'), solved=False, nbt={'id': c('bell_altar')})
+    for note, (x, z) in enumerate(((3, 5), (4, 3), (6, 3), (7, 5), (5, 7))):
+        t.set(x, BELL_TOP + 1, z, c('sky_bell'), note=note)
+    t.set(5, BELL_TOP + 5, 5, MC + 'copper_lantern', hanging=True)
+    # реликварий в северо-восточном углу звонницы за печатями
+    rx, rz = 8, 2
+    t.set(rx, BELL_TOP + 1, rz, MC + 'air')
+    from gen_structures import reliquary as _rel
+    _rel(t, rx, BELL_TOP + 1, rz, c('chests/jubal_belfry'))
+    for x, y, z in ((rx - 1, BELL_TOP + 1, rz), (rx, BELL_TOP + 1, rz + 1), (rx - 1, BELL_TOP + 2, rz), (rx, BELL_TOP + 2, rz + 1),
+                    (rx, BELL_TOP + 2, rz), (rx + 1, BELL_TOP + 1, rz), (rx, BELL_TOP + 1, rz - 1)):
+        t.set(x, y, z, c('sealed_door'))
+    for i in range(6):  # шатёр
+        half = 5 - i
+        y = BELL_TOP + 7 + i
+        for x in range(5 - half, 6 + half):
+            for z in range(5 - half, 6 + half):
+                if max(abs(x - 5), abs(z - 5)) == half or i == 0:
+                    t.set(x, y, z, ROOF)
+    t.set(5, BELL_TOP + 13, 5, MC + 'gold_block')
+    t.set(5, BELL_TOP + 14, 5, MC + 'waxed_lightning_rod', facing='up', powered=False, waterlogged=False)
+    return t.save('jubal_belltower/main')
+
+
 # ---------------------------------------------------------------- добыча, размещение, переводы
 def loot():
     def item(n, w, lo=1, hi=1):
@@ -299,6 +363,9 @@ def loot():
         rolls(4, 7, [item(c('chronite_ingot'), 6, 2, 4), item(c('raw_chronite'), 6, 2, 5), item(MC + 'copper_block', 3, 1, 2),
                      item(c('copper_plate'), 5, 2, 6), item(MC + 'iron_ingot', 5, 2, 5), item(c('wind_key'), 3), item(c('chronite_pickaxe'), 1),
                      item(c('chronite_chestplate'), 1), item(MC + 'blast_furnace', 2), item(MC + 'lava_bucket', 2)])])
+    table('jubal_belfry', [
+        rolls(3, 5, [item(c('chronite_ingot'), 5, 1, 3), item(MC + 'amethyst_shard', 5, 3, 8), item(MC + 'note_block', 3, 1, 2),
+                     item(MC + 'jukebox', 1), item(c('tuning_fork'), 3), item(MC + 'golden_carrot', 4, 2, 5), item(c('wind_key'), 2)])])
     table('chrono_tower_hall', [
         rolls(3, 5, [item(c('chronite_ingot'), 5, 1, 3), item(MC + 'gold_ingot', 5, 2, 6), item(MC + 'golden_carrot', 4, 2, 5),
                      item(MC + 'experience_bottle', 4, 2, 6), item(c('hourglass'), 1), item(c('tuning_fork'), 2), item(c('gear'), 3, 2, 4),
@@ -329,7 +396,10 @@ def structures():
         adv = json.load(f)
     adv['rewards'] = {'loot': [c('gameplay/clock_tower_map')]}
     write_json(path, adv)
-    append_tag('worldgen/structure', 'celestial:codex_places', [c('clock_tower'), c('gear_monument'), c('master_house'), c('tubalcain_foundry')])
+    jigsaw('jubal_belltower', [c('cog_city'), c('clock_valley')], -1, adaptation='beard_box')
+    structure_set('jubal_belltower', 32, 12, 5500509)
+    append_tag('worldgen/structure', 'celestial:codex_places', [c('clock_tower'), c('gear_monument'), c('master_house'), c('tubalcain_foundry'),
+                                                                c('jubal_belltower')])
 
 
 def lang():
@@ -346,6 +416,9 @@ def lang():
                                                'a brass-smith\'s workshop: a press, a spring, stores of copper. Its doll is still on guard.'),
         'codex.celestial.place.tubalcain_foundry': ('литейня среди шлака и лавы. Здесь отлит хронит; на стене — скрижаль ковача.',
                                                     'a foundry amid slag and lava. Chronite was cast here; the smith\'s tablet hangs on the wall.'),
+        'structure.celestial.jubal_belltower': ('Колокольня Иувала', 'Jubal\'s Belltower'),
+        'codex.celestial.place.jubal_belltower': ('кампанила с пятью колоколами. Алтарь на звоннице сыграет мелодию — повтори её колоколами.',
+                                                  'a campanile with five bells. The altar in the belfry plays a melody — repeat it on the bells.'),
         'filled_map.celestial.clock_tower': ('Карта к Часовой башне', 'Map to the Clock Tower'),
     })
 
@@ -356,6 +429,7 @@ def main():
         gear_monument(v)
     master_house()
     foundry()
+    belltower()
     loot()
     structures()
     lang()

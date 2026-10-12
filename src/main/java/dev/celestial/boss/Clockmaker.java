@@ -287,7 +287,7 @@ public class Clockmaker extends Monster {
 				Component.empty(), 30);
 			BossIntro.shake(p, 1.2F, 10);
 		}
-		level.playSound(null, blockPosition(), SoundEvents.BELL_BLOCK, SoundSource.HOSTILE, 4.0F, 0.4F);
+		level.playSound(null, blockPosition(), dev.celestial.registry.ModSounds.CLOCKMAKER_STOP, SoundSource.HOSTILE, 4.0F, 1.0F);
 		level.sendParticles(ModParticles.CHRONO_LAG, getX(), getY() + 1, getZ(), 120, ARENA / 2, 1.5, ARENA / 2, 0.0);
 		for (ServerPlayer p : fighters) {
 			rollGears(level, p, 2);

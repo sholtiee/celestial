@@ -15,6 +15,8 @@ public abstract class BossMusicMixin {
 	private static final Music SERAPH_BATTLE = new Music(ModSounds.MUSIC_SERAPH_BATTLE, 0, 0, true);
 	private static final Music DEVOURER_BATTLE = new Music(ModSounds.MUSIC_DEVOURER_BATTLE, 0, 0, true);
 	private static final Music ARCHON_BATTLE = new Music(ModSounds.MUSIC_ARCHON_BATTLE, 0, 0, true);
+	private static final Music CLOCKMAKER_BATTLE = new Music(ModSounds.MUSIC_CLOCKMAKER_BATTLE, 0, 0, true);
+	private static final Music FACELESS_BATTLE = new Music(ModSounds.MUSIC_FACELESS_BATTLE, 0, 0, true);
 
 	@Inject(method = "getSituationalMusic", at = @At("HEAD"), cancellable = true)
 	private void celestial$bossMusic(CallbackInfoReturnable<Music> cir) {
@@ -26,7 +28,10 @@ public abstract class BossMusicMixin {
 				mc.player.getBoundingBox().inflate(80)).isEmpty();
 			boolean archon = !mc.player.level().getEntitiesOfClass(dev.celestial.boss.FrostArchon.class,
 				mc.player.getBoundingBox().inflate(80)).isEmpty();
-			cir.setReturnValue(archon ? ARCHON_BATTLE : devourer ? DEVOURER_BATTLE : SERAPH_BATTLE);
+			var box = mc.player.getBoundingBox().inflate(80);
+			boolean clockmaker = !mc.player.level().getEntitiesOfClass(dev.celestial.boss.Clockmaker.class, box).isEmpty();
+			boolean faceless = !mc.player.level().getEntitiesOfClass(dev.celestial.boss.Faceless.class, mc.player.getBoundingBox().inflate(160)).isEmpty();
+			cir.setReturnValue(faceless ? FACELESS_BATTLE : clockmaker ? CLOCKMAKER_BATTLE : archon ? ARCHON_BATTLE : devourer ? DEVOURER_BATTLE : SERAPH_BATTLE);
 		}
 	}
 }

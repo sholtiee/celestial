@@ -419,6 +419,21 @@ def art_city(rng):
     return img
 
 
+def art_bells(rng):
+    img = gradient('#2a1408', '#c8843a')
+    glow(img, 48, 18, 16, '#ffe08a', 0.6)
+    d = ImageDraw.Draw(img)
+    d.rectangle([40, 8, 56, 54], fill=rgb('#2a1a10'))  # кампанила
+    d.polygon([(38, 8), (48, 0), (58, 8)], fill=rgb('#3a8a74'))
+    for k, x in enumerate((43, 48, 53)):  # колокола в арке
+        d.polygon([(x - 2, 14 + k % 2), (x + 2, 14 + k % 2), (x + 3, 19 + k % 2), (x - 3, 19 + k % 2)], fill=rgb('#e0b050'))
+    for k in range(4):  # волны звона
+        r = 14 + k * 7
+        d.arc([48 - r, 17 - r // 2, 48 + r, 17 + r // 2], 200, 340, fill=rgb('#ffe9b0'))
+    d.rectangle([0, 52, 96, 54], fill=rgb('#1a0c04'))
+    return img
+
+
 def art_babel(rng):
     img = gradient('#3a1a0a', '#e0a050')
     d = ImageDraw.Draw(img)
@@ -532,7 +547,7 @@ ART = {
     'sword': art_sword, 'altars': art_altars, 'mark': art_mark, 'watchers': art_watchers, 'forge': art_forge, 'giant': art_giant,
     'enoch': art_enoch, 'chains': art_chains, 'abyss': art_abyss, 'star_fall': art_star_fall, 'waters': art_waters, 'flood': art_flood,
     'ark': art_ark, 'dove': art_dove, 'rainbow': art_rainbow, 'archon': art_archon, 'clock': art_clock,
-    'seraph': art_seraph, 'city': art_city, 'foundry': art_foundry, 'babel': art_babel, 'ice_chain': art_ice_chain, 'bones': art_bones, 'ladder': art_ladder,
+    'seraph': art_seraph, 'city': art_city, 'foundry': art_foundry, 'babel': art_babel, 'bells': art_bells, 'ice_chain': art_ice_chain, 'bones': art_bones, 'ladder': art_ladder,
 }
 
 

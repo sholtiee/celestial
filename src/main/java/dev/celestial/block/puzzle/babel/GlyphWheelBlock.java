@@ -51,7 +51,7 @@ public class GlyphWheelBlock extends Block implements dev.celestial.puzzle.Puzzl
 			}
 			int g = Math.floorMod(state.getValue(GLYPH) + (player.isSecondaryUseActive() ? -1 : 1), Glyphs.COUNT);
 			level.setBlock(pos, state.setValue(GLYPH, g), Block.UPDATE_ALL);
-			level.playSound(null, pos, SoundEvents.DECORATED_POT_INSERT, SoundSource.BLOCKS, 0.8F, 0.8F + g * 0.05F);
+			level.playSound(null, pos, dev.celestial.registry.ModSounds.GLYPH_CLICK, SoundSource.BLOCKS, 0.9F, 0.8F + g * 0.04F);
 		}
 		return InteractionResult.SUCCESS;
 	}

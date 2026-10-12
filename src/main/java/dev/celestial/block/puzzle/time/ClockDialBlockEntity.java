@@ -69,11 +69,11 @@ public class ClockDialBlockEntity extends BlockEntity implements PuzzleZone {
 		List<ClockDialBlockEntity> ring = ring(level);
 		int at = ring.indexOf(this);
 		step(level, dir);
-		level.playSound(null, worldPosition, SoundEvents.CROSSBOW_LOADING_MIDDLE.value(), SoundSource.BLOCKS, 0.9F, 1.4F);
+		level.playSound(null, worldPosition, dev.celestial.registry.ModSounds.CLOCK_TICK, SoundSource.BLOCKS, 1.0F, 1.2F);
 		if (ring.size() > 1 && at >= 0) {
 			ClockDialBlockEntity next = ring.get((at + 1) % ring.size());
 			next.step(level, dir);  // шестерня тянет соседа
-			level.playSound(null, next.worldPosition, SoundEvents.CROSSBOW_LOADING_MIDDLE.value(), SoundSource.BLOCKS, 0.6F, 1.1F);
+			level.playSound(null, next.worldPosition, dev.celestial.registry.ModSounds.GEAR_WHIR, SoundSource.BLOCKS, 0.6F, 1.2F);
 			level.sendParticles(ParticleTypes.WAX_ON, next.worldPosition.getX() + 0.5, next.worldPosition.getY() + 0.5, next.worldPosition.getZ() + 0.5,
 				4, 0.3, 0.3, 0.3, 0.0);
 		}

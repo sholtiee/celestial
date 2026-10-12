@@ -106,7 +106,7 @@ public class ClockworkHorse extends AbstractHorse {
 				}
 				entityData.set(WIND, Math.min(WIND_MAX, wind() + WIND_PER_KEY));
 				stack.hurtAndBreak(1, player, hand.asEquipmentSlot());
-				playSound(SoundEvents.CROSSBOW_LOADING_END.value(), 1.0F, 0.7F);
+				playSound(dev.celestial.registry.ModSounds.SENTRY_WIND, 1.0F, 0.8F);
 				player.sendOverlayMessage(Component.translatable("entity.celestial.clockwork_horse.wound", wind() / 1200));
 			}
 			return InteractionResult.SUCCESS;
@@ -198,7 +198,7 @@ public class ClockworkHorse extends AbstractHorse {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return wind() > 0 ? SoundEvents.IRON_TRAPDOOR_OPEN : null;
+		return wind() > 0 ? dev.celestial.registry.ModSounds.HORSE_WHINNY : null;
 	}
 
 	@Override
@@ -213,7 +213,7 @@ public class ClockworkHorse extends AbstractHorse {
 
 	@Override
 	protected @Nullable SoundEvent getAngrySound() {
-		return SoundEvents.IRON_GOLEM_DAMAGE;
+		return dev.celestial.registry.ModSounds.HORSE_WHINNY;
 	}
 
 	@Override

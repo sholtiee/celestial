@@ -23,7 +23,14 @@ public class PendulumBlockEntity extends BlockEntity {
 	}
 
 	public static void clientTick(Level level, BlockPos pos, BlockState state, PendulumBlockEntity be) {
-		if (!(state.getBlock() instanceof PendulumBlock block) || level.getGameTime() % 2 != 0) {
+		if (!(state.getBlock() instanceof PendulumBlock block)) {
+			return;
+		}
+		if (level.getGameTime() % Math.max(2, block.period / 2) == 0) {  // тик на каждом крайнем положении
+			level.playLocalSound(pos, dev.celestial.registry.ModSounds.CLOCK_TICK, net.minecraft.sounds.SoundSource.BLOCKS, 0.35F,
+				block.scale > 1.0F ? 1.4F : 0.75F, false);
+		}
+		if (level.getGameTime() % 2 != 0) {
 			return;
 		}
 		RandomSource r = level.getRandom();

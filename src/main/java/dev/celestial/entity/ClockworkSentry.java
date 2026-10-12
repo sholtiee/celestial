@@ -104,7 +104,7 @@ public class ClockworkSentry extends Monster {
 			getNavigation().stop();
 			entityData.set(REWIND, r - 1);
 			if (r % 10 == 0) {
-				playSound(SoundEvents.CROSSBOW_LOADING_MIDDLE.value(), 0.8F, 0.6F + (REWIND_TICKS - r) * 0.01F);
+				playSound(dev.celestial.registry.ModSounds.CLOCK_TICK, 0.8F, 0.6F + (REWIND_TICKS - r) * 0.01F);
 			}
 			if (r == 1) {
 				wind = 240 + random.nextInt(160);
@@ -116,7 +116,7 @@ public class ClockworkSentry extends Monster {
 		wind -= getTarget() != null ? 2 : (getDeltaMovement().horizontalDistanceSqr() > 1.0E-4 ? 1 : 0);
 		if (wind <= 0) {
 			entityData.set(REWIND, REWIND_TICKS);
-			playSound(SoundEvents.IRON_GOLEM_DAMAGE, 0.8F, 1.6F);
+			playSound(dev.celestial.registry.ModSounds.SENTRY_WIND, 1.0F, 1.0F);
 		}
 	}
 
@@ -164,7 +164,7 @@ public class ClockworkSentry extends Monster {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return SoundEvents.IRON_TRAPDOOR_CLOSE;
+		return dev.celestial.registry.ModSounds.CLOCK_TICK;
 	}
 
 	@Override

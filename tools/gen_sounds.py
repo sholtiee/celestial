@@ -279,6 +279,140 @@ def archon_battle(seed, bars=40, bpm=140):
     return reverb(track, 0.32, 0.72)
 
 
+def chrono_music(seed, sec=120):
+    """Хроноград: полиритм тиканья нескольких часов, медный гул (миксолидийский), далёкие куранты, вздохи пара."""
+    rng = np.random.default_rng(seed)
+    track = np.zeros(int(sec * SR) + SR * 6)
+    tick = t_axis(0.05)
+    click = lowpass(rng.standard_normal(len(tick)), 5000) * np.exp(-tick * 120)
+    for period, amp, pitch in ((1.0, 0.18, 1.0), (0.75, 0.10, 1.3), (1.6, 0.12, 0.8)):  # три часа идут вразнобой
+        k = 0
+        while k * period < sec:
+            place(track, click * amp * (1.0 if k % 2 else 0.7), k * period + rng.random() * 0.01)
+            k += 1
+    root = 50
+    for i in range(int(sec / 16)):
+        chord = [(0, 4, 7, 10), (5, 9, 12), (-2, 2, 5, 9), (0, 7, 10)][i % 4]
+        for n in chord:
+            place(track, pad(note(root + n), 18.0, detune=0.006, bright=700) * 0.08, i * 16)
+        place(track, pad(note(root - 12), 16.0, detune=0.01, bright=200) * 0.2, i * 16)
+    for k in range(int(sec / 30)):  # куранты: четыре удара вдали
+        at = 6 + k * 30 + rng.random() * 4
+        for j, n in enumerate((67, 64, 65, 60)):
+            place(track, bell(note(n), 3.5, 0.18), at + j * 1.1)
+    for _ in range(int(sec / 11)):  # вздох пара
+        tt = t_axis(1.8)
+        hiss = lowpass_fast(rng.standard_normal(len(tt)), 3500) * np.sin(np.pi * tt / 1.8) ** 2 * 0.12
+        place(track, hiss, rng.random() * sec)
+    return reverb(track, 0.55, 0.85)
+
+
+def clockmaker_battle(seed, bars=40, bpm=144):
+    """Битва с Часовщиком: тик-так шестнадцатыми, колокольное остинато, медный бас; с 24-го такта — «перемотка» (реверс аккорда)."""
+    rng = np.random.default_rng(seed)
+    beat = 60 / bpm
+    bar = beat * 4
+    track = np.zeros(int(bar * bars * SR + SR * 3))
+    root = 55
+    prog = [(0, 3, 7), (-2, 2, 5), (-4, 0, 3), (-5, -1, 2)]
+    tk = t_axis(0.4)
+    kick = np.sin(2 * np.pi * (50 + 110 * np.exp(-tk * 30)) * tk) * np.exp(-tk * 8)
+    tt = t_axis(0.04)
+    tic = lowpass(rng.standard_normal(len(tt)), 6000) * np.exp(-tt * 150)
+    for b in range(bars):
+        ch = prog[(b // 2) % len(prog)]
+        dense = b >= 24
+        for n in ch:
+            place(track, pad(note(root + n), bar * 1.05, detune=0.007, bright=1400) * 0.12, b * bar)
+        place(track, pad(note(root + ch[0] - 24), bar, detune=0.012, bright=300) * 0.5, b * bar)
+        for st in range(16):  # тик-так: чётные выше
+            place(track, tic * (0.35 if st % 2 == 0 else 0.22), b * bar + st * beat / 4)
+        for st in range(4):
+            place(track, bell(note(root + ch[st % 3] + 24), 0.9, 0.11), b * bar + st * beat)
+        for st in range(4 if not dense else 8):
+            place(track, kick * 0.85, b * bar + st * beat * (1 if not dense else 0.5))
+        if dense and b % 2 == 1:  # «перемотка»: аккорд задом наперёд
+            chord = sum(bell(note(root + n + 12), bar, 0.12) for n in ch)
+            place(track, chord[::-1][:int(bar * SR)], b * bar)
+    return reverb(track, 0.3, 0.7)
+
+
+def faceless_battle(seed, bars=44, bpm=96):
+    """Битва с Безликим: семь труб — медные квинты с нарастанием, хоровые кластеры, глухие удары; каждые 6 тактов — новая «труба»."""
+    rng = np.random.default_rng(seed)
+    beat = 60 / bpm
+    bar = beat * 4
+    track = np.zeros(int(bar * bars * SR + SR * 4))
+    root = 50
+    tk = t_axis(0.8)
+    boom = np.sin(2 * np.pi * (35 + 60 * np.exp(-tk * 10)) * tk) * np.exp(-tk * 4)
+    for b in range(bars):
+        ch = [(0, 1, 7), (-1, 3, 6), (0, 6, 7), (-2, 1, 5)][(b // 2) % 4]
+        for n in ch:  # хоровой кластер
+            place(track, pad(note(root + 12 + n), bar * 1.1, detune=0.012, bright=1100) * 0.11, b * bar)
+        place(track, pad(note(root - 12), bar, detune=0.02, bright=180) * 0.5, b * bar)
+        place(track, boom * 0.9, b * bar)
+        place(track, boom * 0.6, b * bar + beat * 2.5)
+        if b % 6 == 0:  # труба: медная квинта с крещендо
+            tt = t_axis(bar * 1.5)
+            f0 = note(root + 7 + (b // 6))
+            horn = sum(np.sin(2 * np.pi * f0 * h * tt) / h for h in range(1, 7)) + \
+                sum(np.sin(2 * np.pi * f0 * 1.5 * h * tt) / h for h in range(1, 5)) * 0.6
+            place(track, lowpass(horn, 2400) * env(len(tt), a=0.6, d=0.3, s=0.8, r=0.6) * 0.18, b * bar)
+    return reverb(track, 0.45, 0.88)
+
+
+def chrono_sfx():
+    rng = np.random.default_rng(23)
+    out = {}
+    t = t_axis(0.12)  # тик часового механизма
+    out['clock_tick'] = lowpass(rng.standard_normal(len(t)), 6000) * np.exp(-t * 90) + np.sin(2 * np.pi * 2400 * t) * np.exp(-t * 60) * 0.3
+    t = t_axis(0.9)  # жужжание шестерён
+    out['gear_whir'] = (np.sin(2 * np.pi * 180 * t) * 0.3 + lowpass(rng.standard_normal(len(t)), 1800) * 0.5) * \
+        (0.6 + 0.4 * np.sign(np.sin(2 * np.pi * 24 * t))) * env(len(t), a=0.05, d=0.2, s=0.8, r=0.3)
+    t = t_axis(1.4)  # пар
+    out['steam_hiss'] = lowpass_fast(rng.standard_normal(len(t)), 5000) * env(len(t), a=0.02, d=0.3, s=0.6, r=0.8)
+    t = t_axis(1.2)  # часовой заводит себя: трещотка с поднимающимся тоном
+    clicks = np.zeros(len(t))
+    for k in range(14):
+        i = int((0.05 + k * 0.08) * SR)
+        if i < len(t):
+            clicks[i:i + 200] += np.exp(-np.arange(min(200, len(t) - i)) / 30.0) * (0.5 + k * 0.04)
+    out['sentry_wind'] = lowpass(clicks * rng.standard_normal(len(t)), 5000) + \
+        np.sin(2 * np.pi * (300 + 400 * t / 1.2) * t) * 0.08
+    t = t_axis(0.35)  # стрекот жука
+    out['beetle_chitter'] = lowpass(rng.standard_normal(len(t)), 7000) * (np.sin(2 * np.pi * 60 * t) > 0.3) * np.exp(-t * 6)
+    t = t_axis(2.4)  # музыкальная шкатулка куклы — пять нот, чуть расстроенных
+    box = np.zeros(len(t))
+    for j, n in enumerate((84, 88, 91, 89, 86)):
+        tt = t_axis(0.8)
+        f = note(n) * (1 + 0.006 * rng.standard_normal())
+        nt = np.sin(2 * np.pi * f * tt) * np.exp(-tt * 6) + np.sin(2 * np.pi * f * 3.01 * tt) * np.exp(-tt * 12) * 0.3
+        i = int(j * 0.42 * SR)
+        box[i:i + len(nt)] += nt[:len(box) - i]
+    out['doll_music_box'] = box * 0.6
+    t = t_axis(2.5)  # гул офанима
+    out['ophanim_hum'] = sum(np.sin(2 * np.pi * f * t + rng.random() * 6) * a for f, a in ((110, 1), (165, 0.6), (220, 0.4), (330, 0.2))) * \
+        (0.7 + 0.3 * np.sin(2 * np.pi * 0.8 * t)) * env(len(t), a=0.6, d=0.3, s=0.8, r=0.8) * 0.5
+    t = t_axis(2.5)  # наводка луча: восходящий тон
+    out['ophanim_charge'] = np.sin(2 * np.pi * (400 + 1400 * (t / 2.5) ** 2) * t) * env(len(t), a=0.3, d=0.2, s=0.8, r=0.2) * 0.4
+    t = t_axis(0.8)  # разряд
+    out['ophanim_beam'] = (np.sin(2 * np.pi * (2600 * np.exp(-t * 5) + 500) * t) + lowpass(rng.standard_normal(len(t)), 6000) * 0.5) * np.exp(-t * 5)
+    t = t_axis(1.3)  # ржание заводного коня: металлический голос + пар
+    f = 520 + 300 * np.sin(np.pi * np.clip(t / 1.0, 0, 1))
+    phase = 2 * np.pi * np.cumsum(f * (1 + 0.03 * np.sin(2 * np.pi * 14 * t))) / SR
+    out['horse_whinny'] = (np.sign(np.sin(phase)) * 0.25 + np.sin(2 * phase) * 0.3) * env(len(t), a=0.05, d=0.3, s=0.6, r=0.5) + \
+        lowpass_fast(rng.standard_normal(len(t)), 4000) * np.exp(-t * 3) * 0.2
+    t = t_axis(3.0)  # «Стой!» — удар гонга
+    out['clockmaker_stop'] = sum(np.sin(2 * np.pi * f * t) * np.exp(-t * d) * a for f, d, a in ((98, 0.8, 1), (147, 1.2, 0.6), (233, 1.8, 0.4), (391, 2.5, 0.3)))
+    t = t_axis(1.6)  # перемотка: реверс-всплеск
+    sw = lowpass(rng.standard_normal(len(t)), 3000) * np.exp(-t * 2) + bell(note(79), 1.6, 0.4)
+    out['rewind'] = sw[::-1] * 0.8
+    t = t_axis(0.18)  # щелчок глиняного колеса
+    out['glyph_click'] = lowpass(rng.standard_normal(len(t)), 2500) * np.exp(-t * 40) + np.sin(2 * np.pi * 420 * t) * np.exp(-t * 35) * 0.4
+    return {k: reverb(v, 0.25, 0.55) for k, v in out.items()}
+
+
 # ---------------------------------------------------------------- эффекты
 def frozen_sfx():
     rng = np.random.default_rng(17)
@@ -395,6 +529,22 @@ SOUNDS = {  # событие → (файл(ы), категория для суб
     'entity.ice_wolf.howl': (['sfx/wolf_howl'], 'wolf_howl', False),
     'entity.ice_wolf.hurt': (['sfx/wolf_hurt'], 'wolf_hurt', False),
     'entity.ice_guardian.crack': (['sfx/guardian_crack'], 'guardian_crack', False),
+    'music.chronograd': (['music/chronograd_1'], None, True),
+    'music.clockmaker_battle': (['music/clockmaker_battle'], None, True),
+    'music.faceless_battle': (['music/faceless_battle'], None, True),
+    'block.clock.tick': (['sfx/clock_tick'], 'clock_tick', False),
+    'block.gear.whir': (['sfx/gear_whir'], 'gear_whir', False),
+    'block.steam.hiss': (['sfx/steam_hiss'], 'steam_hiss', False),
+    'entity.clockwork_sentry.wind': (['sfx/sentry_wind'], 'sentry_wind', False),
+    'entity.winder_beetle.chitter': (['sfx/beetle_chitter'], 'beetle_chitter', False),
+    'entity.brass_doll.music_box': (['sfx/doll_music_box'], 'doll_music_box', False),
+    'entity.ophanim.hum': (['sfx/ophanim_hum'], 'ophanim_hum', False),
+    'entity.ophanim.charge': (['sfx/ophanim_charge'], 'ophanim_charge', False),
+    'entity.ophanim.beam': (['sfx/ophanim_beam'], 'ophanim_beam', False),
+    'entity.clockwork_horse.whinny': (['sfx/horse_whinny'], 'horse_whinny', False),
+    'entity.clockmaker.stop': (['sfx/clockmaker_stop'], 'clockmaker_stop', False),
+    'block.rewind.rewind': (['sfx/rewind'], 'rewind', False),
+    'block.glyph.click': (['sfx/glyph_click'], 'glyph_click', False),
 }
 
 
@@ -420,10 +570,25 @@ def frozen_only():
     print('ok: звуки Чертогов')
 
 
+def chrono_only():
+    """Только звуки волны 0.5 (python3 gen_sounds.py chrono) и тема Безликого."""
+    print('Хроноград…')
+    save('music/chronograd_1', chrono_music(10), 3)
+    save('music/clockmaker_battle', clockmaker_battle(11), 3)
+    save('music/faceless_battle', faceless_battle(12), 3)
+    for k, v in chrono_sfx().items():
+        save('sfx/' + k, v, 5)
+    write_sounds_json()
+    print('ok: звуки Хронограда')
+
+
 def main():
     import sys
     if sys.argv[1:] == ['frozen']:
         frozen_only()
+        return
+    if sys.argv[1:] == ['chrono']:
+        chrono_only()
         return
     print('музыка Рая…')
     save('music/heaven_1', heaven_music(1, [(0, 4, 7, 11), (-3, 0, 4, 7), (-7, -3, 0, 4), (-5, -1, 2, 7)]), 3)
@@ -441,6 +606,11 @@ def main():
     save('music/frozen_1', frozen_music(8), 3)
     save('music/archon_battle', archon_battle(9), 3)
     for k, v in frozen_sfx().items():
+        save('sfx/' + k, v, 5)
+    save('music/chronograd_1', chrono_music(10), 3)
+    save('music/clockmaker_battle', clockmaker_battle(11), 3)
+    save('music/faceless_battle', faceless_battle(12), 3)
+    for k, v in chrono_sfx().items():
         save('sfx/' + k, v, 5)
     write_sounds_json()
     total = sum(os.path.getsize(os.path.join(dp, fn)) for dp, _, fns in os.walk(OUT) for fn in fns)

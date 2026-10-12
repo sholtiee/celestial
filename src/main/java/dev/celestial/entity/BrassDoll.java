@@ -145,7 +145,7 @@ public class BrassDoll extends Monster {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return random.nextBoolean() ? SoundEvents.NOTE_BLOCK_CHIME.value() : null;
+		return random.nextInt(3) == 0 ? dev.celestial.registry.ModSounds.DOLL_MUSIC_BOX : null;
 	}
 
 	@Override

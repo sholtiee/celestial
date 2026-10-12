@@ -125,6 +125,8 @@ def dimension():
     write_json(os.path.join(DATA, 'dimension_type/chronograd.json'), {
         'ambient_light': 0.12,
         'attributes': {
+            'minecraft:audio/background_music': {'default': {'max_delay': 7200, 'min_delay': 2400, 'replace_current_music': True,
+                                                             'sound': 'celestial:music.chronograd'}},
             'minecraft:visual/sky_color': '#e08848', 'minecraft:visual/fog_color': '#d89858', 'minecraft:visual/cloud_color': '#ffd8b0ff',
             'minecraft:visual/cloud_height': 260.0, 'minecraft:visual/sun_angle': 72.0, 'minecraft:visual/moon_angle': 252.0,
             'minecraft:visual/star_brightness': 0.15, 'minecraft:visual/sunrise_sunset_color': '#c0ff7a2a',

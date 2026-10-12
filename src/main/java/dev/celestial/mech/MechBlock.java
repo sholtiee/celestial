@@ -70,4 +70,12 @@ public class MechBlock extends Block implements Mech {
 	public boolean meshes(BlockState state) {
 		return kind == Kind.GEAR;
 	}
+
+	/** Крутится — изредка слышно жужжание шестерён. */
+	@Override
+	public void animateTick(BlockState state, net.minecraft.world.level.Level level, net.minecraft.core.BlockPos pos, net.minecraft.util.RandomSource random) {
+		if (state.getValue(SPIN) != 0 && random.nextInt(60) == 0) {
+			level.playLocalSound(pos, dev.celestial.registry.ModSounds.GEAR_WHIR, net.minecraft.sounds.SoundSource.BLOCKS, 0.25F, 0.8F + random.nextFloat() * 0.4F, false);
+		}
+	}
 }

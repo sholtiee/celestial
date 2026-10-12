@@ -1,6 +1,14 @@
 {
   "ambient_light": 0.12,
   "attributes": {
+    "minecraft:audio/background_music": {
+      "default": {
+        "max_delay": 7200,
+        "min_delay": 2400,
+        "replace_current_music": true,
+        "sound": "celestial:music.chronograd"
+      }
+    },
     "minecraft:visual/sky_color": "#e08848",
     "minecraft:visual/fog_color": "#d89858",
     "minecraft:visual/cloud_color": "#ffd8b0ff",

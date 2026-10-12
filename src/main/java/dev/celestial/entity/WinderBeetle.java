@@ -81,7 +81,7 @@ public class WinderBeetle extends Monster {
 	/** Подзавести на {@code ticks} (Часовщик подзаводит призванных сразу). */
 	public void windUp(int ticks) {
 		if (!wound()) {
-			playSound(SoundEvents.CROSSBOW_LOADING_END.value(), 0.6F, 1.8F);
+			playSound(dev.celestial.registry.ModSounds.SENTRY_WIND, 0.5F, 1.8F);
 		}
 		entityData.set(WOUND, Math.max(entityData.get(WOUND), ticks));
 	}
@@ -155,7 +155,7 @@ public class WinderBeetle extends Monster {
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return SoundEvents.SILVERFISH_AMBIENT;
+		return dev.celestial.registry.ModSounds.BEETLE_CHITTER;
 	}
 
 	@Override
