@@ -355,6 +355,16 @@ public final class ModBlocks {
 			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.block.puzzle.memory.MemoryAltarBlock.SOLVED) ? 15 : 7), 1);
 
 	// «Эхо во тьме» (святилище Бездны)
+	// Смешение языков (Вавилонская башня, Хроноград)
+	public static final Block BABEL_GLYPH = register("babel_glyph", dev.celestial.block.puzzle.babel.BabelGlyphBlock::new,
+		Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.DECORATED_POT)
+			.pushReaction(PushReaction.IMMOVEABLE), 1);
+	public static final Block GLYPH_WHEEL = register("glyph_wheel", dev.celestial.block.puzzle.babel.GlyphWheelBlock::new,
+		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.DECORATED_POT)
+			.pushReaction(PushReaction.IMMOVEABLE), 1);
+	public static final Block GLYPH_SEAL = register("glyph_seal", dev.celestial.block.puzzle.babel.GlyphSealBlock::new,
+		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.COPPER)
+			.pushReaction(PushReaction.IMMOVEABLE).lightLevel(s -> s.getValue(dev.celestial.block.puzzle.babel.GlyphSealBlock.SOLVED) ? 13 : 4), 1);
 	// Загадки времени (Хранилище времени, Хроноград)
 	public static final Block CLOCK_DIAL = register("clock_dial", dev.celestial.block.puzzle.time.ClockDialBlock::new,
 		Properties.of().mapColor(MapColor.GOLD).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.COPPER).noOcclusion()

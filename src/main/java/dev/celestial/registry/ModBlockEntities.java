@@ -92,6 +92,9 @@ public final class ModBlockEntities {
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("memory_altar"),
 		new BlockEntityType<>(dev.celestial.block.puzzle.memory.MemoryAltarBlockEntity::new, Set.of(ModBlocks.MEMORY_ALTAR)));
 
+	public static final BlockEntityType<dev.celestial.block.puzzle.babel.GlyphSealBlockEntity> GLYPH_SEAL = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("glyph_seal"),
+		new BlockEntityType<>(dev.celestial.block.puzzle.babel.GlyphSealBlockEntity::new, Set.of(ModBlocks.GLYPH_SEAL)));
 	public static final BlockEntityType<dev.celestial.block.puzzle.time.ClockDialBlockEntity> CLOCK_DIAL = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("clock_dial"),
 		new BlockEntityType<>(dev.celestial.block.puzzle.time.ClockDialBlockEntity::new, Set.of(ModBlocks.CLOCK_DIAL)));

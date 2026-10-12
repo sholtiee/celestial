@@ -42,7 +42,7 @@ Fabric-мод **Celestial** для Minecraft **26.3**: измерение Рая
 | `fading/` | Угасание: `Fading`, `Meteor(s)`, `Shadow`, `Stargazer` (профессия), `TelescopeBlock` |
 | `grace/` | Благодать: `Skill`, `Spell`, `Grace`, `Spells`, `CodexEvents`, пакеты |
 | `light/`, `block/light/` | светотехника (лучи, зеркала, призмы, приёмники) |
-| `block/puzzle/`, `puzzle/` | загадки и награды (`PuzzleRewards.solved`); `block/puzzle/time/` — загадки времени Хронограда |
+| `block/puzzle/`, `puzzle/` | загадки и награды (`PuzzleRewards.solved`); `block/puzzle/time/` — загадки времени Хронограда, `block/puzzle/babel/` — глифы Вавилона |
 | `block/machine/` | кузня, алтарь наделения, лифт, маяки |
 | `trial/` | движок испытаний (`TrialDefinitions` — список испытаний) |
 | `quest/` | поручения ангелов |

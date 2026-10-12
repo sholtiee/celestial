@@ -40,6 +40,7 @@ python3 gen_mech.py
 python3 gen_clockmaker.py
 python3 gen_chrono_places.py
 python3 gen_time_puzzles.py
+python3 gen_babel.py
 python3 gen_astral.py
 python3 gen_choirs.py
 python3 gen_faceless.py

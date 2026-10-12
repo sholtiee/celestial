@@ -1,0 +1,186 @@
+# Вавилонская башня: вид, подъём по спирали пешком, загадка «Смешение языков» (Обход/Честно), Глиняная табличка, эпизод «Вавилон»
+/gamemode creative
+/effect clear @s
+/clear @s
+/gamerule advance_time false
+/gamerule spawn_monsters false
+/weather clear
+/scoreboard objectives add t dummy
+/execute in celestial:chronograd run tp @s 4018 140 4020
+fly
+wait 120
+/fill 3990 94 3990 4009 98 4050 minecraft:stone
+/fill 3990 99 3990 4009 110 4050 minecraft:air
+/fill 3990 111 3990 4009 122 4050 minecraft:air
+/fill 3990 123 3990 4009 134 4050 minecraft:air
+/fill 3990 135 3990 4009 146 4050 minecraft:air
+/fill 3990 147 3990 4009 158 4050 minecraft:air
+/fill 4010 94 3990 4029 98 4050 minecraft:stone
+/fill 4010 99 3990 4029 110 4050 minecraft:air
+/fill 4010 111 3990 4029 122 4050 minecraft:air
+/fill 4010 123 3990 4029 134 4050 minecraft:air
+/fill 4010 135 3990 4029 146 4050 minecraft:air
+/fill 4010 147 3990 4029 158 4050 minecraft:air
+/fill 4030 94 3990 4049 98 4050 minecraft:stone
+/fill 4030 99 3990 4049 110 4050 minecraft:air
+/fill 4030 111 3990 4049 122 4050 minecraft:air
+/fill 4030 123 3990 4049 134 4050 minecraft:air
+/fill 4030 135 3990 4049 146 4050 minecraft:air
+/fill 4030 147 3990 4049 158 4050 minecraft:air
+/place template celestial:babel_tower/main 4000 99 4000
+wait 80
+/kill @e[type=item]
+togglehud
+/tp @s 4018 130 4085 180 15
+wait 30
+shot babel_south
+/tp @s 4070 140 4018 90 20
+wait 10
+shot babel_east
+/tp @s 4018.5 101 4020.5 180 5
+wait 10
+shot babel_hall_lock
+/tp @s 4018.5 101 4012.5 0 5
+wait 10
+shot babel_hall_south
+/tp @s 4018 143 4030 180 25
+wait 10
+shot babel_top
+togglehud
+# P1 подъём с земли на первый уступ пешком
+/say TEST P1 ground_to_ledge expect=pass
+/gamemode survival
+/effect give @s minecraft:resistance 900 4 true
+/tp @s 4001.5 100 4037.5 -90 0
+wait 10
+hold forward 34
+wait 38
+/tp @s ~ ~ ~ 180 0
+hold forward 12
+wait 15
+pos
+/execute if entity @p[y=106,dy=2]
+# P2 марш 0: с уступа 0 на ярус 1
+/say TEST P2 flight_0 expect=pass
+/tp @s 4003.5 107 4034.5 -90 0
+wait 10
+hold forward 30
+hold jump 4
+wait 35
+pos
+/execute if entity @p[y=113,dy=2]
+# P3 марш 1: с уступа 1 на ярус 2
+/say TEST P3 flight_1 expect=pass
+/tp @s 4031.5 114 4030.5 180 0
+wait 10
+hold forward 30
+hold jump 4
+wait 35
+pos
+/execute if entity @p[y=120,dy=2]
+# P4 марш 2: с уступа 2 на ярус 3
+/say TEST P4 flight_2 expect=pass
+/tp @s 4027.5 121 4008.5 90 0
+wait 10
+hold forward 30
+hold jump 4
+wait 35
+pos
+/execute if entity @p[y=127,dy=2]
+# P5 марш 3: с уступа 3 на ярус 4
+/say TEST P5 flight_3 expect=pass
+/tp @s 4011.5 128 4012.5 0 0
+wait 10
+hold forward 30
+hold jump 4
+wait 35
+pos
+/execute if entity @p[y=134,dy=2]
+togglehud
+shot babel_climbed
+togglehud
+/gamemode creative
+# B1 Обход: творческий не решает; неверная комбинация — блокировка; колесо не сломать
+/say TEST B1 creative_and_wrong expect=pass,pass,pass
+/tp @s 4018.5 100 4006.5 180 0
+wait 5
+use 4021 101 4004 south
+wait 5
+/execute if block 4021 101 4004 celestial:glyph_seal[solved=false]
+/gamemode survival
+wait 5
+use 4021 101 4004 south
+wait 5
+/execute if block 4032 100 4005 celestial:sealed_door
+/tp @s 4016.5 100 4006.5 180 20
+hold attack 40
+wait 45
+/execute if block 4016 101 4004 celestial:glyph_wheel
+wait 450
+# B2 Честно: перевести картинки в вавилонское письмо и набрать на колёсах
+/say TEST B2 solved expect=pass,pass
+/tp @s 4016.5 100 4006.5 180 20
+wait 3
+use 4016 101 4004 south
+use 4016 101 4004 south
+use 4016 101 4004 south
+use 4016 101 4004 south
+use 4016 101 4004 south
+use 4016 101 4004 south
+use 4016 101 4004 south
+/tp @s 4017.5 100 4006.5 180 20
+wait 3
+use 4017 101 4004 south
+use 4017 101 4004 south
+use 4017 101 4004 south
+use 4017 101 4004 south
+/tp @s 4018.5 100 4006.5 180 20
+wait 3
+use 4018 101 4004 south
+/tp @s 4019.5 100 4006.5 180 20
+wait 3
+use 4019 101 4004 south
+use 4019 101 4004 south
+use 4019 101 4004 south
+use 4019 101 4004 south
+use 4019 101 4004 south
+use 4019 101 4004 south
+use 4019 101 4004 south
+use 4019 101 4004 south
+use 4019 101 4004 south
+use 4019 101 4004 south
+/tp @s 4019.5 100 4006.5 180 10
+wait 3
+use 4021 101 4004 south
+wait 10
+/execute if block 4021 101 4004 celestial:glyph_seal[solved=true]
+/execute unless block 4032 100 4005 celestial:sealed_door
+# T1 Глиняная табличка читает глиф (кадр с подписью над панелью)
+/give @s celestial:clay_tablet
+/tp @s 4017.5 100 4006.5 180 -20
+wait 5
+use 4017 104 4003 south
+wait 3
+shot babel_tablet_reads
+/clear @s
+/gamemode creative
+# M1 эпизод «Вавилон»: вход, подойти к каменщику, посмотреть на него — дальше сцена идёт сама; табличка в руках
+/celestial memory forget babel
+/celestial memory enter babel
+wait 40
+/say TEST M1 babel_scene expect=pass,pass
+/execute in celestial:memory if entity @s[x=-10,y=50,z=-10,dx=120,dy=90,dz=120]
+togglehud
+shot babel_scene_a
+/tp @s 20.5 68 29.5 180 0
+wait 200
+shot babel_scene_b
+wait 200
+shot babel_scene_c
+wait 600
+togglehud
+/execute if entity @p[nbt={Inventory:[{id:"celestial:clay_tablet"}]}]
+/execute store result score #m t run celestial codex has memory:babel
+/scoreboard players list #m
+/clear @s
+quit

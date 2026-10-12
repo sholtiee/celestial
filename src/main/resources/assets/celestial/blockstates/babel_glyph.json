@@ -1,0 +1,148 @@
+{
+  "variants": {
+    "glyph=0,script=0": {
+      "model": "celestial:block/babel_glyph_city_0"
+    },
+    "glyph=0,script=1": {
+      "model": "celestial:block/babel_glyph_city_1"
+    },
+    "glyph=0,script=2": {
+      "model": "celestial:block/babel_glyph_city_2"
+    },
+    "glyph=0,script=3": {
+      "model": "celestial:block/babel_glyph_city_3"
+    },
+    "glyph=1,script=0": {
+      "model": "celestial:block/babel_glyph_tower_0"
+    },
+    "glyph=1,script=1": {
+      "model": "celestial:block/babel_glyph_tower_1"
+    },
+    "glyph=1,script=2": {
+      "model": "celestial:block/babel_glyph_tower_2"
+    },
+    "glyph=1,script=3": {
+      "model": "celestial:block/babel_glyph_tower_3"
+    },
+    "glyph=2,script=0": {
+      "model": "celestial:block/babel_glyph_heaven_0"
+    },
+    "glyph=2,script=1": {
+      "model": "celestial:block/babel_glyph_heaven_1"
+    },
+    "glyph=2,script=2": {
+      "model": "celestial:block/babel_glyph_heaven_2"
+    },
+    "glyph=2,script=3": {
+      "model": "celestial:block/babel_glyph_heaven_3"
+    },
+    "glyph=3,script=0": {
+      "model": "celestial:block/babel_glyph_name_0"
+    },
+    "glyph=3,script=1": {
+      "model": "celestial:block/babel_glyph_name_1"
+    },
+    "glyph=3,script=2": {
+      "model": "celestial:block/babel_glyph_name_2"
+    },
+    "glyph=3,script=3": {
+      "model": "celestial:block/babel_glyph_name_3"
+    },
+    "glyph=4,script=0": {
+      "model": "celestial:block/babel_glyph_brick_0"
+    },
+    "glyph=4,script=1": {
+      "model": "celestial:block/babel_glyph_brick_1"
+    },
+    "glyph=4,script=2": {
+      "model": "celestial:block/babel_glyph_brick_2"
+    },
+    "glyph=4,script=3": {
+      "model": "celestial:block/babel_glyph_brick_3"
+    },
+    "glyph=5,script=0": {
+      "model": "celestial:block/babel_glyph_tongue_0"
+    },
+    "glyph=5,script=1": {
+      "model": "celestial:block/babel_glyph_tongue_1"
+    },
+    "glyph=5,script=2": {
+      "model": "celestial:block/babel_glyph_tongue_2"
+    },
+    "glyph=5,script=3": {
+      "model": "celestial:block/babel_glyph_tongue_3"
+    },
+    "glyph=6,script=0": {
+      "model": "celestial:block/babel_glyph_earth_0"
+    },
+    "glyph=6,script=1": {
+      "model": "celestial:block/babel_glyph_earth_1"
+    },
+    "glyph=6,script=2": {
+      "model": "celestial:block/babel_glyph_earth_2"
+    },
+    "glyph=6,script=3": {
+      "model": "celestial:block/babel_glyph_earth_3"
+    },
+    "glyph=7,script=0": {
+      "model": "celestial:block/babel_glyph_people_0"
+    },
+    "glyph=7,script=1": {
+      "model": "celestial:block/babel_glyph_people_1"
+    },
+    "glyph=7,script=2": {
+      "model": "celestial:block/babel_glyph_people_2"
+    },
+    "glyph=7,script=3": {
+      "model": "celestial:block/babel_glyph_people_3"
+    },
+    "glyph=8,script=0": {
+      "model": "celestial:block/babel_glyph_one_0"
+    },
+    "glyph=8,script=1": {
+      "model": "celestial:block/babel_glyph_one_1"
+    },
+    "glyph=8,script=2": {
+      "model": "celestial:block/babel_glyph_one_2"
+    },
+    "glyph=8,script=3": {
+      "model": "celestial:block/babel_glyph_one_3"
+    },
+    "glyph=9,script=0": {
+      "model": "celestial:block/babel_glyph_scatter_0"
+    },
+    "glyph=9,script=1": {
+      "model": "celestial:block/babel_glyph_scatter_1"
+    },
+    "glyph=9,script=2": {
+      "model": "celestial:block/babel_glyph_scatter_2"
+    },
+    "glyph=9,script=3": {
+      "model": "celestial:block/babel_glyph_scatter_3"
+    },
+    "glyph=10,script=0": {
+      "model": "celestial:block/babel_glyph_top_0"
+    },
+    "glyph=10,script=1": {
+      "model": "celestial:block/babel_glyph_top_1"
+    },
+    "glyph=10,script=2": {
+      "model": "celestial:block/babel_glyph_top_2"
+    },
+    "glyph=10,script=3": {
+      "model": "celestial:block/babel_glyph_top_3"
+    },
+    "glyph=11,script=0": {
+      "model": "celestial:block/babel_glyph_build_0"
+    },
+    "glyph=11,script=1": {
+      "model": "celestial:block/babel_glyph_build_1"
+    },
+    "glyph=11,script=2": {
+      "model": "celestial:block/babel_glyph_build_2"
+    },
+    "glyph=11,script=3": {
+      "model": "celestial:block/babel_glyph_build_3"
+    }
+  }
+}

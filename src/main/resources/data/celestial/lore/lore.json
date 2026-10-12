@@ -365,6 +365,18 @@
       "gloss": []
     },
     {
+      "id": "babel_tongues",
+      "book": 4,
+      "node": "babel",
+      "art": "babel",
+      "src": "glimpse",
+      "has_quote": true,
+      "has_s": false,
+      "has_a": true,
+      "has_t": true,
+      "gloss": []
+    },
+    {
       "id": "sun_stood",
       "book": 4,
       "node": "babel",

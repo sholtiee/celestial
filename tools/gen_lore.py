@@ -419,6 +419,26 @@ def art_city(rng):
     return img
 
 
+def art_babel(rng):
+    img = gradient('#3a1a0a', '#e0a050')
+    d = ImageDraw.Draw(img)
+    for k in range(6):  # ярусы зиккурата, вершина не достроена
+        w = 40 - k * 6
+        y = 52 - k * 7
+        d.rectangle([48 - w // 2, y - 7, 48 + w // 2, y], fill=rgb('#6a3a1e' if k % 2 else '#7a4626'))
+    d.line([(52, 10), (52, 2)], fill=rgb('#3a2414'))  # кран над недостроем
+    d.line([(52, 2), (62, 2)], fill=rgb('#3a2414'))
+    d.line([(62, 2), (62, 7)], fill=rgb('#5a5a60'))
+    for sx in (10, 22, 74, 84):  # разлетающиеся знаки-руны
+        d.line([(sx, 10), (sx, 18)], fill=rgb('#ffe9b0'))
+        d.line([(sx, 12), (sx + 3, 15)], fill=rgb('#ffe9b0'))
+    for k in range(5):  # люди расходятся в разные стороны
+        x = 8 + k * 20
+        d.rectangle([x, 47, x + 1, 52], fill=rgb('#1a0c06'))
+        d.point((x, 45), fill=rgb('#1a0c06'))
+    return img
+
+
 def art_foundry(rng):
     img = gradient('#120806', '#5a1e0a')
     glow(img, 48, 40, 22, '#ff8a2a', 0.9)  # жар горна
@@ -512,7 +532,7 @@ ART = {
     'sword': art_sword, 'altars': art_altars, 'mark': art_mark, 'watchers': art_watchers, 'forge': art_forge, 'giant': art_giant,
     'enoch': art_enoch, 'chains': art_chains, 'abyss': art_abyss, 'star_fall': art_star_fall, 'waters': art_waters, 'flood': art_flood,
     'ark': art_ark, 'dove': art_dove, 'rainbow': art_rainbow, 'archon': art_archon, 'clock': art_clock,
-    'seraph': art_seraph, 'city': art_city, 'foundry': art_foundry, 'ice_chain': art_ice_chain, 'bones': art_bones, 'ladder': art_ladder,
+    'seraph': art_seraph, 'city': art_city, 'foundry': art_foundry, 'babel': art_babel, 'ice_chain': art_ice_chain, 'bones': art_bones, 'ladder': art_ladder,
 }
 
 

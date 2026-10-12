@@ -2699,5 +2699,279 @@
         "ticks": 40
       }
     ]
+  },
+  "babel": {
+    "stage": "celestial:memory/babel",
+    "center": [
+      20,
+      4,
+      20
+    ],
+    "radius": 19,
+    "spawn": [
+      20.5,
+      4,
+      33.5,
+      180
+    ],
+    "sheet": "babel_tongues",
+    "thought": "memory.celestial.babel.thought",
+    "on_complete": "clay_tablet",
+    "actors": [
+      {
+        "id": "mason",
+        "type": "human",
+        "skin": "mason",
+        "pos": [
+          20.5,
+          4,
+          27.5
+        ],
+        "yaw": 180
+      },
+      {
+        "id": "b1",
+        "type": "human",
+        "skin": "builder",
+        "pos": [
+          15.5,
+          4,
+          23.5
+        ],
+        "yaw": 90
+      },
+      {
+        "id": "b2",
+        "type": "human",
+        "skin": "builder",
+        "pos": [
+          25.5,
+          4,
+          23.5
+        ],
+        "yaw": 270
+      },
+      {
+        "id": "b3",
+        "type": "human",
+        "skin": "builder",
+        "pos": [
+          17.5,
+          4,
+          14.5
+        ],
+        "yaw": 0
+      }
+    ],
+    "steps": [
+      {
+        "t": "dim",
+        "value": 0.15
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.babel.1",
+        "ticks": 80
+      },
+      {
+        "t": "say",
+        "actor": "mason",
+        "key": "memory.celestial.babel.mason1",
+        "ticks": 70
+      },
+      {
+        "t": "near",
+        "pos": [
+          20.5,
+          4,
+          28.5
+        ],
+        "r": 3,
+        "timeout": 900
+      },
+      {
+        "t": "pose",
+        "actor": "b1",
+        "pose": 1
+      },
+      {
+        "t": "pose",
+        "actor": "b2",
+        "pose": 1
+      },
+      {
+        "t": "say",
+        "actor": "b1",
+        "key": "memory.celestial.babel.b1",
+        "ticks": 60
+      },
+      {
+        "t": "say",
+        "actor": "mason",
+        "key": "memory.celestial.babel.mason2",
+        "ticks": 70
+      },
+      {
+        "t": "look",
+        "actor": "mason",
+        "timeout": 600
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:end_rod",
+        "pos": [
+          20.5,
+          16,
+          20.5
+        ],
+        "count": 60,
+        "spread": 2.0
+      },
+      {
+        "t": "voice",
+        "key": "memory.celestial.babel.voice",
+        "pos": [
+          20.5,
+          14,
+          20.5
+        ],
+        "ticks": 90
+      },
+      {
+        "t": "dim",
+        "value": 0.4
+      },
+      {
+        "t": "pose",
+        "actor": "b1",
+        "pose": 0
+      },
+      {
+        "t": "pose",
+        "actor": "b2",
+        "pose": 0
+      },
+      {
+        "t": "say",
+        "actor": "b1",
+        "key": "memory.celestial.babel.g1",
+        "ticks": 50
+      },
+      {
+        "t": "say",
+        "actor": "mason",
+        "key": "memory.celestial.babel.g2",
+        "ticks": 50
+      },
+      {
+        "t": "say",
+        "actor": "b2",
+        "key": "memory.celestial.babel.g3",
+        "ticks": 50
+      },
+      {
+        "t": "face",
+        "actor": "b1",
+        "to": [
+          2.5,
+          4,
+          20.5
+        ]
+      },
+      {
+        "t": "face",
+        "actor": "b2",
+        "to": [
+          38.5,
+          4,
+          20.5
+        ]
+      },
+      {
+        "t": "face",
+        "actor": "b3",
+        "to": [
+          20.5,
+          4,
+          2.5
+        ]
+      },
+      {
+        "t": "move",
+        "actor": "b1",
+        "to": [
+          4.5,
+          4,
+          20.5
+        ],
+        "speed": 0.06,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "b2",
+        "to": [
+          36.5,
+          4,
+          20.5
+        ],
+        "speed": 0.06,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "b3",
+        "to": [
+          20.5,
+          4,
+          4.5
+        ],
+        "speed": 0.06,
+        "wait": false
+      },
+      {
+        "t": "say",
+        "actor": "mason",
+        "key": "memory.celestial.babel.g4",
+        "ticks": 60
+      },
+      {
+        "t": "face",
+        "actor": "mason",
+        "to": [
+          36.5,
+          4,
+          36.5
+        ]
+      },
+      {
+        "t": "move",
+        "actor": "mason",
+        "to": [
+          34.5,
+          4,
+          34.5
+        ],
+        "speed": 0.05,
+        "wait": false
+      },
+      {
+        "t": "wait",
+        "ticks": 60
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.babel.2",
+        "ticks": 90
+      },
+      {
+        "t": "dim",
+        "value": 0.1
+      },
+      {
+        "t": "end",
+        "ticks": 50
+      }
+    ]
   }
 }

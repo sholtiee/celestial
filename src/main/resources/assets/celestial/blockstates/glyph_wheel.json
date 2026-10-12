@@ -1,0 +1,196 @@
+{
+  "variants": {
+    "facing=north,glyph=0": {
+      "model": "celestial:block/glyph_wheel_0",
+      "y": 0
+    },
+    "facing=north,glyph=1": {
+      "model": "celestial:block/glyph_wheel_1",
+      "y": 0
+    },
+    "facing=north,glyph=2": {
+      "model": "celestial:block/glyph_wheel_2",
+      "y": 0
+    },
+    "facing=north,glyph=3": {
+      "model": "celestial:block/glyph_wheel_3",
+      "y": 0
+    },
+    "facing=north,glyph=4": {
+      "model": "celestial:block/glyph_wheel_4",
+      "y": 0
+    },
+    "facing=north,glyph=5": {
+      "model": "celestial:block/glyph_wheel_5",
+      "y": 0
+    },
+    "facing=north,glyph=6": {
+      "model": "celestial:block/glyph_wheel_6",
+      "y": 0
+    },
+    "facing=north,glyph=7": {
+      "model": "celestial:block/glyph_wheel_7",
+      "y": 0
+    },
+    "facing=north,glyph=8": {
+      "model": "celestial:block/glyph_wheel_8",
+      "y": 0
+    },
+    "facing=north,glyph=9": {
+      "model": "celestial:block/glyph_wheel_9",
+      "y": 0
+    },
+    "facing=north,glyph=10": {
+      "model": "celestial:block/glyph_wheel_10",
+      "y": 0
+    },
+    "facing=north,glyph=11": {
+      "model": "celestial:block/glyph_wheel_11",
+      "y": 0
+    },
+    "facing=east,glyph=0": {
+      "model": "celestial:block/glyph_wheel_0",
+      "y": 90
+    },
+    "facing=east,glyph=1": {
+      "model": "celestial:block/glyph_wheel_1",
+      "y": 90
+    },
+    "facing=east,glyph=2": {
+      "model": "celestial:block/glyph_wheel_2",
+      "y": 90
+    },
+    "facing=east,glyph=3": {
+      "model": "celestial:block/glyph_wheel_3",
+      "y": 90
+    },
+    "facing=east,glyph=4": {
+      "model": "celestial:block/glyph_wheel_4",
+      "y": 90
+    },
+    "facing=east,glyph=5": {
+      "model": "celestial:block/glyph_wheel_5",
+      "y": 90
+    },
+    "facing=east,glyph=6": {
+      "model": "celestial:block/glyph_wheel_6",
+      "y": 90
+    },
+    "facing=east,glyph=7": {
+      "model": "celestial:block/glyph_wheel_7",
+      "y": 90
+    },
+    "facing=east,glyph=8": {
+      "model": "celestial:block/glyph_wheel_8",
+      "y": 90
+    },
+    "facing=east,glyph=9": {
+      "model": "celestial:block/glyph_wheel_9",
+      "y": 90
+    },
+    "facing=east,glyph=10": {
+      "model": "celestial:block/glyph_wheel_10",
+      "y": 90
+    },
+    "facing=east,glyph=11": {
+      "model": "celestial:block/glyph_wheel_11",
+      "y": 90
+    },
+    "facing=south,glyph=0": {
+      "model": "celestial:block/glyph_wheel_0",
+      "y": 180
+    },
+    "facing=south,glyph=1": {
+      "model": "celestial:block/glyph_wheel_1",
+      "y": 180
+    },
+    "facing=south,glyph=2": {
+      "model": "celestial:block/glyph_wheel_2",
+      "y": 180
+    },
+    "facing=south,glyph=3": {
+      "model": "celestial:block/glyph_wheel_3",
+      "y": 180
+    },
+    "facing=south,glyph=4": {
+      "model": "celestial:block/glyph_wheel_4",
+      "y": 180
+    },
+    "facing=south,glyph=5": {
+      "model": "celestial:block/glyph_wheel_5",
+      "y": 180
+    },
+    "facing=south,glyph=6": {
+      "model": "celestial:block/glyph_wheel_6",
+      "y": 180
+    },
+    "facing=south,glyph=7": {
+      "model": "celestial:block/glyph_wheel_7",
+      "y": 180
+    },
+    "facing=south,glyph=8": {
+      "model": "celestial:block/glyph_wheel_8",
+      "y": 180
+    },
+    "facing=south,glyph=9": {
+      "model": "celestial:block/glyph_wheel_9",
+      "y": 180
+    },
+    "facing=south,glyph=10": {
+      "model": "celestial:block/glyph_wheel_10",
+      "y": 180
+    },
+    "facing=south,glyph=11": {
+      "model": "celestial:block/glyph_wheel_11",
+      "y": 180
+    },
+    "facing=west,glyph=0": {
+      "model": "celestial:block/glyph_wheel_0",
+      "y": 270
+    },
+    "facing=west,glyph=1": {
+      "model": "celestial:block/glyph_wheel_1",
+      "y": 270
+    },
+    "facing=west,glyph=2": {
+      "model": "celestial:block/glyph_wheel_2",
+      "y": 270
+    },
+    "facing=west,glyph=3": {
+      "model": "celestial:block/glyph_wheel_3",
+      "y": 270
+    },
+    "facing=west,glyph=4": {
+      "model": "celestial:block/glyph_wheel_4",
+      "y": 270
+    },
+    "facing=west,glyph=5": {
+      "model": "celestial:block/glyph_wheel_5",
+      "y": 270
+    },
+    "facing=west,glyph=6": {
+      "model": "celestial:block/glyph_wheel_6",
+      "y": 270
+    },
+    "facing=west,glyph=7": {
+      "model": "celestial:block/glyph_wheel_7",
+      "y": 270
+    },
+    "facing=west,glyph=8": {
+      "model": "celestial:block/glyph_wheel_8",
+      "y": 270
+    },
+    "facing=west,glyph=9": {
+      "model": "celestial:block/glyph_wheel_9",
+      "y": 270
+    },
+    "facing=west,glyph=10": {
+      "model": "celestial:block/glyph_wheel_10",
+      "y": 270
+    },
+    "facing=west,glyph=11": {
+      "model": "celestial:block/glyph_wheel_11",
+      "y": 270
+    }
+  }
+}

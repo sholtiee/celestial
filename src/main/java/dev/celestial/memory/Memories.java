@@ -278,6 +278,12 @@ public final class Memories {
 		if (s.onComplete().equals("prologue_wake")) {
 			prologueWake(player, level, back.first());
 		}
+		if (back.first() && s.onComplete().equals("clay_tablet")) {  // «Вавилон»: в руке остаётся Глиняная табличка
+			ItemStack tablet = new ItemStack(dev.celestial.registry.ModItems.CLAY_TABLET);
+			if (!player.getInventory().add(tablet)) {
+				player.spawnAtLocation(level, tablet);
+			}
+		}
 		if (back.first() && s.onComplete().equals("part_thorns")) {  // перемена у якоря — только в первый раз, не при повторе из Кодекса
 			// терновник вокруг Древа Познания расступается: тропа к Восточным вратам открыта
 			BlockPos a = back.anchor();

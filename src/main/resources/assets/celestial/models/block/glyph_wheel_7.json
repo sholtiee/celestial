@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "celestial:block/glyph_wheel_7",
+    "side": "celestial:block/glyph_wheel_side",
+    "top": "celestial:block/glyph_wheel_side"
+  }
+}

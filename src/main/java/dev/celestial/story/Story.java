@@ -27,6 +27,7 @@ public enum Story {
 	CLOCK_DIALS("clock_dials"),
 	TICK_WALKER("tick_walker"),
 	REWIND_ROOM("rewind_room"),
+	BABEL_TONGUES("babel_tongues"),
 	THREE_BEAMS("three_beams"),
 	BELL_RINGER("bell_ringer"),
 	STAR_WALKER("star_walker"),
@@ -52,7 +53,8 @@ public enum Story {
 		java.util.Map.entry("bells", BELL_RINGER), java.util.Map.entry("star_tiles", STAR_WALKER), java.util.Map.entry("riddle", RIDDLE),
 		java.util.Map.entry("star_lock", STAR_LOCK), java.util.Map.entry("memory", MEMORY), java.util.Map.entry("echo", ECHO),
 		java.util.Map.entry("glacier", GLACIER_MASTER), java.util.Map.entry("mirror_maze", THREE_BEAMS),
-		java.util.Map.entry("clock_dials", CLOCK_DIALS), java.util.Map.entry("tick_platforms", TICK_WALKER), java.util.Map.entry("rewind_room", REWIND_ROOM));
+		java.util.Map.entry("clock_dials", CLOCK_DIALS), java.util.Map.entry("tick_platforms", TICK_WALKER), java.util.Map.entry("rewind_room", REWIND_ROOM),
+		java.util.Map.entry("babel", BABEL_TONGUES));
 
 	public final Identifier id;
 

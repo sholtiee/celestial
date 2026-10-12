@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "celestial:block/babel_glyph_tower_3"
+  }
+}

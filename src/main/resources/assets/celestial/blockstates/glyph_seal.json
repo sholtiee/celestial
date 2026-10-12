@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "solved=false": {
+      "model": "celestial:block/glyph_seal"
+    },
+    "solved=true": {
+      "model": "celestial:block/glyph_seal_solved"
+    }
+  }
+}
