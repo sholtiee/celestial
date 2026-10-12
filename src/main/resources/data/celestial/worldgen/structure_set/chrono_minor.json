@@ -1,0 +1,30 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 5500503,
+    "separation": 4,
+    "spacing": 12,
+    "exclusion_zone": {
+      "other_set": "celestial:chrono_landmarks",
+      "chunk_count": 5
+    }
+  },
+  "structures": [
+    {
+      "structure": "celestial:gear_monument",
+      "weight": 5
+    },
+    {
+      "structure": "celestial:master_house",
+      "weight": 4
+    },
+    {
+      "structure": "celestial:jubal_belltower",
+      "weight": 1
+    },
+    {
+      "structure": "celestial:time_vault",
+      "weight": 1
+    }
+  ]
+}

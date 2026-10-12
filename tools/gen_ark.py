@@ -297,7 +297,7 @@ def structures():
     jigsaw('frozen_ark', [c('glacier'), c('aurora_fields')], 0, adaptation='beard_box')
     structure_set('frozen_ark', 56, 22, 4400431)
     jigsaw('burning_bush_shrine', [c('glacier'), c('aurora_fields'), c('ice_spires')], 0, adaptation='beard_thin')
-    structure_set('burning_bush_shrine', 26, 10, 4400433)
+    structure_set('burning_bush_shrine', 26, 10, 4400433, exclusion=('frozen_citadel', 8))
     write_json(os.path.join(DATA, 'tags/worldgen/structure/dove_guides_to.json'), {'values': ['#celestial:codex_places']})
     append_tag('worldgen/structure', 'celestial:codex_places', [c('frozen_ark'), c('burning_bush_shrine')])
 

@@ -17,7 +17,7 @@ from PIL import Image
 import textures as T
 from gen_abyss import append_tag
 from gen_assets import DATA, blockstate, c, item_def, model, save_png, write_json
-from gen_places import jigsaw, structure_set
+from gen_places import jigsaw
 from gen_story import advancement, lang_patch
 from gen_structures import Template, reliquary
 
@@ -511,7 +511,7 @@ def story_and_lang(answer):
 
 def structures():
     jigsaw('babel_tower', [c('cog_city')], -1, adaptation='beard_box')
-    structure_set('babel_tower', 44, 18, 5500705)
+    # размещение — в наборе chrono_landmarks (gen_chrono_places)
     append_tag('worldgen/structure', 'celestial:codex_places', [c('babel_tower')])
 
 

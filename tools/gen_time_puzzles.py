@@ -18,7 +18,7 @@ from PIL import Image
 import textures as T
 from gen_abyss import append_tag
 from gen_assets import ASSETS, DATA, blockstate, c, item_def, model, save_png, write_json
-from gen_places import jigsaw, structure_set
+from gen_places import jigsaw
 from gen_story import advancement, lang_patch
 from gen_structures import Template, chest, reliquary
 
@@ -373,7 +373,7 @@ def story_and_lang():
 
 def structures():
     jigsaw('time_vault', [c('cog_city'), c('clock_valley')], -5, adaptation='beard_box')
-    structure_set('time_vault', 30, 12, 5500601)
+    # размещение — в наборе chrono_minor (gen_chrono_places)
     append_tag('worldgen/structure', 'celestial:codex_places', [c('time_vault')])
 
 

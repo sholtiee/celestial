@@ -141,7 +141,7 @@
               "type": "minecraft:exploration_map",
               "decoration": "minecraft:target_x",
               "destination": "#celestial:clock_towers",
-              "search_radius": 60,
+              "search_radius": 100,
               "skip_existing_chunks": false
             },
             {

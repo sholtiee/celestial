@@ -1,13 +1,17 @@
 {
   "placement": {
     "type": "minecraft:random_spread",
-    "salt": 5500501,
+    "salt": 5500500,
     "separation": 14,
-    "spacing": 36
+    "spacing": 34
   },
   "structures": [
     {
       "structure": "celestial:clock_tower",
+      "weight": 2
+    },
+    {
+      "structure": "celestial:babel_tower",
       "weight": 1
     }
   ]

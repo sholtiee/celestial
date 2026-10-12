@@ -181,10 +181,15 @@ def floor_place(name, biomes, min_y, max_y, clearance, footprint, step, offset=0
     write_json(os.path.join(DATA, 'tags/worldgen/biome/has_structure', name + '.json'), {'values': biomes})
 
 
-def structure_set(name, spacing, separation, salt):
+def structure_set(name, spacing, separation, salt, exclusion=None, structures=None):
+    """Набор размещения. exclusion=(набор, чанков) — не ставить ближе к постройкам другого набора; structures={id: вес} —
+    несколько построек в одном наборе (в одной точке — одна из них, так они не налезают друг на друга)."""
+    placement = {'type': 'minecraft:random_spread', 'salt': salt, 'separation': separation, 'spacing': spacing}
+    if exclusion:
+        placement['exclusion_zone'] = {'other_set': c(exclusion[0]), 'chunk_count': exclusion[1]}
     write_json(os.path.join(DATA, 'worldgen/structure_set', name + '.json'), {
-        'placement': {'type': 'minecraft:random_spread', 'salt': salt, 'separation': separation, 'spacing': spacing},
-        'structures': [{'structure': c(name), 'weight': 1}]})
+        'placement': placement,
+        'structures': [{'structure': c(n), 'weight': w} for n, w in (structures or {name: 1}).items()]})
 
 
 def loot():

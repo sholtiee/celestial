@@ -352,7 +352,7 @@ def loot():
 
     tower_map = {'type': 'minecraft:item', 'name': MC + 'filled_map', 'modifier': [
         {'type': 'minecraft:exploration_map', 'decoration': 'minecraft:target_x', 'destination': '#' + c('clock_towers'),
-         'search_radius': 60, 'skip_existing_chunks': False},
+         'search_radius': 100, 'skip_existing_chunks': False},
         {'type': 'minecraft:set_name', 'name': {'translate': 'filled_map.celestial.clock_tower'}, 'target': 'item_name'}]}
     table('chrono_workshop', [
         rolls(3, 6, [item(c('chronite_ingot'), 4, 1, 2), item(MC + 'copper_ingot', 8, 2, 6), item(c('raw_chronite'), 5, 1, 3),
@@ -378,16 +378,13 @@ def loot():
 def structures():
     cities = [c('cog_city'), c('copper_plains'), c('clock_valley')]
     jigsaw('clock_tower', cities, -1, adaptation='beard_box')
-    structure_set('clock_tower', 36, 14, 5500501)
     write_json(os.path.join(DATA, 'tags/worldgen/structure/clock_towers.json'), {'values': [c('clock_tower')]})
     # шестерни-памятники: три варианта старения в одном пуле, наполовину в земле
     jigsaw('gear_monument', [c('copper_plains'), c('cog_city'), c('clock_valley')], -3, adaptation='beard_thin')
     write_json(os.path.join(DATA, 'worldgen/template_pool/gear_monument/main.json'), {'fallback': 'minecraft:empty', 'elements': [
         {'weight': 1, 'element': {'element_type': 'minecraft:single_pool_element', 'location': c('gear_monument/' + n),
                                   'processors': 'minecraft:empty', 'projection': 'rigid'}} for n in ('main', 'main1', 'main2')]})
-    structure_set('gear_monument', 11, 4, 5500503)
     jigsaw('master_house', [c('cog_city'), c('copper_plains')], -1, adaptation='beard_thin')
-    structure_set('master_house', 14, 5, 5500505)
     jigsaw('tubalcain_foundry', [c('foundry_wastes')], -1, adaptation='beard_box')
     structure_set('tubalcain_foundry', 26, 10, 5500507)
     # карта к башне — наградой за главу «Часы мироздания» (первый вход в Хроноград)
@@ -397,7 +394,14 @@ def structures():
     adv['rewards'] = {'loot': [c('gameplay/clock_tower_map')]}
     write_json(path, adv)
     jigsaw('jubal_belltower', [c('cog_city'), c('clock_valley')], -1, adaptation='beard_box')
-    structure_set('jubal_belltower', 32, 12, 5500509)
+    # наборы: «ориентиры» (одна большая постройка на участок) и «малые» — в одной точке одна из них, и не ближе 5 чанков к ориентиру
+    for old in ('clock_tower', 'gear_monument', 'master_house', 'jubal_belltower', 'time_vault', 'babel_tower'):
+        path = os.path.join(DATA, 'worldgen/structure_set', old + '.json')
+        if os.path.exists(path):
+            os.remove(path)
+    structure_set('chrono_landmarks', 34, 14, 5500500, structures={'clock_tower': 2, 'babel_tower': 1})
+    structure_set('chrono_minor', 12, 4, 5500503, exclusion=('chrono_landmarks', 5),
+                  structures={'gear_monument': 5, 'master_house': 4, 'jubal_belltower': 1, 'time_vault': 1})
     append_tag('worldgen/structure', 'celestial:codex_places', [c('clock_tower'), c('gear_monument'), c('master_house'), c('tubalcain_foundry'),
                                                                 c('jubal_belltower')])
 
