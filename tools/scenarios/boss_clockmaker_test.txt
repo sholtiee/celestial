@@ -8,7 +8,8 @@
 fly
 wait 60
 /kill @e[type=!minecraft:player,distance=..60]
-/fill 31980 158 31980 32020 183 32020 minecraft:air
+/fill 31980 158 31980 32000 183 32020 minecraft:air
+/fill 32001 158 31980 32020 183 32020 minecraft:air
 /place template celestial:clock_tower/arena 31984 159 31984
 wait 20
 /scoreboard objectives add t dummy

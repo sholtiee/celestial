@@ -329,3 +329,8 @@ GLOSSARY = {
     'covenant': ('Завет', 'Covenant', 'Обет Бога людям; его знак — радуга (Быт. 9:13).', 'God\'s pledge to men; its sign is the rainbow (Gen. 9:13).',
                  'Радужные мосты Рая.', 'The rainbow bridges of Heaven.'),
 }
+
+# Листы, которые приносят Отблески S3 (отдельный файл)
+from lore_data_s3 import EXTRA_SHEETS  # noqa: E402
+
+SHEETS.extend(EXTRA_SHEETS)

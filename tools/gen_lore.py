@@ -400,6 +400,68 @@ def art_clock(rng):
     return img
 
 
+def art_seraph(rng):
+    img = gradient('#1a2450', '#f6d98a')
+    glow(img, 48, 20, 30, '#fff6d6', 1.0)
+    d = ImageDraw.Draw(img)
+    for sign in (-1, 1):  # шесть крыльев: две пары вверх и в стороны, пара вниз
+        for k, (dx, dy) in enumerate(((20, -14), (24, -2), (16, 10))):
+            x0 = 48 + sign * 4
+            d.polygon([(x0, 28), (x0 + sign * dx, 28 + dy), (x0 + sign * (dx - 3), 28 + dy + 4)], fill=rgb('#fff2c8'), outline=rgb('#c9a23a'))
+    d.polygon([(46, 24), (50, 24), (52, 46), (44, 46)], fill=rgb('#f6e6a8'))  # силуэт в одеянии
+    d.ellipse([45, 17, 51, 23], fill=rgb('#ffe9b0'))
+    d.ellipse([44, 12, 52, 15], outline=rgb('#fff6d0'))
+    for x in (12, 28, 68, 84):  # хор вдали
+        d.ellipse([x, 36, x + 4, 40], fill=rgb('#fff2c8'))
+        d.rectangle([x + 1, 40, x + 3, 48], fill=rgb('#e8dcb8'))
+    return img
+
+
+def art_ice_chain(rng):
+    img = gradient('#0e1e3a', '#4a7aaa')
+    d = ImageDraw.Draw(img)
+    d.polygon([(30, 6), (66, 6), (70, 48), (26, 48)], fill=rgb('#bfe6ff'), outline=rgb('#e8f6ff'))  # глыба льда
+    d.polygon([(36, 12), (60, 12), (63, 44), (33, 44)], fill=rgb('#7ab8e8'))
+    d.ellipse([44, 14, 52, 22], fill=rgb('#f4f9ff'))  # силуэт Инии
+    d.polygon([(42, 24), (54, 24), (58, 44), (38, 44)], fill=rgb('#e8f2fb'))
+    for y in range(8, 44, 6):  # цепи через лёд
+        d.ellipse([22, y, 28, y + 4], outline=rgb('#8a9ab0'))
+        d.ellipse([68, y + 3, 74, y + 7], outline=rgb('#8a9ab0'))
+    stars(img, rng, 18, 8)
+    return img
+
+
+def art_bones(rng):
+    img = gradient('#1a2236', '#7a9ac0')
+    d = ImageDraw.Draw(img)
+    d.polygon([(0, 54), (0, 40), (30, 36), (60, 42), (96, 38), (96, 54)], fill=rgb('#dfe9f4'))
+    for _ in range(26):  # кости на снегу
+        x, y = rng.randrange(4, 92), rng.randrange(40, 52)
+        d.line([(x, y), (x + rng.randrange(3, 7), y + rng.randrange(-1, 2))], fill=rgb('#f4f0e0'))
+    for x in range(30, 70, 7):  # свет поднимается от костей
+        d.line([(x, 38), (x + rng.randrange(-2, 3), 6)], fill=rgb('#fff6c0'))
+    glow(img, 48, 34, 26, '#fff6d6', 0.8)
+    return img
+
+
+def art_ladder(rng):
+    img = gradient('#0a0f2a', '#3a4a8a')
+    stars(img, rng, 60, 40)
+    d = ImageDraw.Draw(img)
+    d.polygon([(0, 54), (96, 54), (96, 48), (0, 50)], fill=rgb('#1a2236'))
+    d.ellipse([6, 44, 20, 50], fill=rgb('#6a6a7a'))  # камень-изголовье
+    for i in range(14):  # лестница света уходит вверх и вправо
+        x = 24 + i * 5
+        y = 46 - i * 3
+        d.line([(x, y), (x + 8, y - 3)], fill=rgb('#fff6d6'), width=2)
+        d.line([(x, y - 4), (x + 3, y + 1)], fill=rgb('#ffe9a0'))
+    for x, y in ((40, 34), (58, 24), (72, 14)):  # ангелы на лестнице
+        d.ellipse([x, y - 4, x + 3, y - 1], fill=rgb('#ffffff'))
+        d.rectangle([x, y - 1, x + 3, y + 3], fill=rgb('#e8f0ff'))
+    glow(img, 86, 4, 26, '#fff6d6', 1.0)
+    return img
+
+
 def art_locked(rng):
     img = gradient('#1a1a24', '#2a2a38')
     d = ImageDraw.Draw(img)
@@ -414,6 +476,7 @@ ART = {
     'sword': art_sword, 'altars': art_altars, 'mark': art_mark, 'watchers': art_watchers, 'forge': art_forge, 'giant': art_giant,
     'enoch': art_enoch, 'chains': art_chains, 'abyss': art_abyss, 'star_fall': art_star_fall, 'waters': art_waters, 'flood': art_flood,
     'ark': art_ark, 'dove': art_dove, 'rainbow': art_rainbow, 'archon': art_archon, 'clock': art_clock,
+    'seraph': art_seraph, 'ice_chain': art_ice_chain, 'bones': art_bones, 'ladder': art_ladder,
 }
 
 

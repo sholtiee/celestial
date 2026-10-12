@@ -7,7 +7,8 @@
 fly
 wait 80
 /kill @e[type=!minecraft:player,distance=..80]
-/fill -22 88 -22 22 104 22 minecraft:air
+/fill -22 88 -22 0 104 22 minecraft:air
+/fill 1 88 -22 22 104 22 minecraft:air
 /place template celestial:star_altar/summit -19 89 -19
 wait 20
 /scoreboard objectives add t dummy

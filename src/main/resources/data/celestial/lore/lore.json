@@ -351,6 +351,56 @@
       "has_a": true,
       "has_t": true,
       "gloss": []
+    },
+    {
+      "id": "seraph_before",
+      "book": 2,
+      "node": "morning",
+      "art": "seraph",
+      "src": "glimpse",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": [
+        "seraph"
+      ]
+    },
+    {
+      "id": "inia",
+      "book": 6,
+      "node": "flood",
+      "art": "ice_chain",
+      "src": "glimpse",
+      "has_quote": false,
+      "has_s": false,
+      "has_a": true,
+      "has_t": true,
+      "gloss": []
+    },
+    {
+      "id": "dry_bones",
+      "book": 5,
+      "node": "prophets",
+      "art": "bones",
+      "src": "glimpse",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": []
+    },
+    {
+      "id": "jacob_ladder",
+      "book": 5,
+      "node": "prophets",
+      "art": "ladder",
+      "src": "glimpse",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": []
     }
   ],
   "glossary": [
