@@ -124,7 +124,7 @@ public class FallenSeraph extends Monster {
 		record.tick(level, bossEvent.getPlayers());
 		bossEvent.setProgress(getHealth() / getMaxHealth());
 		int newPhase = getHealth() > getMaxHealth() * 0.66F ? 1 : getHealth() > getMaxHealth() * 0.33F ? 2 : 3;
-		if (newPhase != phase) {
+		if (newPhase > phase) {  // фаза только растёт: лечение (кристаллы, поглощённый свет) не возвращает назад
 			phase = newPhase;
 			onPhaseChange(level);
 		}

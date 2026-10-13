@@ -124,7 +124,7 @@ public class LightDevourer extends Monster {
 		bossEvent.setColor(lit >= 2 ? BossEvent.BossBarColor.YELLOW : BossEvent.BossBarColor.PURPLE);
 
 		int newPhase = getHealth() > getMaxHealth() * 0.6F ? 1 : getHealth() > getMaxHealth() * 0.3F ? 2 : 3;
-		if (newPhase != phase) {
+		if (newPhase > phase) {  // фаза только растёт: лечение (кристаллы, поглощённый свет) не возвращает назад
 			phase = newPhase;
 			onPhase(level);
 		}

@@ -45,7 +45,7 @@ wait 40
 shot endless_rank
 wait 60
 /scoreboard players get @s celestial_endless
-/say TEST уход
+/say TEST уход expect=fail
 /tp @s -32 67 310
 wait 20
 /scoreboard players get @s celestial_endless

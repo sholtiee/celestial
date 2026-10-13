@@ -52,9 +52,99 @@ wait 268
 /say TEST K3b beetles_summoned expect=pass
 /execute if entity @e[type=celestial:winder_beetle,tag=celestial_no_repel]
 shot clock_tick_tock
-wait 34
-/execute store result score #sp1 t run attribute @s minecraft:movement_speed get 1000
+# «Стой!» ждём окном (минимум скорости за 300 тиков): клиентские wait не совпадают с тиками сервера под нагрузкой
+/scoreboard players set #sp1 t 1000
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
 shot clock_stop
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
+wait 10
+/execute store result score #spk t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players operation #sp1 t < #spk t
 /scoreboard players list #sp0
 /scoreboard players list #sp1
 /say TEST K4 player_frozen_by_stop expect=pass
@@ -81,16 +171,16 @@ shot clock_phase3
 # Камертоном останавливаем все четыре древних маятника
 /item replace entity @s weapon.mainhand with celestial:tuning_fork
 /tp @s 32004.5 160 31996.5 45 20
-wait 5
+wait 25
 use 32006 163 31994 west
 /tp @s 32004.5 160 32004.5 135 20
-wait 5
+wait 25
 use 32006 163 32006 west
 /tp @s 31996.5 160 32004.5 -135 20
-wait 5
+wait 25
 use 31994 163 32006 east
 /tp @s 31996.5 160 31996.5 -45 20
-wait 5
+wait 25
 use 31994 163 31994 east
 wait 15
 /say TEST K9 all_pendulums_stopped expect=pass
