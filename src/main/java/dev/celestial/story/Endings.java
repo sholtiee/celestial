@@ -108,6 +108,9 @@ public final class Endings {
 				p.sendSystemMessage(Component.translatable("ending.celestial." + ending + "." + i));
 			}
 			(light ? Story.KINDLED : Story.CONSUMED).grant(p);
+			if (light) {
+				NewJerusalem.schedule(p, 200);  // эпилог: город сходит, бойцов переносит к его вратам
+			}
 		}
 		CelestialData.updateWorld(server, w -> w.withAct(Math.max(5, w.act())).withFading(0).withFlag("act5_done").withFlag("ending_" + ending));
 		server.getPlayerList().getPlayers().forEach(StoryEvents::syncActs);
@@ -125,6 +128,7 @@ public final class Endings {
 				p.sendSystemMessage(Component.translatable("ending.celestial.name." + i));
 			}
 			Story.NAMED.grant(p);
+			NewJerusalem.schedule(p, 220);
 		}
 		CelestialData.updateWorld(server, w -> w.withAct(Math.max(5, w.act())).withFading(0).withFlag("act5_done").withFlag("ending_" + NAME)
 			.withFlag("eden_traces"));

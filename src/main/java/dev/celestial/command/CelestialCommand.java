@@ -132,6 +132,11 @@ public final class CelestialCommand {
 					return 1;
 				}))))
 			// концовка у повергнутого Безликого без экрана (для сценариев): /celestial ending kindle|consume|name
+			.then(Commands.literal("jerusalem").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+				.executes(ctx -> {  // для сценариев: в Новый Иерусалим (город ставится при первом входе)
+					dev.celestial.story.NewJerusalem.bring(ctx.getSource().getPlayerOrException());
+					return 1;
+				}))
 			.then(Commands.literal("ending").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
 				.then(Commands.literal("reset").executes(ctx -> {
 					dev.celestial.story.Endings.reset(ctx.getSource().getPlayerOrException());

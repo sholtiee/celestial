@@ -1,0 +1,30 @@
+/gamemode creative
+/weather clear
+/celestial flag remove new_jerusalem
+/celestial jerusalem
+wait 120
+togglehud
+shot nj_gate_inside
+/tp @s 0 152 -706 180 8
+wait 40
+shot nj_throne
+/tp @s 0 153 -698 0 5
+wait 40
+shot nj_south_gate
+/tp @s 24 154 -735 135 15
+wait 40
+shot nj_quarter
+/tp @s 0 205 -630 180 35
+wait 80
+shot nj_above
+/tp @s 75 140 -720 90 -10
+wait 60
+shot nj_foundation
+/gamemode survival
+/tp @s 0 152 -716.5 180 30
+wait 30
+use 0 154 -720 south
+wait 40
+pos
+togglehud
+quit

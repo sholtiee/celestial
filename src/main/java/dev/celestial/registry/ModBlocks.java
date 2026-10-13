@@ -440,6 +440,19 @@ public final class ModBlocks {
 		p -> new dev.celestial.world.portal.CelestialPortalBlock(() -> dev.celestial.world.portal.PortalTypes.STAR, p),
 		Properties.of().noCollision().strength(-1.0F).sound(SoundType.GLASS).lightLevel(s -> 13).pushReaction(PushReaction.IMMOVEABLE).noLootTable());
 
+	// ── Новый Иерусалим (0.6, S5.5): яспис стен, жемчуг врат, золото улицы, двенадцать камней основания, свет престола ──
+	public static final Block JASPER_BLOCK = register("jasper_block", Block::new,
+		Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).requiresCorrectToolForDrops().strength(4.0F, 12.0F).sound(SoundType.CALCITE).lightLevel(s -> 3));
+	public static final Block PEARL_BLOCK = register("pearl_block", Block::new,
+		Properties.of().mapColor(MapColor.SNOW).requiresCorrectToolForDrops().strength(3.0F, 12.0F).sound(SoundType.CALCITE).lightLevel(s -> 8));
+	public static final Block GOLDEN_STREET = register("golden_street", Block::new,
+		Properties.of().mapColor(MapColor.GOLD).requiresCorrectToolForDrops().strength(3.0F, 12.0F).sound(SoundType.METAL).lightLevel(s -> 6));
+	public static final Block FOUNDATION_STONE = register("foundation_stone", dev.celestial.block.jerusalem.FoundationStoneBlock::new,
+		Properties.of().mapColor(MapColor.DIAMOND).requiresCorrectToolForDrops().strength(5.0F, 12.0F).sound(SoundType.AMETHYST).lightLevel(s -> 5));
+	public static final Block THRONE_LIGHT = register("throne_light", dev.celestial.block.jerusalem.ThroneLightBlock::new,
+		Properties.of().mapColor(MapColor.QUARTZ).strength(-1.0F, 3600000.0F).sound(SoundType.AMETHYST).lightLevel(s -> 15).noLootTable()
+			.pushReaction(PushReaction.IMMOVEABLE));
+
 	// ── Хроноград (0.5): маятники — зоны иного хода времени ──
 	public static final Block SWIFT_PENDULUM = register("swift_pendulum",
 		p -> new dev.celestial.chrono.PendulumBlock(dev.celestial.chrono.TimeFlow.FAST, 16, p),

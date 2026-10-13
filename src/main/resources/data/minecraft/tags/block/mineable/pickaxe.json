@@ -57,6 +57,10 @@
     "celestial:astral_bricks",
     "celestial:astral_crystal",
     "celestial:star_stone_block",
-    "celestial:celestite_ore"
+    "celestial:celestite_ore",
+    "celestial:jasper_block",
+    "celestial:pearl_block",
+    "celestial:golden_street",
+    "celestial:foundation_stone"
   ]
 }

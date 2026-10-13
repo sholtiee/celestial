@@ -1,0 +1,40 @@
+{
+  "variants": {
+    "gem=0": {
+      "model": "celestial:block/foundation_stone_0"
+    },
+    "gem=1": {
+      "model": "celestial:block/foundation_stone_1"
+    },
+    "gem=2": {
+      "model": "celestial:block/foundation_stone_2"
+    },
+    "gem=3": {
+      "model": "celestial:block/foundation_stone_3"
+    },
+    "gem=4": {
+      "model": "celestial:block/foundation_stone_4"
+    },
+    "gem=5": {
+      "model": "celestial:block/foundation_stone_5"
+    },
+    "gem=6": {
+      "model": "celestial:block/foundation_stone_6"
+    },
+    "gem=7": {
+      "model": "celestial:block/foundation_stone_7"
+    },
+    "gem=8": {
+      "model": "celestial:block/foundation_stone_8"
+    },
+    "gem=9": {
+      "model": "celestial:block/foundation_stone_9"
+    },
+    "gem=10": {
+      "model": "celestial:block/foundation_stone_10"
+    },
+    "gem=11": {
+      "model": "celestial:block/foundation_stone_11"
+    }
+  }
+}

@@ -33,6 +33,18 @@ public class StarAltarBlock extends BaseEntityBlock {
 		return RenderShape.MODEL;
 	}
 
+	/** После светлой концовки алтарь ведёт в Новый Иерусалим. */
+	@Override
+	protected net.minecraft.world.InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, net.minecraft.world.entity.player.Player player,
+			net.minecraft.world.phys.BlockHitResult hit) {
+		if (player instanceof net.minecraft.server.level.ServerPlayer sp && dev.celestial.story.NewJerusalem.open(sp.level().getServer())
+				&& level.getEntitiesOfClass(Faceless.class, player.getBoundingBox().inflate(48), f -> !f.defeated()).isEmpty()) {
+			dev.celestial.story.NewJerusalem.bring(sp);
+			return net.minecraft.world.InteractionResult.SUCCESS;
+		}
+		return net.minecraft.world.InteractionResult.PASS;
+	}
+
 	@Override
 	public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		return new StarAltarBlockEntity(pos, state);

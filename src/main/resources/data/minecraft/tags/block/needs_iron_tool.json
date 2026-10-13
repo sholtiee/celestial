@@ -10,6 +10,10 @@
     "celestial:meteorite",
     "celestial:frost_ore",
     "celestial:chronite_ore",
-    "celestial:star_stone_block"
+    "celestial:star_stone_block",
+    "celestial:jasper_block",
+    "celestial:pearl_block",
+    "celestial:golden_street",
+    "celestial:foundation_stone"
   ]
 }
