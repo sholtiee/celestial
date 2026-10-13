@@ -100,20 +100,36 @@ public final class Choirs {
 		}
 	}
 
-	/** Модификаторы атрибутов покровителя (снимаются, если покровитель другой или его нет). */
+	/** Чистота кристалла, которым настроен хор (0 — не настроен); см. StarCrystalItem. */
+	public static int attunement(PlayerData d, Choir c) {
+		int best = 0;
+		for (String e : d.codex()) {
+			if (e.startsWith("attune:" + c.id + ":")) {
+				try {
+					best = Math.max(best, Integer.parseInt(e.substring(("attune:" + c.id + ":").length())));
+				} catch (NumberFormatException ignored) {
+					// чужая запись — пропустить
+				}
+			}
+		}
+		return best;
+	}
+
+	/** Модификаторы атрибутов покровителя (снимаются, если покровитель другой или его нет); настройка кристаллом усиливает их. */
 	public static void apply(ServerPlayer p) {
 		Choir c = patron(CelestialData.get(p));
-		set(p, Attributes.MOVEMENT_SPEED, MOD, c == Choir.ANGELS ? 0.10 : 0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-		set(p, Attributes.SAFE_FALL_DISTANCE, MOD, c == Choir.ANGELS ? 6 : 0, AttributeModifier.Operation.ADD_VALUE);
-		set(p, Attributes.MAX_HEALTH, MOD, c == Choir.ARCHANGELS ? 4 : 0, AttributeModifier.Operation.ADD_VALUE);
-		set(p, Attributes.BLOCK_BREAK_SPEED, MOD, c == Choir.PRINCIPALITIES ? 0.25 : 0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-		set(p, Attributes.ARMOR, MOD, c == Choir.POWERS ? 3 : 0, AttributeModifier.Operation.ADD_VALUE);
-		set(p, Attributes.ARMOR_TOUGHNESS, MOD, c == Choir.POWERS ? 2 : 0, AttributeModifier.Operation.ADD_VALUE);
-		set(p, Attributes.ATTACK_DAMAGE, MOD, c == Choir.VIRTUES ? 0.2 : 0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-		set(p, Attributes.ATTACK_SPEED, MOD, c == Choir.DOMINIONS ? 0.15 : 0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-		set(p, Attributes.LUCK, MOD, c == Choir.DOMINIONS ? 1 : 0, AttributeModifier.Operation.ADD_VALUE);
-		set(p, Attributes.ATTACK_KNOCKBACK, MOD, c == Choir.CHERUBIM ? 1 : 0, AttributeModifier.Operation.ADD_VALUE);
-		set(p, Attributes.KNOCKBACK_RESISTANCE, MOD2, c == Choir.CHERUBIM ? 0.5 : 0, AttributeModifier.Operation.ADD_VALUE);
+		double k = c == null ? 1.0 : 1.0 + attunement(CelestialData.get(p), c) / 100.0;
+		set(p, Attributes.MOVEMENT_SPEED, MOD, c == Choir.ANGELS ? 0.10 * k : 0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+		set(p, Attributes.SAFE_FALL_DISTANCE, MOD, c == Choir.ANGELS ? 6 * k : 0, AttributeModifier.Operation.ADD_VALUE);
+		set(p, Attributes.MAX_HEALTH, MOD, c == Choir.ARCHANGELS ? 4 * k : 0, AttributeModifier.Operation.ADD_VALUE);
+		set(p, Attributes.BLOCK_BREAK_SPEED, MOD, c == Choir.PRINCIPALITIES ? 0.25 * k : 0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+		set(p, Attributes.ARMOR, MOD, c == Choir.POWERS ? 3 * k : 0, AttributeModifier.Operation.ADD_VALUE);
+		set(p, Attributes.ARMOR_TOUGHNESS, MOD, c == Choir.POWERS ? 2 * k : 0, AttributeModifier.Operation.ADD_VALUE);
+		set(p, Attributes.ATTACK_DAMAGE, MOD, c == Choir.VIRTUES ? 0.2 * k : 0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+		set(p, Attributes.ATTACK_SPEED, MOD, c == Choir.DOMINIONS ? 0.15 * k : 0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+		set(p, Attributes.LUCK, MOD, c == Choir.DOMINIONS ? 1 * k : 0, AttributeModifier.Operation.ADD_VALUE);
+		set(p, Attributes.ATTACK_KNOCKBACK, MOD, c == Choir.CHERUBIM ? 1 * k : 0, AttributeModifier.Operation.ADD_VALUE);
+		set(p, Attributes.KNOCKBACK_RESISTANCE, MOD2, c == Choir.CHERUBIM ? 0.5 * k : 0, AttributeModifier.Operation.ADD_VALUE);
 	}
 
 	private static void set(ServerPlayer p, Holder<Attribute> attr, Identifier id, double amount, AttributeModifier.Operation op) {

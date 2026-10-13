@@ -16,7 +16,7 @@ from PIL import Image
 
 import textures as T
 from gen_abyss import append_tag
-from gen_assets import ASSETS, DATA, VANILLA, blockstate, c, item_def, model, ore_drop, save_png, self_drop, shaped, write_json
+from gen_assets import ASSETS, DATA, VANILLA, blockstate, c, item_def, loot, model, ore_drop, save_png, self_drop, shaped, write_json
 from gen_places import jigsaw, structure_set
 from gen_story import lang_patch
 from gen_structures import Template
@@ -86,7 +86,10 @@ def blocks():
     model('block/astral_crystal', {'parent': 'minecraft:block/cube_all', 'textures': {'all': c('block/astral_crystal')}, 'render_type': 'minecraft:translucent'})
     blockstate('astral_crystal', {'variants': {'': {'model': c('block/astral_crystal')}}})
     item_def('astral_crystal', c('block/astral_crystal'))
-    self_drop('astral_crystal')
+    # с шёлковым касанием — сам блок, иначе — Звёздный кристалл (чистота назначается в инвентаре, StarCrystalItem)
+    loot('astral_crystal', [{'rolls': 1, 'entries': [{'type': 'minecraft:alternatives', 'children': [
+        {'type': 'minecraft:item', 'name': c('astral_crystal'), 'condition': 'minecraft:tool/can_silk_touch'},
+        {'type': 'minecraft:item', 'name': c('star_crystal'), 'condition': {'type': 'minecraft:survives_explosion'}}]}]}])
     model('block/star_flower', {'parent': 'minecraft:block/cross', 'textures': {'cross': c('block/star_flower')}, 'render_type': 'minecraft:cutout'})
     blockstate('star_flower', {'variants': {'': {'model': c('block/star_flower')}}})
     model('item/star_flower', {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('block/star_flower')}})
@@ -461,8 +464,34 @@ def astrolabe():
     })
 
 
+def star_crystal():
+    """Звёздный кристалл — гранёный осколок с искрой внутри; переводы настройки хора."""
+    img = Image.new('RGBA', (16, 16), (0, 0, 0, 0))
+    for y in range(2, 15):
+        half = int((1 - abs(y - 8) / 7.0) * 4.5) if y <= 8 else int((1 - (y - 8) / 7.0) * 3.5) + 1
+        for x in range(8 - half, 8 + half + 1):
+            edge = x in (8 - half, 8 + half) or y in (2, 14)
+            col = H('#5a3ab8') if edge else T.mix(H('#c8b0ff'), H('#7a5ae0'), (x - (8 - half)) / max(1, 2 * half))
+            put(img, x, y, col)
+    for x, y in ((7, 5), (7, 6), (8, 5), (9, 9)):
+        put(img, x, y, H('#ffffff'))
+    save_png(img, 'item/star_crystal')
+    model('item/star_crystal', {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('item/star_crystal')}})
+    item_def('star_crystal', c('item/star_crystal'))
+    lang_patch({
+        'item.celestial.star_crystal': ('Звёздный кристалл', 'Star Crystal'),
+        'item.celestial.star_crystal.purity': ('Чистота: %s%%', 'Purity: %s%%'),
+        'item.celestial.star_crystal.unknown': ('Чистота проявится в руках', 'Its purity shows once held'),
+        'item.celestial.star_crystal.hint': ('ПКМ по зажжённому Звёздному диску — настроить хор', 'Use on a lit Star Disk to attune its choir'),
+        'choir.celestial.attune.not_ready': ('Настроить можно только зажжённый диск собранного хора', 'Only the lit disk of a gathered choir can be attuned'),
+        'choir.celestial.attune.dimmer': ('Хор уже настроен чище: %s%%', 'The choir is already attuned more purely: %s%%'),
+        'choir.celestial.attune.done': ('Хор «%s» настроен: чистота %s%% — благословение сильнее, пока он покровитель', 'The choir "%s" is attuned: purity %s%% — its blessing is stronger while it is your patron'),
+    })
+
+
 def main():
     blocks()
+    star_crystal()
     celestite()
     astrolabe()
     dimension()

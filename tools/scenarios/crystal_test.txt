@@ -1,0 +1,41 @@
+/execute in minecraft:overworld run tp @s -32 67 272 0 30
+/gamemode survival
+/clear @s
+/kill @e[type=item]
+/fill -34 66 274 -30 66 278 minecraft:stone_bricks
+/fill -34 67 274 -30 69 278 minecraft:air
+/setblock -32 67 276 celestial:astral_crystal
+/say TEST кристалл выпадает
+/loot spawn -32 68 276 mine -32 67 276 minecraft:diamond_pickaxe
+/execute if entity @e[type=item,nbt={Item:{id:"celestial:star_crystal"}}]
+/kill @e[type=item]
+/say TEST чистота назначается в инвентаре
+/give @s celestial:star_crystal
+wait 5
+/execute if items entity @s weapon.mainhand celestial:star_crystal[custom_data~{}]
+/data get entity @s SelectedItem
+/clear @s
+/celestial codex choir:angels
+/celestial codex patron:angels
+/setblock -32 67 276 celestial:star_disk[lit=true]{Choir:"angels"}
+wait 20
+/execute store result score #s0 t run attribute @s minecraft:movement_speed get 1000
+/item replace entity @s weapon.mainhand with celestial:star_crystal[custom_data={Purity:100}]
+use -32 67 276 up
+wait 20
+/execute store result score #s1 t run attribute @s minecraft:movement_speed get 1000
+/scoreboard players list #s0
+/scoreboard players list #s1
+/say TEST настройка усилила благословение
+/execute if score #s1 t > #s0 t
+/say TEST кристалл потрачен
+/execute unless items entity @s weapon.mainhand celestial:star_crystal
+/say TEST мутный кристалл не перенастраивает expect=fail
+/item replace entity @s weapon.mainhand with celestial:star_crystal[custom_data={Purity:40}]
+use -32 67 276 up
+wait 5
+/execute unless items entity @s weapon.mainhand celestial:star_crystal
+/celestial codex remove attune:angels:100
+/clear @s
+/setblock -32 67 276 minecraft:air
+quit

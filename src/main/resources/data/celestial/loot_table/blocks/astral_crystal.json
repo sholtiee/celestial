@@ -2,16 +2,26 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "condition": {
-        "type": "minecraft:survives_explosion"
-      },
+      "rolls": 1,
       "entries": [
         {
-          "type": "minecraft:item",
-          "name": "celestial:astral_crystal"
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "name": "celestial:astral_crystal",
+              "condition": "minecraft:tool/can_silk_touch"
+            },
+            {
+              "type": "minecraft:item",
+              "name": "celestial:star_crystal",
+              "condition": {
+                "type": "minecraft:survives_explosion"
+              }
+            }
+          ]
         }
-      ],
-      "rolls": 1
+      ]
     }
   ],
   "random_sequence": "celestial:blocks/astral_crystal"

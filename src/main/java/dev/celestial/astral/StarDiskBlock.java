@@ -41,6 +41,16 @@ public class StarDiskBlock extends BaseEntityBlock implements dev.celestial.puzz
 		return RenderShape.MODEL;
 	}
 
+	/** Звёздный кристалл настраивает хор (StarCrystalItem); иначе клик уходит в useWithoutItem и до предмета не доходит. */
+	@Override
+	protected InteractionResult useItemOn(net.minecraft.world.item.ItemStack stack, BlockState state, Level level, BlockPos pos, Player player,
+			net.minecraft.world.InteractionHand hand, BlockHitResult hit) {
+		if (stack.getItem() instanceof StarCrystalItem crystal) {
+			return crystal.useOn(new net.minecraft.world.item.context.UseOnContext(level, player, hand, stack, hit));
+		}
+		return super.useItemOn(stack, state, level, pos, player, hand, hit);
+	}
+
 	@Override
 	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
 		if (level instanceof ServerLevel server && player instanceof ServerPlayer sp && level.getBlockEntity(pos) instanceof StarDiskBlockEntity disk) {

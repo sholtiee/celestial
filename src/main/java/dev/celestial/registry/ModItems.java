@@ -148,6 +148,8 @@ public final class ModItems {
 	public static final Item CELESTITE_CHESTPLATE = register("celestite_chestplate", Item::new, lore(new Item.Properties().humanoidArmor(CELESTITE_ARMOR, ArmorType.CHESTPLATE), "celestite_set", 1));
 	public static final Item CELESTITE_LEGGINGS = register("celestite_leggings", Item::new, lore(new Item.Properties().humanoidArmor(CELESTITE_ARMOR, ArmorType.LEGGINGS), "celestite_set", 1));
 	public static final Item CELESTITE_BOOTS = register("celestite_boots", Item::new, lore(new Item.Properties().humanoidArmor(CELESTITE_ARMOR, ArmorType.BOOTS), "celestite_set", 1));
+	/** Звёздный кристалл: чистота 1–100 %, настраивает хор на Звёздном диске (astral/StarCrystalItem). */
+	public static final Item STAR_CRYSTAL = register("star_crystal", dev.celestial.astral.StarCrystalItem::new, new Item.Properties().rarity(Rarity.UNCOMMON));
 	public static final Item ASTROLABE = register("astrolabe", dev.celestial.astral.AstrolabeItem::new,
 		lore(new Item.Properties().stacksTo(1).rarity(Rarity.RARE), "astrolabe", 2));
 	public static final Item STAR_SCALE = register("star_scale", Item::new, lore(new Item.Properties(), "star_scale", 1));
