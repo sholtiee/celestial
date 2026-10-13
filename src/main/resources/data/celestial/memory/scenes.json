@@ -3382,6 +3382,410 @@
       }
     ]
   },
+  "mark": {
+    "stage": "celestial:memory/mark",
+    "center": [
+      22,
+      5,
+      22
+    ],
+    "radius": 22,
+    "spawn": [
+      8.5,
+      5,
+      22.5,
+      -90
+    ],
+    "sheet": "mark",
+    "thought": "memory.celestial.mark.thought",
+    "actors": [
+      {
+        "id": "cain",
+        "type": "human",
+        "skin": "cain",
+        "pos": [
+          14.5,
+          5,
+          22.5
+        ],
+        "yaw": 270,
+        "pose": 3
+      }
+    ],
+    "steps": [
+      {
+        "t": "dim",
+        "value": 0.45
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.mark.1",
+        "ticks": 80
+      },
+      {
+        "t": "say",
+        "actor": "cain",
+        "key": "memory.celestial.mark.cain",
+        "ticks": 90
+      },
+      {
+        "t": "voice",
+        "key": "memory.celestial.mark.voice",
+        "pos": [
+          14.5,
+          9,
+          22.5
+        ],
+        "ticks": 100
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:end_rod",
+        "pos": [
+          14.5,
+          6.6,
+          22.5
+        ],
+        "count": 40,
+        "spread": 0.3,
+        "speed": 0.02
+      },
+      {
+        "t": "pose",
+        "actor": "cain",
+        "pose": 0
+      },
+      {
+        "t": "face",
+        "actor": "cain",
+        "to": [
+          34.5,
+          5,
+          22.5
+        ]
+      },
+      {
+        "t": "move",
+        "actor": "cain",
+        "to": [
+          33.5,
+          5,
+          22.5
+        ],
+        "speed": 0.05,
+        "wait": false
+      },
+      {
+        "t": "hint",
+        "key": "memory.celestial.mark.hint"
+      },
+      {
+        "t": "near",
+        "pos": [
+          30.5,
+          5,
+          22.5
+        ],
+        "r": 4,
+        "timeout": 1200
+      },
+      {
+        "t": "lift",
+        "from": [
+          36,
+          0,
+          10
+        ],
+        "to": [
+          36,
+          3,
+          34
+        ],
+        "rise": 5,
+        "ticks": 80
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.mark.2",
+        "ticks": 90
+      },
+      {
+        "t": "dim",
+        "value": 0.0
+      },
+      {
+        "t": "end",
+        "ticks": 40
+      }
+    ]
+  },
+  "enoch": {
+    "stage": "celestial:memory/enoch",
+    "center": [
+      23,
+      5,
+      23
+    ],
+    "radius": 23,
+    "spawn": [
+      23.5,
+      5,
+      42.5,
+      180
+    ],
+    "sheet": "enoch",
+    "thought": "memory.celestial.enoch.thought",
+    "actors": [
+      {
+        "id": "enoch",
+        "type": "human",
+        "skin": "enoch",
+        "pos": [
+          23.5,
+          5,
+          38.5
+        ],
+        "yaw": 180
+      }
+    ],
+    "steps": [
+      {
+        "t": "dim",
+        "value": 0.3
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.enoch.1",
+        "ticks": 80
+      },
+      {
+        "t": "face",
+        "actor": "enoch",
+        "to": "player"
+      },
+      {
+        "t": "say",
+        "actor": "enoch",
+        "key": "memory.celestial.enoch.walk",
+        "ticks": 70
+      },
+      {
+        "t": "face",
+        "actor": "enoch",
+        "to": [
+          23.5,
+          5,
+          4.5
+        ]
+      },
+      {
+        "t": "move",
+        "actor": "enoch",
+        "to": [
+          23.5,
+          5,
+          6.5
+        ],
+        "speed": 0.08,
+        "wait": false
+      },
+      {
+        "t": "hint",
+        "key": "memory.celestial.enoch.hint"
+      },
+      {
+        "t": "near",
+        "pos": [
+          23.5,
+          5,
+          22.5
+        ],
+        "r": 4,
+        "timeout": 1400
+      },
+      {
+        "t": "dim",
+        "value": 0.0
+      },
+      {
+        "t": "near",
+        "pos": [
+          23.5,
+          5,
+          12.5
+        ],
+        "r": 4,
+        "timeout": 1400
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:end_rod",
+        "pos": [
+          23.5,
+          7,
+          6.5
+        ],
+        "count": 160,
+        "spread": 1.5,
+        "speed": 0.1
+      },
+      {
+        "t": "despawn",
+        "actor": "enoch"
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.enoch.2",
+        "ticks": 100
+      },
+      {
+        "t": "end",
+        "ticks": 40
+      }
+    ]
+  },
+  "rainbow": {
+    "stage": "celestial:memory/rainbow",
+    "center": [
+      20,
+      21,
+      27
+    ],
+    "radius": 22,
+    "spawn": [
+      20.5,
+      21,
+      31.5,
+      180
+    ],
+    "sheet": "rainbow",
+    "thought": "memory.celestial.rainbow.thought",
+    "actors": [
+      {
+        "id": "noah",
+        "type": "human",
+        "skin": "noah",
+        "pos": [
+          20.5,
+          21,
+          26.5
+        ],
+        "yaw": 180,
+        "pose": 4
+      },
+      {
+        "id": "shem",
+        "type": "human",
+        "skin": "shem",
+        "pos": [
+          17.5,
+          21,
+          27.5
+        ],
+        "yaw": 180
+      }
+    ],
+    "steps": [
+      {
+        "t": "dim",
+        "value": 0.5
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.rainbow.1",
+        "ticks": 80
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:campfire_cosy_smoke",
+        "pos": [
+          20.5,
+          23,
+          24.5
+        ],
+        "count": 30,
+        "spread": 0.4,
+        "speed": 0.02
+      },
+      {
+        "t": "say",
+        "actor": "noah",
+        "key": "memory.celestial.rainbow.noah",
+        "ticks": 80
+      },
+      {
+        "t": "voice",
+        "key": "memory.celestial.rainbow.voice",
+        "pos": [
+          20.5,
+          30,
+          18.5
+        ],
+        "ticks": 100
+      },
+      {
+        "t": "dim",
+        "value": 0.0
+      },
+      {
+        "t": "lift",
+        "from": [
+          0,
+          0,
+          4
+        ],
+        "to": [
+          40,
+          19,
+          4
+        ],
+        "rise": 22,
+        "ticks": 120
+      },
+      {
+        "t": "pose",
+        "actor": "noah",
+        "pose": 0
+      },
+      {
+        "t": "face",
+        "actor": "noah",
+        "to": [
+          20.5,
+          30,
+          4.5
+        ]
+      },
+      {
+        "t": "face",
+        "actor": "shem",
+        "to": [
+          20.5,
+          30,
+          4.5
+        ]
+      },
+      {
+        "t": "hint",
+        "key": "memory.celestial.rainbow.hint"
+      },
+      {
+        "t": "look",
+        "actor": "noah",
+        "r": 30,
+        "timeout": 400
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.rainbow.2",
+        "ticks": 100
+      },
+      {
+        "t": "end",
+        "ticks": 40
+      }
+    ]
+  },
   "seven_seals": {
     "stage": "celestial:memory/seals",
     "center": [

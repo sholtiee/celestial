@@ -102,7 +102,27 @@ def jacob_stone():
     return t.save('jacob_stone/main')
 
 
+def noah_altar():
+    """Рай, Радужные отмели: островок с жертвенником из камней и угольком; над ним — малая радуга из стекла."""
+    S = 19
+    t = Template(S, 16, S)
+    t.fill(0, 0, 0, S - 1, 15, S - 1, AIR)
+    rng = random.Random(4304)
+    top = 5
+    island_base(t, 9, 9, 8, top, 5, rng)
+    t.fill(8, top + 1, 8, 10, top + 1, 10, MC('cobblestone'))
+    t.set(9, top + 2, 9, MC('campfire'), lit=True, signal_fire=False, facing='south', waterlogged=False)
+    for i, col in enumerate(('red', 'orange', 'yellow', 'lime', 'light_blue', 'purple')):
+        r = 8 - i * 0.6
+        for k in range(61):
+            a = math.pi * k / 60
+            t.set(round(9 + math.cos(a) * r), top + 2 + round(math.sin(a) * r), 3, MC(f'{col}_stained_glass'))
+    anchor(t, 9, top + 1, 12, 'rainbow')
+    return t.save('noah_altar/main')
+
+
 def main():
+    noah_altar()
     two_altars()
     bone_valley()
     jacob_stone()
@@ -112,11 +132,16 @@ def main():
     structure_set('bone_valley', 44, 16, 4410022)
     jigsaw('jacob_stone', [c('golden_meadows'), c('heaven_gardens'), c('star_glade')], 0, adaptation='none')
     structure_set('jacob_stone', 48, 18, 4410033)
-    append_tag('worldgen/structure', 'celestial:codex_places', [c('two_altars'), c('bone_valley'), c('jacob_stone')])
+    jigsaw('noah_altar', [c('rainbow_shoals')], 0, adaptation='none')
+    structure_set('noah_altar', 44, 16, 4410044)
+    append_tag('worldgen/structure', 'celestial:codex_places', [c('two_altars'), c('bone_valley'), c('jacob_stone'), c('noah_altar')])
     lang_patch({
         'structure.celestial.two_altars': ('Два алтаря', 'The Two Altars'),
         'structure.celestial.bone_valley': ('Долина костей', 'Valley of Bones'),
         'structure.celestial.jacob_stone': ('Камень Иакова', 'Jacob\'s Stone'),
+        'structure.celestial.noah_altar': ('Жертвенник Ноя', 'Noah\'s Altar'),
+        'codex.celestial.place.noah_altar': ('островок на Радужных отмелях: жертвенник из камней, тлеющий уголёк и радуга над ним.',
+                                             'an islet on the Rainbow Shoals: an altar of stones, a smouldering coal and a rainbow above.'),
         'codex.celestial.place.two_altars': ('два алтаря во тьме Бездны: у одного дым идёт к небу, у другого стелется по земле. Между ними — алый цветок.',
                                              'two altars in the dark of the Abyss: from one the smoke rises to heaven, from the other it creeps along the ground. Between them, a red flower.'),
         'codex.celestial.place.bone_valley': ('лощина в снегах Чертогов, полная костей. В её середине — камень, на котором стоял пророк.',

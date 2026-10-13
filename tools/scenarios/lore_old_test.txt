@@ -1,0 +1,47 @@
+/gamemode creative
+/execute in minecraft:overworld run tp @s -32 67 272
+wait 40
+/celestial lore lock mark
+/celestial lore lock enoch
+/celestial lore lock rainbow
+/celestial memory enter mark
+wait 220
+togglehud
+shot old_mark_voice
+togglehud
+wait 140
+/tp @s 30.5 69 22.5 -90 0
+wait 120
+togglehud
+shot old_mark_city
+togglehud
+wait 200
+/say TEST знамение
+/celestial lore lock mark
+/celestial memory enter enoch
+wait 200
+/tp @s 23.5 69 24.5 180 0
+wait 60
+togglehud
+shot old_enoch_path
+togglehud
+wait 40
+/tp @s 23.5 69 12.5 180 -10
+wait 60
+togglehud
+shot old_enoch_light
+togglehud
+wait 200
+/say TEST енох
+/celestial lore lock enoch
+/celestial memory enter rainbow
+wait 420
+/tp @s 20.5 85 33.5 180 -12
+wait 20
+togglehud
+shot old_rainbow
+togglehud
+wait 260
+/say TEST радуга
+/celestial lore lock rainbow
+quit

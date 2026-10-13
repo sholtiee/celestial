@@ -217,6 +217,7 @@ def master_house():
     t.set(5, 4, 5, MC + 'copper_lantern', hanging=True)
     t.set(2, 1, 5, MC + 'lectern', facing='east', has_book=False, powered=False)
     t.entity(6, 1, 6, {'id': c('brass_doll'), 'PersistenceRequired': True})
+    t.set(4, 1, 7, c('memory_anchor'), nbt={'id': c('memory_anchor'), 'Scene': 'mark'})  # Отблеск «Знамение Каина»
     return t.save('master_house/main')
 
 

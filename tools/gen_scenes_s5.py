@@ -1,4 +1,5 @@
-"""Отблески S5.6 (книги Странников, Чинов и Откровения): Печь Даниила, Угль Исаии, Семь печатей.
+"""Отблески S5.6 (книги Странников, Чинов и Откровения): Печь Даниила, Угль Исаии, Семь печатей;
+и три давних листа без способа открыться (книги I–III): Знамение Каина, Енох, Радуга завета.
 
 Подключается из gen_scenes.main() так же, как gen_scenes_lore: PEOPLE, stages(), SCENES, LANG.
 Якоря стоят в постройках мира: печь — в литейне Тувалкаина (gen_chrono_places.foundry), угль — в святилище Серафимов
@@ -15,6 +16,8 @@ from gen_structures import island_base
 PEOPLE = {
     'youth': ('#d8b088', '#1a1410', '#4a6aa8', '#c8a040', '#3a2a1a', False, False),
     'king': ('#d0a070', '#2a1a10', '#6a2a7a', '#e8c040', '#3a2a1a', False, True),
+    'enoch': ('#e0c0a0', '#e8e8e8', '#f0ece0', '#c8b070', '#4a6a8a', True, True),
+    'shem': ('#d8b088', '#3a2616', '#7a5a3a', '#a8864a', '#4a3a2a', False, True),
 }
 
 # семь печатей по кругу: (угол, частица, ключ подписи)
@@ -117,6 +120,82 @@ def stage_seals():
     return t.save('memory/seals')
 
 
+def stage_mark():
+    """Сухая степь на закате: тропа на восток к недостроенной стене города (стена поднимется по ходу сцены)."""
+    S, TOP = 45, 4
+    rng = random.Random(4150)
+    t = base(S, 20)
+    island_base(t, 22, 22, 21, TOP, 5, rng)
+    for x in range(S):
+        for z in range(S):
+            if t.get(x, TOP, z) == c('golden_grass'):
+                t.set(x, TOP, z, 'minecraft:coarse_dirt' if rng.random() < 0.6 else 'minecraft:dirt_path' if abs(z - 22) <= 1 else 'minecraft:dirt')
+    for _ in range(20):
+        x, z = rng.randrange(4, 40), rng.randrange(4, 40)
+        if t.get(x, TOP, z) not in (None, AIR) and t.get(x, TOP + 1, z) in (None, AIR):
+            t.set(x, TOP + 1, z, 'minecraft:dead_bush')
+    for z in range(10, 35):  # будущая стена города: лежит «в земле» (под поверхностью), поднимется шагом lift
+        for y in range(TOP - 4, TOP):
+            t.set(36, y, z, 'minecraft:mud_bricks' if z % 6 else 'minecraft:packed_mud')
+    return t.save('memory/mark')
+
+
+def stage_enoch():
+    """Луг и прямая тропа, уходящая к столбу света; вдоль тропы — камни-вехи."""
+    S, TOP = 47, 4
+    rng = random.Random(5240)
+    t = base(S, 30)
+    island_base(t, 23, 23, 22, TOP, 5, rng)
+    for z in range(4, 44):
+        t.set(23, TOP, z, 'minecraft:dirt_path')
+        if z % 6 == 0:
+            t.set(21, TOP + 1, z, c('skystone'))
+    for _ in range(60):
+        x, z = rng.randrange(2, 45), rng.randrange(2, 45)
+        if t.get(x, TOP, z) == c('golden_grass') and t.get(x, TOP + 1, z) in (None, AIR):
+            t.set(x, TOP + 1, z, rng.choice(['minecraft:oxeye_daisy', 'minecraft:lily_of_the_valley', c('golden_tuft')]))
+    for y in range(TOP + 1, TOP + 26):  # столб света в конце тропы
+        t.set(23, y, 4, c('radiant_stone') if y % 5 == 0 else 'minecraft:white_stained_glass')
+        for dx, dz in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            t.set(23 + dx, y, 4 + dz, 'minecraft:light', level=15, waterlogged=False)
+    t.fill(22, TOP, 3, 24, TOP, 5, c('radiant_stone'))
+    return t.save('memory/enoch')
+
+
+def stage_rainbow():
+    """Вершина после Потопа: мокрая земля, Ковчег на склоне, жертвенник Ноя; к северу под краем острова спрятана радуга (lift поднимет её в небо)."""
+    S, TOP = 41, 20
+    rng = random.Random(9130)
+    t = base(S, 44)
+    island_base(t, 20, 27, 13, TOP, 9, rng)
+    for x in range(S):
+        for z in range(S):
+            if t.get(x, TOP, z) == c('golden_grass'):
+                if rng.random() < 0.6:
+                    t.set(x, TOP, z, 'minecraft:grass_block', snowy=False)
+                else:
+                    t.set(x, TOP, z, 'minecraft:mud')
+    for x in range(12, 27):  # Ковчег — корпус на склоне
+        for y in range(TOP + 1, TOP + 4):
+            for z in (33, 37):
+                t.set(x, y, z, 'minecraft:spruce_planks')
+        for z in range(33, 38):
+            t.set(x, TOP + 1, z, 'minecraft:spruce_planks')
+    for z in range(34, 37):
+        t.set(12, TOP + 2, z, 'minecraft:spruce_planks')
+        t.set(26, TOP + 2, z, 'minecraft:spruce_planks')
+    t.fill(19, TOP + 1, 23, 21, TOP + 1, 25, 'minecraft:cobblestone')  # жертвенник
+    t.set(20, TOP + 2, 24, 'minecraft:campfire', lit=True, signal_fire=True, facing='south', waterlogged=False)
+    colors = ['red', 'orange', 'yellow', 'lime', 'light_blue', 'purple']
+    for i, col in enumerate(colors):  # дуга в плоскости x–y у северного края, верх ниже уровня острова
+        r = 18 - i
+        for k in range(181):
+            a = math.pi * k / 180
+            x, y = round(20 + math.cos(a) * r), round(math.sin(a) * r)
+            t.set(x, y, 4, f'minecraft:{col}_stained_glass')
+    return t.save('memory/rainbow')
+
+
 def seal_points():
     pts = []
     for i in range(7):
@@ -129,6 +208,9 @@ def stages():
     stage_furnace()
     stage_temple_coal()
     stage_seals()
+    stage_mark()
+    stage_enoch()
+    stage_rainbow()
 
 
 def seal_steps():
@@ -209,6 +291,79 @@ SCENES = {
             step('end', ticks=40),
         ],
     },
+    # Знамение Каина: изгнанник уходит, на нём знамение; он строит город — стена поднимается
+    'mark': {
+        'stage': c('memory/mark'), 'center': [22, 5, 22], 'radius': 22, 'spawn': [8.5, 5, 22.5, -90],
+        'sheet': 'mark', 'thought': 'memory.celestial.mark.thought',
+        'actors': [
+            {'id': 'cain', 'type': 'human', 'skin': 'cain', 'pos': [14.5, 5, 22.5], 'yaw': 270, 'pose': 3},
+        ],
+        'steps': [
+            step('dim', value=0.45),
+            step('caption', key='memory.celestial.mark.1', ticks=80),
+            step('say', actor='cain', key='memory.celestial.mark.cain', ticks=90),
+            step('voice', key='memory.celestial.mark.voice', pos=[14.5, 9, 22.5], ticks=100),
+            step('particles', type='minecraft:end_rod', pos=[14.5, 6.6, 22.5], count=40, spread=0.3, speed=0.02),
+            step('pose', actor='cain', pose=0),
+            step('face', actor='cain', to=[34.5, 5, 22.5]),
+            step('move', actor='cain', to=[33.5, 5, 22.5], speed=0.05, wait=False),
+            step('hint', key='memory.celestial.mark.hint'),
+            step('near', pos=[30.5, 5, 22.5], r=4, timeout=1200),
+            step('lift', **{'from': [36, 0, 10], 'to': [36, 3, 34]}, rise=5, ticks=80),
+            step('caption', key='memory.celestial.mark.2', ticks=90),
+            step('dim', value=0.0),
+            step('end', ticks=40),
+        ],
+    },
+    # Енох: идти рядом с ним по тропе к свету — и его не стало
+    'enoch': {
+        'stage': c('memory/enoch'), 'center': [23, 5, 23], 'radius': 23, 'spawn': [23.5, 5, 42.5, 180],
+        'sheet': 'enoch', 'thought': 'memory.celestial.enoch.thought',
+        'actors': [
+            {'id': 'enoch', 'type': 'human', 'skin': 'enoch', 'pos': [23.5, 5, 38.5], 'yaw': 180},
+        ],
+        'steps': [
+            step('dim', value=0.3),
+            step('caption', key='memory.celestial.enoch.1', ticks=80),
+            step('face', actor='enoch', to='player'),
+            step('say', actor='enoch', key='memory.celestial.enoch.walk', ticks=70),
+            step('face', actor='enoch', to=[23.5, 5, 4.5]),
+            step('move', actor='enoch', to=[23.5, 5, 6.5], speed=0.08, wait=False),
+            step('hint', key='memory.celestial.enoch.hint'),
+            step('near', pos=[23.5, 5, 22.5], r=4, timeout=1400),
+            step('dim', value=0.0),
+            step('near', pos=[23.5, 5, 12.5], r=4, timeout=1400),
+            step('particles', type='minecraft:end_rod', pos=[23.5, 7, 6.5], count=160, spread=1.5, speed=0.1),
+            step('despawn', actor='enoch'),
+            step('caption', key='memory.celestial.enoch.2', ticks=100),
+            step('end', ticks=40),
+        ],
+    },
+    # Радуга завета: Ной у жертвенника; Голос; радуга встаёт над Ковчегом
+    'rainbow': {
+        'stage': c('memory/rainbow'), 'center': [20, 21, 27], 'radius': 22, 'spawn': [20.5, 21, 31.5, 180],
+        'sheet': 'rainbow', 'thought': 'memory.celestial.rainbow.thought',
+        'actors': [
+            {'id': 'noah', 'type': 'human', 'skin': 'noah', 'pos': [20.5, 21, 26.5], 'yaw': 180, 'pose': 4},
+            {'id': 'shem', 'type': 'human', 'skin': 'shem', 'pos': [17.5, 21, 27.5], 'yaw': 180},
+        ],
+        'steps': [
+            step('dim', value=0.5),
+            step('caption', key='memory.celestial.rainbow.1', ticks=80),
+            step('particles', type='minecraft:campfire_cosy_smoke', pos=[20.5, 23, 24.5], count=30, spread=0.4, speed=0.02),
+            step('say', actor='noah', key='memory.celestial.rainbow.noah', ticks=80),
+            step('voice', key='memory.celestial.rainbow.voice', pos=[20.5, 30, 18.5], ticks=100),
+            step('dim', value=0.0),
+            step('lift', **{'from': [0, 0, 4], 'to': [40, 19, 4]}, rise=22, ticks=120),
+            step('pose', actor='noah', pose=0),
+            step('face', actor='noah', to=[20.5, 30, 4.5]),
+            step('face', actor='shem', to=[20.5, 30, 4.5]),
+            step('hint', key='memory.celestial.rainbow.hint'),
+            step('look', actor='noah', r=30, timeout=400),
+            step('caption', key='memory.celestial.rainbow.2', ticks=100),
+            step('end', ticks=40),
+        ],
+    },
     # S5.6 Семь печатей: подойти к каждой печати по кругу; на седьмой — безмолвие
     'seven_seals': {
         'stage': c('memory/seals'), 'center': [SEAL_C, 5, SEAL_C], 'radius': 15, 'spawn': [SEAL_C + 0.5, 5, SEAL_C + 3.5, 180],
@@ -219,6 +374,28 @@ SCENES = {
 }
 
 LANG = {
+    'memory.celestial.who.enoch': ('Енох', 'Enoch'),
+    'memory.celestial.who.shem': ('Сим', 'Shem'),
+    # Знамение Каина
+    'memory.celestial.mark.1': ('Каин ушёл от лица Господня', 'Cain went out from the presence of the LORD'),
+    'memory.celestial.mark.cain': ('Наказание моё больше, чем снести.', 'My punishment is greater than I can bear.'),
+    'memory.celestial.mark.voice': ('Кто убьёт Каина, тому отмстится всемеро.', 'Whosoever slayeth Cain, vengeance shall be taken sevenfold.'),
+    'memory.celestial.mark.hint': ('Иди за Каином на восток', 'Follow Cain to the east'),
+    'memory.celestial.mark.2': ('И построил он город', 'And he builded a city'),
+    'memory.celestial.mark.thought': ('Он строил город, чтобы перестать скитаться.', 'He built a city so as to wander no more.'),
+    # Енох
+    'memory.celestial.enoch.1': ('Енох ходил пред Богом', 'Enoch walked with God'),
+    'memory.celestial.enoch.walk': ('Пойдём. Свет недалеко.', 'Come. The light is near.'),
+    'memory.celestial.enoch.hint': ('Иди рядом с Енохом по тропе', 'Walk beside Enoch along the path'),
+    'memory.celestial.enoch.2': ('…и не стало его, потому что Бог взял его', '…and he was not; for God took him'),
+    'memory.celestial.enoch.thought': ('Тот, кто ушёл в свет, пишет теперь Летопись.', 'He who went into the light now writes the Chronicle.'),
+    # Радуга завета
+    'memory.celestial.rainbow.1': ('Вода сошла. Ной поставил жертвенник', 'The waters were gone. Noah built an altar'),
+    'memory.celestial.rainbow.noah': ('Земля снова наша.', 'The earth is ours again.'),
+    'memory.celestial.rainbow.voice': ('Не будет более потопа.', 'There shall no more be a flood.'),
+    'memory.celestial.rainbow.hint': ('Оглянись на Ковчег — на север', 'Look back toward the north'),
+    'memory.celestial.rainbow.2': ('Радуга в облаке — знамение завета', 'The bow in the cloud — the token of the covenant'),
+    'memory.celestial.rainbow.thought': ('Радуги Рая помнят этот день.', 'The rainbows of Heaven remember that day.'),
     'memory.celestial.who.king': ('Царь', 'The King'),
     'memory.celestial.who.y1': ('Отрок', 'The Youth'),
     'memory.celestial.who.y2': ('Отрок', 'The Youth'),

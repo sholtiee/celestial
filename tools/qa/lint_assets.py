@@ -444,7 +444,9 @@ def check_lore():
         found = bool(re.search(rf'unlock\([^)]*"{i}"', ALL_JAVA)) or (sh['src'] == 'scroll' and f'sheet:\\"{i}\\"' in json_text) \
             or (sh['src'] == 'tablet' and i.encode() in nbt_bytes)
         scenes = load(os.path.join(D, 'memory/scenes.json')) or {}
-        found = found or any(sc.get('sheet') == i and (sid.encode() in nbt_bytes or sid.startswith('prologue')) for sid, sc in scenes.items())  # Отблеск с якорем в постройке
+        found = found or any(sc.get('sheet') == i and (sid.encode() in nbt_bytes or sid.startswith('prologue')
+                                                        or (sc.get('trigger') == 'boss' and f'"{sid}"' in ALL_JAVA))  # якорь в постройке или запуск из кода (осколки)
+                             for sid, sc in scenes.items())
         if found:
             continue
         if sh['src'] in ('glimpse', 'prologue', 'vision', 'conv') or i in getattr(L, 'PENDING', {}):

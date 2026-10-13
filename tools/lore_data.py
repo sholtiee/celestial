@@ -38,7 +38,7 @@ NODES = [
 ]
 
 # Листы, у которых способ открыться появится в своей задаче (lint_assets.check_lore печатает их отдельно): id → где.
-PENDING = {'morning_star': 'S3.7 «Осколки падения»'}
+PENDING = {}
 
 SOURCES = ('prologue', 'glimpse', 'names', 'vision', 'scroll', 'tablet', 'conv', 'deed', 'place')
 
@@ -131,16 +131,16 @@ SHEETS = [
          a=('В Бездне стоят два алтаря, и дым над одним стелется по земле. От них ведут следы того, кто ушёл навсегда.',
             'Two altars stand in the Abyss, and the smoke over one creeps along the ground. The tracks of one who left for ever lead away from them.'),
          gloss=[]),
-    dict(id='mark', book=1, node='brothers', art='mark', src='conv',
-         how=('Беседа с Каином-Скитальцем', 'A talk with Cain the Wanderer'),
+    dict(id='mark', book=1, node='brothers', art='mark', src='glimpse',
+         how=('Отблеск: дом мастера в Хронограде', 'A Glimpse: a master\'s house in Chronograd'),
          title=('Знамение Каина', 'The Mark of Cain'),
          ref=('Быт. 4:15', 'Gen. 4:15'),
          quote=('И сделал Господь Бог Каину знамение, чтобы никто, встретившись с ним, не убил его.',
                 'And the LORD set a mark upon Cain, lest any finding him should kill him.'),
          s=('Каина не убили: на нём было знамение, чтобы никто не тронул изгнанника.',
             'Cain was not slain: a mark was set on him that none should touch the outcast.'),
-         a=('Каина-Скитальца не трогают твари. Встретишь его трижды: в Бездне, в городе, который он основал, и среди звёзд.',
-            'Creatures do not touch Cain the Wanderer. You will meet him thrice: in the Abyss, in the city he founded, and among the stars.'),
+         a=('Знамение хранило его, но покоя не дало. Он построил город, чтобы перестать скитаться, — и этот город стал Хроноградом.',
+            'The mark kept him safe, but gave him no rest. He built a city so as to wander no more — and that city became Chronograd.'),
          gloss=[]),
     # ---------------------------------------------------------------- Книга Стражей
     dict(id='watchers', book=2, node='watchers', art='watchers', src='conv',
@@ -173,8 +173,8 @@ SHEETS = [
          a=('В Темнице Стражей ещё бродит один из них. Против великана хороша праща: малый камень бьёт большого.',
             'One of them still prowls the Prison of the Watchers. A sling serves against a giant: a small stone fells a great one.'),
          gloss=['nephilim']),
-    dict(id='enoch', book=2, node='watchers', art='enoch', src='conv',
-         how=('Беседа с Метатроном-Писцом в Цитадели', 'A talk with Metatron the Scribe in the Citadel'),
+    dict(id='enoch', book=2, node='watchers', art='enoch', src='glimpse',
+         how=('Отблеск: Цитадель Рая', 'A Glimpse: the Citadel of Heaven'),
          title=('Енох', 'Enoch'),
          ref=('Быт. 5:24', 'Gen. 5:24'),
          quote=('И ходил Енох пред Богом; и не стало его, потому что Бог взял его.',
@@ -205,7 +205,7 @@ SHEETS = [
          a=('Пожиратель Света — тень Аваддона: он глотает свет, потому что не имеет своего.',
             'The Light Devourer is a shadow of Abaddon: it swallows light because it has none of its own.'),
          gloss=['abyss', 'abaddon']),
-    dict(id='morning_star', book=2, node='morning', art='star_fall', src='deed',
+    dict(id='morning_star', book=2, node='morning', art='star_fall', src='glimpse',
          how=('Осколки падения: память побеждённых', 'Shards of the Fall: the memory of the defeated'),
          title=('Денница', 'The Morning Star'),
          ref=('Ис. 14:12', 'Isa. 14:12'),
@@ -261,7 +261,7 @@ SHEETS = [
             'The guiding dove leads whoever bears an olive branch to the nearest ruin.'),
          gloss=[]),
     dict(id='rainbow', book=3, node='flood', art='rainbow', src='glimpse',
-         how=('Отблеск: Радужные отмели в Раю', 'A Glimpse: the Rainbow Shoals in Heaven'),
+         how=('Отблеск: жертвенник Ноя на Радужных отмелях в Раю', 'A Glimpse: Noah\'s altar on the Rainbow Shoals in Heaven'),
          title=('Радуга завета', 'The Rainbow of the Covenant'),
          ref=('Быт. 9:13', 'Gen. 9:13'),
          quote=('Я полагаю радугу Мою в облаке, чтоб она была знамением завета между Мною и между землёю.',
