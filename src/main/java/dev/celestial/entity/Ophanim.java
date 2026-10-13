@@ -47,7 +47,7 @@ public class Ophanim extends Mob implements Enemy {
 	public static AttributeSupplier.Builder createAttributes() {
 		return Mob.createMobAttributes()
 			.add(Attributes.MAX_HEALTH, 50.0)
-			.add(Attributes.ARMOR, 4.0)
+			.add(Attributes.ARMOR, 8.0)
 			.add(Attributes.FLYING_SPEED, 0.35)
 			.add(Attributes.MOVEMENT_SPEED, 0.2)
 			.add(Attributes.ATTACK_DAMAGE, 9.0)

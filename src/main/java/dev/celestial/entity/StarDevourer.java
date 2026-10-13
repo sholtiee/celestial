@@ -48,11 +48,11 @@ public class StarDevourer extends Mob implements Enemy {
 
 	public static AttributeSupplier.Builder createAttributes() {
 		return Mob.createMobAttributes()
-			.add(Attributes.MAX_HEALTH, 30.0)
-			.add(Attributes.ARMOR, 2.0)
+			.add(Attributes.MAX_HEALTH, 60.0)
+			.add(Attributes.ARMOR, 8.0)
 			.add(Attributes.FLYING_SPEED, 0.45)
 			.add(Attributes.MOVEMENT_SPEED, 0.25)
-			.add(Attributes.ATTACK_DAMAGE, 6.0)
+			.add(Attributes.ATTACK_DAMAGE, 10.0)
 			.add(Attributes.FOLLOW_RANGE, 24.0);
 	}
 

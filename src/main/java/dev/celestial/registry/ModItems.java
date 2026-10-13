@@ -40,14 +40,14 @@ public final class ModItems {
 		Map.of(ArmorType.BOOTS, 3, ArmorType.LEGGINGS, 6, ArmorType.CHESTPLATE, 8, ArmorType.HELMET, 3, ArmorType.BODY, 13),
 		18, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.5F, 0.05F, REPAIRS_ETHERITE_ARMOR, ETHERITE_ASSET);
 
-	/** Бездновый обсидиан: копает как незерит, броня между алмазом и незеритом; полный комплект гасит страх тьмы. */
+	/** Бездновый обсидиан (Акт II): на ступень выше эфирита, на уровне незерита; полный комплект гасит страх тьмы. */
 	public static final TagKey<Item> ABYSSAL_TOOL_MATERIALS = TagKey.create(Registries.ITEM, Celestial.id("abyssal_tool_materials"));
 	public static final TagKey<Item> REPAIRS_ABYSSAL_ARMOR = TagKey.create(Registries.ITEM, Celestial.id("repairs_abyssal_armor"));
 	public static final ResourceKey<EquipmentAsset> ABYSSAL_ASSET = ResourceKey.create(EquipmentAssets.ROOT_ID, Celestial.id("abyssal"));
-	public static final ToolMaterial ABYSSAL_TOOL = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2400, 10.0F, 4.5F, 16, ABYSSAL_TOOL_MATERIALS);
+	public static final ToolMaterial ABYSSAL_TOOL = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2100, 9.5F, 4.0F, 16, ABYSSAL_TOOL_MATERIALS);
 	public static final ArmorMaterial ABYSSAL_ARMOR = new ArmorMaterial(40,
-		Map.of(ArmorType.BOOTS, 3, ArmorType.LEGGINGS, 7, ArmorType.CHESTPLATE, 9, ArmorType.HELMET, 3, ArmorType.BODY, 15),
-		16, SoundEvents.ARMOR_EQUIP_NETHERITE, 3.5F, 0.15F, REPAIRS_ABYSSAL_ARMOR, ABYSSAL_ASSET);
+		Map.of(ArmorType.BOOTS, 3, ArmorType.LEGGINGS, 6, ArmorType.CHESTPLATE, 8, ArmorType.HELMET, 3, ArmorType.BODY, 13),
+		16, SoundEvents.ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F, REPAIRS_ABYSSAL_ARMOR, ABYSSAL_ASSET);
 
 	/** Мех снежного лиса: лёгкая броня, зато лучшая защита от холода Ледяных Чертогов. */
 	public static final TagKey<Item> REPAIRS_FUR_ARMOR = TagKey.create(Registries.ITEM, Celestial.id("repairs_fur_armor"));
@@ -56,30 +56,30 @@ public final class ModItems {
 		Map.of(ArmorType.BOOTS, 1, ArmorType.LEGGINGS, 2, ArmorType.CHESTPLATE, 3, ArmorType.HELMET, 1, ArmorType.BODY, 3),
 		15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, REPAIRS_FUR_ARMOR, FUR_ASSET);
 
-	/** Морозная сталь: инструменты уровня алмаза, броня бережёт тепло, полный комплект не замерзает. */
+	/** Морозная сталь (Акт III): выше бездновой; броня бережёт тепло, полный комплект не замерзает. */
 	public static final TagKey<Item> FROST_TOOL_MATERIALS = TagKey.create(Registries.ITEM, Celestial.id("frost_tool_materials"));
 	public static final TagKey<Item> REPAIRS_FROST_ARMOR = TagKey.create(Registries.ITEM, Celestial.id("repairs_frost_armor"));
 	public static final ResourceKey<EquipmentAsset> FROST_ASSET = ResourceKey.create(EquipmentAssets.ROOT_ID, Celestial.id("frost_steel"));
-	public static final ToolMaterial FROST_TOOL = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 1600, 8.5F, 3.0F, 20, FROST_TOOL_MATERIALS);
-	public static final ArmorMaterial FROST_ARMOR = new ArmorMaterial(30,
-		Map.of(ArmorType.BOOTS, 3, ArmorType.LEGGINGS, 6, ArmorType.CHESTPLATE, 8, ArmorType.HELMET, 3, ArmorType.BODY, 11),
-		20, SoundEvents.ARMOR_EQUIP_IRON, 2.0F, 0.05F, REPAIRS_FROST_ARMOR, FROST_ASSET);
+	public static final ToolMaterial FROST_TOOL = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2300, 10.0F, 4.0F, 20, FROST_TOOL_MATERIALS);
+	public static final ArmorMaterial FROST_ARMOR = new ArmorMaterial(40,
+		Map.of(ArmorType.BOOTS, 3, ArmorType.LEGGINGS, 7, ArmorType.CHESTPLATE, 8, ArmorType.HELMET, 3, ArmorType.BODY, 14),
+		20, SoundEvents.ARMOR_EQUIP_IRON, 3.0F, 0.1F, REPAIRS_FROST_ARMOR, FROST_ASSET);
 
-	/** Хронит (0.5): чуть выше Морозной стали; полный комплект сокращает откат реликвий на четверть ({@link dev.celestial.chrono.ChronoGear}). */
+	/** Хронит (Акт IV): выше Морозной стали; полный комплект сокращает откат реликвий на четверть ({@link dev.celestial.chrono.ChronoGear}). */
 	public static final TagKey<Item> CHRONITE_TOOL_MATERIALS = TagKey.create(Registries.ITEM, Celestial.id("chronite_tool_materials"));
 	public static final TagKey<Item> REPAIRS_CHRONITE_ARMOR = TagKey.create(Registries.ITEM, Celestial.id("repairs_chronite_armor"));
 	public static final ResourceKey<EquipmentAsset> CHRONITE_ASSET = ResourceKey.create(EquipmentAssets.ROOT_ID, Celestial.id("chronite"));
 	public static final TagKey<Item> CELESTITE_TOOL_MATERIALS = TagKey.create(Registries.ITEM, Celestial.id("celestite_tool_materials"));
 	public static final TagKey<Item> REPAIRS_CELESTITE_ARMOR = TagKey.create(Registries.ITEM, Celestial.id("repairs_celestite_armor"));
 	public static final ResourceKey<EquipmentAsset> CELESTITE_ASSET = ResourceKey.create(EquipmentAssets.ROOT_ID, Celestial.id("celestite"));
-	public static final ToolMaterial CELESTITE_TOOL = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2400, 10.5F, 4.0F, 20, CELESTITE_TOOL_MATERIALS);
-	public static final ArmorMaterial CELESTITE_ARMOR = new ArmorMaterial(37,
-		Map.of(ArmorType.BOOTS, 3, ArmorType.LEGGINGS, 6, ArmorType.CHESTPLATE, 8, ArmorType.HELMET, 3, ArmorType.BODY, 11),
-		20, SoundEvents.ARMOR_EQUIP_DIAMOND, 3.0F, 0.1F, REPAIRS_CELESTITE_ARMOR, CELESTITE_ASSET);
-	public static final ToolMaterial CHRONITE_TOOL = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 1900, 9.5F, 3.5F, 18, CHRONITE_TOOL_MATERIALS);
-	public static final ArmorMaterial CHRONITE_ARMOR = new ArmorMaterial(33,
-		Map.of(ArmorType.BOOTS, 3, ArmorType.LEGGINGS, 6, ArmorType.CHESTPLATE, 8, ArmorType.HELMET, 3, ArmorType.BODY, 11),
-		18, SoundEvents.ARMOR_EQUIP_IRON, 2.5F, 0.05F, REPAIRS_CHRONITE_ARMOR, CHRONITE_ASSET);
+	public static final ToolMaterial CELESTITE_TOOL = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 3000, 11.0F, 5.0F, 20, CELESTITE_TOOL_MATERIALS);
+	public static final ArmorMaterial CELESTITE_ARMOR = new ArmorMaterial(45,
+		Map.of(ArmorType.BOOTS, 4, ArmorType.LEGGINGS, 7, ArmorType.CHESTPLATE, 9, ArmorType.HELMET, 4, ArmorType.BODY, 17),
+		20, SoundEvents.ARMOR_EQUIP_DIAMOND, 4.0F, 0.15F, REPAIRS_CELESTITE_ARMOR, CELESTITE_ASSET);
+	public static final ToolMaterial CHRONITE_TOOL = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2600, 10.5F, 4.5F, 18, CHRONITE_TOOL_MATERIALS);
+	public static final ArmorMaterial CHRONITE_ARMOR = new ArmorMaterial(42,
+		Map.of(ArmorType.BOOTS, 3, ArmorType.LEGGINGS, 7, ArmorType.CHESTPLATE, 9, ArmorType.HELMET, 3, ArmorType.BODY, 15),
+		18, SoundEvents.ARMOR_EQUIP_IRON, 3.5F, 0.12F, REPAIRS_CHRONITE_ARMOR, CHRONITE_ASSET);
 
 	// Материалы
 	public static final Item RAW_FROST_STEEL = register("raw_frost_steel", Item::new, new Item.Properties());
