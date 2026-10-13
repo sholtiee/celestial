@@ -125,7 +125,12 @@ def altar_blocks():
 
 
 def summit():
-    """Вершина: площадка R=18 из звёздного камня, кольцо гнёзд, семь колонн-труб с огнями, алтарь в центре."""
+    return summit_template().save('star_altar/summit')
+
+
+def summit_template():
+    """Вершина: площадка R=18 из звёздного камня, кольцо гнёзд, семь колонн-труб с огнями, алтарь в центре.
+    Целый Звёздный алтарь (4 яруса + вершина) собирает gen_astral.altar_structure."""
     R = 18
     S = 2 * R + 3
     cx = cz = S // 2
@@ -150,7 +155,7 @@ def summit():
         for dz in range(-1, 2):
             t.set(cx + dx, 1, cz + dz, 'minecraft:gilded_blackstone')
     t.set(cx, 2, cz, c('star_altar'), awakened=False, nbt={'id': c('star_altar')})
-    return t.save('star_altar/summit')
+    return t
 
 
 REFLECT_R = 15

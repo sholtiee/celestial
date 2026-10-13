@@ -1,0 +1,47 @@
+# Астрал (S5.1): Звёздные врата (блоки звёздного камня + Шестерня Вечности) → прибытие; облёт: астероиды, туманность, кристаллы; святилище хора, Звёздный алтарь
+/gamemode creative
+/effect clear @s
+/clear @s
+/weather clear
+/execute in minecraft:overworld run tp @s 36093 140 -293
+fly
+wait 60
+/execute in minecraft:overworld run fill 36090 120 -300 36110 135 -280 minecraft:air
+/execute in minecraft:overworld run fill 36096 119 -296 36099 119 -296 minecraft:stone
+/execute in minecraft:overworld run fill 36096 120 -296 36099 124 -296 celestial:star_stone_block
+/execute in minecraft:overworld run fill 36097 121 -296 36098 123 -296 minecraft:air
+/execute in minecraft:overworld run tp @s 36097 121 -292 180 0
+wait 10
+/item replace entity @s weapon.mainhand with celestial:gear_of_eternity
+use 36097 120 -296 up
+wait 20
+/say TEST G1 star_gate_lit expect=pass
+/execute in minecraft:overworld if block 36097 121 -296 celestial:star_portal
+togglehud
+shot astral_gate
+togglehud
+/execute in minecraft:overworld run tp @s 36097 121 -296
+wait 160
+pos
+/say TEST G2 arrived_in_astral expect=pass
+/execute in celestial:astral if entity @s[x=-100000,y=-64,z=-100000,dx=200000,dy=400,dz=200000]
+togglehud
+shot astral_arrival
+/clear @s
+/execute in celestial:astral run tp @s 0 200 0 0 30
+wait 120
+shot astral_view_n
+/execute in celestial:astral run tp @s 0 200 0 90 30
+wait 40
+shot astral_view_w
+/execute in celestial:astral run tp @s 300 150 300 135 15
+wait 120
+shot astral_view_far
+goto celestial:star_altar 0 10 60 180 20
+wait 120
+shot astral_altar
+goto celestial:star_shrine 0 6 16 180 30
+wait 120
+shot astral_shrine
+togglehud
+quit

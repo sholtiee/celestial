@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "S": "celestial:star_stone"
+  },
+  "pattern": [
+    "SS",
+    "SS"
+  ],
+  "result": {
+    "id": "celestial:star_stone_block"
+  }
+}

@@ -419,6 +419,25 @@ public final class ModBlocks {
 		p -> new dev.celestial.world.portal.CelestialPortalBlock(() -> dev.celestial.world.portal.PortalTypes.CHRONO, p),
 		Properties.of().noCollision().strength(-1.0F).sound(SoundType.GLASS).lightLevel(s -> 11).pushReaction(PushReaction.IMMOVEABLE).noLootTable());
 
+	// ── Астрал (0.6): порода астероидов, звёздная пыль, кристаллы, «Звёздные врата» ──
+	public static final Block ASTRAL_ROCK = register("astral_rock", Block::new,
+		Properties.of().mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(2.5F, 6.0F).sound(SoundType.DEEPSLATE));
+	public static final Block ASTRAL_DUST = register("astral_dust", Block::new,
+		Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).strength(0.6F).sound(SoundType.SAND).lightLevel(s -> 2));
+	public static final Block ASTRAL_BRICKS = register("astral_bricks", Block::new,
+		Properties.ofFullCopy(ASTRAL_ROCK).sound(SoundType.DEEPSLATE_BRICKS));
+	public static final Block ASTRAL_CRYSTAL = register("astral_crystal", net.minecraft.world.level.block.TransparentBlock::new,
+		Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(1.5F).sound(SoundType.AMETHYST).lightLevel(s -> 12).noOcclusion()
+			.isSuffocating(Blocks::never));
+	public static final Block STAR_FLOWER = register("star_flower", net.minecraft.world.level.block.BushBlock::new,
+		Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).noCollision().instabreak().sound(SoundType.AMETHYST_CLUSTER).lightLevel(s -> 7)
+			.offsetType(net.minecraft.world.level.block.state.BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.POPPED));
+	public static final Block STAR_STONE_BLOCK = register("star_stone_block", Block::new,
+		Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).requiresCorrectToolForDrops().strength(3.0F, 9.0F).sound(SoundType.AMETHYST).lightLevel(s -> 6));
+	public static final Block STAR_PORTAL = registerNoItem("star_portal",
+		p -> new dev.celestial.world.portal.CelestialPortalBlock(() -> dev.celestial.world.portal.PortalTypes.STAR, p),
+		Properties.of().noCollision().strength(-1.0F).sound(SoundType.GLASS).lightLevel(s -> 13).pushReaction(PushReaction.IMMOVEABLE).noLootTable());
+
 	// ── Хроноград (0.5): маятники — зоны иного хода времени ──
 	public static final Block SWIFT_PENDULUM = register("swift_pendulum",
 		p -> new dev.celestial.chrono.PendulumBlock(dev.celestial.chrono.TimeFlow.FAST, 16, p),

@@ -28,7 +28,14 @@ public final class PortalTypes {
 		s -> s.is(ModBlocks.BRASS_SOIL) || s.is(ModBlocks.CHRONITE_STONE) || s.is(ModBlocks.SLAG),
 		() -> ModBlocks.CHRONITE_BRICKS.defaultBlockState(), 90);
 
-	public static final List<PortalType> ALL = List.of(HEAVEN, FROZEN, CHRONO);
+	/** Астрал: рамка из блоков звёздного камня, зажигается Шестернёй Вечности (награда Акта IV; не тратится). */
+	public static final PortalType STAR = new PortalType("star",
+		() -> ModBlocks.STAR_STONE_BLOCK, () -> ModBlocks.STAR_PORTAL, () -> ModItems.GEAR_OF_ETERNITY,
+		Level.OVERWORLD, dev.celestial.world.dim.AbyssFeatures.ASTRAL,
+		s -> s.is(ModBlocks.ASTRAL_DUST) || s.is(ModBlocks.ASTRAL_ROCK),
+		() -> ModBlocks.ASTRAL_BRICKS.defaultBlockState(), 128);
+
+	public static final List<PortalType> ALL = List.of(HEAVEN, FROZEN, CHRONO, STAR);
 
 	private PortalTypes() {}
 }

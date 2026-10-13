@@ -1,0 +1,18 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 6600601,
+    "separation": 6,
+    "spacing": 14,
+    "exclusion_zone": {
+      "other_set": "celestial:star_altar",
+      "chunk_count": 4
+    }
+  },
+  "structures": [
+    {
+      "structure": "celestial:star_shrine",
+      "weight": 1
+    }
+  ]
+}

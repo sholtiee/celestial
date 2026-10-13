@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "celestial:block/star_flower"
+  },
+  "render_type": "minecraft:cutout"
+}

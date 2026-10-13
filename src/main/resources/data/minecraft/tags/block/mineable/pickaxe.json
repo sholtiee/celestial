@@ -52,6 +52,10 @@
     "celestial:flywheel",
     "celestial:clock_spring",
     "celestial:steam_engine",
-    "celestial:drive_press"
+    "celestial:drive_press",
+    "celestial:astral_rock",
+    "celestial:astral_bricks",
+    "celestial:astral_crystal",
+    "celestial:star_stone_block"
   ]
 }
