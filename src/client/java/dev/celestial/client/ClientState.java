@@ -19,6 +19,13 @@ public final class ClientState {
 			fadingEnabled = payload.fadingEnabled();
 			ending = payload.ending();
 		});
+		// с сервера без мода (или до первого пакета) — исходное состояние, иначе небо «Поглотить» и Угасание тянулись бы из прошлого мира
+		net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
+			fading = 0;
+			act = 0;
+			fadingEnabled = true;
+			ending = "";
+		});
 	}
 
 	/** Действующая стадия Угасания с учётом правила игры. */
