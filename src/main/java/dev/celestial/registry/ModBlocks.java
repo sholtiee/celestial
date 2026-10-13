@@ -457,6 +457,12 @@ public final class ModBlocks {
 	public static final Block ENDLESS_TRIAL = register("endless_trial", dev.celestial.trial.EndlessTrialBlock::new,
 		Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).requiresCorrectToolForDrops().strength(5.0F, 1200.0F).sound(SoundType.AMETHYST).lightLevel(s -> 10));
 
+	// ── Тёмный Рай после «Поглотить» (story/DarkHeaven): пепельная трава, увядшие кроны ──
+	public static final Block ASHEN_GRASS = register("ashen_grass", Block::new,
+		Properties.of().mapColor(MapColor.COLOR_GRAY).strength(0.6F).sound(SoundType.GRASS));
+	public static final Block WITHERED_LEAVES = register("withered_leaves", p -> new TintedParticleLeavesBlock(0.02F, p),
+		Blocks.leavesProperties(SoundType.CHERRY_LEAVES).mapColor(MapColor.COLOR_PURPLE));
+
 	// ── Хроноград (0.5): маятники — зоны иного хода времени ──
 	public static final Block SWIFT_PENDULUM = register("swift_pendulum",
 		p -> new dev.celestial.chrono.PendulumBlock(dev.celestial.chrono.TimeFlow.FAST, 16, p),

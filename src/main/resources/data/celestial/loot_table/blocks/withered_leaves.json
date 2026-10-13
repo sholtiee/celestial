@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "celestial:withered_leaves"
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "celestial:blocks/withered_leaves"
+}

@@ -1,0 +1,25 @@
+/gamemode creative
+/execute in celestial:heaven run tp @s 0 160 0
+wait 40
+goto celestial:sky_village 0 14 0 45 30
+wait 80
+togglehud
+shot dh_before
+togglehud
+/celestial flag add ending_consume
+wait 900
+togglehud
+shot dh_after
+togglehud
+/gamemode survival
+/execute at @s run summon celestial:angel ^ ^ ^2 {NoAI:1b}
+/effect give @s slow_falling 60 0 true
+wait 60
+interact celestial:angel
+wait 5
+shot dh_angel
+/say TEST тени по пеплу
+/execute if entity @e[type=celestial:shadow,distance=..48]
+/celestial ending reset
+/gamemode creative
+quit

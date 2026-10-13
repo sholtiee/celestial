@@ -76,7 +76,7 @@ wait 30
 shot faceless_trumpet5
 /data merge entity @e[type=celestial:faceless,limit=1] {Health:284.0f}
 /execute store result score #sp0 t run attribute @s minecraft:movement_speed get 1000
-wait 302
+wait 315
 /execute store result score #sp1 t run attribute @s minecraft:movement_speed get 1000
 /scoreboard players list #sp1
 /say TEST X6 trumpet6_stops_time expect=pass

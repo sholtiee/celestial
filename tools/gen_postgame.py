@@ -1,4 +1,5 @@
-"""После финала (волна 0.6, S5.7): камень Бесконечного испытания и тексты звёздных поручений.
+"""После финала (волна 0.6, S5.7): камень Бесконечного испытания, тексты звёздных поручений и тёмный облик Рая после «Поглотить»
+(пепельная трава, увядшая листва — их расползанием правит story/DarkHeaven).
 
 Камень (`trial/EndlessTrialBlock`): ставится где угодно (рецепт — блоки звёздного камня, целестит, око офанима), ПКМ после финала —
 волны врагов без конца; рекорд — таблица счёта `celestial_endless`, ранги на 5/10/15/20 волнах.
@@ -47,7 +48,59 @@ def top():
     return img
 
 
+def ashen_top():
+    img = T.noisy('ashen_grass_top', [H(h) for h in ('#4a4652', '#56525e', '#625e6a', '#3e3a46')], cell=4, grain=0.55)
+    r = T.rng_for('ashen_embers')
+    for _ in range(3):  # тлеющие искры
+        put(img, r.randrange(16), r.randrange(16), H('#a04a5a'))
+    return img
+
+
+def ashen_side():
+    img = T.dirt()
+    top = ashen_top()
+    r = T.rng_for('ashen_grass_side')
+    for x in range(16):
+        for y in range(3 + r.choice([0, 0, 1, 2])):
+            img.putpixel((x, y), top.getpixel((x, y)))
+    return img
+
+
+def withered_leaves():
+    img = T.noisy('withered_leaves', [H(h) for h in ('#3a2a44', '#4a3654', '#5a4262', '#2e2236')], cell=2, grain=0.6)
+    r = T.rng_for('withered_leaves_holes')
+    for y in range(16):
+        for x in range(16):
+            if r.random() < 0.22:
+                img.putpixel((x, y), (0, 0, 0, 0))
+    return img
+
+
+def dark_heaven():
+    save_png(ashen_top(), 'block/ashen_grass_top')
+    save_png(ashen_side(), 'block/ashen_grass_side')
+    model('block/ashen_grass', {'parent': 'minecraft:block/cube_bottom_top', 'textures': {
+        'top': c('block/ashen_grass_top'), 'side': c('block/ashen_grass_side'), 'bottom': c('block/heaven_dirt')}})
+    blockstate('ashen_grass', {'variants': {'': [{'model': c('block/ashen_grass')}, {'model': c('block/ashen_grass'), 'y': 90}]}})
+    item_def('ashen_grass', c('block/ashen_grass'))
+    self_drop('ashen_grass')
+    save_png(withered_leaves(), 'block/withered_leaves')
+    model('block/withered_leaves', {'parent': 'minecraft:block/leaves', 'textures': {'all': c('block/withered_leaves')}, 'render_type': 'minecraft:cutout_mipped'})
+    blockstate('withered_leaves', {'variants': {'': {'model': c('block/withered_leaves')}}})
+    item_def('withered_leaves', c('block/withered_leaves'))
+    self_drop('withered_leaves')
+    append_tag('block', 'minecraft:mineable/shovel', [c('ashen_grass')])
+    append_tag('block', 'minecraft:mineable/hoe', [c('withered_leaves')])
+    append_tag('block', 'minecraft:leaves', [c('withered_leaves')])
+    lang_patch({
+        'block.celestial.ashen_grass': ('Пепельная трава', 'Ashen Grass'),
+        'block.celestial.withered_leaves': ('Увядшая листва', 'Withered Leaves'),
+        'ending.celestial.consume.angel': ('Ангел отворачивается: «Ты взял свет себе».', 'The angel turns away: "You took the light for yourself."'),
+    })
+
+
 def main():
+    dark_heaven()
     save_png(side(), 'block/endless_trial_side')
     save_png(top(), 'block/endless_trial_top')
     model('block/endless_trial', {'parent': 'minecraft:block/cube_bottom_top', 'textures': {

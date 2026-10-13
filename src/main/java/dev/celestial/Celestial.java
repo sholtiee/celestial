@@ -61,6 +61,7 @@ public class Celestial implements ModInitializer {
 		dev.celestial.story.Endings.init();
 		dev.celestial.story.EdenTraces.init();
 		dev.celestial.story.NewJerusalem.init();
+		dev.celestial.story.DarkHeaven.init();
 		dev.celestial.story.ShardsOfTheFall.init();
 		dev.celestial.world.portal.PortalActivation.init();
 		LOGGER.info("Celestial: небеса открываются");

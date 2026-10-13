@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "celestial:block/ashen_grass"
+      },
+      {
+        "model": "celestial:block/ashen_grass",
+        "y": 90
+      }
+    ]
+  }
+}
