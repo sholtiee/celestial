@@ -1,0 +1,15 @@
+/gamemode creative
+/celestial codex constellation:seraphim
+/celestial codex constellation:thrones
+/celestial codex constellation:angels
+wait 40
+codex stars
+wait 20
+mouse 0.36 0.38
+wait 10
+shot stars_hover_seraphim
+mouse 0.5 0.55
+wait 10
+shot stars_hover_thrones
+closescreen
+quit

@@ -198,9 +198,79 @@ def lang():
     lang_patch(e)
 
 
+# ---------------------------------------------------------------- рисунки хоров (S5.4): иллюстрации 96×54 для Кодекса
+def choir_art(choir):
+    """Картина хора в духе Летописи: небо, свечение и символ чина. Без лиц и фигур — только знаки (крылья, колёса, венцы)."""
+    import random as _r
+    from PIL import ImageDraw
+    from gen_lore import H as AH, W as AW, frame, glow, gradient, rgb, stars
+    rng = _r.Random('choir_art_' + choir)
+    sky = {'seraphim': ('#3a0a08', '#e0782a'), 'cherubim': ('#101a3a', '#c88a3a'), 'thrones': ('#0a1028', '#5a6ac8'),
+           'dominions': ('#1a0e2e', '#8a5ad0'), 'virtues': ('#08142e', '#4ab0e0'), 'powers': ('#160a0a', '#a83a2a'),
+           'principalities': ('#0e1430', '#c8a050'), 'archangels': ('#101a36', '#e8d080'), 'angels': ('#0c1430', '#8ab8f0')}[choir]
+    img = gradient(*sky)
+    stars(img, rng, 26, ymax=AH)
+    cx, cy = AW // 2, AH // 2
+    glow(img, cx, cy, 22, '#fff4c8', 0.8)
+    d = ImageDraw.Draw(img)
+    gold, white = rgb('#f2d68a'), rgb('#fffbe8')
+    if choir == 'seraphim':  # шесть огненных крыльев вокруг света
+        for k, (dx, dy) in enumerate(((16, -14), (20, -2), (14, 10))):
+            for sgn in (-1, 1):
+                d.polygon([(cx + sgn * 3, cy), (cx + sgn * dx, cy + dy), (cx + sgn * (dx - 4), cy + dy + 5)], fill=rgb('#ff9a3a'), outline=gold)
+        d.ellipse([cx - 3, cy - 3, cx + 3, cy + 3], fill=white)
+    elif choir == 'cherubim':  # крылья и пламенный меч
+        for sgn in (-1, 1):
+            d.polygon([(cx, cy - 2), (cx + sgn * 22, cy - 14), (cx + sgn * 18, cy + 6)], fill=rgb('#e8d8b0'), outline=gold)
+        d.line([(cx, cy + 18), (cx, cy - 20)], fill=rgb('#ff7a2a'), width=2)
+        d.line([(cx - 5, cy + 10), (cx + 5, cy + 10)], fill=gold, width=2)
+    elif choir == 'thrones':  # колесо в колесе, полное очей
+        d.ellipse([cx - 18, cy - 18, cx + 18, cy + 18], outline=gold, width=2)
+        d.ellipse([cx - 10, cy - 18, cx + 10, cy + 18], outline=rgb('#c9973a'), width=1)
+        for k in range(10):
+            a = k * 2 * math.pi / 10
+            x, y = cx + math.cos(a) * 18, cy + math.sin(a) * 18
+            d.ellipse([x - 2, y - 1, x + 2, y + 1], fill=white)
+            d.point((round(x), round(y)), fill=rgb('#1a1a40'))
+    elif choir == 'dominions':  # венец и скипетр
+        d.polygon([(cx - 14, cy - 2), (cx - 14, cy - 12), (cx - 7, cy - 6), (cx, cy - 16), (cx + 7, cy - 6), (cx + 14, cy - 12), (cx + 14, cy - 2)],
+                  fill=gold, outline=rgb('#8a6a1e'))
+        d.line([(cx, cy + 2), (cx, cy + 22)], fill=gold, width=2)
+        d.ellipse([cx - 3, cy - 1, cx + 3, cy + 5], fill=rgb('#d84a4a'))
+    elif choir == 'virtues':  # сияние: лучи и малые звёзды
+        for k in range(16):
+            a = k * 2 * math.pi / 16
+            r = 22 if k % 2 == 0 else 14
+            d.line([(cx, cy), (cx + math.cos(a) * r, cy + math.sin(a) * r)], fill=gold)
+        d.ellipse([cx - 4, cy - 4, cx + 4, cy + 4], fill=white)
+    elif choir == 'powers':  # меч и щит
+        d.polygon([(cx - 12, cy - 12), (cx + 12, cy - 12), (cx + 12, cy + 2), (cx, cy + 16), (cx - 12, cy + 2)], fill=rgb('#5a6a8a'), outline=gold)
+        d.line([(cx - 20, cy + 18), (cx + 20, cy - 22)], fill=white, width=2)
+        d.line([(cx - 16, cy + 9), (cx - 9, cy + 16)], fill=gold, width=2)
+    elif choir == 'principalities':  # град под венцом
+        for x0, h in ((cx - 24, 10), (cx - 14, 16), (cx - 4, 22), (cx + 6, 14), (cx + 16, 18)):
+            d.rectangle([x0, cy + 20 - h, x0 + 8, cy + 20], fill=rgb('#2a2440'), outline=rgb('#c9973a'))
+        d.polygon([(cx - 10, cy - 12), (cx - 10, cy - 18), (cx - 5, cy - 14), (cx, cy - 20), (cx + 5, cy - 14), (cx + 10, cy - 18), (cx + 10, cy - 12)], fill=gold)
+    elif choir == 'archangels':  # труба и волны звука
+        d.polygon([(cx - 20, cy + 2), (cx + 8, cy - 2), (cx + 18, cy - 10), (cx + 18, cy + 10), (cx + 8, cy + 2)], fill=gold, outline=rgb('#8a6a1e'))
+        for r in (8, 14, 20):
+            d.arc([cx + 18 - r, cy - r, cx + 18 + r, cy + r], 300, 60, fill=white)
+    else:  # angels: перо и путь звёзд
+        d.line([(cx - 14, cy + 18), (cx + 10, cy - 18)], fill=white, width=1)
+        for k in range(8):
+            t = k / 7
+            x, y = cx - 14 + 24 * t, cy + 18 - 36 * t
+            d.line([(x, y), (x + 8 - 4 * t, y + 4)], fill=rgb('#e8f0ff'))
+            d.line([(x, y), (x - 6 + 3 * t, y - 2)], fill=rgb('#e8f0ff'))
+        for k in range(6):
+            d.point((10 + k * 14, AH - 8 - (k % 2) * 3), fill=gold)
+    return frame(img)
+
+
 def main():
     blocks()
     for choir in CHOIRS:
+        save_png(choir_art(choir), f'gui/choirs/{choir}')
         shrine(choir)
     lang()
     print('ok: хоры Астрала — диски, гнёзда, святилища', len(CHOIRS))

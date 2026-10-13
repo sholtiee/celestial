@@ -13,11 +13,16 @@ import net.minecraft.network.chat.Component;
 /**
  * Вкладка Кодекса «Созвездия»: ранг и покровитель сверху, ниже — девять карточек хоров (3×3). На карточке — рисунок созвездия
  * (точки и линии на поле 5×5, верх — север, как на Звёздном диске), имя и состояние: собран ✦ / видел в Телескоп / не видел.
- * Невиденное созвездие — пустая рамка с фазой Луны, когда его искать. Подсказка при наведении — благословение хора.
+ * Невиденное созвездие — пустая рамка с фазой Луны, когда его искать. При наведении на увиденное — картина хора (знак чина)
+ * и подсказка с благословением.
  */
 public final class StarsPanel {
 	private static final int CARD_H = 50;
 	private static final int CELL = 6;
+	private static final int ART_W = 96;
+	private static final int ART_H = 54;
+
+	private static Choir lastHovered;
 
 	private StarsPanel() {}
 
@@ -37,6 +42,7 @@ public final class StarsPanel {
 		int cw = (w - 16) / 3;
 		int y0 = top + 54;
 		Choir patron = Choirs.patron(d);
+		Choir hovered = null;
 		for (Choir c : Choir.values()) {
 			int i = c.ordinal();
 			int x = left + 8 + (i % 3) * cw;
@@ -78,11 +84,26 @@ public final class StarsPanel {
 				g.text(font, rows.get(r), tx, y + 16 + r * 9, 0xFFFFFFFF);
 			}
 			if (mx >= x && mx < x + cw - 4 && my >= y && my < y + CARD_H - 4 && (seen || got)) {
-				List<net.minecraft.util.FormattedCharSequence> tip = new ArrayList<>();
-				tip.addAll(font.split(Component.translatable("choir.celestial." + c.id).withStyle(ChatFormatting.GOLD), 200));
-				tip.addAll(font.split(Component.translatable("choir.celestial." + c.id + ".blessing").withStyle(ChatFormatting.GRAY), 200));
-				g.setTooltipForNextFrame(tip, mx, my);
+				hovered = c;
 			}
+		}
+		lastHovered = hovered;
+	}
+
+	/** Рисуется после всего текста экрана — иначе строки шапки ложатся поверх картины. */
+	public static void renderHover(GuiGraphicsExtractor g, Font font, int left, int top, int w, int mx, int my) {
+		Choir hovered = lastHovered;
+		if (hovered != null) {  // картина хора (tools/gen_choirs.choir_art) над курсором, ниже — имя и благословение
+			int px = Math.min(mx + 8, left + w - ART_W - 4);
+			int py = Math.max(top + 4, my - ART_H - 8);
+			g.nextStratum();  // поверх текста панели
+			g.fill(px - 1, py - 1, px + ART_W + 1, py + ART_H + 1, 0xFFC8A040);
+			g.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, dev.celestial.Celestial.id("textures/gui/choirs/" + hovered.id + ".png"),
+				px, py, 0.0F, 0.0F, ART_W, ART_H, ART_W, ART_H);
+			List<net.minecraft.util.FormattedCharSequence> tip = new ArrayList<>();
+			tip.addAll(font.split(Component.translatable("choir.celestial." + hovered.id).withStyle(ChatFormatting.GOLD), 200));
+			tip.addAll(font.split(Component.translatable("choir.celestial." + hovered.id + ".blessing").withStyle(ChatFormatting.GRAY), 200));
+			g.setTooltipForNextFrame(tip, mx, my);
 		}
 	}
 

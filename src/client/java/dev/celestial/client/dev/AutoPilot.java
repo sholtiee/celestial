@@ -142,6 +142,13 @@ public final class AutoPilot {
 			gotoStructure(mc, a[0], Double.parseDouble(a[1]), Double.parseDouble(a[2]), Double.parseDouble(a[3]),
 				Float.parseFloat(a[4]), Float.parseFloat(a[5]));
 			waitTicks = 5;
+		} else if (step.startsWith("mouse ")) {
+			// mouse fx fy — навести курсор (доли ширины и высоты окна; для подсказок и всплывающих картинок в экранах)
+			String[] a = step.substring(6).strip().split("\\s+");
+			var window = mc.getWindow();
+			mc.mouseHandler.onMove(window.handle(), Double.parseDouble(a[0]) * window.getScreenWidth(),
+				Double.parseDouble(a[1]) * window.getScreenHeight(), 0, 0);
+			waitTicks = 2;
 		} else if (step.equals("pos")) {
 			Celestial.LOGGER.info("Автопилот: позиция {} {} {} {} блок-под-ногами={}", mc.player.level().dimension().identifier(),
 				(int) Math.floor(mc.player.getX()), String.format(java.util.Locale.ROOT, "%.2f", mc.player.getY()), (int) Math.floor(mc.player.getZ()),

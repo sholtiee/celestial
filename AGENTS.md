@@ -106,7 +106,7 @@ gen_story → gen_grace → gen_fading → gen_places → gen_boss → … → g
    Шаги сценария: `/команда`, `wait N`, `shot имя`, `use X Y Z грань`, `userel dx dy dz грань`, `usenear <id блока>`,
    `interact <id сущности>`, `useitem`, `hold jump|forward|back|left|right|sneak|attack|use N`, `press cast|cycle|dash|codex`,
    `codex <вкладка>`, `fly`, `goto <структура> dx dy dz yaw pitch`, `camera front|back|first`, `togglehud`, `clearchat`,
-   `closescreen`, `screen name` (экран имени тайной концовки), `pos`, `quit`. Сейв для тестов — `run/saves/test` (`tools/fresh_save.sh`).
+   `closescreen`, `screen name` (экран имени тайной концовки), `mouse fx fy` (навести курсор — доли окна), `pos`, `quit`. Сейв для тестов — `run/saves/test` (`tools/fresh_save.sh`).
    Подводные камни: тестовый сейв накапливает состояние (акт, Угасание, игрок может оказаться в другом измерении —
    в начале сценария явно телепортируйся `execute in <мир> run tp`); `goto` ищет структуру в текущем измерении игрока;
    в выживании дотягиваешься на 4,5 блока; `hold` не ждёт окончания (после `hold use 40` нужен `wait` ≥ 40); без опоры мобы и игрок падают в пустоту Рая; `TIMEOUT=600` для долгих сценариев.

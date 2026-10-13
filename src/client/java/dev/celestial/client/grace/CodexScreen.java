@@ -220,6 +220,9 @@ public class CodexScreen extends Screen {
 			graphics.fill(left() + W - 7, trackTop, left() + W - 5, trackTop + trackH, 0x60C9A23A);
 			graphics.fill(left() + W - 7, thumbY, left() + W - 5, thumbY + thumbH, 0xFFC9A23A);
 		}
+		if (tab == Tab.STARS) {
+			StarsPanel.renderHover(graphics, font, left(), top(), W, mouseX, mouseY);
+		}
 	}
 
 	@Override
