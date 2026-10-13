@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "celestial:abyssal_obsidian_ore"
+    "celestial:abyssal_obsidian_ore",
+    "celestial:celestite_ore"
   ]
 }

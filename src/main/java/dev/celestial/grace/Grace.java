@@ -94,7 +94,11 @@ public final class Grace {
 		for (ServerPlayer player : server.getPlayerList().getPlayers()) {
 			PlayerData data = CelestialData.get(player);
 			float max = maxRadiance(data);
-			float regen = (data.hasSkill(Skill.RADIANCE_REGEN.id) ? 2.0F : 1.0F) * (HeavenDimension.isHeaven(player.level()) ? 2.0F : 1.0F);
+			float regen = (data.hasSkill(Skill.RADIANCE_REGEN.id) ? 2.0F : 1.0F) * (HeavenDimension.isHeaven(player.level()) ? 2.0F : 1.0F)
+				* (dev.celestial.astral.CelestiteGear.fullSet(player) ? 1.5F : 1.0F);
+			if (dev.celestial.astral.CelestiteGear.fullSet(player)) {
+				player.removeEffect(net.minecraft.world.effect.MobEffects.DARKNESS);  // целестит светит изнутри
+			}
 			if (data.radiance() < max) {
 				CelestialData.update(player, d -> d.withRadiance(Math.min(max, d.radiance() + regen)));
 			}

@@ -216,8 +216,8 @@ def features():
     def placed(name, feat, placement):
         write_json(os.path.join(WG, 'placed_feature', name + '.json'), {'feature': feat, 'placement': placement})
 
-    feature('ore_chronite', {'type': 'minecraft:ore', 'discard_chance_on_air_exposure': 0.1, 'size': 6,
-                             'targets': [{'state': {'id': c('chronite_ore')}, 'target': {'predicate_type': 'minecraft:block_match', 'block': c('chronite_stone')}}]})
+    # своя жила (VeinFeature): ванильная руда требует точку ниже OCEAN_FLOOR_WG и в Хронограде не ставилась
+    feature('ore_chronite', {'type': c('vein'), 'ore': c('chronite_ore'), 'target': c('chronite_stone'), 'size': 6})
     for name, count in (('ore_chronite', 6), ('ore_chronite_rich', 14)):
         placed(name, c('ore_chronite'), [{'type': 'minecraft:count', 'count': count}, {'type': 'minecraft:in_square'},
                                          {'type': 'minecraft:height_range', 'height': {'type': 'minecraft:uniform', 'min_inclusive': {'absolute': 4},

@@ -16,7 +16,7 @@ from PIL import Image
 
 import textures as T
 from gen_abyss import append_tag
-from gen_assets import ASSETS, DATA, blockstate, c, item_def, model, save_png, self_drop, shaped, write_json
+from gen_assets import ASSETS, DATA, VANILLA, blockstate, c, item_def, model, ore_drop, save_png, self_drop, shaped, write_json
 from gen_places import jigsaw, structure_set
 from gen_story import lang_patch
 from gen_structures import Template
@@ -239,10 +239,10 @@ def features():
 def biomes():
     from gen_astral_mobs import natural_spawns
     feats = {
-        'star_drift': {9: [c('astral_crystals'), c('astral_flowers_sparse')]},
-        'nebula': {9: [c('astral_crystals'), c('astral_flowers')]},
-        'crystal_fields': {9: [c('astral_crystals_dense'), c('astral_flowers_sparse')]},
-        'dust_rivers': {9: [c('astral_flowers')]},
+        'star_drift': {6: [c('ore_celestite')], 9: [c('astral_crystals'), c('astral_flowers_sparse')]},
+        'nebula': {6: [c('ore_celestite')], 9: [c('astral_crystals'), c('astral_flowers')]},
+        'crystal_fields': {6: [c('ore_celestite')], 9: [c('astral_crystals_dense'), c('astral_flowers_sparse')]},
+        'dust_rivers': {6: [c('ore_celestite')], 9: [c('astral_flowers')]},
     }
     look = {'star_drift': ('#0b1030', '#141a3c', 0.0015), 'nebula': ('#1a0e3a', '#3a1e5a', 0.008),
             'crystal_fields': ('#0e1438', '#1e2a5a', 0.003), 'dust_rivers': ('#0c1232', '#22285a', 0.004)}
@@ -343,8 +343,127 @@ def lang():
     })
 
 
+# ---------------------------------------------------------------- Целестит и Астролябия
+def celestite():
+    """Целестит: руда в астральной породе (небесно-голубые кристаллы с золотой искрой) → сырой → слиток;
+    инструменты и броня сильнее хронита; полный комплект — Сияние ×1,5 и защита от Тьмы."""
+    from gen_assets import smelt
+    rock = Image.open(os.path.join(ASSETS, 'textures/block/astral_rock.png')).convert('RGBA')
+    ore = rock.copy()
+    r = T.rng_for('celestite_ore')
+    for _ in range(5):
+        x, y = r.randrange(2, 14), r.randrange(2, 14)
+        for dx, dy, col in ((0, 0, '#ffffff'), (1, 0, '#8ad8ff'), (0, 1, '#4aa8f0'), (-1, 0, '#8ad8ff'), (0, -1, '#c8f0ff'), (1, 1, '#ffe08a')):
+            put(ore, x + dx, y + dy, H(col))
+    save_png(ore, 'block/celestite_ore')
+    model('block/celestite_ore', {'parent': 'minecraft:block/cube_all', 'textures': {'all': c('block/celestite_ore')}})
+    blockstate('celestite_ore', {'variants': {'': {'model': c('block/celestite_ore')}}})
+    item_def('celestite_ore', c('block/celestite_ore'))
+    ore_drop('celestite_ore', c('raw_celestite'))
+    CE = {'1': '#123050', '2': '#2a5a90', '3': '#4a8ad0', '4': '#8ad0ff', '5': '#e8f8ff', '6': '#ffe8a0'}
+    raw = ['................', '................', '................', '.....1111.......', '....124421......', '...12446421.....', '...12455431.....',
+           '...1234443211...', '....12333321....', '.....122221.....', '......1111......', '................', '................',
+           '................', '................', '................']
+    save_png(T.sprite(raw, CE), 'item/raw_celestite')
+    save_png(T.sprite(T.SPR['etherite_ingot'], CE), 'item/celestite_ingot')
+    names = ['raw_celestite', 'celestite_ingot']
+    for part in ('sword', 'pickaxe', 'axe', 'shovel', 'helmet', 'chestplate', 'leggings', 'boots'):
+        save_png(T.sprite(T.SPR['etherite_' + part], {**CE, **T.WOOD}), f'item/celestite_{part}')
+        names.append(f'celestite_{part}')
+    for n in names:
+        handheld = any(n.endswith(t) for t in ('sword', 'pickaxe', 'axe', 'shovel'))
+        model('item/' + n, {'parent': 'minecraft:item/handheld' if handheld else 'minecraft:item/generated', 'textures': {'layer0': c('item/' + n)}})
+        item_def(n, c('item/' + n))
+    palette = T.pal('#123050', '#2a5a90', '#4a8ad0', '#8ad0ff', '#e8f8ff')
+    for layer in ('humanoid', 'humanoid_leggings'):
+        save_png(T.armor_layer(os.path.join(VANILLA, f'textures/entity/equipment/{layer}/iron.png'), palette), f'entity/equipment/{layer}/celestite')
+    write_json(os.path.join(ASSETS, 'equipment/celestite.json'), {'layers': {'humanoid': [{'texture': c('celestite')}],
+                                                                           'humanoid_leggings': [{'texture': c('celestite')}]}})
+    smelt('celestite_ingot', c('celestite_ingot'), c('raw_celestite'), 1.5)
+    X, S, I = '#celestial:celestite_tool_materials', 'minecraft:stick', c('celestite_ingot')
+    shaped('celestite_sword', c('celestite_sword'), ['X', 'X', '#'], {'X': X, '#': S}, 1, 'equipment')
+    shaped('celestite_pickaxe', c('celestite_pickaxe'), ['XXX', ' # ', ' # '], {'X': X, '#': S}, 1, 'equipment')
+    shaped('celestite_axe', c('celestite_axe'), ['XX', 'X#', ' #'], {'X': X, '#': S}, 1, 'equipment')
+    shaped('celestite_shovel', c('celestite_shovel'), ['X', '#', '#'], {'X': X, '#': S}, 1, 'equipment')
+    shaped('celestite_helmet', c('celestite_helmet'), ['XXX', 'X X'], {'X': I}, 1, 'equipment')
+    shaped('celestite_chestplate', c('celestite_chestplate'), ['X X', 'XXX', 'XXX'], {'X': I}, 1, 'equipment')
+    shaped('celestite_leggings', c('celestite_leggings'), ['XXX', 'X X', 'X X'], {'X': I}, 1, 'equipment')
+    shaped('celestite_boots', c('celestite_boots'), ['X X', 'X X'], {'X': I}, 1, 'equipment')
+    append_tag('item', 'celestial:celestite_tool_materials', [I])
+    append_tag('item', 'celestial:repairs_celestite_armor', [I])
+    for t in ('sword', 'pickaxe', 'axe', 'shovel'):
+        append_tag('item', f'minecraft:{t}s', [c('celestite_' + t)])
+    for a, slot in (('helmet', 'head'), ('chestplate', 'chest'), ('leggings', 'leg'), ('boots', 'foot')):
+        append_tag('item', f'minecraft:{slot}_armor', [c('celestite_' + a)])
+    append_tag('block', 'minecraft:mineable/pickaxe', [c('celestite_ore')])
+    append_tag('block', 'minecraft:needs_diamond_tool', [c('celestite_ore')])
+    # своя жила (VeinFeature): ванильная руда в парящих астероидах не ставится (проверка карты высот OCEAN_FLOOR_WG)
+    write_json(os.path.join(WG, 'feature/ore_celestite.json'), {
+        'type': c('vein'), 'ore': c('celestite_ore'), 'target': c('astral_rock'), 'size': 7})
+    write_json(os.path.join(WG, 'placed_feature/ore_celestite.json'), {'feature': c('ore_celestite'), 'placement': [
+        # астероиды занимают ~7% объёма: большинство попыток уходит в пустоту, поэтому попыток много
+        {'type': 'minecraft:count', 'count': 60}, {'type': 'minecraft:in_square'},
+        {'type': 'minecraft:height_range', 'height': {'type': 'minecraft:uniform', 'min_inclusive': {'absolute': 20}, 'max_inclusive': {'absolute': 240}}},
+        {'type': 'minecraft:biome'}]})
+    e = {'item.celestial.raw_celestite': ('Сырой целестит', 'Raw Celestite'), 'item.celestial.celestite_ingot': ('Слиток целестита', 'Celestite Ingot'),
+         'item.celestial.celestite_ingot.lore1': ('Небесный металл: светится изнутри', 'Heavenly metal: it glows from within'),
+         'item.celestial.celestite_set.lore1': ('Полный комплект: Сияние ×1,5, Тьма не держится', 'Full set: Radiance ×1.5, Darkness cannot hold'),
+         'block.celestial.celestite_ore': ('Целеститовая руда', 'Celestite Ore')}
+    ru = {'sword': 'Целеститовый меч', 'pickaxe': 'Целеститовая кирка', 'axe': 'Целеститовый топор', 'shovel': 'Целеститовая лопата',
+          'helmet': 'Целеститовый шлем', 'chestplate': 'Целеститовый нагрудник', 'leggings': 'Целеститовые поножи', 'boots': 'Целеститовые сапоги'}
+    for part, name in ru.items():
+        e[f'item.celestial.celestite_{part}'] = (name, 'Celestite ' + part.capitalize())
+    lang_patch(e)
+
+
+def astrolabe():
+    """Астролябия: латунный диск со шкалой и звёздной стрелкой; 16 кадров поворота стрелки (как у компаса)."""
+    frames = 16
+    for f in range(frames):
+        img = Image.new('RGBA', (16, 16), (0, 0, 0, 0))
+        for y in range(16):
+            for x in range(16):
+                d = math.hypot(x - 7.5, y - 7.5)
+                if d <= 7.2:
+                    col = H('#7a5a1e') if d > 6.2 else (H('#1a2458') if d < 5.0 else H('#c9973a'))
+                    if 5.0 <= d <= 6.2 and (round(math.degrees(math.atan2(y - 7.5, x - 7.5))) % 30) < 8:
+                        col = H('#f2d68a')  # деления шкалы
+                    img.putpixel((x, y), (*col, 255))
+        a = f * 2 * math.pi / frames  # стрелка: 0 — вверх, по часовой
+        for i in range(1, 6):
+            px, py = round(7.5 + math.sin(a) * i - 0.5), round(7.5 - math.cos(a) * i - 0.5)
+            img.putpixel((px, py), (*(H('#fff4c0') if i > 3 else H('#8ad0ff')), 255))
+        for i in range(1, 3):
+            px, py = round(7.5 - math.sin(a) * i - 0.5), round(7.5 + math.cos(a) * i - 0.5)
+            img.putpixel((px, py), (*H('#3a5a9a'), 255))
+        img.putpixel((7, 7), (*H('#ffffff'), 255))
+        save_png(img, f'item/astrolabe_{f:02d}')
+        model(f'item/astrolabe_{f:02d}', {'parent': 'minecraft:item/generated', 'textures': {'layer0': c(f'item/astrolabe_{f:02d}')}})
+    entries = [{'model': {'type': 'minecraft:model', 'model': c(f'item/astrolabe_{(i % frames):02d}')}, 'threshold': i - 0.5 if i else 0.0}
+               for i in range(frames + 1)]
+    spinning = [{'model': {'type': 'minecraft:model', 'model': c(f'item/astrolabe_{(i % frames):02d}')}, 'threshold': i - 0.5 if i else 0.0}
+                for i in range(frames + 1)]
+    write_json(os.path.join(ASSETS, 'items/astrolabe.json'), {'model': {
+        'type': 'minecraft:condition', 'property': 'minecraft:has_component', 'component': 'minecraft:lodestone_tracker',
+        'on_true': {'type': 'minecraft:range_dispatch', 'property': 'minecraft:compass', 'target': 'lodestone', 'scale': float(frames), 'entries': entries},
+        'on_false': {'type': 'minecraft:range_dispatch', 'property': 'minecraft:compass', 'target': 'none', 'scale': float(frames), 'entries': spinning}}})
+    shaped('astrolabe', c('astrolabe'), [' C ', 'SES', ' C '], {'C': c('celestite_ingot'), 'S': c('star_scale'), 'E': c('ophanim_eye')}, 1, 'equipment')
+    write_json(os.path.join(DATA, 'tags/worldgen/structure/star_altars.json'), {'values': [c('star_altar')]})
+    lang_patch({
+        'item.celestial.astrolabe': ('Астролябия', 'Astrolabe'),
+        'item.celestial.astrolabe.lore1': ('ПКМ в Астрале: стрелка на ближайшее святилище хора', 'Use in the Astral: the needle points to the nearest choir shrine'),
+        'item.celestial.astrolabe.lore2': ('Крадучись — на Звёздный алтарь', 'Sneak: to the Star Altar'),
+        'item.celestial.astrolabe.silent': ('Вне Астрала звёзды молчат.', 'Outside the Astral the stars are silent.'),
+        'item.celestial.astrolabe.none': ('Звёзды не отвечают — рядом ничего нет.', 'The stars do not answer — nothing is near.'),
+        'item.celestial.astrolabe.shrine': ('Святилище хора — в %s блоках', 'A choir shrine — %s blocks away'),
+        'item.celestial.astrolabe.altar': ('Звёздный алтарь — в %s блоках', 'The Star Altar — %s blocks away'),
+    })
+
+
 def main():
     blocks()
+    celestite()
+    astrolabe()
     dimension()
     noises()
     surface()

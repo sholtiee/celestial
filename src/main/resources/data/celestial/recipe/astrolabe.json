@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": "celestial:celestite_ingot",
+    "S": "celestial:star_scale",
+    "E": "celestial:ophanim_eye"
+  },
+  "pattern": [
+    " C ",
+    "SES",
+    " C "
+  ],
+  "result": {
+    "id": "celestial:astrolabe"
+  }
+}

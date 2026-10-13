@@ -1,0 +1,6 @@
+{
+  "type": "celestial:vein",
+  "ore": "celestial:celestite_ore",
+  "target": "celestial:astral_rock",
+  "size": 7
+}

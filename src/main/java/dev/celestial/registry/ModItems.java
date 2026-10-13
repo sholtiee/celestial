@@ -69,6 +69,13 @@ public final class ModItems {
 	public static final TagKey<Item> CHRONITE_TOOL_MATERIALS = TagKey.create(Registries.ITEM, Celestial.id("chronite_tool_materials"));
 	public static final TagKey<Item> REPAIRS_CHRONITE_ARMOR = TagKey.create(Registries.ITEM, Celestial.id("repairs_chronite_armor"));
 	public static final ResourceKey<EquipmentAsset> CHRONITE_ASSET = ResourceKey.create(EquipmentAssets.ROOT_ID, Celestial.id("chronite"));
+	public static final TagKey<Item> CELESTITE_TOOL_MATERIALS = TagKey.create(Registries.ITEM, Celestial.id("celestite_tool_materials"));
+	public static final TagKey<Item> REPAIRS_CELESTITE_ARMOR = TagKey.create(Registries.ITEM, Celestial.id("repairs_celestite_armor"));
+	public static final ResourceKey<EquipmentAsset> CELESTITE_ASSET = ResourceKey.create(EquipmentAssets.ROOT_ID, Celestial.id("celestite"));
+	public static final ToolMaterial CELESTITE_TOOL = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2400, 10.5F, 4.0F, 20, CELESTITE_TOOL_MATERIALS);
+	public static final ArmorMaterial CELESTITE_ARMOR = new ArmorMaterial(37,
+		Map.of(ArmorType.BOOTS, 3, ArmorType.LEGGINGS, 6, ArmorType.CHESTPLATE, 8, ArmorType.HELMET, 3, ArmorType.BODY, 11),
+		20, SoundEvents.ARMOR_EQUIP_DIAMOND, 3.0F, 0.1F, REPAIRS_CELESTITE_ARMOR, CELESTITE_ASSET);
 	public static final ToolMaterial CHRONITE_TOOL = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 1900, 9.5F, 3.5F, 18, CHRONITE_TOOL_MATERIALS);
 	public static final ArmorMaterial CHRONITE_ARMOR = new ArmorMaterial(33,
 		Map.of(ArmorType.BOOTS, 3, ArmorType.LEGGINGS, 6, ArmorType.CHESTPLATE, 8, ArmorType.HELMET, 3, ArmorType.BODY, 11),
@@ -131,6 +138,18 @@ public final class ModItems {
 	public static final Item CHRONITE_INGOT = register("chronite_ingot", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON), "chronite_ingot", 1));
 	public static final Item WIND_KEY = register("wind_key", Item::new, lore(new Item.Properties().durability(48), "wind_key", 2));
 	public static final Item OPHANIM_EYE = register("ophanim_eye", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON), "ophanim_eye", 1));
+	public static final Item RAW_CELESTITE = register("raw_celestite", Item::new, new Item.Properties());
+	public static final Item CELESTITE_INGOT = register("celestite_ingot", Item::new, lore(new Item.Properties().rarity(Rarity.RARE), "celestite_ingot", 1));
+	public static final Item CELESTITE_SWORD = register("celestite_sword", Item::new, new Item.Properties().sword(CELESTITE_TOOL, 3.0F, -2.4F));
+	public static final Item CELESTITE_PICKAXE = register("celestite_pickaxe", Item::new, new Item.Properties().pickaxe(CELESTITE_TOOL, 1.0F, -2.8F));
+	public static final Item CELESTITE_AXE = register("celestite_axe", Item::new, new Item.Properties().axe(CELESTITE_TOOL, 5.0F, -3.0F));
+	public static final Item CELESTITE_SHOVEL = register("celestite_shovel", Item::new, new Item.Properties().shovel(CELESTITE_TOOL, 1.5F, -3.0F));
+	public static final Item CELESTITE_HELMET = register("celestite_helmet", Item::new, lore(new Item.Properties().humanoidArmor(CELESTITE_ARMOR, ArmorType.HELMET), "celestite_set", 1));
+	public static final Item CELESTITE_CHESTPLATE = register("celestite_chestplate", Item::new, lore(new Item.Properties().humanoidArmor(CELESTITE_ARMOR, ArmorType.CHESTPLATE), "celestite_set", 1));
+	public static final Item CELESTITE_LEGGINGS = register("celestite_leggings", Item::new, lore(new Item.Properties().humanoidArmor(CELESTITE_ARMOR, ArmorType.LEGGINGS), "celestite_set", 1));
+	public static final Item CELESTITE_BOOTS = register("celestite_boots", Item::new, lore(new Item.Properties().humanoidArmor(CELESTITE_ARMOR, ArmorType.BOOTS), "celestite_set", 1));
+	public static final Item ASTROLABE = register("astrolabe", dev.celestial.astral.AstrolabeItem::new,
+		lore(new Item.Properties().stacksTo(1).rarity(Rarity.RARE), "astrolabe", 2));
 	public static final Item STAR_SCALE = register("star_scale", Item::new, lore(new Item.Properties(), "star_scale", 1));
 	public static final Item CLAY_TABLET = register("clay_tablet", dev.celestial.item.ClayTabletItem::new,
 		lore(new Item.Properties().stacksTo(1).rarity(Rarity.RARE), "clay_tablet", 2));

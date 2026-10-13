@@ -150,6 +150,7 @@ gen_story → gen_grace → gen_fading → gen_places → gen_boss → … → g
 - Загадки-паркуры: проверь, что до финиша нельзя дойти пешком в обход (кольцо пола вокруг пропасти, край стены).
 
 ## 7. Особенности API 26.3 (на них уже наступали)
+- **Руда в своих мирах — фича `celestial:vein`**, не `minecraft:ore`: ванильная ставится, только если точка ниже карты высот OCEAN_FLOOR_WG (в парящих астероидах и каньонах не появлялась). Состояние блока в JSON фич — строка `"celestial:x"` (или `{id: …}`), не `{Name: …}`.
 - Лут-таблицы: `condition` / `modifier` (не conditions/functions). Порядок фич одинаков во всех биомах (`FEATURE_ORDER`),
   иначе «Feature order cycle». `environment_scan.max_steps` ≤ 32. Feature — record + MapCodec в `BuiltInRegistries.FEATURE_TYPE`.
 - Окрашивание: `BlockColorRegistry.register(List.of(BlockTintSources.grass()), block)`.

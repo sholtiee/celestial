@@ -432,6 +432,8 @@ public final class ModBlocks {
 	public static final Block STAR_FLOWER = register("star_flower", net.minecraft.world.level.block.BushBlock::new,
 		Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).noCollision().instabreak().sound(SoundType.AMETHYST_CLUSTER).lightLevel(s -> 7)
 			.offsetType(net.minecraft.world.level.block.state.BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.POPPED));
+	public static final Block CELESTITE_ORE = register("celestite_ore", p -> new DropExperienceBlock(UniformInt.of(4, 8), p),
+		Properties.ofFullCopy(ASTRAL_ROCK).strength(5.0F, 9.0F).lightLevel(s -> 4));
 	public static final Block STAR_STONE_BLOCK = register("star_stone_block", Block::new,
 		Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).requiresCorrectToolForDrops().strength(3.0F, 9.0F).sound(SoundType.AMETHYST).lightLevel(s -> 6));
 	public static final Block STAR_PORTAL = registerNoItem("star_portal",

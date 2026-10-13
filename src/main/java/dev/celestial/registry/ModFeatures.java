@@ -10,5 +10,6 @@ public final class ModFeatures {
 
 	public static void init() {
 		Registry.register(BuiltInRegistries.FEATURE_TYPE, Celestial.id("rainbow_arc"), RainbowArcFeature.CODEC);
+		Registry.register(BuiltInRegistries.FEATURE_TYPE, Celestial.id("vein"), dev.celestial.world.feature.VeinFeature.CODEC);
 	}
 }

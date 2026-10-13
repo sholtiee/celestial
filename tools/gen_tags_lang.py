@@ -13,6 +13,8 @@ TAGS = {
     'frost_tool_materials': ('Материалы инструмента из морозной стали', 'Frost Steel Tool Materials'),
     'chronite_tool_materials': ('Материалы хронитового инструмента', 'Chronite Tool Materials'),
     'repairs_chronite_armor': ('Чинит хронитовую броню', 'Repairs Chronite Armor'),
+    'celestite_tool_materials': ('Материалы целеститового инструмента', 'Celestite Tool Materials'),
+    'repairs_celestite_armor': ('Чинит целеститовую броню', 'Repairs Celestite Armor'),
     'light_sources': ('Источники света в руке', 'Hand-held Light Sources'),
     'repairs_abyssal_armor': ('Чинит бездновую броню', 'Repairs Abyssal Armor'),
     'repairs_etherite_armor': ('Чинит эфиритовую броню', 'Repairs Etherite Armor'),
