@@ -47,6 +47,7 @@ python3 gen_choirs.py
 python3 gen_faceless.py
 python3 gen_eden_traces.py
 python3 gen_jerusalem.py
+python3 gen_postgame.py
 python3 gen_sky.py
 python3 gen_achievements.py
 python3 gen_animated.py

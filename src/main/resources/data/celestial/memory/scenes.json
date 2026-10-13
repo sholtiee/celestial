@@ -2973,5 +2973,659 @@
         "ticks": 50
       }
     ]
+  },
+  "fiery_furnace": {
+    "stage": "celestial:memory/furnace",
+    "center": [
+      20,
+      5,
+      18
+    ],
+    "radius": 22,
+    "spawn": [
+      20.5,
+      5,
+      32.5,
+      180
+    ],
+    "sheet": "fiery_furnace",
+    "thought": "memory.celestial.furnace.thought",
+    "actors": [
+      {
+        "id": "king",
+        "type": "human",
+        "skin": "king",
+        "pos": [
+          33.5,
+          6,
+          20.5
+        ],
+        "yaw": 90
+      },
+      {
+        "id": "y1",
+        "type": "human",
+        "skin": "youth",
+        "pos": [
+          18.5,
+          5,
+          22.5
+        ],
+        "yaw": 0
+      },
+      {
+        "id": "y2",
+        "type": "human",
+        "skin": "youth",
+        "pos": [
+          20.5,
+          5,
+          22.5
+        ],
+        "yaw": 0
+      },
+      {
+        "id": "y3",
+        "type": "human",
+        "skin": "youth",
+        "pos": [
+          22.5,
+          5,
+          22.5
+        ],
+        "yaw": 0
+      }
+    ],
+    "steps": [
+      {
+        "t": "dim",
+        "value": 0.3
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.furnace.1",
+        "ticks": 80
+      },
+      {
+        "t": "say",
+        "actor": "king",
+        "key": "memory.celestial.furnace.king1",
+        "ticks": 80
+      },
+      {
+        "t": "face",
+        "actor": "y1",
+        "to": "king"
+      },
+      {
+        "t": "say",
+        "actor": "y1",
+        "key": "memory.celestial.furnace.youth",
+        "ticks": 80
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:flame",
+        "pos": [
+          20.5,
+          7,
+          10.5
+        ],
+        "count": 200,
+        "spread": 3,
+        "speed": 0.05
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.furnace.2",
+        "ticks": 60
+      },
+      {
+        "t": "move",
+        "actor": "y1",
+        "to": [
+          18.5,
+          5,
+          10.5
+        ],
+        "speed": 0.06,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "y2",
+        "to": [
+          20.5,
+          5,
+          9.5
+        ],
+        "speed": 0.06,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "y3",
+        "to": [
+          22.5,
+          5,
+          10.5
+        ],
+        "speed": 0.06
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:flame",
+        "pos": [
+          20.5,
+          6,
+          10.5
+        ],
+        "count": 240,
+        "spread": 3,
+        "speed": 0.08
+      },
+      {
+        "t": "spawn",
+        "actor": {
+          "id": "fourth",
+          "type": "human",
+          "skin": "host",
+          "pos": [
+            19.5,
+            5,
+            12.5
+          ],
+          "yaw": 180
+        }
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:end_rod",
+        "pos": [
+          19.5,
+          6,
+          12.5
+        ],
+        "count": 80,
+        "spread": 1,
+        "speed": 0.05
+      },
+      {
+        "t": "look",
+        "actor": "fourth",
+        "r": 26,
+        "timeout": 900
+      },
+      {
+        "t": "say",
+        "actor": "king",
+        "key": "memory.celestial.furnace.king2",
+        "ticks": 90
+      },
+      {
+        "t": "move",
+        "actor": "y1",
+        "to": [
+          18.5,
+          5,
+          19.5
+        ],
+        "speed": 0.05,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "y2",
+        "to": [
+          20.5,
+          5,
+          19.5
+        ],
+        "speed": 0.05,
+        "wait": false
+      },
+      {
+        "t": "move",
+        "actor": "y3",
+        "to": [
+          22.5,
+          5,
+          19.5
+        ],
+        "speed": 0.05
+      },
+      {
+        "t": "despawn",
+        "actor": "fourth"
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.furnace.3",
+        "ticks": 90
+      },
+      {
+        "t": "dim",
+        "value": 0.0
+      },
+      {
+        "t": "end",
+        "ticks": 40
+      }
+    ]
+  },
+  "seraph_coal": {
+    "stage": "celestial:memory/temple_coal",
+    "center": [
+      16,
+      5,
+      14
+    ],
+    "radius": 18,
+    "spawn": [
+      16.5,
+      5,
+      27.5,
+      180
+    ],
+    "sheet": "seraph_coal",
+    "thought": "memory.celestial.coal.thought",
+    "actors": [
+      {
+        "id": "prophet",
+        "type": "human",
+        "skin": "prophet",
+        "pos": [
+          16.5,
+          5,
+          18.5
+        ],
+        "yaw": 180,
+        "pose": 4
+      },
+      {
+        "id": "seraph",
+        "type": "human",
+        "skin": "seraph",
+        "pos": [
+          16.5,
+          8,
+          6.5
+        ],
+        "yaw": 0
+      }
+    ],
+    "steps": [
+      {
+        "t": "dim",
+        "value": 0.35
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.coal.1",
+        "ticks": 80
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:campfire_cosy_smoke",
+        "pos": [
+          16.5,
+          7,
+          12.5
+        ],
+        "count": 60,
+        "spread": 6,
+        "speed": 0.01
+      },
+      {
+        "t": "say",
+        "actor": "seraph",
+        "key": "memory.celestial.seraph.holy",
+        "ticks": 90
+      },
+      {
+        "t": "near",
+        "pos": [
+          16.5,
+          5,
+          21.5
+        ],
+        "r": 3.5,
+        "timeout": 900
+      },
+      {
+        "t": "face",
+        "actor": "prophet",
+        "to": "seraph"
+      },
+      {
+        "t": "say",
+        "actor": "prophet",
+        "key": "memory.celestial.coal.woe",
+        "ticks": 80
+      },
+      {
+        "t": "hold",
+        "actor": "seraph",
+        "item": "minecraft:fire_charge"
+      },
+      {
+        "t": "move",
+        "actor": "seraph",
+        "to": [
+          16.5,
+          5,
+          17.0
+        ],
+        "speed": 0.05
+      },
+      {
+        "t": "face",
+        "actor": "seraph",
+        "to": "prophet"
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:flame",
+        "pos": [
+          16.5,
+          6.6,
+          18.2
+        ],
+        "count": 40,
+        "spread": 0.2,
+        "speed": 0.02
+      },
+      {
+        "t": "say",
+        "actor": "seraph",
+        "key": "memory.celestial.coal.touch",
+        "ticks": 80
+      },
+      {
+        "t": "hold",
+        "actor": "seraph",
+        "item": null
+      },
+      {
+        "t": "voice",
+        "key": "memory.celestial.coal.voice",
+        "pos": [
+          16.5,
+          13,
+          3.5
+        ],
+        "ticks": 90
+      },
+      {
+        "t": "look",
+        "actor": "prophet",
+        "timeout": 600
+      },
+      {
+        "t": "pose",
+        "actor": "prophet",
+        "pose": 0
+      },
+      {
+        "t": "say",
+        "actor": "prophet",
+        "key": "memory.celestial.coal.send",
+        "ticks": 90
+      },
+      {
+        "t": "dim",
+        "value": 0.0
+      },
+      {
+        "t": "end",
+        "ticks": 40
+      }
+    ]
+  },
+  "seven_seals": {
+    "stage": "celestial:memory/seals",
+    "center": [
+      16,
+      5,
+      16
+    ],
+    "radius": 15,
+    "spawn": [
+      16.5,
+      5,
+      19.5,
+      180
+    ],
+    "sheet": "seven_seals",
+    "thought": "memory.celestial.seals.thought",
+    "actors": [],
+    "steps": [
+      {
+        "t": "dim",
+        "value": 0.4
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.seals.1",
+        "ticks": 80
+      },
+      {
+        "t": "hint",
+        "key": "memory.celestial.seals.hint"
+      },
+      {
+        "t": "near",
+        "pos": [
+          16.5,
+          5,
+          9.0
+        ],
+        "r": 2.2,
+        "timeout": 1600
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:end_rod",
+        "pos": [
+          16.5,
+          7,
+          7.5
+        ],
+        "count": 60,
+        "spread": 1.2,
+        "speed": 0.03
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.seal1",
+        "ticks": 70
+      },
+      {
+        "t": "near",
+        "pos": [
+          23.5,
+          5,
+          12.0
+        ],
+        "r": 2.2,
+        "timeout": 1600
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:flame",
+        "pos": [
+          23.5,
+          7,
+          10.5
+        ],
+        "count": 60,
+        "spread": 1.2,
+        "speed": 0.03
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.seal2",
+        "ticks": 70
+      },
+      {
+        "t": "near",
+        "pos": [
+          25.5,
+          5,
+          17.0
+        ],
+        "r": 2.2,
+        "timeout": 1600
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:large_smoke",
+        "pos": [
+          25.5,
+          7,
+          18.5
+        ],
+        "count": 60,
+        "spread": 1.2,
+        "speed": 0.03
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.seal3",
+        "ticks": 70
+      },
+      {
+        "t": "near",
+        "pos": [
+          20.5,
+          5,
+          23.0
+        ],
+        "r": 2.2,
+        "timeout": 1600
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:soul_fire_flame",
+        "pos": [
+          20.5,
+          7,
+          24.5
+        ],
+        "count": 60,
+        "spread": 1.2,
+        "speed": 0.03
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.seal4",
+        "ticks": 70
+      },
+      {
+        "t": "near",
+        "pos": [
+          12.5,
+          5,
+          23.0
+        ],
+        "r": 2.2,
+        "timeout": 1600
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:soul",
+        "pos": [
+          12.5,
+          7,
+          24.5
+        ],
+        "count": 60,
+        "spread": 1.2,
+        "speed": 0.03
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.seal5",
+        "ticks": 70
+      },
+      {
+        "t": "near",
+        "pos": [
+          7.5,
+          5,
+          17.0
+        ],
+        "r": 2.2,
+        "timeout": 1600
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:falling_lava",
+        "pos": [
+          7.5,
+          7,
+          18.5
+        ],
+        "count": 60,
+        "spread": 1.2,
+        "speed": 0.03
+      },
+      {
+        "t": "stars",
+        "ticks": 80,
+        "every": 40,
+        "r": 3,
+        "warn": 50
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.seal6",
+        "ticks": 70
+      },
+      {
+        "t": "near",
+        "pos": [
+          9.5,
+          5,
+          12.0
+        ],
+        "r": 2.2,
+        "timeout": 1600
+      },
+      {
+        "t": "particles",
+        "type": "minecraft:white_ash",
+        "pos": [
+          9.5,
+          7,
+          10.5
+        ],
+        "count": 60,
+        "spread": 1.2,
+        "speed": 0.03
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.seal7",
+        "ticks": 70
+      },
+      {
+        "t": "dim",
+        "value": 0.9
+      },
+      {
+        "t": "caption",
+        "key": "memory.celestial.seals.silence",
+        "ticks": 100
+      },
+      {
+        "t": "dim",
+        "value": 0.0
+      },
+      {
+        "t": "end",
+        "ticks": 40
+      }
+    ]
   }
 }

@@ -160,6 +160,8 @@ def shrine(choir):
         x, z = cx + dx, cz + dz
         t.fill(x, 2, z, x, 4, z, 'minecraft:polished_blackstone_bricks')
         t.set(x, 5, z, 'minecraft:sea_lantern')
+    if choir == 'seraphim':  # Отблеск «Угль» (S5.6) — у края святилища Серафимов
+        t.set(cx, 2, cz + 5, c('memory_anchor'), nbt={'id': c('memory_anchor'), 'Scene': 'seraph_coal'})
     return t.save(f'star_shrine/{choir}')
 
 

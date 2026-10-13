@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "S": "celestial:star_stone_block",
+    "C": "celestial:celestite_ingot",
+    "E": "celestial:ophanim_eye"
+  },
+  "pattern": [
+    "SCS",
+    "CEC",
+    "SCS"
+  ],
+  "result": {
+    "id": "celestial:endless_trial"
+  }
+}

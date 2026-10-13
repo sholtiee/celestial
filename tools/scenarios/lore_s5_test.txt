@@ -1,0 +1,100 @@
+/gamemode creative
+/weather clear
+/execute in minecraft:overworld run tp @s -32 67 272
+wait 40
+/celestial lore lock fiery_furnace
+/celestial lore lock seraph_coal
+/celestial lore lock seven_seals
+/celestial lore lock manna
+/celestial lore lock new_heaven
+/celestial lore lock ophanim
+/celestial lore lock burning_bush
+/celestial lore lock book_of_life
+/say TEST манна
+/setblock -30 67 272 celestial:manna_dew
+use -30 67 272 up
+wait 10
+/celestial lore lock manna
+/kill @e[type=item]
+/celestial memory enter fiery_furnace
+wait 160
+togglehud
+shot s5_furnace_start
+wait 300
+shot s5_furnace_in
+wait 260
+shot s5_furnace_fourth
+wait 500
+togglehud
+/say TEST печь
+/celestial lore lock fiery_furnace
+/celestial memory enter seraph_coal
+wait 200
+/tp @s ~ ~ ~-5
+wait 120
+togglehud
+shot s5_coal_woe
+wait 300
+shot s5_coal_touch
+wait 400
+togglehud
+/say TEST угль
+/celestial lore lock seraph_coal
+/celestial memory enter seven_seals
+wait 160
+togglehud
+shot s5_seals
+/tp @s 16.5 69 9.0
+wait 90
+/tp @s 23.5 69 12.0
+wait 90
+/tp @s 25.5 69 17.0
+wait 90
+/tp @s 20.5 69 23.0
+wait 90
+/tp @s 12.5 69 23.0
+wait 90
+shot s5_seal5
+/tp @s 7.5 69 17.0
+wait 200
+/tp @s 9.5 69 12.0
+wait 90
+shot s5_seal7
+wait 220
+togglehud
+/say TEST печати
+/celestial lore lock seven_seals
+/say TEST новое небо
+/execute in celestial:astral run tp @s 0 200 0
+wait 120
+/celestial lore lock new_heaven
+/say TEST офаним
+/summon celestial:ophanim ~3 ~ ~ {NoAI:1b}
+wait 5
+/damage @e[type=celestial:ophanim,limit=1,sort=nearest] 500 minecraft:player_attack by @s
+wait 20
+/celestial lore lock ophanim
+/say TEST купина
+/execute in celestial:frozen_halls run tp @s 0 150 0
+wait 40
+goto celestial:burning_bush_shrine 0 2 0 0 0
+wait 140
+/celestial lore lock burning_bush
+/say TEST книга жизни
+/celestial codex letter:1
+/celestial codex letter:2
+/celestial codex letter:3
+/celestial codex letter:4
+/celestial codex letter:5
+/celestial codex letter:6
+/celestial lore lock watchers
+/celestial lore unlock watchers
+/celestial lore lock book_of_life
+/celestial codex remove letter:1
+/celestial codex remove letter:2
+/celestial codex remove letter:3
+/celestial codex remove letter:4
+/celestial codex remove letter:5
+/celestial codex remove letter:6
+/execute in minecraft:overworld run tp @s -32 67 272
+quit

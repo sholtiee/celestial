@@ -330,6 +330,9 @@ public class Faceless extends Monster {
 		bossEvent.setColor(phase >= 7 ? BossEvent.BossBarColor.WHITE : phase >= 4 ? BossEvent.BossBarColor.RED : BossEvent.BossBarColor.PURPLE);
 		for (ServerPlayer p : bossEvent.getPlayers()) {
 			p.sendSystemMessage(Component.translatable("boss.celestial.faceless.trumpet" + phase));
+			if (phase >= 7) {
+				dev.celestial.lore.Lore.unlock(p, "seventh_trumpet");  // последний лист Книги Откровения — до выбора концовки
+			}
 		}
 		BossIntro.phase(bossEvent.getPlayers(), "faceless", phase, phase >= 7 ? ChatFormatting.WHITE : ChatFormatting.LIGHT_PURPLE);
 	}

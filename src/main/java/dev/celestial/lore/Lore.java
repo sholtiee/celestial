@@ -188,6 +188,13 @@ public final class Lore {
 		if (everyBookFull) {
 			grantStory(player, "chronicle_scribe");
 		}
+		int letters = 0;
+		for (int b = 1; b <= 6; b++) {
+			letters += CelestialData.get(player).knows("letter:" + b) ? 1 : 0;
+		}
+		if (letters == 6) {
+			unlock(player, "book_of_life");  // шесть книг прочитаны — седьмая открывает Книгу Жизни
+		}
 		if (glossary().stream().allMatch(g -> d.knowsLore("gloss:" + g))) {
 			grantStory(player, "chronicle_glossary");
 		}

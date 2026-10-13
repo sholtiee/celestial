@@ -268,6 +268,7 @@ def foundry():
     chest(t, W - 2, 1, 12, c('chests/chrono_foundry'), facing='west')
     t.entity(8, 1, 12, SENTRY)
     t.entity(13, 1, 12, SENTRY)
+    t.set(6, 1, 5, c('memory_anchor'), nbt={'id': c('memory_anchor'), 'Scene': 'fiery_furnace'})  # Отблеск «Печь» (S5.6)
     return t.save('tubalcain_foundry/main')
 
 

@@ -292,6 +292,7 @@ def altar_structure():
     summit = summit_template()
     off = (S - summit.size[0]) // 2
     t.paste(summit, off, top - 1, off)
+    t.set(cx, TH, cx - (R0 - 2), c('memory_anchor'), nbt={'id': c('memory_anchor'), 'Scene': 'seven_seals'})  # Отблеск «Печати» на первом ярусе
     t.save('star_altar/main')
     write_json(os.path.join(DATA, 'worldgen/template_pool/star_altar/main.json'), {'fallback': 'minecraft:empty', 'elements': [
         {'weight': 1, 'element': {'element_type': 'minecraft:single_pool_element', 'location': c('star_altar/main'),

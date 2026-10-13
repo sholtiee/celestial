@@ -453,6 +453,10 @@ public final class ModBlocks {
 		Properties.of().mapColor(MapColor.QUARTZ).strength(-1.0F, 3600000.0F).sound(SoundType.AMETHYST).lightLevel(s -> 15).noLootTable()
 			.pushReaction(PushReaction.IMMOVEABLE));
 
+	// ── После финала (S5.7): камень Бесконечного испытания ──
+	public static final Block ENDLESS_TRIAL = register("endless_trial", dev.celestial.trial.EndlessTrialBlock::new,
+		Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).requiresCorrectToolForDrops().strength(5.0F, 1200.0F).sound(SoundType.AMETHYST).lightLevel(s -> 10));
+
 	// ── Хроноград (0.5): маятники — зоны иного хода времени ──
 	public static final Block SWIFT_PENDULUM = register("swift_pendulum",
 		p -> new dev.celestial.chrono.PendulumBlock(dev.celestial.chrono.TimeFlow.FAST, 16, p),

@@ -42,12 +42,17 @@ public final class CodexEvents {
 					dev.celestial.lore.Lore.unlock(player, "firmament_waters");  // «Воды над твердью»: приход в Ледяные Чертоги
 				} else if (player.level().dimension().identifier().getPath().equals("chronograd")) {
 					dev.celestial.lore.Lore.unlock(player, "city_of_cain");  // «Город Каина»: приход в Хроноград
+				} else if (player.level().dimension().identifier().getPath().equals("astral")) {
+					dev.celestial.lore.Lore.unlock(player, "new_heaven");  // «Новое небо»: приход в Астрал
 				}
 				var start = player.level().structureManager().getStructureWithPieceAt(player.blockPosition(), PLACES);
 				if (start.isValid()) {
 					var key = player.level().registryAccess().lookupOrThrow(Registries.STRUCTURE).getKey(start.getStructure());
 					if (key != null) {
 						unlock(player, "place:" + key.getPath(), Component.translatable("structure.celestial." + key.getPath()));
+						if (key.getPath().equals("burning_bush_shrine")) {
+							dev.celestial.lore.Lore.unlock(player, "burning_bush");  // «Неопалимая купина»: пришёл к ней в Чертогах
+						}
 					}
 				}
 			}

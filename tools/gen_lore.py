@@ -533,6 +533,159 @@ def art_ladder(rng):
     return img
 
 
+# ---------------------------------------------------------------- книги V–VII (S5.6)
+def art_bush(rng):
+    img = gradient('#1a2a4a', '#9ab8d8')
+    d = ImageDraw.Draw(img)
+    d.polygon([(0, 54), (0, 42), (40, 38), (96, 44), (96, 54)], fill=rgb('#e8f0f8'))
+    for x, y in ((44, 40), (48, 38), (52, 40), (46, 36), (50, 35)):  # куст
+        d.line([(48, 46), (x, y - 6)], fill=rgb('#4a3a2a'))
+    for x, h in ((42, 14), (46, 20), (50, 22), (54, 15), (48, 12)):
+        flame(d, x, 44, h, 3)
+    glow(img, 48, 34, 24, '#ffd890', 0.7)
+    return img
+
+
+def art_manna(rng):
+    img = gradient('#f8d8a0', '#cfe8ff')
+    hills(img, 40, 2, '#d8c890', 'manna')
+    d = ImageDraw.Draw(img)
+    for _ in range(120):  # роса-манна на земле
+        x, y = rng.randrange(W), rng.randrange(42, H)
+        d.point((x, y), fill=rgb('#ffffff'))
+    for x in (20, 30, 66, 76):
+        figure(d, x, 44, 10, '#8a6a44')
+    glow(img, 48, 6, 30, '#fff6d6', 0.8)
+    return img
+
+
+def art_furnace(rng):
+    img = gradient('#2a1410', '#7a3a1a')
+    d = ImageDraw.Draw(img)
+    d.rectangle([26, 12, 70, 54], fill=rgb('#6a3020'))
+    d.rectangle([36, 26, 60, 54], fill=rgb('#ff9a3a'))
+    glow(img, 48, 40, 18, '#fff1b8', 1.1)
+    for i, x in enumerate((40, 45, 51, 56)):  # четверо в огне; четвёртый светлее
+        figure(d, x, 52, 12, '#fff6e0' if i == 3 else '#8a5a3a', '#ffffff' if i == 3 else None)
+    for x in range(30, 68, 6):
+        flame(d, x, 26, 8, 2)
+    return img
+
+
+def art_choirs(rng):
+    img = gradient('#060a24', '#1a2a5a')
+    stars(img, rng, 70)
+    d = ImageDraw.Draw(img)
+    for ring, (r, col) in enumerate(((22, '#ffd84a'), (15, '#a8c8ff'), (8, '#ffffff'))):  # три триады
+        for i in range(3):
+            a = i * 2 * math.pi / 3 + ring * 0.6
+            x, y = 48 + math.cos(a) * r * 1.6, 27 + math.sin(a) * r * 0.9
+            d.ellipse([x - 2, y - 2, x + 2, y + 2], fill=rgb(col))
+    glow(img, 48, 27, 10, '#fff6d6', 1.2)
+    return img
+
+
+def art_wheels(rng):
+    img = gradient('#1a1408', '#5a4418')
+    d = ImageDraw.Draw(img)
+    for cx, cy, r in ((40, 27, 18), (56, 27, 18)):
+        d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=rgb('#ffd84a'), width=2)
+        for i in range(10):  # очи по ободу
+            a = i * 2 * math.pi / 10
+            x, y = cx + math.cos(a) * r, cy + math.sin(a) * r
+            d.ellipse([x - 1, y - 1, x + 1, y + 1], fill=rgb('#ffffff'))
+    d.ellipse([46, 9, 50, 45], outline=rgb('#ffe9a0'))
+    glow(img, 48, 27, 12, '#fff1b8', 0.8)
+    return img
+
+
+def art_coal(rng):
+    img = gradient('#2a2a3a', '#8a8aa0')
+    d = ImageDraw.Draw(img)
+    for _ in range(14):  # дым
+        x, y, r = rng.randrange(W), rng.randrange(H), rng.randrange(4, 10)
+        d.ellipse([x - r, y - r, x + r, y + r], fill=rgb('#b8b8c8'))
+    figure(d, 30, 52, 12, '#5a6a8a')
+    for a in (-0.5, 0.5):  # крылья серафима
+        d.polygon([(62, 24), (62 + 18 * math.cos(a - 1.6), 24 + 18 * math.sin(a - 1.6) + 6), (62 + 8, 30)], fill=rgb('#fff2c8'))
+    figure(d, 62, 40, 14, '#fff2c8', '#ffd84a')
+    d.ellipse([46, 30, 49, 33], fill=rgb('#ff7a2a'))
+    glow(img, 47, 31, 6, '#ffb347', 1.0)
+    return img
+
+
+def art_archangels(rng):
+    img = gradient('#10183a', '#3a5aa0')
+    stars(img, rng, 30)
+    d = ImageDraw.Draw(img)
+    for i, (x, col) in enumerate(((18, '#ff9a5a'), (38, '#ffffff'), (58, '#8ae0a8'), (78, '#ffe070'))):
+        figure(d, x, 48, 16, col, '#ffd84a')
+        glow(img, x, 34, 9, col, 0.5)
+    d = ImageDraw.Draw(img)
+    d.line([(14, 50), (14, 28)], fill=rgb('#e8e8f8'))  # меч Михаила
+    return img
+
+
+def art_new_heaven(rng):
+    img = gradient('#04061a', '#2a1a5a')
+    stars(img, rng, 110)
+    glow(img, 28, 20, 22, '#8a5ad8', 0.6)
+    glow(img, 70, 30, 20, '#5ab8ff', 0.5)
+    d = ImageDraw.Draw(img)
+    for x, y, r in ((14, 44, 6), (60, 46, 9), (86, 40, 4)):  # астероиды
+        d.ellipse([x - r, y - r // 2, x + r, y + r // 2], fill=rgb('#2a3264'))
+    return img
+
+
+def art_seals(rng):
+    img = gradient('#0a0a1a', '#2a2040')
+    d = ImageDraw.Draw(img)
+    d.rectangle([30, 14, 66, 42], fill=rgb('#e8dcb8'))  # свиток
+    d.line([(30, 14), (30, 42)], fill=rgb('#8a6a3a'), width=2)
+    d.line([(66, 14), (66, 42)], fill=rgb('#8a6a3a'), width=2)
+    for i in range(7):  # семь печатей; последняя ещё цела
+        x = 36 + i * 4
+        d.ellipse([x - 2, 26, x + 1, 29], fill=rgb('#c83a2a' if i == 6 else '#6a2a20'))
+    return img
+
+
+def art_promise(rng):
+    img = gradient('#1a1a4a', '#f8c890')
+    stars(img, rng, 30, 30)
+    hills(img, 46, 2, '#2a2a3a', 'promise')
+    glow(img, 60, 16, 20, '#fff6d6', 1.2)
+    d = ImageDraw.Draw(img)
+    for a in range(4):
+        ang = a * math.pi / 2
+        d.line([(60, 16), (60 + math.cos(ang) * 10, 16 + math.sin(ang) * 10)], fill=rgb('#ffffff'))
+    return img
+
+
+def art_trumpet(rng):
+    img = gradient('#1a0a2a', '#e8d8f8')
+    d = ImageDraw.Draw(img)
+    for i in range(7):  # семь труб веером
+        a = -math.pi / 2 + (i - 3) * 0.22
+        x0, y0 = 48, 50
+        x1, y1 = x0 + math.cos(a) * 40, y0 + math.sin(a) * 40
+        d.line([(x0, y0), (x1, y1)], fill=rgb('#ffd84a' if i == 3 else '#c8a040'), width=2 if i == 3 else 1)
+        d.ellipse([x1 - 2, y1 - 2, x1 + 2, y1 + 2], fill=rgb('#ffe9a0'))
+    glow(img, 48, 10, 18, '#ffffff', 0.9)
+    return img
+
+
+def art_book_life(rng):
+    img = gradient('#1a1408', '#5a4a28')
+    glow(img, 48, 27, 36, '#fff1b8', 0.7)
+    d = ImageDraw.Draw(img)
+    d.polygon([(20, 16), (48, 20), (48, 46), (20, 42)], fill=rgb('#f8f0d8'))
+    d.polygon([(76, 16), (48, 20), (48, 46), (76, 42)], fill=rgb('#efe4c4'))
+    for y in range(22, 42, 3):  # строки имён
+        d.line([(24, y), (44, y + 1)], fill=rgb('#a08050'))
+        d.line([(52, y + 1), (72, y)], fill=rgb('#a08050'))
+    return img
+
+
 def art_locked(rng):
     img = gradient('#1a1a24', '#2a2a38')
     d = ImageDraw.Draw(img)
@@ -548,6 +701,9 @@ ART = {
     'enoch': art_enoch, 'chains': art_chains, 'abyss': art_abyss, 'star_fall': art_star_fall, 'waters': art_waters, 'flood': art_flood,
     'ark': art_ark, 'dove': art_dove, 'rainbow': art_rainbow, 'archon': art_archon, 'clock': art_clock,
     'seraph': art_seraph, 'city': art_city, 'foundry': art_foundry, 'babel': art_babel, 'bells': art_bells, 'ice_chain': art_ice_chain, 'bones': art_bones, 'ladder': art_ladder,
+    'bush': art_bush, 'manna': art_manna, 'furnace': art_furnace, 'choirs': art_choirs, 'wheels': art_wheels, 'coal': art_coal,
+    'archangels': art_archangels, 'new_heaven': art_new_heaven, 'seals': art_seals, 'promise': art_promise, 'trumpet': art_trumpet,
+    'book_life': art_book_life,
 }
 
 

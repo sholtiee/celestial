@@ -1,0 +1,54 @@
+/execute in minecraft:overworld run tp @s -32 67 272 -90 20
+/gamemode survival
+/weather clear
+/time set day
+/kill @e[type=!player,distance=..40]
+/effect give @s resistance 600 4 true
+/effect give @s regeneration 600 2 true
+/fill -36 66 266 -20 66 278 minecraft:stone_bricks
+/fill -36 67 266 -20 70 278 minecraft:air
+/setblock -29 67 272 celestial:endless_trial
+/setblock -32 67 275 celestial:quest_board[facing=north]
+/scoreboard objectives remove celestial_endless
+/celestial codex remove endless_rank:5
+wait 20
+/say TEST закрыт до финала
+/celestial flag remove act5_done
+use -29 67 272 west
+wait 10
+/say TEST звёздные поручения скрыты
+use -32 67 275 north
+wait 10
+/celestial flag add act5_done
+/say TEST звёздные поручения после финала
+use -32 67 275 north
+wait 10
+/say TEST волны
+use -29 67 272 west
+wait 75
+togglehud
+shot endless_wave1
+togglehud
+/kill @e[tag=celestial_no_repel]
+wait 130
+/kill @e[tag=celestial_no_repel]
+wait 130
+/kill @e[tag=celestial_no_repel]
+wait 130
+/kill @e[tag=celestial_no_repel]
+wait 125
+togglehud
+shot endless_wave5
+togglehud
+/kill @e[tag=celestial_no_repel]
+wait 40
+shot endless_rank
+wait 60
+/scoreboard players get @s celestial_endless
+/say TEST уход
+/tp @s -32 67 310
+wait 20
+/scoreboard players get @s celestial_endless
+/execute if entity @e[tag=celestial_no_repel]
+/tp @s -32 67 272
+quit

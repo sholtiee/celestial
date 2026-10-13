@@ -202,4 +202,12 @@ public class Ophanim extends Mob implements Enemy {
 	public float getVoicePitch() {
 		return 0.7F;
 	}
+
+	@Override
+	public void die(net.minecraft.world.damagesource.DamageSource source) {
+		super.die(source);
+		if (source.getEntity() instanceof net.minecraft.server.level.ServerPlayer sp) {
+			dev.celestial.lore.Lore.unlock(sp, "ophanim");  // «Колёса, полные очей» (Иез. 1)
+		}
+	}
 }

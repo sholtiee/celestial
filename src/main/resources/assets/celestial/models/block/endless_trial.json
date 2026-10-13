@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "side": "celestial:block/endless_trial_side",
+    "top": "celestial:block/endless_trial_top",
+    "bottom": "celestial:block/endless_trial_side"
+  }
+}

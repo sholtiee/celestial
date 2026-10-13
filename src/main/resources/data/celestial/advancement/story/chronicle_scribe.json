@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:wanderer_journal"
+    },
+    "title": {
+      "translate": "advancements.celestial.chronicle_scribe.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.chronicle_scribe.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "granted"
+    ]
+  ],
+  "parent": "celestial:story/root",
+  "rewards": {
+    "experience": 500
+  }
+}

@@ -449,6 +449,152 @@
       "has_a": true,
       "has_t": false,
       "gloss": []
+    },
+    {
+      "id": "burning_bush",
+      "book": 5,
+      "node": "prophets",
+      "art": "bush",
+      "src": "place",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": []
+    },
+    {
+      "id": "manna",
+      "book": 5,
+      "node": "prophets",
+      "art": "manna",
+      "src": "deed",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": []
+    },
+    {
+      "id": "fiery_furnace",
+      "book": 5,
+      "node": "prophets",
+      "art": "furnace",
+      "src": "glimpse",
+      "has_quote": false,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": []
+    },
+    {
+      "id": "nine_choirs",
+      "book": 6,
+      "node": "light",
+      "art": "choirs",
+      "src": "deed",
+      "has_quote": false,
+      "has_s": false,
+      "has_a": true,
+      "has_t": true,
+      "gloss": []
+    },
+    {
+      "id": "ophanim",
+      "book": 6,
+      "node": "prophets",
+      "art": "wheels",
+      "src": "deed",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": true,
+      "gloss": []
+    },
+    {
+      "id": "seraph_coal",
+      "book": 6,
+      "node": "prophets",
+      "art": "coal",
+      "src": "glimpse",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": [
+        "seraph"
+      ]
+    },
+    {
+      "id": "archangels",
+      "book": 6,
+      "node": "light",
+      "art": "archangels",
+      "src": "deed",
+      "has_quote": false,
+      "has_s": false,
+      "has_a": true,
+      "has_t": true,
+      "gloss": []
+    },
+    {
+      "id": "new_heaven",
+      "book": 7,
+      "node": "revelation",
+      "art": "new_heaven",
+      "src": "place",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": []
+    },
+    {
+      "id": "seven_seals",
+      "book": 7,
+      "node": "revelation",
+      "art": "seals",
+      "src": "glimpse",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": []
+    },
+    {
+      "id": "morning_star_promise",
+      "book": 7,
+      "node": "revelation",
+      "art": "promise",
+      "src": "deed",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": []
+    },
+    {
+      "id": "seventh_trumpet",
+      "book": 7,
+      "node": "revelation",
+      "art": "trumpet",
+      "src": "deed",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": []
+    },
+    {
+      "id": "book_of_life",
+      "book": 7,
+      "node": "revelation",
+      "art": "book_life",
+      "src": "deed",
+      "has_quote": true,
+      "has_s": true,
+      "has_a": true,
+      "has_t": false,
+      "gloss": []
     }
   ],
   "glossary": [

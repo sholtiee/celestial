@@ -91,6 +91,13 @@ public class StarDiskBlockEntity extends BlockEntity implements dev.celestial.pu
 			PuzzleRewards.solved(level, worldPosition, player, "star_disk", 16);
 			if (player instanceof ServerPlayer sp) {
 				CelestialData.update(sp, d -> d.withCodex("choir:" + choir.id));
+				dev.celestial.lore.Lore.unlock(sp, "nine_choirs");  // Книга Чинов: первый собранный хор
+				if (choir == Choir.ARCHANGELS) {
+					dev.celestial.lore.Lore.unlock(sp, "archangels");
+				}
+				if (Choirs.count(CelestialData.get(sp)) >= 7) {
+					dev.celestial.lore.Lore.unlock(sp, "morning_star_promise");  // алтарь открыт — «дам ему звезду утреннюю»
+				}
 				if (Choirs.patron(CelestialData.get(sp)) == null) {
 					Choirs.setPatron(sp, choir);
 				}

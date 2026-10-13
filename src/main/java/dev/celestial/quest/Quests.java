@@ -57,6 +57,11 @@ public final class Quests {
 		return player.level().getOverworldClockTime() / 24000L;
 	}
 
+	/** После финала (act5_done) на досках висят и звёздные поручения. */
+	public static boolean starErrands(ServerPlayer player) {
+		return CelestialData.world(player.level().getServer()).has("act5_done");
+	}
+
 	public static List<Quest> active(Player player) {
 		return CelestialData.get(player).quests().stream().filter(s -> !s.startsWith(DONE)).map(Quest::decode).toList();
 	}
@@ -138,7 +143,7 @@ public final class Quests {
 			}
 			player.sendSystemMessage(line);
 		}
-		List<Quest> offers = QuestPool.offers(day, board);
+		List<Quest> offers = QuestPool.offers(day, board, starErrands(player));
 		for (int i = 0; i < offers.size(); i++) {
 			Quest q = offers.get(i);
 			boolean taken = mine.stream().anyMatch(q::sameAs) || doneToday(player, q);
@@ -158,7 +163,7 @@ public final class Quests {
 		if (!nearBoard(player, board)) {
 			return 0;
 		}
-		List<Quest> offers = QuestPool.offers(player.level().getOverworldClockTime() / 24000L, board);
+		List<Quest> offers = QuestPool.offers(player.level().getOverworldClockTime() / 24000L, board, starErrands(player));
 		List<Quest> mine = new ArrayList<>(active(player));
 		if (index < 0 || index >= offers.size() || mine.stream().anyMatch(offers.get(index)::sameAs)) {
 			return 0;

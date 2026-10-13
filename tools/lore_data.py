@@ -378,3 +378,8 @@ GLOSSARY = {
 from lore_data_s3 import EXTRA_SHEETS  # noqa: E402
 
 SHEETS.extend(EXTRA_SHEETS)
+
+# Листы книг V–VII (S5.6)
+from lore_data_s5 import S5_SHEETS  # noqa: E402
+
+SHEETS.extend(S5_SHEETS)

@@ -45,6 +45,9 @@ public class MannaDewBlock extends Block {
 		if (level instanceof ServerLevel server) {
 			server.removeBlock(pos, false);
 			Block.popResource(server, pos, new ItemStack(ModItems.MANNA, 1 + server.getRandom().nextInt(2)));
+			if (player instanceof net.minecraft.server.level.ServerPlayer sp) {
+				dev.celestial.lore.Lore.unlock(sp, "manna");  // «Хлеб с неба»: собрал утреннюю манну
+			}
 		}
 		return InteractionResult.SUCCESS;
 	}

@@ -56,6 +56,9 @@ public final class ModBlockEntities {
 	public static final BlockEntityType<dev.celestial.boss.StarAltarBlockEntity> STAR_ALTAR = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("star_altar"),
 		new BlockEntityType<>(dev.celestial.boss.StarAltarBlockEntity::new, Set.of(ModBlocks.STAR_ALTAR)));
+	public static final BlockEntityType<dev.celestial.trial.EndlessTrialBlockEntity> ENDLESS_TRIAL = Registry.register(
+		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("endless_trial"),
+		new BlockEntityType<>(dev.celestial.trial.EndlessTrialBlockEntity::new, Set.of(ModBlocks.ENDLESS_TRIAL)));
 	public static final BlockEntityType<dev.celestial.block.puzzle.BellAltarBlockEntity> BELL_ALTAR = Registry.register(
 		BuiltInRegistries.BLOCK_ENTITY_TYPE, Celestial.id("bell_altar"),
 		new BlockEntityType<>(dev.celestial.block.puzzle.BellAltarBlockEntity::new, Set.of(ModBlocks.BELL_ALTAR)));
