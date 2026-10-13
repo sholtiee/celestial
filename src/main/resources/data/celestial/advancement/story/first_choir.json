@@ -1,0 +1,27 @@
+{
+  "criteria": {
+    "granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:star_disk"
+    },
+    "title": {
+      "translate": "advancements.celestial.first_choir.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.first_choir.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "granted"
+    ]
+  ],
+  "parent": "celestial:story/star_path"
+}

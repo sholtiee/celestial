@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:star_stone_block"
+    },
+    "title": {
+      "translate": "advancements.celestial.all_choirs.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.all_choirs.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "granted"
+    ]
+  ],
+  "parent": "celestial:story/first_choir",
+  "rewards": {
+    "experience": 500
+  }
+}

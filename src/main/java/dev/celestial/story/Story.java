@@ -46,7 +46,13 @@ public enum Story {
 	CLOCKMAKER_FLAWLESS("clockmaker_flawless"),
 	CLOCKMAKER_SWIFT("clockmaker_swift"),
 	FACELESS_FLAWLESS("faceless_flawless"),
-	FACELESS_SWIFT("faceless_swift");
+	FACELESS_SWIFT("faceless_swift"),
+	FIRST_CHOIR("first_choir"),
+	ALL_CHOIRS("all_choirs"),
+	NEW_JERUSALEM("new_jerusalem"),
+	EDEN_TRACE("eden_trace"),
+	ENDLESS_BRONZE("endless_bronze"),
+	ENDLESS_STAR("endless_star");
 
 	/** Вид загадки (как в PuzzleRewards.solved) → достижение; все восемь вместе дают «Мастера загадок». */
 	public static final java.util.Map<String, Story> PUZZLES = java.util.Map.ofEntries(

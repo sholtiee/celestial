@@ -54,6 +54,7 @@ public final class EdenTraces {
 					}
 					return out.withCodex("eden_trace_day:" + day).withCodex("place:eden_trace");
 				});
+				Story.EDEN_TRACE.grant(p);
 				int dist = (int) Math.sqrt(at.distSqr(p.blockPosition()));
 				p.sendSystemMessage(Component.translatable("story.celestial.eden_trace",
 					Component.translatable("direction.celestial." + dev.celestial.fading.TelescopeBlock.directionOf(p.blockPosition(), at)), dist));

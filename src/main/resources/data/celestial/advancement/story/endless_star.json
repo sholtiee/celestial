@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:celestite_ingot"
+    },
+    "title": {
+      "translate": "advancements.celestial.endless_star.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.endless_star.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "granted"
+    ]
+  ],
+  "parent": "celestial:story/endless_bronze",
+  "rewards": {
+    "experience": 500
+  }
+}

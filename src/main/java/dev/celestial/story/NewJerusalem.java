@@ -116,6 +116,7 @@ public final class NewJerusalem {
 		astral.playSound(null, BlockPos.containing(to), SoundEvents.BEACON_ACTIVATE, SoundSource.PLAYERS, 1.0F, 1.2F);
 		boolean first = !CelestialData.get(p).knows("place:" + FLAG);
 		CelestialData.update(p, d -> d.withCodex("place:" + FLAG));
+		Story.NEW_JERUSALEM.grant(p);
 		if (first) {
 			dev.celestial.boss.BossIntro.title(p, Component.translatable("jerusalem.celestial.title").withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD),
 				Component.translatable("jerusalem.celestial.subtitle").withStyle(ChatFormatting.ITALIC), 120);

@@ -533,8 +533,22 @@ def check_choirs():
         report('CHOIR_PATTERN', f'хоры в Java и в генераторе различаются: {sorted(seen ^ set(gen_choirs.CHOIRS))}')
 
 
+def check_code_keys():
+    """Ключи перевода, записанные в коде строкой целиком (translatable("...")), есть в ru и en (или в ванильном языке)."""
+    ru = load(os.path.join(A, 'lang/ru_ru.json')) or {}
+    en = load(os.path.join(A, 'lang/en_us.json')) or {}
+    path = os.path.join(ROOT, '.mcsrc/assets/assets/minecraft/lang/en_us.json')
+    vanilla = (load(path) or {}) if os.path.exists(path) else {}
+    for key in sorted(set(re.findall(r'translatable\(\s*"([^"]+)"\s*[,)]', ALL_JAVA))):
+        if key in vanilla:
+            continue
+        for lang, table in (('ru', ru), ('en', en)):
+            if key not in table:
+                report('CODE_KEY_MISSING', f'{key}: нет в {lang}')
+
+
 CHECKS = [check_models, check_textures, check_block_transparency, check_particles_sounds, check_lang, check_data, check_lore, check_scenes,
-          check_choirs]
+          check_choirs, check_code_keys]
 
 
 def main():

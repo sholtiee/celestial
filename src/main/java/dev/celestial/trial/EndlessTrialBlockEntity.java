@@ -245,6 +245,12 @@ public class EndlessTrialBlockEntity extends BlockEntity {
 		if (reached > score.get()) {
 			score.set(reached);
 		}
+		if (reached >= 5) {
+			dev.celestial.story.Story.ENDLESS_BRONZE.grant(p);
+		}
+		if (reached >= 20) {
+			dev.celestial.story.Story.ENDLESS_STAR.grant(p);
+		}
 		for (int i = RANKS.length - 1; i >= 0; i--) {
 			int rank = RANKS[i];
 			if (reached >= rank && !CelestialData.get(p).knows("endless_rank:" + rank)) {

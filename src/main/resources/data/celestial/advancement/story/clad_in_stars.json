@@ -1,0 +1,43 @@
+{
+  "criteria": {
+    "items": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "celestial:celestite_helmet"
+          },
+          {
+            "items": "celestial:celestite_chestplate"
+          },
+          {
+            "items": "celestial:celestite_leggings"
+          },
+          {
+            "items": "celestial:celestite_boots"
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:celestite_chestplate"
+    },
+    "title": {
+      "translate": "advancements.celestial.clad_in_stars.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.clad_in_stars.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "items"
+    ]
+  ],
+  "parent": "celestial:story/celestite_forged"
+}

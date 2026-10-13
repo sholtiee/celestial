@@ -1,0 +1,27 @@
+{
+  "criteria": {
+    "granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "celestial:pearl_block"
+    },
+    "title": {
+      "translate": "advancements.celestial.new_jerusalem.title"
+    },
+    "description": {
+      "translate": "advancements.celestial.new_jerusalem.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "requirements": [
+    [
+      "granted"
+    ]
+  ],
+  "parent": "celestial:story/light_kindled"
+}
