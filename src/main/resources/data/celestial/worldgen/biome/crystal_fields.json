@@ -3,6 +3,36 @@
     "minecraft:visual/sky_color": "#0e1438",
     "minecraft:visual/fog_color": "#1e2a5a",
     "minecraft:visual/water_fog_color": "#1a2050",
+    "minecraft:gameplay/natural_mob_spawns": {
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "ambient": [
+            {
+              "type": "celestial:star_fish",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 4,
+                "max_inclusive": 8
+              },
+              "weight": 30
+            }
+          ],
+          "monster": [
+            {
+              "type": "celestial:star_devourer",
+              "count": {
+                "type": "minecraft:uniform",
+                "min_inclusive": 1,
+                "max_inclusive": 2
+              },
+              "weight": 20
+            }
+          ]
+        }
+      },
+      "modifier": "overlay"
+    },
     "minecraft:visual/ambient_particles": {
       "argument": [
         {

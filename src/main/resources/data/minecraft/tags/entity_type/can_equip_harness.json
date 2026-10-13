@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "celestial:sky_ray"
+    "celestial:sky_ray",
+    "celestial:void_ray"
   ]
 }

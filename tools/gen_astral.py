@@ -237,6 +237,7 @@ def features():
 
 
 def biomes():
+    from gen_astral_mobs import natural_spawns
     feats = {
         'star_drift': {9: [c('astral_crystals'), c('astral_flowers_sparse')]},
         'nebula': {9: [c('astral_crystals'), c('astral_flowers')]},
@@ -252,6 +253,7 @@ def biomes():
         sky, fog, p = look[name]
         write_json(os.path.join(WG, 'biome', name + '.json'), {
             'attributes': {'minecraft:visual/sky_color': sky, 'minecraft:visual/fog_color': fog, 'minecraft:visual/water_fog_color': '#1a2050',
+                           'minecraft:gameplay/natural_mob_spawns': natural_spawns(name),
                            'minecraft:visual/ambient_particles': {'argument': [{'particle': {'type': 'minecraft:end_rod'}, 'probability': p}],
                                                                   'modifier': 'append'}},
             'carvers': [], 'downfall': 0.0, 'effects': {'grass_color': '#6a7ac8', 'foliage_color': '#5a6ab8', 'water_color': '#3a4aa8'},

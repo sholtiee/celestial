@@ -106,6 +106,13 @@ public final class ModEntities {
 		EntityType.Builder.of(dev.celestial.entity.Ophanim::new, MobCategory.MONSTER).fireImmune().sized(1.8F, 1.8F).eyeHeight(0.9F).clientTrackingRange(12).notInPeaceful());
 	public static final EntityType<dev.celestial.entity.ClockworkHorse> CLOCKWORK_HORSE = register("clockwork_horse",
 		EntityType.Builder.of(dev.celestial.entity.ClockworkHorse::new, MobCategory.CREATURE).fireImmune().sized(1.3F, 1.6F).eyeHeight(1.5F).clientTrackingRange(10));
+	// Астрал (волна 0.6)
+	public static final EntityType<dev.celestial.entity.StarFish> STAR_FISH = register("star_fish",
+		EntityType.Builder.of(dev.celestial.entity.StarFish::new, MobCategory.AMBIENT).sized(0.5F, 0.4F).eyeHeight(0.2F).clientTrackingRange(8));
+	public static final EntityType<dev.celestial.entity.VoidRay> VOID_RAY = register("void_ray",
+		EntityType.Builder.of(dev.celestial.entity.VoidRay::new, MobCategory.CREATURE).sized(3.2F, 1.0F).eyeHeight(0.7F).clientTrackingRange(12));
+	public static final EntityType<dev.celestial.entity.StarDevourer> STAR_DEVOURER = register("star_devourer",
+		EntityType.Builder.of(dev.celestial.entity.StarDevourer::new, MobCategory.MONSTER).sized(1.0F, 0.8F).eyeHeight(0.4F).clientTrackingRange(10).notInPeaceful());
 	public static final EntityType<dev.celestial.boss.Clockmaker> CLOCKMAKER = register("clockmaker",
 		EntityType.Builder.of(dev.celestial.boss.Clockmaker::new, MobCategory.MONSTER).fireImmune().sized(2.2F, 4.4F).eyeHeight(3.8F)
 			.clientTrackingRange(16));
@@ -207,6 +214,17 @@ public final class ModEntities {
 		FabricDefaultAttributeRegistry.register(BRASS_DOLL, dev.celestial.entity.BrassDoll.createAttributes());
 		FabricDefaultAttributeRegistry.register(OPHANIM, dev.celestial.entity.Ophanim.createAttributes());
 		FabricDefaultAttributeRegistry.register(CLOCKWORK_HORSE, dev.celestial.entity.ClockworkHorse.createAttributes());
+		FabricDefaultAttributeRegistry.register(STAR_FISH, dev.celestial.entity.StarFish.createAttributes());
+		FabricDefaultAttributeRegistry.register(VOID_RAY, dev.celestial.entity.VoidRay.createAttributes());
+		FabricDefaultAttributeRegistry.register(STAR_DEVOURER, dev.celestial.entity.StarDevourer.createAttributes());
+		// в невесомости — где угодно в воздухе у астероидов
+		SpawnPlacements.register(STAR_FISH, SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING,
+			(type, level, reason, pos, random) -> level.getBlockState(pos).isAir());
+		SpawnPlacements.register(VOID_RAY, SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING,
+			(type, level, reason, pos, random) -> level.getBlockState(pos).isAir() && level.getBlockState(pos.above()).isAir());
+		SpawnPlacements.register(STAR_DEVOURER, SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING,
+			(type, level, reason, pos, random) -> level.getBlockState(pos).isAir()
+				&& level.getBrightness(net.minecraft.world.level.LightLayer.BLOCK, pos) < 10);
 		// механоидам свет не помеха: в Хронограде вечный закат
 		SpawnPlacements.register(CLOCKWORK_SENTRY, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkAnyLightMonsterSpawnRules);
 		SpawnPlacements.register(WINDER_BEETLE, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkAnyLightMonsterSpawnRules);

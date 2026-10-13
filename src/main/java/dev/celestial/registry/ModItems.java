@@ -131,6 +131,7 @@ public final class ModItems {
 	public static final Item CHRONITE_INGOT = register("chronite_ingot", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON), "chronite_ingot", 1));
 	public static final Item WIND_KEY = register("wind_key", Item::new, lore(new Item.Properties().durability(48), "wind_key", 2));
 	public static final Item OPHANIM_EYE = register("ophanim_eye", Item::new, lore(new Item.Properties().rarity(Rarity.UNCOMMON), "ophanim_eye", 1));
+	public static final Item STAR_SCALE = register("star_scale", Item::new, lore(new Item.Properties(), "star_scale", 1));
 	public static final Item CLAY_TABLET = register("clay_tablet", dev.celestial.item.ClayTabletItem::new,
 		lore(new Item.Properties().stacksTo(1).rarity(Rarity.RARE), "clay_tablet", 2));
 	public static final Item CHRONITE_SWORD = register("chronite_sword", Item::new, new Item.Properties().sword(CHRONITE_TOOL, 3.0F, -2.4F));

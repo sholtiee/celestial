@@ -1,0 +1,69 @@
+# Существа Астрала: вид (свечение), Пожиратель кусает (Тьма, −Сияние) и выдёргивает камень у незажжённого диска, Пустотный скат в упряжи летает
+/gamemode creative
+/effect clear @s
+/clear @s
+/gamerule spawn_monsters false
+/scoreboard objectives add t dummy
+/execute in celestial:astral run tp @s 2000 200 2000 0 10
+fly
+wait 100
+/execute in celestial:astral run fill 1990 199 1990 2012 199 2016 celestial:astral_bricks
+/execute in celestial:astral run fill 1990 200 1990 2012 210 2016 minecraft:air
+/execute in celestial:astral run tp @s 2001 200 1993 0 10
+wait 60
+/kill @e[type=!minecraft:player,distance=..60]
+/summon celestial:star_fish 1998 201.5 2000 {NoAI:1b,Rotation:[90f,0f]}
+/summon celestial:star_fish 1999 202 2001 {NoAI:1b,Rotation:[90f,0f]}
+/summon celestial:star_fish 1997.5 201 2001.5 {NoAI:1b,Rotation:[90f,0f]}
+/summon celestial:star_devourer 2003 201 2001 {NoAI:1b,Rotation:[200f,0f]}
+/summon celestial:void_ray 2001 201 2008 {NoAI:1b,Rotation:[160f,0f]}
+wait 40
+togglehud
+shot astral_mobs_wide
+/tp @s 1998 201.5 1997 10 15
+wait 10
+shot astral_fish_close
+/tp @s 2003 202 1997 0 25
+wait 10
+shot astral_devourer_close
+togglehud
+/kill @e[type=!minecraft:player,distance=..60]
+# D1 укус: Тьма и Сияние упало
+/say TEST D1 devourer_bite expect=pass,pass
+/gamemode survival
+/effect give @s minecraft:resistance 600 2 true
+/celestial grace 0
+/execute store result score #r0 t run data get entity @s celestial:player_data.radiance
+/summon celestial:star_devourer 2001 201 1997
+wait 100
+/execute if entity @p[nbt={active_effects:[{id:"minecraft:darkness"}]}]
+/kill @e[type=celestial:star_devourer]
+/gamemode creative
+/effect clear @s
+# D2 у незажжённого диска в темноте выдёргивает камень из гнезда
+/say TEST D2 devourer_plucks expect=pass
+/setblock 2006 200 2012 celestial:star_disk[lit=false]{Choir:"angels"}
+/setblock 2007 200 2012 celestial:star_socket[filled=true]
+/tp @s 1993 201 1993 0 0
+/summon celestial:star_devourer 2006 204 2008
+wait 260
+/execute if block 2007 200 2012 celestial:star_socket[filled=false]
+/kill @e[type=celestial:star_devourer]
+/kill @e[type=item]
+# R1 скат в упряжи летает
+/say TEST R1 void_ray_ride (сравнить pos)
+/summon celestial:void_ray 2001 202 2003 {Tags:["vr"],Rotation:[0f,0f]}
+/item replace entity @e[tag=vr,limit=1] armor.body with minecraft:light_blue_harness
+/tp @s 2001 203 2003 0 0
+/ride @s mount @e[tag=vr,limit=1]
+wait 10
+pos
+hold forward 60
+wait 65
+pos
+/ride @s dismount
+togglehud
+shot astral_ray_ridden
+togglehud
+/kill @e[tag=vr]
+quit
