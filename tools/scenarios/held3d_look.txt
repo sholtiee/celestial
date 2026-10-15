@@ -1,0 +1,29 @@
+# Объёмные предметы в руке: копьё и Камертон — от первого лица и со стороны (на чистой площадке)
+/gamemode creative
+/time set 6000
+/execute in minecraft:overworld run fill -40 119 260 -24 119 284 minecraft:smooth_stone
+/execute in minecraft:overworld run fill -40 120 260 -24 125 284 minecraft:air
+/execute in minecraft:overworld run tp @s -32 120 272 0 0
+/clear @s
+/item replace entity @s hotbar.0 with celestial:light_spear
+/item replace entity @s hotbar.1 with celestial:tuning_fork
+wait 40
+clearchat
+shot held_spear_fp
+togglehud
+camera front
+wait 20
+shot held_spear_tp
+camera first
+/item replace entity @s weapon.mainhand with celestial:tuning_fork
+wait 20
+togglehud
+clearchat
+shot held_fork_fp
+togglehud
+camera front
+wait 20
+shot held_fork_tp
+camera first
+/execute in minecraft:overworld run fill -40 119 260 -24 119 284 minecraft:air
+quit
