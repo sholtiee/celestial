@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Мини-клиент RCON для dev-сервера: python3 tools/rcon.py "команда" ["команда" ...]"""
+import re
 import socket
+import time
 import struct
 import sys
 
@@ -24,9 +26,18 @@ def main():
         s.sendall(packet(1, 3, 'celestial-dev'))
         if read(s)[0] == -1:
             sys.exit('rcon: неверный пароль')
-        for i, cmd in enumerate(sys.argv[1:], 2):
+        cmds = []
+        for a in sys.argv[1:]:
+            # @файл: команды построчно; "#sleep N" ждёт N секунд; печатаются только ответы-ошибки
+            cmds += [(l.strip(), True) for l in open(a[1:], encoding='utf-8') if l.strip()] if a.startswith('@') else [(a, False)]
+        for i, (cmd, quiet) in enumerate(cmds, 2):
+            if cmd.startswith('#sleep '):
+                time.sleep(float(cmd.split()[1]))
+                continue
             s.sendall(packet(i, 2, cmd))
-            print(f'> {cmd}\n{read(s)[1]}')
+            out = read(s)[1]
+            if not quiet or re.search(r'Unknown|Expected|Incorrect|Could not|Invalid|Cannot|rror|not loaded|Failed|No ', out):
+                print(f'> {cmd[:160]}\n{out}')
 
 
 if __name__ == '__main__':

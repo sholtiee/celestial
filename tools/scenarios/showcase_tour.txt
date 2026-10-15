@@ -1,0 +1,21 @@
+# Обход карты-выставки (SAVE=showcase tools/autopilot.sh tools/scenarios/showcase_tour.txt)
+/gamemode creative
+/tp @s 0 -60 12 0 10
+wait 120
+shot show_hub
+/tp @s 70 -58 -92 180 20
+wait 80
+shot show_blocks
+/tp @s 150 -58 -45 0 5
+wait 80
+shot show_items
+/tp @s 150 -58 -35 180 5
+wait 60
+shot show_items2
+/tp @s 250 -57 -90 0 5
+wait 80
+shot show_mobs
+/tp @s -285 -57 90 0 20
+wait 100
+shot show_struct
+quit
