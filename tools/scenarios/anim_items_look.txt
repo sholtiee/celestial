@@ -1,0 +1,18 @@
+# Анимированные предметы в хотбаре: два кадра с разницей в 6 тиков
+/gamemode creative
+/clear @s
+/item replace entity @s hotbar.0 with celestial:star_crystal
+/item replace entity @s hotbar.1 with celestial:charged_crystal
+/item replace entity @s hotbar.2 with celestial:star_stone
+/item replace entity @s hotbar.3 with celestial:light_shard
+/item replace entity @s hotbar.4 with celestial:gear_of_eternity
+/item replace entity @s hotbar.5 with celestial:dark_core
+/item replace entity @s hotbar.8 with minecraft:air
+/execute in minecraft:overworld run tp @s -32 67 272 0 -60
+wait 30
+clearchat
+shot anim_items_a
+wait 6
+shot anim_items_b
+/clear @s
+quit

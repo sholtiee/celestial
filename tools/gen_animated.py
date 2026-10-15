@@ -14,16 +14,16 @@ import textures as T
 from gen_assets import ASSETS, save_png
 
 
-def load(name):
-    return Image.open(os.path.join(ASSETS, 'textures/block', name + '.png')).convert('RGBA').crop((0, 0, 16, 16))  # первый кадр
+def load(name, kind='block'):
+    return Image.open(os.path.join(ASSETS, 'textures', kind, name + '.png')).convert('RGBA').crop((0, 0, 16, 16))  # первый кадр
 
 
-def save_anim(frames, name, frametime, interpolate=True):
+def save_anim(frames, name, frametime, interpolate=True, kind='block'):
     sheet = Image.new('RGBA', (16, 16 * len(frames)), (0, 0, 0, 0))
     for i, f in enumerate(frames):
         sheet.paste(f, (0, 16 * i))
-    save_png(sheet, 'block/' + name)
-    with open(os.path.join(ASSETS, 'textures/block', name + '.png.mcmeta'), 'w') as f:
+    save_png(sheet, kind + '/' + name)
+    with open(os.path.join(ASSETS, 'textures', kind, name + '.png.mcmeta'), 'w') as f:
         json.dump({'animation': {'frametime': frametime, 'interpolate': interpolate}}, f)
 
 
@@ -86,6 +86,16 @@ def blocks():
     save_anim(pulse_frames(load('ward_crystal_lit'), 8, 0.55), 'ward_crystal_lit', 4)
     save_anim(pulse_frames(load('trial_crystal_running'), 8, 0.6, radius=10.0), 'trial_crystal_running', 3)
     save_anim(twinkle_frames(load('star_liquid'), 12), 'star_liquid', 5)
+
+
+def items():
+    """Реликвии и самоцветы в инвентаре: блик пробегает по кристаллам, сердцевина реликвий дышит."""
+    save_anim(glint_frames(load('star_crystal', 'item'), 14, strength=0.6), 'star_crystal', 3, kind='item')
+    save_anim(glint_frames(load('charged_crystal', 'item'), 12, strength=0.5), 'charged_crystal', 3, kind='item')
+    save_anim(glint_frames(load('star_stone', 'item'), 16, strength=0.45), 'star_stone', 3, kind='item')
+    save_anim(pulse_frames(load('light_shard', 'item'), 10, 0.5, radius=8.0), 'light_shard', 3, kind='item')
+    save_anim(pulse_frames(load('gear_of_eternity', 'item'), 12, 0.35, radius=7.0, white=(255, 236, 170)), 'gear_of_eternity', 3, kind='item')
+    save_anim(pulse_frames(load('dark_core', 'item'), 12, 0.35, radius=7.0, white=(170, 120, 255)), 'dark_core', 4, kind='item')
 
 
 # ------------------------------------------------------------------ иконки вкладок Кодекса (16×16)
@@ -172,8 +182,9 @@ def icons():
 
 def main():
     blocks()
+    items()
     icons()
-    print('ok: анимированные текстуры (6) и иконки вкладок Кодекса (7)')
+    print('ok: анимированные текстуры (6 блоков, 6 предметов) и иконки вкладок Кодекса (7)')
 
 
 if __name__ == '__main__':
