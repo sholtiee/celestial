@@ -1,0 +1,22 @@
+# Иния на модели Ангела: днём и ночью (нимб и глаза светятся), рядом обычный ангел для сравнения
+/gamemode creative
+/execute in minecraft:overworld run fill -40 119 260 -24 119 284 minecraft:smooth_stone
+/execute in minecraft:overworld run fill -40 120 260 -24 125 284 minecraft:air
+/execute in minecraft:overworld run tp @s -32 120 266 0 10
+/time set 6000
+/kill @e[type=celestial:inia]
+/summon celestial:inia -33 120 271 {NoAI:1b,Rotation:[180f,0f]}
+/summon celestial:angel -30 120 271 {NoAI:1b,Rotation:[180f,0f]}
+wait 40
+clearchat
+togglehud
+shot inia_day
+/time set 18000
+wait 20
+shot inia_night
+togglehud
+/kill @e[type=celestial:inia]
+/kill @e[type=celestial:angel,distance=..20]
+/time set 6000
+/execute in minecraft:overworld run fill -40 119 260 -24 119 284 minecraft:air
+quit

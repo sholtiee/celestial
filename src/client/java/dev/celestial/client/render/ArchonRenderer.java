@@ -47,7 +47,9 @@ public final class ArchonRenderer {
 		EntityRendererRegistry.register(ModEntities.FROST_ARCHON, Boss::new);
 		EntityRendererRegistry.register(ModEntities.ICE_SPIKE, Spike::new);
 		EntityRendererRegistry.register(ModEntities.FROST_SHARD, ctx -> new ThrownItemRenderer<>(ctx, 1.2F, true));
-		EntityRendererRegistry.register(ModEntities.INIA, IniaRenderer::new);
+		// Иния — модель Ангела (одеяние, крылья, нимб) в ледяных тонах
+		EntityRendererRegistry.register(ModEntities.INIA,
+			ctx -> new HeavenRenderers.Renderer<>(ctx, new HeavenModels.Angel(ctx.bakeLayer(HeavenRenderers.ANGEL)), "inia", 0.5F, 1.0F));
 	}
 
 	public static class State extends LivingEntityRenderState {
@@ -236,34 +238,6 @@ public final class ArchonRenderer {
 				poseStack.popPose();
 			}
 			super.submit(state, poseStack, collector, camera);
-		}
-	}
-
-	// ---------------------------------------------------------------- Иния: человеческая модель + пара белых крыльев
-	static class IniaRenderer extends CelestialRenderers.Humanoid<Inia> {
-		IniaRenderer(EntityRendererProvider.Context ctx) {
-			super(ctx, Celestial.id("textures/entity/inia.png"), 1.0F);
-			addLayer(new Wings(this, ctx));
-			addLayer(new AbyssRenderers.GlowLayer<>(this, Celestial.id("textures/entity/inia_glow.png")));
-		}
-	}
-
-	static class Wings extends RenderLayer<HumanoidRenderState, HumanoidModel<HumanoidRenderState>> {
-		private static final Identifier TEXTURE = Celestial.id("textures/entity/inia_wings.png");
-		private final SeraphRenderer.WingPair wings;
-
-		Wings(RenderLayerParent<HumanoidRenderState, HumanoidModel<HumanoidRenderState>> parent, EntityRendererProvider.Context ctx) {
-			super(parent);
-			this.wings = new SeraphRenderer.WingPair(ctx.bakeLayer(ModelLayers.ELYTRA), 0.9F, 0.25F, 0.0F);
-		}
-
-		@Override
-		public void submit(PoseStack poseStack, SubmitNodeCollector collector, int light, HumanoidRenderState state, float yRot, float xRot) {
-			poseStack.pushPose();
-			poseStack.translate(0.0F, 0.0F, 0.1F);
-			poseStack.scale(1.2F, 1.2F, 1.2F);
-			renderColoredCutoutModel(wings, TEXTURE, poseStack, collector, light, state, -1, 1);
-			poseStack.popPose();
 		}
 	}
 }

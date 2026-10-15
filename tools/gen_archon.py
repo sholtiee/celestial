@@ -142,15 +142,12 @@ def ice_spike():
 
 # ---------------------------------------------------------------- Иния
 def inia():
-    img = M.humanoid('inia', skin='#e8eef6', hair='#eef6ff', robe='#cfe4f6', trim='#7fc6ec', eyes='#5ab4e0', limbs='#e8f2fb')
-    glow = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
-    for x in range(8, 16):  # тонкий светящийся обруч на лбу
-        img.putpixel((x, 9), (*H('#9fe8ff'), 255))
-        glow.putpixel((x, 9), (160, 240, 255, 255))
-    for x, y in ((9, 12), (14, 12)):
-        glow.putpixel((x, y), (140, 230, 255, 255))
-    wings = M.from_mask('entity/equipment/wings/elytra.png', ['#cfe4f6', '#e4f1fb', '#ffffff', '#bfe9ff'], 'inia_wings', stripes=4)
-    return img, glow, wings
+    """Иния — предводительница Престолов: модель Ангела (одеяние до земли, большие крылья, нимб), ледяное одеяние, белые волосы."""
+    import gen_heaven_mobs as HM
+    M.ANGEL_ROBES['inia'] = ('#cfe4f6', '#7fc6ec', '#e4f1fb')
+    img, glow = HM.angel('inia', skin='#e8eef6', hair='#eef6ff', eye='#5ab4e0')
+    del M.ANGEL_ROBES['inia']
+    return img, glow
 
 
 # ---------------------------------------------------------------- Ледяная Корона
@@ -314,10 +311,9 @@ def main():
     save_png(tex, 'entity/frost_archon')
     save_png(glow, 'entity/frost_archon_glow')
     save_png(ice_spike(), 'entity/ice_spike')
-    tex, glow, wings = inia()
+    tex, glow = inia()
     save_png(tex, 'entity/inia')
     save_png(glow, 'entity/inia_glow')
-    save_png(wings, 'entity/inia_wings')
     save_png(crown_icon(), 'item/ice_crown')
     model('item/ice_crown', {'parent': 'minecraft:item/generated', 'textures': {'layer0': c('item/ice_crown')}})
     item_def('ice_crown', c('item/ice_crown'))

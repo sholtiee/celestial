@@ -121,12 +121,12 @@ def halo_box(img, u, w, d, colour):
     M.paint_box(img, u, 4, 1, 1, d, lambda f, x, y, fw, fh: colour)
 
 
-def angel(prof):
+def angel(prof, skin='#f3d6bd', hair='#f4d27a', eye='#5ab8ff'):
     robe, trim, sleeve = (hexrgb(h) for h in M.ANGEL_ROBES[prof])
     img = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
     glow = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
     r = rng_for('angel_model_' + prof)
-    skin, hair, eye = hexrgb('#f3d6bd'), hexrgb('#f4d27a'), hexrgb('#5ab8ff')
+    skin, hair, eye = hexrgb(skin), hexrgb(hair), hexrgb(eye)
 
     def cloth(base, x, y, var=0.06):
         c = M.noise_color(r, base, var)
