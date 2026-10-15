@@ -1,0 +1,17 @@
+# Варианты текстур рельефа: поверхность сверху в Хронограде, Астрале, Бездне
+/gamemode spectator
+/weather clear
+/execute in celestial:chronograd run tp @s 40 150 40 30 60
+wait 100
+togglehud
+shot var_chrono
+/execute in celestial:astral run tp @s 30 150 30 30 60
+wait 120
+shot var_astral
+/execute in celestial:abyss run tp @s 0 60 0 30 70
+wait 120
+shot var_abyss
+togglehud
+/gamemode creative
+/execute in minecraft:overworld run tp @s -32 67 272
+quit

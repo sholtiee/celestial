@@ -51,4 +51,5 @@ python3 gen_postgame.py
 python3 gen_sky.py
 python3 gen_achievements.py
 python3 gen_animated.py
+python3 gen_variants.py
 python3 gen_tags_lang.py

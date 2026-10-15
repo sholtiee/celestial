@@ -1,7 +1,51 @@
 {
   "variants": {
-    "": {
-      "model": "celestial:block/astral_rock"
-    }
+    "": [
+      {
+        "model": "celestial:block/astral_rock"
+      },
+      {
+        "model": "celestial:block/astral_rock",
+        "y": 90
+      },
+      {
+        "model": "celestial:block/astral_rock",
+        "y": 180
+      },
+      {
+        "model": "celestial:block/astral_rock",
+        "y": 270
+      },
+      {
+        "model": "celestial:block/astral_rock_v1"
+      },
+      {
+        "model": "celestial:block/astral_rock_v1",
+        "y": 90
+      },
+      {
+        "model": "celestial:block/astral_rock_v1",
+        "y": 180
+      },
+      {
+        "model": "celestial:block/astral_rock_v1",
+        "y": 270
+      },
+      {
+        "model": "celestial:block/astral_rock_v2"
+      },
+      {
+        "model": "celestial:block/astral_rock_v2",
+        "y": 90
+      },
+      {
+        "model": "celestial:block/astral_rock_v2",
+        "y": 180
+      },
+      {
+        "model": "celestial:block/astral_rock_v2",
+        "y": 270
+      }
+    ]
   }
 }

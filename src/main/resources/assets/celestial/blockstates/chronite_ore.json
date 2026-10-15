@@ -1,7 +1,51 @@
 {
   "variants": {
-    "": {
-      "model": "celestial:block/chronite_ore"
-    }
+    "": [
+      {
+        "model": "celestial:block/chronite_ore"
+      },
+      {
+        "model": "celestial:block/chronite_ore",
+        "y": 90
+      },
+      {
+        "model": "celestial:block/chronite_ore",
+        "y": 180
+      },
+      {
+        "model": "celestial:block/chronite_ore",
+        "y": 270
+      },
+      {
+        "model": "celestial:block/chronite_ore_v1"
+      },
+      {
+        "model": "celestial:block/chronite_ore_v1",
+        "y": 90
+      },
+      {
+        "model": "celestial:block/chronite_ore_v1",
+        "y": 180
+      },
+      {
+        "model": "celestial:block/chronite_ore_v1",
+        "y": 270
+      },
+      {
+        "model": "celestial:block/chronite_ore_v2"
+      },
+      {
+        "model": "celestial:block/chronite_ore_v2",
+        "y": 90
+      },
+      {
+        "model": "celestial:block/chronite_ore_v2",
+        "y": 180
+      },
+      {
+        "model": "celestial:block/chronite_ore_v2",
+        "y": 270
+      }
+    ]
   }
 }

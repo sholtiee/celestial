@@ -1,7 +1,51 @@
 {
   "variants": {
-    "": {
-      "model": "celestial:block/skystone"
-    }
+    "": [
+      {
+        "model": "celestial:block/skystone"
+      },
+      {
+        "model": "celestial:block/skystone",
+        "y": 90
+      },
+      {
+        "model": "celestial:block/skystone",
+        "y": 180
+      },
+      {
+        "model": "celestial:block/skystone",
+        "y": 270
+      },
+      {
+        "model": "celestial:block/skystone_v1"
+      },
+      {
+        "model": "celestial:block/skystone_v1",
+        "y": 90
+      },
+      {
+        "model": "celestial:block/skystone_v1",
+        "y": 180
+      },
+      {
+        "model": "celestial:block/skystone_v1",
+        "y": 270
+      },
+      {
+        "model": "celestial:block/skystone_v2"
+      },
+      {
+        "model": "celestial:block/skystone_v2",
+        "y": 90
+      },
+      {
+        "model": "celestial:block/skystone_v2",
+        "y": 180
+      },
+      {
+        "model": "celestial:block/skystone_v2",
+        "y": 270
+      }
+    ]
   }
 }

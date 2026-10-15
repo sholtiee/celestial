@@ -1,7 +1,51 @@
 {
   "variants": {
-    "": {
-      "model": "celestial:block/brass_soil"
-    }
+    "": [
+      {
+        "model": "celestial:block/brass_soil"
+      },
+      {
+        "model": "celestial:block/brass_soil",
+        "y": 90
+      },
+      {
+        "model": "celestial:block/brass_soil",
+        "y": 180
+      },
+      {
+        "model": "celestial:block/brass_soil",
+        "y": 270
+      },
+      {
+        "model": "celestial:block/brass_soil_v1"
+      },
+      {
+        "model": "celestial:block/brass_soil_v1",
+        "y": 90
+      },
+      {
+        "model": "celestial:block/brass_soil_v1",
+        "y": 180
+      },
+      {
+        "model": "celestial:block/brass_soil_v1",
+        "y": 270
+      },
+      {
+        "model": "celestial:block/brass_soil_v2"
+      },
+      {
+        "model": "celestial:block/brass_soil_v2",
+        "y": 90
+      },
+      {
+        "model": "celestial:block/brass_soil_v2",
+        "y": 180
+      },
+      {
+        "model": "celestial:block/brass_soil_v2",
+        "y": 270
+      }
+    ]
   }
 }
