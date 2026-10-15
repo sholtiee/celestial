@@ -9,7 +9,7 @@ SAVE=${SAVE:-test}
 sed -i '' -E 's/^(soundCategory_[a-z_]+):.*/\1:0.0/' run/options.txt 2>/dev/null
 mkdir -p build
 rm -rf run/screenshots
-./gradlew runClient --no-configuration-cache -q --args="--quickPlaySingleplayer $SAVE" > build/client.log 2>&1 < /dev/null &
+./gradlew runClient ${GRADLE_ARGS:-} --no-configuration-cache -q --args="--quickPlaySingleplayer $SAVE" > build/client.log 2>&1 < /dev/null &
 GRADLE_PID=$!
 # сторож: если игра упала при загрузке или зависла — гасим через ${TIMEOUT:-420} с
 for _ in $(seq ${TIMEOUT:-420}); do
