@@ -192,6 +192,38 @@ public class Faceless extends Monster {
 			&& Math.hypot(p.getX() - c.x, p.getZ() - c.z) < ARENA + 6 && Math.abs(p.getY() - c.y) < 40);
 	}
 
+	/** Участники боя: кто хоть раз был в круге арены (не сохраняется — после перезагрузки набирается заново). */
+	private final java.util.Set<java.util.UUID> party = new java.util.HashSet<>();
+
+	private List<ServerPlayer> party(ServerLevel level, List<ServerPlayer> fighters) {
+		for (ServerPlayer p : fighters) {
+			party.add(p.getUUID());
+		}
+		Vec3 c = Vec3.atBottomCenterOf(center.equals(BlockPos.ZERO) ? home : center);
+		List<ServerPlayer> out = new java.util.ArrayList<>();
+		for (java.util.UUID id : party) {
+			ServerPlayer p = level.getServer().getPlayerList().getPlayer(id);
+			if (p != null && p.level() == level && p.isAlive() && !p.isSpectator() && !p.isCreative() && p.position().distanceTo(c) < 160) {
+				out.add(p);
+			}
+		}
+		return out;
+	}
+
+	/** В невесомости участника уносит за край арены — мягко тянем назад к центру. */
+	private void tether(List<ServerPlayer> members) {
+		Vec3 c = Vec3.atBottomCenterOf(center).add(0, 1, 0);
+		for (ServerPlayer p : members) {
+			double dh = Math.hypot(p.getX() - c.x, p.getZ() - c.z);
+			if (dh > ARENA + 2 || Math.abs(p.getY() - c.y) > 24) {
+				Vec3 pull = c.subtract(p.position()).normalize().scale(0.5);
+				p.setDeltaMovement(pull);
+				p.syncVelocity = true;
+				p.resetFallDistance();
+			}
+		}
+	}
+
 	@Override
 	protected void customServerAiStep(ServerLevel level) {
 		super.customServerAiStep(level);
@@ -222,10 +254,12 @@ public class Faceless extends Monster {
 			onTrumpet(level, newPhase);
 		}
 		List<ServerPlayer> fighters = fighters(level);
+		List<ServerPlayer> members = party(level, fighters);
 		BlockPos wanted = arenaFor(phase());
 		if (!wanted.equals(center) && clock - phaseStart >= 20) {  // труба протрубила — через секунду мир меняется
-			moveTo(level, wanted, phase(), fighters);
+			moveTo(level, wanted, phase(), members);  // переносим всех участников, а не только стоящих в круге: иначе отлетевший остаётся в отражении
 		}
+		tether(members);
 		hover(fighters);
 		tickStrikes(level, fighters);
 		if (fighters.isEmpty()) {
