@@ -1,0 +1,28 @@
+/gamemode creative
+/celestial codex mob:fallen_guardian
+/celestial codex mob:storm_spirit
+/celestial codex mob:winged_serpent
+/celestial codex mob:cloud_whale
+/celestial codex mob:light_wisp
+/celestial codex mob:angel
+/celestial codex mob:pegasus
+/celestial codex mob:cherub
+/celestial codex mob:golden_ram
+/celestial codex mob:sky_ray
+wait 20
+codex bestiary
+wait 20
+mouse 0.35 0.30
+wait 15
+shot best_0
+mouse 0.35 0.40
+wait 15
+shot best_1
+mouse 0.35 0.50
+wait 15
+shot best_2
+mouse 0.35 0.62
+wait 15
+shot best_3
+closescreen
+quit

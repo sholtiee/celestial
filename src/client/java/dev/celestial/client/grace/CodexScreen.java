@@ -203,14 +203,22 @@ public class CodexScreen extends Screen {
 		}
 		// длинные вкладки (бестиарий, справочник) прокручиваются колесом мыши
 		List<FormattedCharSequence> rows = new ArrayList<>();
-		for (Component line : lines) {
-			rows.addAll(font.split(line, textArea[2]));
+		List<Integer> owner = new ArrayList<>();  // строка экрана → номер записи (для наведения в бестиарии)
+		for (int li = 0; li < lines.size(); li++) {
+			for (FormattedCharSequence seq : font.split(lines.get(li), textArea[2])) {
+				rows.add(seq);
+				owner.add(li);
+			}
 		}
+		int hoveredLine = -1;
 		int visible = (top() + H - 12 - y) / 10;
 		maxScroll = Math.max(0, rows.size() - visible);
 		scroll = Math.min(scroll, maxScroll);
 		for (int i = scroll; i < rows.size() && i < scroll + visible; i++) {
 			graphics.text(font, rows.get(i), textArea[0], y, 0xFFFFFFFF);
+			if (mouseX >= textArea[0] && mouseX < textArea[0] + textArea[2] && mouseY >= y - 1 && mouseY < y + 9) {
+				hoveredLine = owner.get(i);
+			}
 			y += 10;
 		}
 		if (maxScroll > 0) {  // полоса прокрутки у правого края
@@ -223,6 +231,45 @@ public class CodexScreen extends Screen {
 		if (tab == Tab.STARS) {
 			StarsPanel.renderHover(graphics, font, left(), top(), W, mouseX, mouseY);
 		}
+		if (tab == Tab.BESTIARY && hoveredLine >= 0 && hoveredLine < MOBS.length && GraceClient.data().knows("mob:" + MOBS[hoveredLine])) {
+			mobPreview(graphics, MOBS[hoveredLine], mouseX, mouseY);
+		}
+	}
+
+	/** Существа для картинок бестиария: создаются один раз на клиентском мире, не добавляются в него. */
+	private static final java.util.Map<String, net.minecraft.world.entity.LivingEntity> PREVIEW = new java.util.HashMap<>();
+	private static net.minecraft.world.level.Level previewLevel;
+
+	/** Живая модель существа рядом с курсором (бестиарий): рамка 84×96, модель смотрит на курсор. */
+	private void mobPreview(GuiGraphicsExtractor graphics, String id, int mx, int my) {
+		var mc = net.minecraft.client.Minecraft.getInstance();
+		if (mc.level == null) {
+			return;
+		}
+		if (previewLevel != mc.level) {
+			PREVIEW.clear();
+			previewLevel = mc.level;
+		}
+		net.minecraft.world.entity.LivingEntity e = PREVIEW.computeIfAbsent(id, k -> {
+			var type = net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getValue(dev.celestial.Celestial.id(k));
+			if (!(type.create(mc.level, net.minecraft.world.entity.EntitySpawnReason.LOAD) instanceof net.minecraft.world.entity.LivingEntity l)) {
+				return null;
+			}
+			l.setId(-1000 - PREVIEW.size());  // рендеры берут id для смещения анимаций; у несуществующей в мире сущности его нет
+			return l;
+		});
+		if (e == null) {
+			return;
+		}
+		int bw = 84, bh = 96;
+		int x0 = Math.min(mx + 12, left() + W - bw - 4), y0 = Math.max(top() + 4, Math.min(my - bh / 2, top() + H - bh - 4));
+		graphics.nextStratum();
+		graphics.fill(x0 - 1, y0 - 1, x0 + bw + 1, y0 + bh + 1, 0xFFC9A23A);
+		graphics.fill(x0, y0, x0 + bw, y0 + bh, 0xF0101830);
+		float extent = Math.max(e.getBbHeight(), e.getBbWidth() * 1.2F);
+		int size = (int) Math.max(8, Math.min(40, 70 / Math.max(0.5F, extent)));
+		net.minecraft.client.gui.screens.inventory.InventoryScreen.extractEntityInInventoryFollowsMouse(graphics, x0 + 4, y0 + 4, x0 + bw - 4, y0 + bh - 4,
+			size, 0.0625F, mx, my, e);
 	}
 
 	@Override
