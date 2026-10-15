@@ -32,6 +32,7 @@ public class SeraphRenderer extends CelestialRenderers.Humanoid<FallenSeraph> {
 	public SeraphRenderer(EntityRendererProvider.Context ctx) {
 		super(ctx, Celestial.id("textures/entity/fallen_seraph.png"), 1.5F);
 		addLayer(new Wings(this, ctx));
+		addLayer(new AbyssRenderers.GlowLayer<>(this, Celestial.id("textures/entity/fallen_seraph_glow.png")));  // красные глаза
 	}
 
 	@Override

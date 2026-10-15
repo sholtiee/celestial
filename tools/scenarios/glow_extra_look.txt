@@ -1,0 +1,22 @@
+# Светящиеся слои: скаты, медуза, Серафим ночью
+/gamemode creative
+/execute in minecraft:overworld run fill -44 119 256 -20 119 290 minecraft:smooth_stone
+/execute in minecraft:overworld run fill -44 120 256 -20 128 290 minecraft:air
+/execute in minecraft:overworld run tp @s -32 121 262 0 5
+/time set 18000
+/summon celestial:sky_ray -37 122 274 {NoAI:1b,Rotation:[90f,0f]}
+/summon celestial:void_ray -27 122 274 {NoAI:1b,Rotation:[90f,0f]}
+/summon celestial:cloud_jelly -33 124 268 {NoAI:1b}
+/summon celestial:fallen_seraph -32 120 280 {NoAI:1b,Rotation:[180f,0f]}
+wait 40
+clearchat
+togglehud
+shot glow_extra_night
+togglehud
+/kill @e[type=celestial:sky_ray]
+/kill @e[type=celestial:void_ray]
+/kill @e[type=celestial:cloud_jelly]
+/kill @e[type=celestial:fallen_seraph]
+/time set 6000
+/execute in minecraft:overworld run fill -44 119 256 -20 119 290 minecraft:air
+quit

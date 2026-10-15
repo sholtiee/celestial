@@ -158,6 +158,11 @@ public final class CelestialRenderers {
 			this.texture = texture;
 			this.scale = scale;
 			this.glow = glow;
+			// светящиеся крапинки, если генератор нарисовал <текстура>_glow.png (tools/gen_glow_extra.py)
+			Identifier glowTex = Identifier.fromNamespaceAndPath(texture.getNamespace(), texture.getPath().replace(".png", "_glow.png"));
+			if (net.minecraft.client.Minecraft.getInstance().getResourceManager().getResource(glowTex).isPresent()) {
+				addLayer(new AbyssRenderers.GlowLayer<>(this, glowTex));
+			}
 		}
 
 		@Override
