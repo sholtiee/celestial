@@ -8,9 +8,10 @@
 
 ## Установка
 1. Minecraft **26.3** + [Fabric Loader](https://fabricmc.net/use/) **0.19.5+**.
-2. В папку `mods` положить [Fabric API](https://modrinth.com/mod/fabric-api) **0.161.0+26.3** и `celestial-0.5.0.jar`
+2. В папку `mods` положить [Fabric API](https://modrinth.com/mod/fabric-api) **0.161.0+26.3** и `celestial-1.0.0.jar`
    (собирается в `build/libs/`).
 3. Нужна Java 25+.
+4. Работает вместе с **Sodium 0.9.2** и **Iris 1.11.7** (проверено без шейдерпака).
 
 ## Как попасть в Рай
 1. Добудь **Осколок Пламени**: пройди испытание огнём в **Пылающем святилище** над лавовым морем Ада
@@ -126,6 +127,9 @@ python3 tools/gen_sounds.py   # синтез музыки и звуков (numpy
 - `tools/devserver.sh "команда" sleep:N …` запускает dev-сервер и выполняет команды через RCON;
 - `tools/render_map.py` рисует карту Рая из region-файлов;
 - `tools/autopilot.sh tools/scenarios/<сценарий>.txt` запускает клиент без звука, проходит сценарий
-  и делает скриншоты в `run/screenshots` (сценарии лежат в `tools/scenarios/`).
+  и делает скриншоты в `run/screenshots` (сценарии лежат в `tools/scenarios/`);
+- `tools/qa/suite.sh [--fresh] сценарий…` — сквозной прогон нескольких сценариев подряд с отчётом `build/suite/report.md`;
+- `tools/qa/lint_assets.py` (ресурсы), `tools/qa/balance.py` (кривая металлов и боссов → `docs/BALANCE.md`);
+- `GRADLE_ARGS=-Pcompat tools/autopilot.sh …` — тот же клиент с Sodium и Iris.
 
 Для `genSources` и генераторов, которые копируют ванильные blockstate, нужна распакованная копия ресурсов игры в `.mcsrc/`.
