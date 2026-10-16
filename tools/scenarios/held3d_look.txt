@@ -25,5 +25,15 @@ camera front
 wait 20
 shot held_fork_tp
 camera first
+/item replace entity @s weapon.mainhand with celestial:hourglass
+wait 20
+togglehud
+clearchat
+shot held_hourglass_fp
+togglehud
+camera front
+wait 20
+shot held_hourglass_tp
+camera first
 /execute in minecraft:overworld run fill -40 119 260 -24 119 284 minecraft:air
 quit

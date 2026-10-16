@@ -87,10 +87,37 @@ def tuning_fork():
     held('tuning_fork', elements, display)
 
 
+def hourglass():
+    strip_texture('hourglass', [('#ffe9a0', '#d8a838', '#8a6018'), ('#e8f4ff', '#bcd8f0', '#8ab0d0'), ('#f8e0a0', '#e0b860', '#b08840'),
+                                ('#a87848', '#7a5430', '#4a3018')])
+    elements = [
+        box([4, 0, 4], [12, 1.5, 12], 0),               # нижнее донце
+        box([4, 13.5, 4], [12, 15, 12], 0),             # верхнее донце
+        box([4.5, 1.5, 4.5], [5.5, 13.5, 5.5], 3),      # четыре стойки
+        box([10.5, 1.5, 4.5], [11.5, 13.5, 5.5], 3),
+        box([4.5, 1.5, 10.5], [5.5, 13.5, 11.5], 3),
+        box([10.5, 1.5, 10.5], [11.5, 13.5, 11.5], 3),
+        box([6, 3.5, 6], [10, 5, 10], 1),               # нижняя колба (снизу — песок)
+        box([7, 5, 7], [9, 6, 9], 1),
+        box([7.5, 6, 7.5], [8.5, 8, 8.5], 2, emissive=True),  # перешеек: светящаяся струйка песка
+        box([7, 8, 7], [9, 9, 9], 1),
+        box([6, 9, 6], [10, 13.5, 10], 1),              # верхняя колба
+        box([6, 1.5, 6], [10, 3.5, 10], 2),             # песок внизу
+    ]
+    display = {
+        'thirdperson_righthand': {'rotation': [90, 0, 0], 'translation': [0, 1.5, 1.5], 'scale': [0.4, 0.4, 0.4]},
+        'thirdperson_lefthand': {'rotation': [90, 0, 0], 'translation': [0, 1.5, 1.5], 'scale': [0.4, 0.4, 0.4]},
+        'firstperson_righthand': {'rotation': [0, 45, 0], 'translation': [1.5, 5.5, 0], 'scale': [0.3, 0.3, 0.3]},
+        'firstperson_lefthand': {'rotation': [0, 45, 0], 'translation': [1.5, 5.5, 0], 'scale': [0.3, 0.3, 0.3]},
+    }
+    held('hourglass', elements, display)
+
+
 def main():
     light_spear()
     tuning_fork()
-    print('ok: объёмные предметы в руке — копьё, Камертон')
+    hourglass()
+    print('ok: объёмные предметы в руке — копьё, Камертон, Песочные часы')
 
 
 if __name__ == '__main__':
