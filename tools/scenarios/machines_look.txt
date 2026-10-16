@@ -1,0 +1,19 @@
+# Модели машин: кузня и алтарь наделения днём, вблизи и чуть сверху
+/gamemode creative
+/time set 6000
+/execute in minecraft:overworld run fill -40 119 260 -24 119 284 minecraft:smooth_stone
+/execute in minecraft:overworld run fill -40 120 260 -24 125 284 minecraft:air
+/setblock -33 120 272 celestial:celestial_forge
+/setblock -30 120 272 celestial:infusion_altar
+/execute in minecraft:overworld run tp @s -31 121.5 268.5 0 20
+wait 40
+clearchat
+togglehud
+shot machines_models
+/time set 18000
+wait 20
+shot machines_models_night
+togglehud
+/time set 6000
+/execute in minecraft:overworld run fill -40 119 260 -24 125 284 minecraft:air
+quit

@@ -120,12 +120,10 @@ def machines(names):
 
     save_png(T.metal_block([T.hexrgb(h) for h in ('#8a5a1e', '#c9a23a', '#e8b84a', '#f3d27a', '#fff3c6')]), 'block/celestial_forge_side')
     save_png(frame_texture('forge_top', '#3a2f42', glow='#ff9a4a'), 'block/celestial_forge_top')
-    model('block/celestial_forge', {'parent': 'minecraft:block/cube_bottom_top', 'textures': {
-        'top': c('block/celestial_forge_top'), 'side': c('block/celestial_forge_side'), 'bottom': c('block/celestial_forge_side')}})
+    forge_model()
     save_png(crystal_like('infusion_side'), 'block/infusion_altar_side')
     save_png(frame_texture('infusion_top', '#2a4190', glow='#bff6ff'), 'block/infusion_altar_top')
-    model('block/infusion_altar', {'parent': 'minecraft:block/cube_bottom_top', 'textures': {
-        'top': c('block/infusion_altar_top'), 'side': c('block/infusion_altar_side'), 'bottom': c('block/infusion_altar_side')}})
+    altar_model()
     save_png(frame_texture('sky_beacon_top', '#fff6d8', glow='#ffffff'), 'block/sky_beacon_top')
     save_png(T.bricks('sky_beacon_side', [T.hexrgb(h) for h in ('#e8b84a', '#f3cf6a', '#fde48f')], '#fff6d8'), 'block/sky_beacon_side')
     model('block/sky_beacon', {'parent': 'minecraft:block/cube_bottom_top', 'textures': {
@@ -249,6 +247,61 @@ def quest_board():
 def crystal_like(name):
     img = T.noisy(name, [T.hexrgb(h) for h in ('#2a4190', '#3a55b0', '#4d6bd0', '#93c5fd')], cell=4, grain=0.4)
     return img
+
+
+def _el(frm, to, tex, emissive=False, uv_scale=True):
+    """Элемент модели: грани берут кусок текстуры по своим размерам (без растяжения)."""
+    x0, y0, z0 = frm
+    x1, y1, z1 = to
+    faces = {
+        'north': [16 - x1, 16 - y1, 16 - x0, 16 - y0], 'south': [x0, 16 - y1, x1, 16 - y0],
+        'west': [z0, 16 - y1, z1, 16 - y0], 'east': [16 - z1, 16 - y1, 16 - z0, 16 - y0],
+        'up': [x0, z0, x1, z1], 'down': [x0, 16 - z1, x1, 16 - z0],
+    }
+    def wrap(uv):  # выступ за блок (рог наковальни) — та же текстура со сдвигом на 16
+        u0, v0, u1, v1 = uv
+        du = 16 if min(u0, u1) < 0 else -16 if max(u0, u1) > 16 else 0
+        dv = 16 if min(v0, v1) < 0 else -16 if max(v0, v1) > 16 else 0
+        return [u0 + du, v0 + dv, u1 + du, v1 + dv]
+
+    faces = {f: wrap(uv) for f, uv in faces.items()}
+    e = {'from': frm, 'to': to, 'faces': {f: {'uv': uv, 'texture': tex if not isinstance(tex, dict) else tex.get(f, tex['*'])}
+                                           for f, uv in faces.items()}}
+    if emissive:
+        e['light_emission'] = 15
+    return e
+
+
+def forge_model():
+    """Небесная кузня: широкое основание, перехват, плита-наковальня с рогом, светящееся ядро в гнезде и четыре светлых столбика."""
+    side, top, core = '#side', '#top', '#core'
+    els = [
+        _el([1, 0, 1], [15, 4, 15], {'up': top, '*': side}),
+        _el([3, 4, 3], [13, 9, 13], side),
+        _el([0, 9, 1], [16, 13, 15], {'up': top, '*': side}),
+        _el([-3, 10, 5], [0, 12, 11], side),                         # рог наковальни
+        _el([5, 13, 5], [11, 14, 11], core, emissive=True),          # ядро
+    ]
+    for x, z in ((1, 1), (13, 1), (1, 13), (13, 13)):
+        els.append(_el([x, 13, z], [x + 2, 16, z + 2], core, emissive=True))
+    model('block/celestial_forge', {'parent': 'minecraft:block/block', 'textures': {
+        'particle': c('block/celestial_forge_side'), 'side': c('block/celestial_forge_side'), 'top': c('block/celestial_forge_top'),
+        'core': c('block/radiant_stone')}, 'elements': els})
+
+
+def altar_model():
+    """Алтарь наделения: ступенчатый постамент, колонна, чаша-столешница и светящаяся рунная плита над ней."""
+    side, top, rune = '#side', '#top', '#rune'
+    els = [
+        _el([0, 0, 0], [16, 2, 16], {'up': top, '*': side}),
+        _el([2, 2, 2], [14, 4, 14], {'up': top, '*': side}),
+        _el([5, 4, 5], [11, 11, 11], side),
+        _el([1, 11, 1], [15, 14, 15], {'up': top, '*': side}),
+        _el([4, 14, 4], [12, 14.5, 12], rune, emissive=True),
+    ]
+    model('block/infusion_altar', {'parent': 'minecraft:block/block', 'textures': {
+        'particle': c('block/infusion_altar_side'), 'side': c('block/infusion_altar_side'), 'top': c('block/infusion_altar_top'),
+        'rune': c('block/infusion_altar_top')}, 'elements': els})
 
 
 def main():

@@ -162,9 +162,9 @@ public final class ModBlocks {
 			.noOcclusion()  // текстура полупрозрачная: без этого соседние грани отсекаются и сквозь лифт видна пустота
 			.lightLevel(s -> s.getValue(dev.celestial.block.machine.CloudLiftBlock.LIT) ? 8 : 0));
 	public static final Block CELESTIAL_FORGE = register("celestial_forge", dev.celestial.block.machine.CelestialForgeBlock::new,
-		Properties.of().mapColor(MapColor.GOLD).strength(5.0F, 1200.0F).requiresCorrectToolForDrops().sound(SoundType.ANVIL).lightLevel(s -> 6));
+		Properties.of().mapColor(MapColor.GOLD).strength(5.0F, 1200.0F).requiresCorrectToolForDrops().sound(SoundType.ANVIL).lightLevel(s -> 6).noOcclusion());
 	public static final Block INFUSION_ALTAR = register("infusion_altar", dev.celestial.block.machine.InfusionAltarBlock::new,
-		Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).strength(4.0F, 1200.0F).requiresCorrectToolForDrops().sound(SoundType.AMETHYST).lightLevel(s -> 8));
+		Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).strength(4.0F, 1200.0F).requiresCorrectToolForDrops().sound(SoundType.AMETHYST).lightLevel(s -> 8).noOcclusion());
 	public static final Block SKY_BEACON = register("sky_beacon", dev.celestial.block.machine.SkyBeaconBlock::new,
 		Properties.of().mapColor(MapColor.GOLD).strength(3.0F, 1200.0F).requiresCorrectToolForDrops().sound(SoundType.AMETHYST).lightLevel(s -> 15));
 
