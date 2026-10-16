@@ -1,0 +1,54 @@
+# Мультиплеер (tools/qa/mp_test.sh): Alpha ведёт проверки, Beta — второй игрок на том же сервере.
+# Ждём, пока Beta зайдёт и обоим выдадут оператора (RCON в mp_test.sh)
+wait 900
+/gamemode creative
+/gamemode creative Beta
+# сначала перенести обоих (область у 0,0 на сервере ещё не загружена — fill туда не дотянется), потом строить площадку
+/execute in minecraft:overworld run tp @s 0 151 -3 0 0
+/execute in minecraft:overworld run tp Beta 0 151 3 180 0
+wait 60
+/execute in minecraft:overworld run fill -6 149 -6 6 149 6 minecraft:stone_bricks
+/execute in minecraft:overworld run fill -6 150 -6 6 156 6 minecraft:air
+/time set 6000
+wait 60
+clearchat
+shot mp_alpha_sees_beta
+/say TEST видит второго игрока
+/execute if entity @a[name=Beta,distance=..10]
+# Отблески: у каждого свой слот сцены
+/celestial memory enter fruit
+/execute as Beta at Beta run celestial memory enter fruit
+wait 60
+pos
+/data get entity Beta Pos
+/say TEST разные слоты сцен
+/execute as Beta if entity @s[x=400,y=-64,z=-200,dx=300,dy=500,dz=400]
+/execute in minecraft:overworld run tp @s 0 150 -3
+/execute in minecraft:overworld run tp Beta 0 150 3
+wait 60
+# Бесконечное испытание: оба бойца, рекорд у обоих
+/execute in minecraft:overworld run tp @s 0 150 -3 0 30
+/execute in minecraft:overworld run tp Beta 0 150 3 180 30
+/gamemode survival
+/gamemode survival Beta
+/effect give @a resistance 300 4 true
+/celestial flag add act5_done
+/setblock 0 150 0 celestial:endless_trial
+wait 20
+use 0 150 0 north
+wait 80
+/kill @e[tag=celestial_no_repel]
+wait 130
+/kill @e[tag=celestial_no_repel]
+wait 130
+/scoreboard players list Beta
+/say TEST рекорд и у второго бойца
+/execute if score Beta celestial_endless matches 1..
+/say TEST рекорд у первого
+/execute if score Alpha celestial_endless matches 1..
+/execute in minecraft:overworld run tp @s 0 150 30
+wait 40
+/gamemode creative
+/gamemode creative Beta
+/execute in minecraft:overworld run fill -6 149 -6 6 156 6 minecraft:air
+quit

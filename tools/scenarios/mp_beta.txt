@@ -1,0 +1,6 @@
+# Второй игрок для mp_test.sh: только смотрит и снимает кадры; командами им управляет Alpha (execute as Beta)
+wait 1000
+clearchat
+shot mp_beta_sees_alpha
+wait 1400
+quit
