@@ -1,24 +1,6 @@
 {
   "model": {
-    "type": "minecraft:select",
-    "property": "minecraft:display_context",
-    "cases": [
-      {
-        "when": [
-          "gui",
-          "ground",
-          "fixed",
-          "on_shelf"
-        ],
-        "model": {
-          "type": "minecraft:model",
-          "model": "celestial:item/tuning_fork"
-        }
-      }
-    ],
-    "fallback": {
-      "type": "minecraft:model",
-      "model": "celestial:item/tuning_fork_held"
-    }
+    "type": "minecraft:model",
+    "model": "celestial:item/tuning_fork"
   }
 }

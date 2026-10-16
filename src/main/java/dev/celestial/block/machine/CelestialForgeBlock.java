@@ -51,8 +51,21 @@ public class CelestialForgeBlock extends Block implements BeamPowered {
 		return true;
 	}
 
+	/** Пустой рукой — экран кузни: собрана ли, есть ли свет или привод, что она умеет и почём. */
+	@Override
+	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+		if (player instanceof net.minecraft.server.level.ServerPlayer sp) {
+			net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.send(sp, new dev.celestial.network.MachinePayload("forge", isComplete(level, pos),
+				BeamPowered.isPowered(level, pos) || dev.celestial.mech.Gears.driven(level, pos)));
+		}
+		return InteractionResult.SUCCESS;
+	}
+
 	@Override
 	protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		if (stack.isEmpty()) {
+			return InteractionResult.TRY_WITH_EMPTY_HAND;  // пустая рука — экран кузни
+		}
 		if (!(level instanceof ServerLevel server)) {
 			return InteractionResult.SUCCESS;
 		}
@@ -86,7 +99,7 @@ public class CelestialForgeBlock extends Block implements BeamPowered {
 			return InteractionResult.SUCCESS;
 		}
 		player.sendOverlayMessage(Component.translatable("machine.celestial.forge.hint"));
-		return InteractionResult.PASS;
+		return InteractionResult.TRY_WITH_EMPTY_HAND;
 	}
 
 	private static boolean pay(Player player, Item a, int na, Item b, int nb) {

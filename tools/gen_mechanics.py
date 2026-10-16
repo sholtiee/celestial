@@ -482,6 +482,24 @@ def main():
             with open(base) as f:
                 existing = json.load(f)['values']
         write_json(base, {'replace': False, 'values': list(dict.fromkeys(existing + values))})
+    names.update({  # экран машины (ПКМ пустой рукой) — client/MachineScreen
+        'machine.celestial.screen.forge': ('Небесная кузня', 'Celestial Forge'),
+        'machine.celestial.screen.infusion': ('Алтарь наделения', 'Infusion Altar'),
+        'machine.celestial.screen.assembled': ('Собрана: 4 блока светлого камня по сторонам', 'Assembled: 4 radiant stone blocks around it'),
+        'machine.celestial.screen.not_assembled': ('Не собрана: нужны 4 блока светлого камня по сторонам', 'Not assembled: needs 4 radiant stone blocks around it'),
+        'machine.celestial.screen.powered_forge': ('Питание есть: луч света сверху или привод', 'Powered: a light beam from above or a drive shaft'),
+        'machine.celestial.screen.unpowered_forge': ('Нет питания: направь луч Солнечной линзы сверху или подведи вал', 'Unpowered: aim a Solar Lens beam from above or connect a shaft'),
+        'machine.celestial.screen.powered': ('Луч света есть', 'A light beam reaches it'),
+        'machine.celestial.screen.unpowered': ('Нет луча: направь в алтарь луч Солнечной линзы', 'No beam: aim a Solar Lens beam at the altar'),
+        'machine.celestial.screen.upgrade': ('Улучшение: алмаз → эфирит', 'Upgrade: diamond → etherite'),
+        'machine.celestial.screen.cost': ('Цена улучшения:', 'Upgrade cost:'),
+        'machine.celestial.screen.repair': ('Перековка вещей Рая', 'Reforging Heaven gear'),
+        'machine.celestial.screen.repair_text': ('— четверть прочности за кварц', '— a quarter of durability per quartz'),
+        'machine.celestial.screen.forge_how': ('ПКМ по кузне предметом в руке', 'Use the forge with the item in hand'),
+        'machine.celestial.screen.runes': ('Руны и их зачарования', 'Runes and their enchantments'),
+        'machine.celestial.screen.infusion_cost': ('Цена: руна и 3 уровня опыта за ступень', 'Cost: the rune and 3 levels per step'),
+        'machine.celestial.screen.infusion_how': ('Руна в другой руке, ПКМ по алтарю снаряжением', 'Rune in the off hand, use the altar with the gear'),
+    })
     lang_patch(names)
     print('ok: механизмы и загадки,', len(names), 'строк')
 

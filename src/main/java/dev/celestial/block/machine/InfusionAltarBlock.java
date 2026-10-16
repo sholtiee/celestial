@@ -33,8 +33,21 @@ public class InfusionAltarBlock extends Block implements BeamPowered {
 		super(properties);
 	}
 
+	/** Пустой рукой — экран алтаря: есть ли луч, какие руны что вплетают. */
+	@Override
+	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.phys.BlockHitResult hit) {
+		if (player instanceof net.minecraft.server.level.ServerPlayer sp) {
+			net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.send(sp, new dev.celestial.network.MachinePayload("infusion", true,
+				BeamPowered.isPowered(level, pos)));
+		}
+		return InteractionResult.SUCCESS;
+	}
+
 	@Override
 	protected InteractionResult useItemOn(ItemStack gear, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		if (gear.isEmpty()) {
+			return InteractionResult.TRY_WITH_EMPTY_HAND;  // пустая рука — экран алтаря
+		}
 		if (!(level instanceof ServerLevel server)) {
 			return InteractionResult.SUCCESS;
 		}

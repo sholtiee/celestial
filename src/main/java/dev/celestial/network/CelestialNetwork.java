@@ -18,6 +18,7 @@ public final class CelestialNetwork {
 	public static void init() {
 		PayloadTypeRegistry.clientboundPlay().register(WorldStatePayload.TYPE, WorldStatePayload.CODEC);
 		PayloadTypeRegistry.clientboundPlay().register(ShakePayload.TYPE, ShakePayload.CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(MachinePayload.TYPE, MachinePayload.CODEC);
 		PayloadTypeRegistry.clientboundPlay().register(OpenLorePayload.TYPE, OpenLorePayload.CODEC);
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
 			server.execute(() -> sendWorld(handler.player, CelestialData.world(server))));
