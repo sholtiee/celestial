@@ -1,0 +1,16 @@
+# Звуки облаков: шаги, установка, ломание (звук в dev-клиенте выключен — проверяем загрузку и отсутствие ошибок)
+/gamemode survival
+/execute in minecraft:overworld run tp @s -32 67 272 0 30
+/fill -34 66 274 -30 66 278 celestial:cloud
+/fill -34 67 274 -30 69 278 minecraft:air
+/tp @s -32 67 275 0 30
+hold forward 20
+wait 25
+/setblock -32 67 277 celestial:cloud
+/setblock -32 67 277 minecraft:air destroy
+/playsound celestial:block.cloud.step block @s
+/playsound celestial:block.cloud.place block @s
+/playsound celestial:block.cloud.break block @s
+wait 10
+/fill -34 66 274 -30 66 278 minecraft:stone_bricks
+quit

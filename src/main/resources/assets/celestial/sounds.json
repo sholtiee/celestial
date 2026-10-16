@@ -1,4 +1,37 @@
 {
+  "block.cloud.step": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/cloud_step1"
+      },
+      {
+        "name": "celestial:sfx/cloud_step2"
+      },
+      {
+        "name": "celestial:sfx/cloud_step3"
+      },
+      {
+        "name": "celestial:sfx/cloud_step4"
+      }
+    ],
+    "subtitle": "subtitles.celestial.cloud_step"
+  },
+  "block.cloud.break": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/cloud_break"
+      }
+    ],
+    "subtitle": "subtitles.celestial.cloud_break"
+  },
+  "block.cloud.place": {
+    "sounds": [
+      {
+        "name": "celestial:sfx/cloud_place"
+      }
+    ],
+    "subtitle": "subtitles.celestial.cloud_place"
+  },
   "music.abyss": {
     "sounds": [
       {

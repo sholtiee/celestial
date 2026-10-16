@@ -55,6 +55,12 @@ public final class ModSounds {
 	public static final SoundEvent CLOCKMAKER_STOP = register("entity.clockmaker.stop");
 	public static final SoundEvent REWIND = register("block.rewind.rewind");
 	public static final SoundEvent GLYPH_CLICK = register("block.glyph.click");
+	// облака: мягкий выдох вместо шерсти (tools/gen_sounds.py blocks)
+	public static final SoundEvent CLOUD_STEP = register("block.cloud.step");
+	public static final SoundEvent CLOUD_BREAK = register("block.cloud.break");
+	public static final SoundEvent CLOUD_PLACE = register("block.cloud.place");
+	public static final net.minecraft.world.level.block.SoundType CLOUD = new net.minecraft.world.level.block.SoundType(1.0F, 1.0F,
+		CLOUD_BREAK, CLOUD_STEP, CLOUD_PLACE, CLOUD_STEP, CLOUD_BREAK);
 
 	private ModSounds() {}
 

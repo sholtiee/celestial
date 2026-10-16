@@ -71,7 +71,7 @@ public final class ModBlocks {
 
 	// Облака
 	public static final Block CLOUD = register("cloud", CloudBlock::new,
-		Properties.of().mapColor(MapColor.SNOW).strength(0.2F).sound(SoundType.WOOL).noOcclusion().speedFactor(0.8F)
+		Properties.of().mapColor(MapColor.SNOW).strength(0.2F).sound(ModSounds.CLOUD).noOcclusion().speedFactor(0.8F)
 			.isSuffocating(Blocks::never));
 	public static final Block GOLDEN_CLOUD = register("golden_cloud", CloudBlock::new,
 		Properties.ofFullCopy(CLOUD).mapColor(MapColor.GOLD).bounceRestitution(1.15F));
@@ -158,7 +158,7 @@ public final class ModBlocks {
 
 	// Машины
 	public static final Block CLOUD_LIFT = register("cloud_lift", dev.celestial.block.machine.CloudLiftBlock::new,
-		Properties.of().mapColor(MapColor.SNOW).strength(1.0F).sound(SoundType.WOOL)
+		Properties.of().mapColor(MapColor.SNOW).strength(1.0F).sound(ModSounds.CLOUD)
 			.noOcclusion()  // текстура полупрозрачная: без этого соседние грани отсекаются и сквозь лифт видна пустота
 			.lightLevel(s -> s.getValue(dev.celestial.block.machine.CloudLiftBlock.LIT) ? 8 : 0));
 	public static final Block CELESTIAL_FORGE = register("celestial_forge", dev.celestial.block.machine.CelestialForgeBlock::new,
@@ -178,7 +178,7 @@ public final class ModBlocks {
 	public static final Block TRIAL_GOAL = register("trial_goal", dev.celestial.trial.TrialGoalBlock::new,
 		Properties.of().mapColor(MapColor.DIAMOND).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.AMETHYST).lightLevel(s -> 12));
 	public static final Block VANISHING_CLOUD = register("vanishing_cloud", dev.celestial.trial.VanishingCloudBlock::new,
-		Properties.of().mapColor(MapColor.SNOW).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.WOOL).noOcclusion());
+		Properties.of().mapColor(MapColor.SNOW).strength(-1.0F, 3600000.0F).noLootTable().sound(ModSounds.CLOUD).noOcclusion());
 
 	// Загадки
 	public static final Block SEALED_DOOR = register("sealed_door", dev.celestial.block.puzzle.SealedDoorBlock::new,

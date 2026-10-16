@@ -498,7 +498,26 @@ def sfx():
     return {k: reverb(v, 0.2, 0.5) for k, v in out.items()}
 
 
+def block_sfx():
+    """Звуки блоков: облака — мягкий воздушный выдох (шаг — 4 варианта, ломание и приземление — глубже, установка — с искоркой)."""
+    rng = np.random.default_rng(31)
+    out = {}
+    for k in range(4):
+        t = t_axis(0.16 + 0.03 * k)
+        puff = lowpass(rng.standard_normal(len(t)), 700 + 160 * k) * np.sin(np.pi * np.clip(t / t[-1], 0, 1)) ** 1.5
+        out[f'cloud_step{k + 1}'] = puff * 0.9
+    t = t_axis(0.5)
+    out['cloud_break'] = lowpass(rng.standard_normal(len(t)), 900) * env(len(t), a=0.02, d=0.15, s=0.5, r=0.3) + \
+        lowpass(rng.standard_normal(len(t)), 3000) * np.exp(-t * 14) * 0.25
+    t = t_axis(0.35)
+    out['cloud_place'] = lowpass(rng.standard_normal(len(t)), 800) * np.sin(np.pi * t / t[-1]) * 0.8 + bell(note(96), 0.35, 0.12)[:len(t)]
+    return {k: reverb(v, 0.2, 0.4) for k, v in out.items()}
+
+
 SOUNDS = {  # событие → (файл(ы), категория для субтитров, стрим?)
+    'block.cloud.step': (['sfx/cloud_step1', 'sfx/cloud_step2', 'sfx/cloud_step3', 'sfx/cloud_step4'], 'cloud_step', False),
+    'block.cloud.break': (['sfx/cloud_break'], 'cloud_break', False),
+    'block.cloud.place': (['sfx/cloud_place'], 'cloud_place', False),
     'music.abyss': (['music/abyss_1'], None, True),
     'music.devourer_battle': (['music/devourer_battle'], None, True),
     'entity.light_devourer.roar': (['sfx/devourer_roar'], 'devourer_roar', False),
@@ -582,8 +601,19 @@ def chrono_only():
     print('ok: звуки Хронограда')
 
 
+def blocks_only():
+    """Только звуки блоков (python3 gen_sounds.py blocks)."""
+    for k, v in block_sfx().items():
+        save('sfx/' + k, v, 5)
+    write_sounds_json()
+    print('ok: звуки блоков')
+
+
 def main():
     import sys
+    if sys.argv[1:] == ['blocks']:
+        blocks_only()
+        return
     if sys.argv[1:] == ['frozen']:
         frozen_only()
         return
